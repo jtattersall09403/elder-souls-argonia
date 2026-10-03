@@ -56,32 +56,36 @@
             0.220053477
           ],
           [
-            0.606208279,
-            0.220582102
+            0.606208387,
+            0.220582979
           ],
           [
-            0.631512541,
-            0.243098176
+            0.631715688,
+            0.2431498
           ],
           [
-            0.637849711,
-            0.246057237
+            0.632166068,
+            0.243396269
           ],
           [
-            0.637889325,
-            0.246075205
+            0.636658107,
+            0.245493774
           ],
           [
-            0.638359624,
-            0.246255693
+            0.637583835,
+            0.245912206
           ],
           [
-            0.638847461,
-            0.246426469
+            0.638484097,
+            0.2463156
+          ],
+          [
+            0.63871192,
+            0.24628512
           ],
           [
             0.652335488,
-            0.241755966
+            0.241757962
           ],
           [
             0.652335488,
@@ -134,7 +138,7 @@
               -0.0
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -143,7 +147,7 @@
               -7.28
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -152,7 +156,7 @@
               -14.56
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -161,7 +165,7 @@
               -21.84
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -170,7 +174,7 @@
               -29.12
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -179,7 +183,7 @@
               -36.4
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -188,7 +192,7 @@
               -43.68
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -197,7 +201,7 @@
               -50.96
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
@@ -206,7 +210,7 @@
               -58.24
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 0.15
           }
         ],
         "footprint": [
@@ -287,136 +291,152 @@
           "microGeography": "Planks about a metre over the black water of the inlet mouth, on sunk piles."
         },
         "centreUV": [
-          0.63237348,
-          0.242558949
+          0.63212665,
+          0.242446384
         ],
-        "yawDeg": 114.4,
+        "yawDeg": 294.4,
         "pieces": [
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "atM": [
               0.0,
-              -0.0
+              0.0
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.74
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "atM": [
-              0.08,
-              -7.28
+              -0.08,
+              7.28
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.74
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "atM": [
-              0.16,
-              -14.56
+              -0.16,
+              14.56
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.74
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "atM": [
-              0.24,
-              -21.84
+              -0.24,
+              21.84
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.74
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "atM": [
-              0.32,
-              -29.12
+              -0.32,
+              29.12
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.74
           },
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "atM": [
-              0.4,
-              -36.4
+              -0.4,
+              36.4
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.74
           },
           {
-            "asset": "vanilla:architecture/docks/dockstrent02",
+            "asset": "vanilla:architecture/docks/dockstrsol01",
             "atM": [
-              0.48,
-              -43.68
+              -0.4,
+              43.68
             ],
             "yaw": 0.0,
-            "yMeasured": 0.35
+            "yMeasured": 1.69
           },
           {
-            "asset": "vanilla:architecture/docks/dockstrent02",
+            "asset": "vanilla:architecture/docks/dockstepsdown01",
             "atM": [
-              0.56,
-              -50.96
+              -0.5984,
+              50.8273
             ],
-            "yaw": 0.0,
-            "yMeasured": 0.35
+            "yaw": 91.67,
+            "yMeasured": -0.1
           }
         ],
         "footprint": [
           [
-            0.632066586,
-            0.242083174
+            0.631914233,
+            0.242077502
           ],
           [
-            0.632045028,
-            0.242091301
+            0.631892129,
+            0.242086834
           ],
           [
-            0.631806387,
-            0.242617384
+            0.631882605,
+            0.24210783
           ],
           [
-            0.631813913,
-            0.24264019
+            0.632020752,
+            0.242679773
           ],
           [
-            0.638076513,
-            0.245564432
+            0.632029536,
+            0.242703151
           ],
           [
-            0.638098731,
-            0.245574509
+            0.63241129,
+            0.242912064
           ],
           [
-            0.638546469,
-            0.245746339
+            0.636884594,
+            0.245000821
           ],
           [
-            0.638848434,
-            0.245852047
+            0.637806469,
+            0.245417512
           ],
           [
-            0.638870571,
-            0.245842725
+            0.638565106,
+            0.245757446
           ],
           [
-            0.638880088,
-            0.245821698
+            0.638589338,
+            0.245754204
           ],
           [
-            0.638741948,
-            0.245249786
+            0.638603124,
+            0.245735283
           ],
           [
-            0.638733135,
-            0.24522639
+            0.63879474,
+            0.245309687
           ],
           [
-            0.638351364,
-            0.245017473
+            0.638793946,
+            0.245286618
+          ],
+          [
+            0.638777999,
+            0.245269754
+          ],
+          [
+            0.638058614,
+            0.244861743
+          ],
+          [
+            0.632664006,
+            0.242355065
+          ],
+          [
+            0.63221625,
+            0.242183227
           ]
         ]
       },
@@ -1360,7 +1380,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/border-road-greenspring-crossings.layout.json",
-        "sha256": "66d0038674b6675f8931c6b5088d503ec188cb96b9d415a390be3a058804f7cc"
+        "sha256": "c8f17fbfa5813958bc07a2434d5d52a2f82f48dd61239418d42b1f3e3d1bb9ae"
       }
     },
     "walkRoutes": {
