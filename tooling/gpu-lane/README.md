@@ -36,6 +36,24 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `walk/` | The agent walk harness: `walk_route.py` (route from a place's published data), `walk_run.mjs` (one tab, every pass, shots and `summary.json`), `walk_judge.py` (reader briefs); see `walk/README.md`. |
 | `*.test.mjs` | `node --test tooling/gpu-lane/*.test.mjs` (< 1 s). |
 
+## Open harness defects (fix before the next pod run)
+
+Standing rule (owner 2026-10-03): the first job of any lane that touches RunPod is this section, emptied (fixed, or a row moved to a named chunk brief) before its first capture. `measure.mjs`, `pod-capture.mjs` and `pod-setup.sh` print these rows at startup. Fixed and verified in the tree, so not listed: measure.mjs `about:blank` storage guard (:255), pod-sync.sh sentinel prefix (0a3940c2), batch_prepass short slugs (d43380fd), `w=clear` pinned at parse on the webgpu branch (609dca33).
+
+| Defect | Where | Mechanism | Evidence |
+|---|---|---|---|
+| Capture does not record the build it measured | `pod-capture.mjs` summary header; `tooling/repo-standards/lane_watch.py` | Write the dist git sha (`.sync-sha`) in every summary; lane_watch flags a capture older than the lane's latest fix under `packages/` unless the brief says `--baseline` | docs/research/phase16/method-review-r9.md proposal C |
+| `merge_forward --keep` leaves a conflicted merge in place | `tooling/repo-standards/merge_forward.py` | It aborts on conflict; add `--keep` to leave the merge open and print the conflicted files | tooling/.reports/16k/walk10/webgpu-lead.md chunk 9 item 1 |
+| Local static server lacks the data/build split | `apps/world-studio/scripts/lib/webgpu-static.mjs` | Same split as the pod's `serve-lib` fix D: the kit schema check must fetch from the data base the page uses, not `${base}kits/` (reads index.html, exits 5) | webgpu-lead.md chunk 10 open item 1 (webgpu-c10-smoke2.md) |
+| Capture frames land in the repo tree | `measure.mjs`, `pod-capture.mjs` default `--out` | Default frames to `/tmp/<lane>`; only the summary goes under `tooling/.reports/` | perf-lead.md chunk 12 (planes frames in walk10/planes/) |
+| `memory-infra` dumps pollute headline rows | `measure.mjs` spot options | 8 of 18 long frames were the harness's own dumps; refuse `memory-infra` on any row that is not its own row | perf-lead.md chunk 11 (G-h) |
+| Image-reader briefs read `wdbg=` rows as defects | brief template for image-reader jobs | The brief marks every `wdbg=` view as a debug view | perf-lead.md chunk 11 (D9(1) misread) |
+| Calibration is one sample | `spots/gen-matrix.mjs`, performance-lane r pair | Three samples per pod, spread recorded beside r (audit rMedian ranged 4.98-5.56 across pods) | audit-lead.md chunk 5 round 3 |
+| Fire harness scene is a still image | vol10 fire harness (`harness-run`) | The scene gives no motion for flame cards or volume; add a ticking clock and a moving camera | vol-lead.md chunk 8-9 (fire FAIL harness-only) |
+| `withParam` twins built ad hoc per lane | `/tmp/vol10/r10/mk.mjs` | Move twin building (on/off pairs) into `spots/` as one shared helper | vol-lead.md chunk 8 (r10 views) |
+| View lists do not carry `w=clear` | every views file | The webgpu parse pins it; dev `pod-capture.mjs` does not: pin the same way, `w=` only where weather is under test | webgpu-lead.md chunk 8 (E7 weather drift) |
+| A background capture dies at ~30 min wall | run-agent launch of a full views file | Split views.json into invocations of 25 min or less | vol-lead.md chunk 9 (r9 ended 22/29) |
+
 ## The loop
 
 The site is served ON the pod (rsync once, then diffs), not tunnelled back from the VM with `ssh -R`:

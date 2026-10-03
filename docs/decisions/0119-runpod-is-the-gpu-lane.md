@@ -47,6 +47,8 @@ in with OAuth; no API key is stored anywhere in the repo or on the VM.
    renders a place in minutes on CPU (`wb.py bpy`), and the budget is for
    the GPU loop.
 
+- The first job of any RunPod lane is the README's open harness defects section (`tooling/gpu-lane/README.md`), emptied before its first capture (owner 2026-10-03).
+
 ## Where each lives
 
 - Setup and the measure harness: `tooling/gpu-lane/` (shared by both loops).

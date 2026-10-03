@@ -4,6 +4,8 @@
 # Chrome (ANGLE on Vulkan) on Xvfb :99 1280x720 with DevTools on 127.0.0.1:9222 (reached over `ssh -L`).
 # Idempotent; rerun to restart Chrome. tooling/gpu-lane/README.md says how the loop drives it.
 #   bash pod-setup.sh [webgl|webgpu]   (webgpu adds the unsafe-WebGPU flags; default webgl)
+# Open harness defects (decision 0119): print the README rows when run from the repo (piped onto a pod there is no README).
+[ -f "$(dirname "$0")/README.md" ] && sed -n '/^## Open harness defects/,/^## The loop/p' "$(dirname "$0")/README.md" | grep '^| ' | grep -v '^| Defect' >&2 || true
 set -euo pipefail
 renderer=${1:-webgl}
 export DEBIAN_FRONTEND=noninteractive

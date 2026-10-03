@@ -174,7 +174,8 @@ Rules of the road:
   never a bar row;
   (g) before any pod capture the run brief checks Chrome is alive on the pod
   (one curl to the DevTools /json/version through the tunnel) and restarts it
-  via pod-setup if not;
+  via pod-setup if not; the lane's first job is the open harness defects section of
+  tooling/gpu-lane/README.md, emptied before its first capture;
   one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);

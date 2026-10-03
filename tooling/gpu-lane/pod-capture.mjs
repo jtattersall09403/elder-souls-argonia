@@ -58,6 +58,10 @@ if (pod) tunnel = await openTunnel({ pod, purpose: "cdp-capture" });
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
 // Own window: Target.createTarget on the browser websocket, newWindow, foreground.
+// Open harness defects (decision 0119): print the README rows so no pod job starts blind.
+try { const _m = readFileSync(new URL("./README.md", import.meta.url), "utf8").match(/## Open harness defects[^\n]*\n([\s\S]*?)\n## /);
+  if (_m && import.meta.url === `file://${process.argv[1]}`) console.error("OPEN HARNESS DEFECTS (fix before this run):\n" + _m[1].split("\n").filter((l) => l.startsWith("| ") && !l.startsWith("| Defect")).join("\n"));
+} catch { /* print only */ }
 async function openWindow() {
   const bws = new WebSocket((await (await fetch(`${cdpHttp}/json/version`)).json()).webSocketDebuggerUrl);
   await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
