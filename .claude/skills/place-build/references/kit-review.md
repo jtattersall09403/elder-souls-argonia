@@ -36,16 +36,12 @@ One `image-reader` takes the batch's sheets with the judge brief the tool
 prints (built from [look-lists.md](../../../../tooling/visual-look/look-lists.md):
 `tex-missing`, `no-material`, `zfight`, `bounds`, `scale`, `dark-body` and
 the class rows such as `underside`, `front-edge`, `run-joins`) plus the
-questions that file does not ask. Add these to the brief:
-
-- Closed backs and undersides: no hollow or missing face from any of the six
-  views (`surf-backface` asks it only for the interior-surface class).
-- Where pieces abut (use the mined abuts pair), the seam has no gap and no
-  overlap.
-- The piece is shown only in its designed context: its setting class
-  (`kit-setting-class.json`) and its mined assembly
-  (`kit-assemblies-mined.json`); say what the piece is for.
-- Open question: does this piece look wrong in any view, and why?
+kit rows `back-closed`, `abut-seam` (name the mined abuts pair) and
+`designed-context` (give the setting class from `kit-setting-class.json` and
+the mined assembly from `kit-assemblies-mined.json`, and say what the piece
+is for). The brief follows [reader-brief.md](reader-brief.md): context first
+(place, region, what the piece is meant to be), these rows, then the open
+question last, which the printed brief already carries.
 
 ## In the workbench
 

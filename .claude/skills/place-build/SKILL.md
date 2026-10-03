@@ -46,6 +46,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/publish-gates-and-readback.md](references/publish-gates-and-readback.md) | what `place_gates` runs, the per-batch gates, the R74/R81 read-back against the published bundle | step 5, step 7 item 4 |
 | [references/walk-packet.md](references/walk-packet.md) | each walk-packet section in full and the two-run post procedure | step 6 |
 | [references/palette-and-breadth.md](references/palette-and-breadth.md) | the palette from the whole pool, siblings, internal variety, the kit lane, the ledger | step 1a |
+| [references/reader-brief.md](references/reader-brief.md) | the one image-reader brief template: context, checklist, open question last, exit rule | steps 3-4, every reader brief |
 | [references/kit-review.md](references/kit-review.md) | the review of a kit lane's results: measured gates, the six-view look, the kit checklist, a finding changes the kit skill | step 1c, step 4 |
 | [references/asset-breadth-ledger.md](references/asset-breadth-ledger.md) | one row per closed place: palette and assets used against available | step 8 |
 
@@ -320,7 +321,7 @@ Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage readers --start
     python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
 
-The first round frames any newly kitted pieces for the kit checklist ([references/kit-review.md](references/kit-review.md)).
+The first round frames any newly kitted pieces for the kit checklist ([references/kit-review.md](references/kit-review.md)). Every reader brief follows [references/reader-brief.md](references/reader-brief.md), open question last.
 
 Lit pieces: add a day and a night close-up per fixture
 (`front:<uid>/2.5`, `front:<uid>/2.5@night`); the fire pass shows each

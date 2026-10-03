@@ -21,6 +21,8 @@ Intent and mood are judged by the feel check ([feel-check.md](feel-check.md)), n
 
 ## The prompt preamble (paste it first)
 
+Every reader brief follows [reader-brief.md](reader-brief.md): context first, these rows, then its open question last.
+
 You are reading renders of one place built from game kit pieces. Answer
 every line below (the `reader` rows only are pasted) for every shot it names with YES, NO or UNSURE (every
 line is a question whose right answer is YES), and for
