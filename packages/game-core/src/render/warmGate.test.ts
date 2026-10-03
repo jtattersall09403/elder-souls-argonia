@@ -23,4 +23,15 @@ describe("WarmGate", () => {
     expect(g.step(5)).toBe(true);
     expect(g.state.reason).toBe("cap");
   });
+
+  it("stays closed while shader builds are pending, opens at 0 once stable, and the cap still opens it", () => {
+    const g = new WarmGate({ minFrames: 1, stableFrames: 5, maxFrames: 100 });
+    for (let i = 0; i < 50; i++) expect(g.step(8, 3)).toBe(false); // stable work, builds still queued
+    expect(g.step(8, 0)).toBe(true);
+    expect(g.state.reason).toBe("stable");
+    const c = new WarmGate({ minFrames: 1, stableFrames: 5, maxFrames: 20 });
+    for (let i = 0; i < 19; i++) expect(c.step(8, 1)).toBe(false);
+    expect(c.step(8, 1)).toBe(true);
+    expect(c.state.reason).toBe("cap");
+  });
 });

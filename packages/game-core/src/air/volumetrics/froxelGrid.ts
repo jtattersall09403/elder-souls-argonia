@@ -163,6 +163,13 @@ function subUvw(uvw: TslNode, g: TslNode): TslNode {
 const hg = (g: number, c: TslNode) =>
   float((1 - g * g) / (4 * Math.PI)).div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5)));
 
+/** Copy `src` into `dst` when both components are finite; returns whether it did. */
+function copyFinite(dst: THREE.Vector2, src: THREE.Vector2): boolean {
+  if (!Number.isFinite(src.x) || !Number.isFinite(src.y)) return false;
+  dst.copy(src);
+  return true;
+}
+
 export class Volumetrics implements VolumetricsSampler {
   band: VolumetricBand = "off";
   readonly grids: TerrainGrids;
@@ -665,15 +672,20 @@ export class Volumetrics implements VolumetricsSampler {
     const spec = VOLUMETRIC_BANDS[this.band];
     this.grids.update(cam.position.x, cam.position.z);
     this.canopy.update(cam.position.x, cam.position.z);
-    u.nearOrigin.value.copy(this.grids.near.origin);
-    u.farOrigin.value.copy(this.grids.far.origin);
-    u.canopyOrigin.value.copy(this.canopy.origin);
+    // The origins come from multi-frame bakes and are NaN until a bake first finishes (and again
+    // after bakeAll): a uniform is copied only when finite, and the kernels wait for both terrain
+    // grids (below, after the fog clock steps), the integrated grid reading clear meanwhile (walk 10 diag20 E4: farOrigin NaN in inject).
+    const nearReady = copyFinite(u.nearOrigin.value, this.grids.near.origin);
+    const farReady = copyFinite(u.farOrigin.value, this.grids.far.origin);
+    copyFinite(u.canopyOrigin.value, this.canopy.origin);
     const sunElevationDeg = THREE.MathUtils.radToDeg(Math.asin(Math.max(-1, Math.min(1, f.sunDir.y / (f.sunDir.length() || 1)))));
     let r: FogRegimes | null = f.regimes ?? null;
     if (!r && f.fog) r = fogRegimesInto(this.regimes, f.fog, f.fog.sunElevationDeg ?? sunElevationDeg);
     const interior = f.interior ?? null;
     u.outdoor.value = interior ? 0 : 1;
     this.stepFog(f, r);
+    if (!nearReady || !farReady) { this.on.value = 0; this.hasHistory = false; return; }
+    this.on.value = 1;
     u.mistDepth.value = f.mistDepthM ?? 30;
     u.floorY.value = interior?.floorY ?? 0; u.floorTop.value = interior ? interior.floorY + interior.floorMistTopM : 0;
     u.floorMist.value = interior?.floorMistDensity ?? 0; u.dust.value = interior?.dustDensity ?? 0;
@@ -689,7 +701,7 @@ export class Volumetrics implements VolumetricsSampler {
     u.camUp.value.setFromMatrixColumn(cam.matrixWorld, 1).normalize();
     u.camFwd.value.setFromMatrixColumn(cam.matrixWorld, 2).normalize().negate();
     const ty = Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2);
-    u.tanHalf.value.set(ty * cam.aspect, ty);
+    u.tanHalf.value.set(ty * (Number.isFinite(cam.aspect) && cam.aspect > 0 ? cam.aspect : 1), ty);
     this.pickLights(f.lights ?? [], u.camPos.value);
     const aps = f.apertures ?? [];
     const na = Math.min(aps.length, MAX_APERTURES);
@@ -723,7 +735,7 @@ export class Volumetrics implements VolumetricsSampler {
    * eased coverage. Reads only the clock, the wind and the regimes: never the camera or the player. */
   private stepFog(f: VolumetricsFrame, r: FogRegimes | null): void {
     const u = this.u;
-    const dt = f.deltaS ?? (Number.isFinite(this.lastTimeS) ? Math.min(600, Math.max(0, f.timeS - this.lastTimeS)) : 0);
+    const dt = f.deltaS !== undefined && Number.isFinite(f.deltaS) ? f.deltaS : (Number.isFinite(this.lastTimeS) ? Math.min(600, Math.max(0, f.timeS - this.lastTimeS)) : 0);
     this.lastTimeS = f.timeS;
     const d = this.drift;
     d.step(dt, r?.windXZ[0] ?? 0, r?.windXZ[1] ?? 0, f.fog?.dayIndex ?? 0);

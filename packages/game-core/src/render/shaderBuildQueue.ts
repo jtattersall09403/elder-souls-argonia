@@ -35,6 +35,9 @@ import type { WebGPURenderer } from "three/webgpu";
  * census, a capture, a ripple or foam step) builds synchronously and draws: a
  * one-shot pass is never drawn again, so a skipped draw there leaves its
  * target empty for good (walk 10: the sky IBL stayed all zeros on WebGPU).
+ * Shadow-pass and override-material draws never defer either: three swaps the
+ * shared override material per caster and restores it after the draw, so a
+ * deferred build would key on the restored material and never fill.
  * Full-screen quads (three's QuadMesh: the bloom and water composites, the
  * blit to the canvas) never defer either: they are a handful of tiny
  * programs, and one of them skipped blacks the whole frame.
@@ -296,6 +299,15 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
       draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return;
     }
     if ((object as { isQuadMesh?: boolean }).isQuadMesh) {
+      draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return;
+    }
+    // a shadow-pass or override-material draw builds now: three swaps the shared override
+    // material's positionNode/side/alphaTest per caster and restores it after the draw
+    // (r184 Renderer.js:3402-3475), so a build deferred to pump() runs on the restored
+    // material, caches under another key and the requested key never fills (walk 10 diag20
+    // E1: six SteelMaleBody shadow draws held every day frame). These variants are few.
+    if ((material as { isShadowPassMaterial?: boolean }).isShadowPassMaterial === true
+      || ((scene as { overrideMaterial?: unknown } | null)?.overrideMaterial ?? null) !== null) {
       draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return;
     }
     if (twins.size) sweepTwins((this.info as { frame?: number } | undefined)?.frame);

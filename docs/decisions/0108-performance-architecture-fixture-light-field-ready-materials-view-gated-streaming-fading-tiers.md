@@ -66,6 +66,15 @@ frames.
   relinks nothing; the cache key is stable.
 - **Flame gain is a uniform** (`esSettlementFlameGain`), not part of the
   program key (it was one program per distinct gain).
+- **The scene is precompiled at boot and the loading overlay waits for
+  the build queue**: once the spawn ring is resident, `RenderWarmGate`
+  runs `precompileScene` (`compileAsync` from six headings around the
+  spawn, against the render target the frame's scene pass draws into),
+  then real frames run behind the overlay; it opens when per-frame work is
+  stable AND the shader build queue's `pending` is 0, or at the frame cap
+  (webgpu10 diag20 E2). Shadow-pass and override-material draws never
+  defer in the queue (three swaps the shared override material per
+  caster; a deferred build never fills its key).
 - **Water is on its layer at creation** (`layers={waterLayers}` on the
   mesh), never set in an effect after paint.
 

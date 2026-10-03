@@ -167,6 +167,13 @@ with an object that must not have it: clone first (the old rule, unchanged).
   entering view, or the camera moving 2 m / turning 3 degrees), and three frustum-culls it per camera
   on its candidates' bounding sphere, so each shadow cascade draws only the casters inside its box.
   Never set `frustumCulled = false` on a pool member.
+- Never defer an override-material or shadow-pass draw in the build queue (`shaderBuildQueue.ts`):
+  three r184 swaps the shared override material's positionNode/side/alphaTest per caster and restores
+  it after the draw (`Renderer.js` 3402-3475), so a build deferred to later keys on the restored
+  material and the requested key never fills; the draw is held for good (webgpu10 diag20 E1).
+- A uniform written from a multi-frame bake (terrain grid and canopy origins, NaN until the bake
+  finishes) is copied only when finite, and the kernels that read it wait for the bake (`froxelGrid.ts`
+  `copyFinite`; webgpu10 diag20 E4).
 
 ## 5. Render targets, readback, timing
 

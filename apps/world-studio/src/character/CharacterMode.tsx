@@ -411,8 +411,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
-  // …and until the render path is warm (RenderWarmGate: per-frame work stable,
-  // frames counted): load stalls make the capsule's hover-spring oscillate
+  // …and until the render path is warm (RenderWarmGate: the scene precompiled
+  // around the spawn, then per-frame work stable and no shader build pending,
+  // or the frame cap): load stalls make the capsule's hover-spring oscillate
   // (owner 2026-08-25), and V8 tier-up bursts made the first seconds after
   // ready 13-17 ms frames (perf10 C5). The "Loading" line shows until then.
   const [renderWarm, setRenderWarm] = useState(false);
