@@ -80,13 +80,12 @@ import {
 import {
   applyCylindricalBillboard,
 } from "@elder-souls/game-core/fx/billboardQuad";
-import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
+import { disposeSlotGeometry, makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { decodePng } from "@elder-souls/game-core/terrain/groundRasters";
 import { sharedWindUniforms } from "./windUniforms";
 import { FillScratch, ROLE_ALL, ROLE_NAMES, ROLE_REST, ROLE_THIN } from "./groundcoverFill";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
-import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { treatmentClearancePolygons } from "@elder-souls/game-core/settlement/groundTreatment";
 import type { GroundTreatment } from "@elder-souls/game-core/settlement/types";
 import {
@@ -123,10 +122,15 @@ import {
   SectorCuller,
   sectorOf,
   viewPriority,
-  copyFloatsChanged,
   runSlices,
-  takeCommitBatch,
   RangeTracker,
+  SlotAllocator,
+  slotCapacity,
+  stickySector,
+  takeRanges,
+  applyPieces,
+  generationShareMs,
+  type RangeCursor,
   GC_INSTANCE_BYTES,
   GC_UPLOAD_BUDGET_BYTES,
 } from "./groundcoverSchedule";
@@ -801,57 +805,107 @@ interface KitLevelPart {
   material: THREE.Material;
 }
 
+/** One record's stable instance range in a pooled mesh, and what it holds:
+ * the tile's species block (a regenerated tile is a new object) and the copy
+ * slice. Equal on the next fill = nothing to copy or upload (diag18 G3). */
+interface SlotRecord {
+  start: number;
+  size: number;
+  sp: TileSpecies | null;
+  farLo: number;
+  farN: number;
+  restN: number;
+  /** The fill that last saw it live; older ones left the ring. */
+  seen: number;
+}
+
+/** A pooled mesh's slot state; moves to the grown mesh when it grows. */
+interface MeshSlots {
+  alloc: SlotAllocator;
+  /** By record key (`tileKey * 4 + tier`). */
+  records: Map<number, SlotRecord>;
+  /** Changed instance ranges since the last upload (diag16 W). */
+  ranges: RangeTracker;
+  /** The kit geometry the mesh's view shares. */
+  source: THREE.BufferGeometry;
+  /** Released records, reused (no object per entering tile). */
+  spare: SlotRecord[];
+}
+
+function slotsOf(mesh: THREE.InstancedMesh): MeshSlots {
+  return (mesh.userData as { gcSlots: MeshSlots }).gcSlots;
+}
+
 /**
- * Per-SLOT geometry views, cached on the source kit geometry.
- *
- * The `esLodBand` crossfade attribute is an instanced attribute, and instanced
- * attributes live on the geometry, not on the mesh. Twelve meshes (3 tiers x 4
- * quadrants) share one kit geometry, so one shared attribute would let the
- * last slot written re-band every other slot. A view shares every real vertex
- * buffer by reference — nothing is copied or uploaded twice — and only holds
- * its own band attribute. The mechanism is shared with Vegetation.tsx: see
- * `makeSlotGeometry`.
+ * A pooled ground-cover mesh of `capacity` instances. Its geometry is its own
+ * VIEW of the kit geometry (`makeSlotGeometry`: the vertex buffers by
+ * reference, plus its own `esLodBand` instanced attribute, sized with the
+ * mesh), so the band grows and is freed with the mesh (diag18 G4: a band
+ * attribute shared per slot was replaced on growth and its GPU buffer
+ * stranded).
  */
-const SLOT_GEOMETRIES = Symbol("esSlotGeometries");
-
-function slotGeometry(source: THREE.BufferGeometry, slot: number): THREE.BufferGeometry {
-  if (slot === 0) return source;
-  const host = source as unknown as
-    { [SLOT_GEOMETRIES]?: Map<number, THREE.BufferGeometry> };
-  const cache = host[SLOT_GEOMETRIES] ?? (host[SLOT_GEOMETRIES] = new Map());
-  const cached = cache.get(slot);
-  if (cached) return cached;
-  // The band attribute is the view's own; `bandAttribute` grows it in place.
-  const view = makeSlotGeometry(source, {
-    [LOD_BAND_ATTRIBUTE]: new THREE.InstancedBufferAttribute(
-      new Float32Array(64 * 4), 4),
-  });
-  cache.set(slot, view);
-  return view;
+function createPoolMesh(
+  source: THREE.BufferGeometry, material: THREE.Material, capacity: number, slots: MeshSlots | null,
+): THREE.InstancedMesh {
+  const band = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
+  const mesh = new THREE.InstancedMesh(makeSlotGeometry(source, { [LOD_BAND_ATTRIBUTE]: band }), material, capacity);
+  // Allocated up front (three would create it lazily on the first
+  // `setColorAt`); the fill writes it in blocks.
+  mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
+  mesh.userData.gcSlots = slots ?? {
+    alloc: new SlotAllocator(), records: new Map(), ranges: new RangeTracker(), source, spare: [],
+  } satisfies MeshSlots;
+  // A new buffer uploads whole on its first draw (three creates it from the
+  // CPU array), so nothing is flagged here.
+  return mesh;
 }
 
-/** The `esLodBand` attribute for one slot geometry, allocated once and GROWN
- * in place: a fresh attribute every rebuild strands its GPU buffer (nothing
- * disposes a bare attribute). Over-allocation is harmless — the mesh draws
- * `count` instances, not the attribute's length. */
-function bandAttribute(
-  geometry: THREE.BufferGeometry, instances: number,
-  /** Grown attributes not yet attached: the fill attaches them at commit. */
-  pending: Map<THREE.BufferGeometry, THREE.InstancedBufferAttribute>,
-): THREE.InstancedBufferAttribute {
-  const existing = pending.get(geometry)
-    ?? geometry.getAttribute(LOD_BAND_ATTRIBUTE) as THREE.InstancedBufferAttribute | undefined;
-  if (existing && existing.count >= instances) return existing;
-  const grown = new THREE.InstancedBufferAttribute(
-    new Float32Array(Math.max(instances, 64) * 4), 4);
-  pending.set(geometry, grown);
-  return grown;
+/** Instances a fill step copies before it yields (~0.2 ms: 23 floats each). */
+const FILL_STEP_INSTANCES = 4096;
+
+/** Copies one record's plants into its range (straight copies: the record
+ * changed) and marks the range for upload. */
+function writeRecord(
+  mesh: THREE.InstancedMesh, e: SlotRecord, sp: TileSpecies,
+  farLo: number, farN: number, restN: number, band: readonly number[], seq: number,
+): void {
+  const matrices = mesh.instanceMatrix.array as Float32Array;
+  const colours = mesh.instanceColor!.array as Float32Array;
+  const bands = mesh.geometry.getAttribute(LOD_BAND_ATTRIBUTE).array as Float32Array;
+  const at = e.start;
+  // Plain loops, not `set(subarray(...))`: a subarray is a view object per
+  // record (diag10 C3).
+  for (let i = 0; i < farN * 16; i++) matrices[at * 16 + i] = sp.matrices[farLo * 16 + i];
+  for (let i = 0; i < farN * 3; i++) colours[at * 3 + i] = sp.colours[farLo * 3 + i];
+  const rest = at + farN;
+  for (let i = 0; i < restN * 16; i++) matrices[rest * 16 + i] = sp.matrices[sp.farCount * 16 + i];
+  for (let i = 0; i < restN * 3; i++) colours[rest * 3 + i] = sp.colours[sp.farCount * 3 + i];
+  // The band is per RECORD: the merged card mesh holds MID and FAR records,
+  // which cross different boundaries.
+  for (let i = at; i < at + farN + restN; i++) {
+    const o = i * 4;
+    bands[o] = band[0]; bands[o + 1] = band[1]; bands[o + 2] = band[2]; bands[o + 3] = band[3];
+  }
+  e.sp = sp; e.farLo = farLo; e.farN = farN; e.restN = restN; e.seen = seq;
+  slotsOf(mesh).ranges.mark(at, farN + restN);
 }
 
-/** A pooled mesh's changed instance ranges since its last upload (diag16 W). */
-function rangesOf(mesh: THREE.InstancedMesh): RangeTracker {
-  const data = mesh.userData as { gcRanges?: RangeTracker };
-  return data.gcRanges ?? (data.gcRanges = new RangeTracker());
+/** Frees a range; one left below the high water is zeroed (a zero matrix
+ * draws nothing) and marked, one at the top just lowers the draw count. */
+function releaseRange(mesh: THREE.InstancedMesh, start: number, n: number): void {
+  const slots = slotsOf(mesh);
+  slots.alloc.release(start, n);
+  if (start >= slots.alloc.highWater) return;
+  const matrices = mesh.instanceMatrix.array as Float32Array;
+  for (let i = start * 16; i < (start + n) * 16; i++) matrices[i] = 0;
+  slots.ranges.mark(start, n);
+}
+
+/** Frees a pooled mesh's own buffers (matrix, colour, band), never the kit's. */
+function disposePoolMesh(mesh: THREE.InstancedMesh): void {
+  mesh.removeFromParent();
+  mesh.dispose();
+  disposeSlotGeometry(mesh.geometry, slotsOf(mesh).source);
 }
 
 // Terrain height: shared with the baked-scatter renderer — see terrainHeight.ts.
@@ -1023,8 +1077,8 @@ export interface GroundcoverPerf {
 }
 
 /** Cumulative ms / counts, see `GroundcoverPerf.tf`. Nesting: `commitMs`
- * includes `swapMs` + `rangesMs`; `fillMs` includes `allocMs`; `useFrameMs`
- * includes `genMs`, `commitMs` and `cullMs`. */
+ * includes `rangesMs`; `fillMs` includes `allocMs` and `swapMs`; `useFrameMs`
+ * includes `genMs`, `commitMs`, `fillMs` and `cullMs` (one budget, diag18). */
 export interface GroundcoverFrameTimers {
   /** The whole groundcover `useFrame` body. */
   useFrameMs: number;
@@ -1032,13 +1086,13 @@ export interface GroundcoverFrameTimers {
   genMs: number;
   /** `commitDrain.step`: the per-frame commit of a finished fill. */
   commitMs: number;
-  /** Inside the commit: grown-mesh swap (group add/remove, dispose, list rebuild). */
+  /** Inside the fill: a new or grown mesh joining the pool (group add/remove, list rebuild). */
   swapMs: number;
-  /** Inside the commit: setAttribute / updateRange / needsUpdate / count / sphere. */
+  /** Inside the commit: the upload pieces (updateRange / needsUpdate), count, sphere. */
   rangesMs: number;
-  /** The fill job's steps run by the frame-work queue (passes 2-3, slot copies). */
+  /** The fill's steps under the groundcover budget (passes 2-3, slot copies). */
   fillMs: number;
-  /** Inside the fill: new InstancedMesh + colour attribute allocation. */
+  /** Inside the fill: new or grown pool mesh (matrix, colour, band view), copy, dispose of the old. */
   allocMs: number;
   /** The fill's tail: stats object, onStats, console.debug, debug global. */
   statsMs: number;
@@ -1112,7 +1166,13 @@ export function Groundcover({
 }) {
   const renderT0 = performance.now();
   const segments = useFrameSegments();
-  const queue = useFrameWork();
+  /** The running fill, stepped in `useFrame` under the ONE groundcover
+   * budget it shares with the commit and generation (diag18 G1/G2). */
+  const fillJobRef = useRef<Iterator<void, void> | null>(null);
+  /** The draw slot each live tile keeps (`stickySector`), by tile key. */
+  const tileSectors = useRef(new Map<number, number>());
+  /** Fill counter: a slot record not seen by the current fill left the ring. */
+  const fillSeq = useRef(0);
   const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
   const farRadiusM = quality?.groundcoverFarRadiusM ?? RING_FAR_RADIUS_M;
   const maxInstances = quality?.groundcoverMaxInstances ?? MAX_INSTANCES;
@@ -1433,8 +1493,12 @@ export function Groundcover({
     p.generateMs = 0;
     p.uploadBytes = 0;
     p.commitMs = 0;
-    // A finished fill's commit, a few meshes a frame under the byte budget;
-    // its time comes out of this frame's generation budget.
+    // ONE groundcover budget this frame (diag18 G1/G2): the commit first, the
+    // fill's steps up to the budget, generation gets what is left.
+    const budgetMs = generateBudgetMs(
+      genStartS.current === null ? 0 : state.clock.elapsedTime - genStartS.current, lastRemaining.current);
+    const tBudget0 = performance.now();
+    // A finished fill's commit, its changed ranges under the byte budget.
     const drain = commitDrain.current;
     if (drain) {
       const tCommit0 = performance.now();
@@ -1448,6 +1512,17 @@ export function Groundcover({
       p.tf.commitMs += commitMs;
       p.commitMs = Math.round(commitMs * 10) / 10;
     }
+    // The fill's steps (each well under a millisecond) until the budget is
+    // spent; at least one step a frame, so a fill always progresses.
+    let fillMs = 0;
+    const job = fillJobRef.current;
+    if (job) {
+      const tFill0 = performance.now();
+      if (runSlices(job, tBudget0 + budgetMs, () => performance.now()).done
+          && fillJobRef.current === job) fillJobRef.current = null;
+      fillMs = performance.now() - tFill0;
+    }
+    const genShareMs = generationShareMs(budgetMs, p.commitMs, fillMs);
     let pendingTiles = 0;
     // An incomplete tile is retried when a chunk arrives, the only event
     // that can supply its heights: re-arm even if the ring otherwise
@@ -1456,15 +1531,13 @@ export function Groundcover({
         && chunkArrivals.current !== incompleteAtChunkArrivals.current) {
       genPending.current = true;
     }
-    if (genPending.current && generateRef.current) {
+    if (genPending.current && generateRef.current && genShareMs > 0) {
       const tGen0 = performance.now();
       if (genStartS.current === null) genStartS.current = state.clock.elapsedTime;
       state.camera.getWorldDirection(forward);
       const flat = Math.hypot(forward.x, forward.z) || 1;
       const { generated, remaining, missing, missingWithin } = generateRef.current(
-        Math.max(0.5, generateBudgetMs(state.clock.elapsedTime - genStartS.current, lastRemaining.current)
-          - p.commitMs),
-        forward.x / flat, forward.z / flat);
+        genShareMs, forward.x / flat, forward.z / flat);
       lastRemaining.current = remaining;
       const genMs = performance.now() - tGen0;
       p.tf.genMs += genMs;
@@ -1509,7 +1582,7 @@ export function Groundcover({
         ? null : state.clock.elapsedTime + drained.fillInS;
       if (missing === 0) coldStart.current = false;
     }
-    p.frameMs = Math.round((p.generateMs + p.commitMs) * 10) / 10;
+    p.frameMs = Math.round((p.generateMs + p.commitMs + fillMs) * 10) / 10;
     if (p.frameMs > p.frameMaxMs) p.frameMaxMs = p.frameMs;
     if (!fill && fillDeadlineS.current !== null
         && state.clock.elapsedTime >= fillDeadlineS.current) fill = true;
@@ -1569,28 +1642,25 @@ export function Groundcover({
     p.tf.useFrameMs += performance.now() - ufT0;
   });
 
-  // The fill runs as a frame-work job (perf10 O5): one step per draw slot
-  // under the shared per-frame budget, never in this effect's commit (a whole
-  // ring's copy in one passive effect was a 32 ms walking hitch). Every step
-  // writes only CPU arrays, marking the instance ranges it changed per mesh
-  // (`RangeTracker`); the last step hands the commit to `commitDrain`, which
-  // `useFrame` runs a few whole meshes a frame under GC_UPLOAD_BUDGET_BYTES,
-  // uploading only the changed ranges (diag16 W: the whole-ring re-upload
-  // every 8 m was the walking hitch). A mesh's count, sphere and ranges
-  // change in the same frame, so no mesh ever draws half a fill. The next
-  // fill starts only once the drain is done (its CPU writes would otherwise
-  // reach the GPU under the old counts).
+  // The fill is a generator stepped by `useFrame` under the ONE groundcover
+  // budget (diag18 G1/G2), never in this effect's commit (a whole ring's copy
+  // in one passive effect was a 32 ms walking hitch). Each record (tile x
+  // species x tier) keeps a stable instance range in its mesh (`MeshSlots`,
+  // diag18 G3): a fill copies only the records that entered or changed and
+  // zeroes the ones that left, marking those ranges (`RangeTracker`); the last
+  // step hands the commit to `commitDrain`, which uploads the marked ranges
+  // in pieces under GC_UPLOAD_BUDGET_BYTES a frame and sets a mesh's count
+  // and sphere with its last piece. The next fill starts only once the drain
+  // is done.
   useEffect(() => {
     const effectT0 = performance.now();
     const tf = perf.current.tf;
     const group = root.current;
     if (!group || !kit || !control || !chunks) return;
-    /** Grown meshes and band attributes, held out of the scene until commit;
-     * a cancelled fill disposes the meshes. */
-    const grownMeshes = new Map<string, { mesh: THREE.InstancedMesh; previous: THREE.InstancedMesh | null }>();
-    let handle: { cancel(): void } | null = null;
+    let job: Iterator<void, void> | null = null;
     const start = () => {
-      handle = queue.add(fillJob(group), { priority: 20, label: "groundcover-fill" });
+      job = fillJob(group);
+      fillJobRef.current = job;
     };
     const pendingDrain = commitDrain.current;
     if (pendingDrain) pendingDrain.then = start;
@@ -1599,9 +1669,11 @@ export function Groundcover({
     return () => {
       const cleanupT0 = performance.now();
       if (pendingDrain && pendingDrain.then === start) pendingDrain.then = null;
-      handle?.cancel();
-      for (const { mesh } of grownMeshes.values()) mesh.dispose();
-      grownMeshes.clear();
+      // A cancelled fill leaves every record it wrote consistent (a record's
+      // slot, copy and mark happen in one step) and its marks in the meshes'
+      // trackers, so the next fill's commit uploads them.
+      if (job && fillJobRef.current === job) fillJobRef.current = null;
+      (job as Iterator<void, void> | null)?.return?.();
       tf.effectMs += performance.now() - cleanupT0;
     };
 
@@ -1621,7 +1693,8 @@ export function Groundcover({
     const quadCount = SECTOR_SLOTS;
     scratch.reset(SPECIES_PLANS.length, BUCKET_COUNT * quadCount);
     const liveMeshes = scratch.liveMeshes;
-    const grownBands = scratch.grownBands;
+    const seq = ++fillSeq.current;
+    const sectors = tileSectors.current;
 
     const focus = focusRef.current;
     // Tiles are kept out to the far radius PLUS the overlap, so the FAR tier
@@ -1652,6 +1725,7 @@ export function Groundcover({
     const rej = stats0.rejected;
     // Evict what left the ring. Without this the cache is the whole province.
     for (const key of cache.keys()) if (!liveKeys.has(key)) cache.delete(key);
+    for (const key of sectors.keys()) if (!liveKeys.has(key)) sectors.delete(key);
 
     // Pass two: tier membership per TILE, with the overlap, per species.
     // A tile is copied into every tier whose outer radius (plus the overlap)
@@ -1692,8 +1766,11 @@ export function Groundcover({
       const etx = scratch.liveTx[li], etz = scratch.liveTz[li], nearest = scratch.liveNearest[li];
       const centreX = (etx + 0.5) * TILE_M;
       const centreZ = (etz + 0.5) * TILE_M;
-      const quadrant = sectorOf(centreX, centreZ, focus.x, focus.z, nearest,
-        GROUNDCOVER_SECTORS);
+      const liveKey = scratch.liveKey[li];
+      const quadrant = stickySector(sectors.get(liveKey) ?? -1,
+        sectorOf(centreX, centreZ, focus.x, focus.z, nearest, GROUNDCOVER_SECTORS),
+        nearest, GROUNDCOVER_SECTORS);
+      sectors.set(liveKey, quadrant);
       // The wedge's cull volume is its tiles' boxes; 4 m over the ground
       // covers the tallest plant in the table.
       culler.add(quadrant, etx * TILE_M, tile.minY - 1, etz * TILE_M,
@@ -1772,6 +1849,23 @@ export function Groundcover({
     const densityScale = safetyFactor(drawnAt, maxInstances * GC_BUDGET_SLACK, thinFactor.current);
     thinFactor.current = densityScale;
 
+    /** Records waiting for a range this mesh, flat (record, key), and the
+     * ranges they got; per fill, reused across meshes. */
+    const place: number[] = [];
+    const placeStart: number[] = [];
+    /** Instances copied since the fill last yielded. */
+    let written = 0;
+    /** Puts `mesh` in the pool and the scene, in place of `previous`. */
+    const poolMesh = (key: string, mesh: THREE.InstancedMesh, previous: THREE.InstancedMesh | null) => {
+      const swapT0 = performance.now();
+      if (previous) previous.removeFromParent();
+      group.add(mesh);
+      meshPool.current.set(key, mesh);
+      const list = meshList.current;
+      list.length = 0;
+      for (const m of meshPool.current.values()) list.push(m);
+      tf.swapMs += performance.now() - swapT0;
+    };
     let instances = 0;
     let triangles = 0;
     /** Triangles the NEAR (mesh) tier contributes — the number the reach rule
@@ -1835,7 +1929,6 @@ export function Groundcover({
           for (let partIndex = 0; partIndex < parts.length; partIndex++) {
             const part = parts[partIndex];
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
-            const geometry = slotGeometry(part.geometry, slot);
             applyGroundTint(part.material);
             // Cards neither sway nor take the wind's per-instance tune: at a
             // card's distance the motion is sub-pixel, and it would fight the
@@ -1848,21 +1941,13 @@ export function Groundcover({
               applyCylindricalBillboard(part.material, lodFade);
             }
             let mesh = meshPool.current.get(meshKey);
-            if (!mesh || mesh.instanceMatrix.count < drawn) {
-              // Grow by 1.5x so a ring that keeps creeping up by a few
-              // instances does not reallocate on every rebuild. The new mesh
-              // waits in `grownMeshes` and the swap happens in the commit
-              // step, so the old one keeps drawing until then.
+            if (!mesh) {
               const allocT0 = performance.now();
-              const previous = mesh ?? null;
-              const capacity = Math.max(64, Math.ceil(drawn * 1.5));
-              mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
+              // 1.5x headroom (`slotCapacity`): the ring breathes by a few
+              // per cent, so a walk allocates nothing after the first ring.
+              mesh = createPoolMesh(part.geometry, part.material, slotCapacity(drawn), null);
               // DEV triangle attribution bucket (HUD line 3).
               mesh.userData.perfTag = "gc";
-              // The colour attribute is allocated up front (three would
-              // create it lazily on the first `setColorAt`, one instance at
-              // a time — this fill writes it in blocks).
-              mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
               // Culled per wedge in `useFrame` (SectorCuller), never by
               // three's sphere test, which a ring-sized sphere always passed.
               mesh.frustumCulled = false;
@@ -1878,60 +1963,99 @@ export function Groundcover({
               // Placed at the origin once: the ring writes world matrices
               // per instance, so the object's own matrix never changes (O4).
               mesh.matrixAutoUpdate = false;
+              // Draws nothing until its commit sets the count.
               mesh.count = 0;
-              // A new buffer uploads whole.
-              rangesOf(mesh).full = true;
-              grownMeshes.set(meshKey, { mesh, previous });
+              poolMesh(meshKey, mesh, null);
               tf.allocs++;
               tf.allocMs += performance.now() - allocT0;
             }
-            const matrices = mesh.instanceMatrix.array as Float32Array;
-            const colours = mesh.instanceColor!.array as Float32Array;
-            // The band is per TILE RECORD, not per mesh: the merged card mesh
-            // holds MID and FAR records, which cross different boundaries.
-            // A grown attribute is attached in the commit step, with the rest.
-            const bands = bandAttribute(geometry, drawn, grownBands);
-            const bandArray = bands.array as Float32Array;
-            // What this fill changes, so the commit uploads only that.
-            const ranges = rangesOf(mesh);
-            let at = 0;
+            const slots = slotsOf(mesh);
+            // Stable slots (diag18 G3). 1: records unchanged since the last
+            // fill are only marked seen; a changed one that still fits is
+            // rewritten in place; a grown or new one waits for a range.
+            place.length = 0;
             for (let k = 0; k < slotRecords.length; k++) {
               const r = slotRecords[k];
               const sp = scratch.recSpecies[r];
               const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
               const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
-              const band = tierBands[scratch.recTier[r]];
-              let bandChanged = false;
-              for (let i = at; i < at + farN + restN; i++) {
-                const o = i * 4;
-                if (bandArray[o] !== band[0] || bandArray[o + 1] !== band[1]
-                  || bandArray[o + 2] !== band[2] || bandArray[o + 3] !== band[3]) {
-                  bandArray[o] = band[0];
-                  bandArray[o + 1] = band[1];
-                  bandArray[o + 2] = band[2];
-                  bandArray[o + 3] = band[3];
-                  bandChanged = true;
-                }
+              const n = farN + restN;
+              if (n === 0) continue;
+              const key = tileKey(scratch.recTx[r], scratch.recTz[r]) * 4 + scratch.recTier[r];
+              const e = slots.records.get(key);
+              if (e && e.sp === sp && e.farLo === farLo && e.farN === farN && e.restN === restN) {
+                e.seen = seq;
+                continue;
               }
-              if (bandChanged) ranges.mark(at, farN + restN);
-              // Plain copy loops, not `set(subarray(...))`: a subarray is a
-              // new view object per record per rebuild (diag10 C3).
-              if (farN > 0) {
-                const m = copyFloatsChanged(sp.matrices, farLo * 16, farN * 16, matrices, at * 16);
-                const c = copyFloatsChanged(sp.colours, farLo * 3, farN * 3, colours, at * 3);
-                if (m || c) ranges.mark(at, farN);
-                at += farN;
+              if (e && n <= e.size) {
+                if (n < e.size) { releaseRange(mesh, e.start + n, e.size - n); e.size = n; }
+                writeRecord(mesh, e, sp, farLo, farN, restN, tierBands[scratch.recTier[r]], seq);
+                written += n;
+              } else {
+                if (e) { releaseRange(mesh, e.start, e.size); slots.records.delete(key); slots.spare.push(e); }
+                place.push(r, key);
               }
-              if (restN > 0) {
-                const m = copyFloatsChanged(sp.matrices, sp.farCount * 16, restN * 16, matrices, at * 16);
-                const c = copyFloatsChanged(sp.colours, sp.farCount * 3, restN * 3, colours, at * 3);
-                if (m || c) ranges.mark(at, restN);
-                at += restN;
-              }
+              if (written >= FILL_STEP_INSTANCES) { written = 0; stepMs(); yield; stepT0 = performance.now(); }
+            }
+            // 2. Records that left this mesh free their ranges.
+            for (const [key, e] of slots.records) {
+              if (e.seen === seq) continue;
+              releaseRange(mesh, e.start, e.size);
+              slots.records.delete(key);
+              slots.spare.push(e);
+            }
+            // 3. Ranges for the entering records, first fit; the mesh grows
+            // (copying its arrays, so every slot stays put) only when the
+            // high water passes its capacity.
+            placeStart.length = 0;
+            for (let k = 0; k < place.length; k += 2) {
+              const r = place[k];
+              const sp = scratch.recSpecies[r];
+              const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
+              const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
+              placeStart.push(slots.alloc.alloc(farN + restN));
+            }
+            if (slots.alloc.highWater > mesh.instanceMatrix.count) {
+              const allocT0 = performance.now();
+              const previous = mesh;
+              mesh = createPoolMesh(part.geometry, part.material, slotCapacity(slots.alloc.highWater), slots);
+              (mesh.instanceMatrix.array as Float32Array).set(previous.instanceMatrix.array as Float32Array);
+              (mesh.instanceColor!.array as Float32Array).set(previous.instanceColor!.array as Float32Array);
+              (mesh.geometry.getAttribute(LOD_BAND_ATTRIBUTE).array as Float32Array)
+                .set(previous.geometry.getAttribute(LOD_BAND_ATTRIBUTE).array as Float32Array);
+              mesh.userData.perfTag = "gc";
+              mesh.frustumCulled = false;
+              mesh.userData.gcSector = quadrant;
+              mesh.castShadow = false;
+              mesh.receiveShadow = false;
+              mesh.name = previous.name;
+              mesh.matrixAutoUpdate = false;
+              // Draws what the old one drew until its commit; its new buffer
+              // uploads whole on that first draw (a growth, never a refill).
+              mesh.count = previous.count;
+              if (previous.boundingSphere) mesh.boundingSphere = previous.boundingSphere.clone();
+              poolMesh(meshKey, mesh, previous);
+              disposePoolMesh(previous);
+              tf.allocs++;
+              tf.allocMs += performance.now() - allocT0;
+            }
+            for (let k = 0; k < place.length; k += 2) {
+              const r = place[k];
+              const sp = scratch.recSpecies[r];
+              const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
+              const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
+              const e = slots.spare.pop() ?? { start: 0, size: 0, sp: null, farLo: 0, farN: 0, restN: 0, seen: 0 };
+              e.start = placeStart[k >> 1];
+              e.size = farN + restN;
+              slots.records.set(place[k + 1], e);
+              writeRecord(mesh, e, sp, farLo, farN, restN, tierBands[scratch.recTier[r]], seq);
+              written += e.size;
+              if (written >= FILL_STEP_INSTANCES) { written = 0; stepMs(); yield; stepT0 = performance.now(); }
             }
             // The sphere from the tiles' extents (a wedge), never by
             // reading the matrices back; the height term covers the plants.
-            scratch.pushCommit(mesh, drawn, bands, geometry,
+            scratch.pushCommit(mesh, slots.alloc.highWater,
+              mesh.geometry.getAttribute(LOD_BAND_ATTRIBUTE) as THREE.InstancedBufferAttribute, mesh.geometry,
               (minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2,
               Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM);
             liveMeshes.add(meshKey);
@@ -1944,77 +2068,62 @@ export function Groundcover({
         }
       }
     }
-    // --- commit: handed to `commitDrain`, a few whole meshes a frame ---
+    // --- commit: handed to `commitDrain`, the marked ranges in pieces ---
     // The drain reads the scratch directly: the next fill (which resets it)
-    // starts only once the drain is done. Grown meshes move to the drain, so
-    // this effect's cleanup no longer disposes them.
+    // starts only once the drain is done.
     stepMs();
     yield;
     stepT0 = performance.now();
-    const grown = new Map<THREE.InstancedMesh, { key: string; previous: THREE.InstancedMesh | null }>();
-    for (const [meshKey, { mesh, previous }] of grownMeshes) grown.set(mesh, { key: meshKey, previous });
-    grownMeshes.clear();
     const total = scratch.commitCount;
-    // Grown meshes first: each replaces a mesh that is removed when it lands.
-    const order: number[] = [];
-    for (let c = 0; c < total; c++) if (grown.has(scratch.commitMesh[c])) order.push(c);
-    for (let c = 0; c < total; c++) if (!grown.has(scratch.commitMesh[c])) order.push(c);
-    const bytes = new Float64Array(total);
-    for (let k = 0; k < total; k++) {
-      const c = order[k];
-      const mesh = scratch.commitMesh[c], bands = scratch.commitBands[c];
-      const capacity = mesh.instanceMatrix.count;
-      bytes[k] = rangesOf(mesh).instances(capacity) * GC_INSTANCE_BYTES
-        + (scratch.commitGeometry[c].getAttribute(LOD_BAND_ATTRIBUTE) !== bands ? bands.count * 16 : 0);
-    }
-    const commitOne = (c: number) => {
-      const geometry = scratch.commitGeometry[c], bands = scratch.commitBands[c], mesh = scratch.commitMesh[c];
-      const swap = grown.get(mesh);
-      const swapT0 = performance.now();
-      if (swap) {
-        group.add(mesh);
-        meshPool.current.set(swap.key, mesh);
-        if (swap.previous) { group.remove(swap.previous); swap.previous.dispose(); }
-        const list = meshList.current;
-        list.length = 0;
-        for (const m of meshPool.current.values()) list.push(m);
-      }
-      const rangesT0 = performance.now();
-      tf.swapMs += rangesT0 - swapT0;
-      const ranges = rangesOf(mesh);
-      if (geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== bands) {
-        // A new attribute uploads whole on its first draw.
-        geometry.setAttribute(LOD_BAND_ATTRIBUTE, bands);
-        bands.clearUpdateRanges();
-        bands.needsUpdate = true;
-      } else {
-        ranges.apply(bands, 4);
-      }
-      ranges.apply(mesh.instanceMatrix, 16);
-      ranges.apply(mesh.instanceColor!, 3);
-      ranges.clear();
-      mesh.count = scratch.commitDrawn[c];
-      const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
-      sphere.center.set(scratch.commitCx[c], scratch.commitCy[c], scratch.commitCz[c]);
-      sphere.radius = scratch.commitRadius[c];
-      tf.meshes++;
-      tf.rangesMs += performance.now() - rangesT0;
-    };
-    let cursor = 0;
+    const cursor: RangeCursor = { i: 0, at: 0 };
+    const pieces: number[] = [];
+    let k = 0;
     commitDrain.current = {
       then: null,
       step(budgetBytes: number): boolean {
-        const end = takeCommitBatch(bytes, cursor, total, budgetBytes);
+        // Instances this frame may upload: a mesh's ranges are SPLIT across
+        // frames (`takeRanges`), so no frame passes the cap (diag18 G3).
+        let left = Number.isFinite(budgetBytes)
+          ? Math.max(1, Math.floor(budgetBytes / GC_INSTANCE_BYTES)) : Number.POSITIVE_INFINITY;
         let sent = 0;
-        for (let k = cursor; k < end; k++) { commitOne(order[k]); sent += bytes[k]; }
+        while (k < total && left > 0) {
+          const rangesT0 = performance.now();
+          const mesh = scratch.commitMesh[k];
+          const slots = slotsOf(mesh);
+          const ranges = slots.ranges.ranges();
+          const taken = takeRanges(ranges, cursor, left, pieces);
+          applyPieces(mesh.instanceMatrix, 16, pieces);
+          applyPieces(mesh.instanceColor!, 3, pieces);
+          applyPieces(scratch.commitBands[k], 4, pieces);
+          left -= taken;
+          sent += taken * GC_INSTANCE_BYTES;
+          if (cursor.i >= ranges.length) {
+            // The mesh's last piece: its count and sphere change with it.
+            slots.ranges.clear();
+            mesh.count = scratch.commitDrawn[k];
+            const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
+            sphere.center.set(scratch.commitCx[k], scratch.commitCy[k], scratch.commitCz[k]);
+            sphere.radius = scratch.commitRadius[k];
+            tf.meshes++;
+            k++;
+            cursor.i = 0; cursor.at = 0;
+          }
+          tf.rangesMs += performance.now() - rangesT0;
+        }
         perf.current.uploadBytes += sent;
         tf.bytes += sent;
-        cursor = end;
-        if (cursor < total) return false;
+        if (k < total) return false;
         // Everything the pool holds that this rebuild did not fill draws
-        // nothing — `count = 0` — but keeps its buffers for the next crossing.
+        // nothing (`count = 0`) and gives up its slots, but keeps its buffers
+        // for the next crossing.
         for (const [meshKey, mesh] of meshPool.current) {
-          if (!liveMeshes.has(meshKey) && mesh.count !== 0) { mesh.count = 0; tf.meshes++; }
+          if (liveMeshes.has(meshKey)) continue;
+          const slots = slotsOf(mesh);
+          for (const e of slots.records.values()) slots.spare.push(e);
+          slots.records.clear();
+          slots.alloc.reset();
+          slots.ranges.clear();
+          if (mesh.count !== 0) { mesh.count = 0; tf.meshes++; }
         }
         tf.drains++;
         return true;
@@ -2066,7 +2175,7 @@ export function Groundcover({
   }, [kit, cards, control, chunks, exclusions, exclusionBounds, clearanceIndex,
       regionRaster, tint, revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
-      lodFade, culler, queue]);
+      lodFade, culler]);
 
   // The inputs must have SETTLED before a tile is cached: otherwise the
   // tile is built from defaults and has to be thrown away (0084 round 11).
@@ -2520,10 +2629,8 @@ export function Groundcover({
     // A pending commit lands first, so its grown meshes join the pool.
     commitDrain.current?.step(Number.POSITIVE_INFINITY);
     commitDrain.current = null;
-    for (const mesh of meshPool.current.values()) {
-      mesh.removeFromParent();
-      mesh.dispose();
-    }
+    fillJobRef.current = null;
+    for (const mesh of meshPool.current.values()) disposePoolMesh(mesh);
     meshPool.current.clear();
   }, []);
 

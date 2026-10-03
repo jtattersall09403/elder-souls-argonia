@@ -54,7 +54,8 @@ export function viewPriority(
   return nearestM * (1 + 0.75 * (1 - cos));
 }
 
-/** Per-frame generation budget, ms. */
+/** Per-frame groundcover budget, ms: the commit, the fill and generation
+ * together (`generationShareMs`). */
 export const GC_BUDGET_STARTUP_MS = 24;
 export const GC_BUDGET_COLD_MS = 12;
 export const GC_BUDGET_STEADY_MS = 2.5;
@@ -94,13 +95,11 @@ export const GC_RANGE_MERGE_GAP = 16;
 /**
  * The instance ranges of one pooled mesh whose CPU data changed since its
  * last upload (diag16 W). Marks accumulate across fills (a cancelled fill's
- * writes still reach the GPU at the next commit); `apply` points three's
- * update ranges at them so only they upload; `clear` after the commit.
+ * writes still reach the GPU at the next commit); the drain uploads them in
+ * budgeted pieces (`takeRanges`, `applyPieces`); `clear` after the commit.
  */
 export class RangeTracker {
   private readonly bounds: number[] = [];
-  /** Upload the whole attribute (a new buffer). */
-  full = false;
 
   mark(start: number, count: number): void {
     if (count <= 0) return;
@@ -121,66 +120,161 @@ export class RangeTracker {
     let ordered = true;
     for (let i = 2; i < b.length; i += 2) if (b[i] <= b[i - 1] + GC_RANGE_MERGE_GAP) { ordered = false; break; }
     if (ordered) return b;
-    const pairs: [number, number][] = [];
-    for (let i = 0; i < b.length; i += 2) pairs.push([b[i], b[i + 1]]);
-    pairs.sort((x, y) => x[0] - y[0]);
-    b.length = 0;
-    for (const [s, e] of pairs) {
-      const n = b.length;
-      if (n > 0 && s <= b[n - 1] + GC_RANGE_MERGE_GAP) { if (e > b[n - 1]) b[n - 1] = e; } else b.push(s, e);
+    // Stable slots mark out of order: insertion-sort the pairs in place (a
+    // mesh carries tens of marks a fill, and nothing is allocated), then merge.
+    for (let i = 2; i < b.length; i += 2) {
+      const s = b[i], e = b[i + 1];
+      let j = i - 2;
+      while (j >= 0 && b[j] > s) { b[j + 2] = b[j]; b[j + 3] = b[j + 1]; j -= 2; }
+      b[j + 2] = s; b[j + 3] = e;
     }
+    let w = 0;
+    for (let i = 0; i < b.length; i += 2) {
+      if (w > 0 && b[i] <= b[w - 1] + GC_RANGE_MERGE_GAP) { if (b[i + 1] > b[w - 1]) b[w - 1] = b[i + 1]; } else { b[w] = b[i]; b[w + 1] = b[i + 1]; w += 2; }
+    }
+    b.length = w;
     return b;
   }
 
-  /** Instances to upload (`capacity` when full). */
-  instances(capacity: number): number {
-    if (this.full) return capacity;
+  /** Instances to upload. */
+  instances(): number {
     const r = this.ranges();
     let n = 0;
     for (let i = 0; i < r.length; i += 2) n += r[i + 1] - r[i];
     return n;
   }
 
-  /** Point `attribute` at the changed ranges (in instances) and flag it. */
-  apply(attribute: THREE.BufferAttribute, itemSize: number): void {
-    attribute.clearUpdateRanges();
-    if (this.full) { attribute.needsUpdate = true; return; }
-    const r = this.ranges();
-    for (let i = 0; i < r.length; i += 2) attribute.addUpdateRange(r[i] * itemSize, (r[i + 1] - r[i]) * itemSize);
-    if (r.length > 0) attribute.needsUpdate = true;
-  }
-
-  clear(): void { this.bounds.length = 0; this.full = false; }
+  clear(): void { this.bounds.length = 0; }
 }
 
-/** `to.set(from.subarray(src, src + n), dst)` without the view object,
- * writing only the values that differ; reports whether any did. */
-export function copyFloatsChanged(
-  from: Float32Array, src: number, n: number, to: Float32Array, dst: number,
-): boolean {
-  let changed = false;
-  for (let i = 0; i < n; i++) {
-    const v = from[src + i];
-    if (to[dst + i] !== v) { to[dst + i] = v; changed = true; }
+/** ADD `pieces` (flat [start, end) instance pairs) to the attribute's update
+ * ranges and flag it; nothing when there are none. Never clears: three clears
+ * the ranges when it uploads, and a mesh culled this frame has not uploaded
+ * the pieces it took last frame yet. */
+export function applyPieces(
+  attribute: THREE.BufferAttribute, itemSize: number, pieces: readonly number[],
+): void {
+  for (let i = 0; i < pieces.length; i += 2) {
+    attribute.addUpdateRange(pieces[i] * itemSize, (pieces[i + 1] - pieces[i]) * itemSize);
   }
-  return changed;
+  if (pieces.length > 0) attribute.needsUpdate = true;
+}
+
+/** Where the upload drain stands in one mesh's flat [start, end) ranges. */
+export interface RangeCursor { i: number; at: number }
+
+/**
+ * The next pieces of `ranges` (flat [start, end) pairs, instances) that fit
+ * `budget` instances, from `cursor`, written flat to `out`. A range larger
+ * than what is left is SPLIT, so no frame uploads more than the budget (perf10
+ * diag18 G3: the old rule took at least one whole mesh, up to 503 KB a frame).
+ * Advances `cursor`; returns the instances taken.
+ */
+export function takeRanges(
+  ranges: readonly number[], cursor: RangeCursor, budget: number, out: number[],
+): number {
+  out.length = 0;
+  let taken = 0;
+  while (cursor.i < ranges.length && taken < budget) {
+    const s = Math.max(ranges[cursor.i], cursor.at);
+    const e = ranges[cursor.i + 1];
+    const n = Math.min(e - s, budget - taken);
+    out.push(s, s + n);
+    taken += n;
+    if (s + n >= e) { cursor.i += 2; cursor.at = 0; } else cursor.at = s + n;
+  }
+  return taken;
 }
 
 /**
- * The commits one frame takes from `cursor`: whole entries while the bytes
- * fit `budget`, and always at least one (a mesh commits whole, never half).
- * Returns the end index.
+ * Stable per-record instance slots in one pooled mesh (perf10 diag18 G3).
+ * A record (one tile's plants of one species in one tier) keeps the range it
+ * was given while it stays in the ring, so a refill copies and uploads only
+ * the records that entered, left or changed, never the whole ring repacked at
+ * new offsets. First fit over a sorted free list; a range freed at the top
+ * lowers the high water (the mesh's draw count). The caller zeroes a range
+ * freed below it (a zero matrix draws nothing).
  */
-export function takeCommitBatch(
-  bytes: ArrayLike<number>, cursor: number, total: number, budget: number,
-): number {
-  let spent = 0;
-  let c = cursor;
-  while (c < total) {
-    if (c > cursor && spent + bytes[c] > budget) break;
-    spent += bytes[c++];
+export class SlotAllocator {
+  /** One past the last instance in use: the mesh draws [0, highWater). */
+  highWater = 0;
+  /** Free [start, end) pairs below `highWater`, sorted, merged, flat. */
+  private readonly free: number[] = [];
+
+  alloc(n: number): number {
+    const f = this.free;
+    for (let i = 0; i < f.length; i += 2) {
+      const size = f[i + 1] - f[i];
+      if (size < n) continue;
+      const start = f[i];
+      if (size === n) f.splice(i, 2); else f[i] += n;
+      return start;
+    }
+    const start = this.highWater;
+    this.highWater += n;
+    return start;
   }
-  return c;
+
+  release(start: number, n: number): void {
+    if (n <= 0) return;
+    const f = this.free;
+    let s = start;
+    let end = start + n;
+    let i = 0;
+    while (i < f.length && f[i] < s) i += 2;
+    if (i > 0 && f[i - 1] === s) { s = f[i - 2]; f.splice(i - 2, 2); i -= 2; }
+    if (i < f.length && f[i] === end) { end = f[i + 1]; f.splice(i, 2); }
+    if (end >= this.highWater) { this.highWater = s; return; }
+    f.splice(i, 0, s, end);
+  }
+
+  /** Free instances below the high water (fragmentation). */
+  gaps(): number {
+    let n = 0;
+    for (let i = 0; i < this.free.length; i += 2) n += this.free[i + 1] - this.free[i];
+    return n;
+  }
+
+  reset(): void { this.highWater = 0; this.free.length = 0; }
+}
+
+/** Instance capacity of a pooled mesh (and its band attribute) holding
+ * `needed`: 1.5x headroom, so a walk's ring, which breathes by a few per
+ * cent, never reallocates after the first ring (diag18 G4). */
+export function slotCapacity(needed: number): number {
+  return Math.max(64, Math.ceil(needed * 1.5));
+}
+
+/** How far past GC_CORE_M a core tile stays in the core slot. */
+export const GC_CORE_HYSTERESIS_M = 16;
+
+/**
+ * The draw slot a live tile keeps (diag18 G3): `previous` (-1 for a tile
+ * entering the ring) while its bearing stays within one wedge of it and it
+ * does not cross into or out of the core (with hysteresis). A tile that
+ * changed wedge with every 16 m of walking would move its plants to another
+ * mesh at every refill. The culler tests the tiles a slot actually holds, so
+ * a sticky tile only widens its wedge's box by one neighbour.
+ */
+export function stickySector(
+  previous: number, fresh: number, nearestM: number, sectors: number = GC_SECTORS,
+): number {
+  if (previous < 0) return fresh;
+  if (previous === 0) return nearestM <= GC_CORE_M + GC_CORE_HYSTERESIS_M ? 0 : fresh;
+  if (fresh === 0) return 0;
+  const d = Math.abs(previous - fresh);
+  return Math.min(d, sectors - d) <= 1 ? previous : fresh;
+}
+
+/**
+ * ONE groundcover budget per frame (perf10 diag18 G1/G2): the commit, the
+ * fill's steps and tile generation share `budgetMs` (generateBudgetMs). The
+ * fill used to run in the shared frame-work queue's 6 ms and generation took
+ * its own 2.5 ms on top (8.5-9.4 ms frames). Returns what generation may
+ * still spend; <= 0 means generation waits for the next frame.
+ */
+export function generationShareMs(budgetMs: number, commitMs: number, fillMs: number): number {
+  return budgetMs - commitMs - fillMs;
 }
 
 export function generateBudgetMs(sinceStartS: number, remainingTiles: number): number {
