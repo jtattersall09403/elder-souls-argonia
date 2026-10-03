@@ -41,6 +41,22 @@ its opening. Read once per slice; the rules are binding.
   `check --only <uids>` judges the named pieces' rows, pairs and
   per-piece rules; the graph rules (`walkRule`, `pathReachRule`,
   `berthReachRule`) rerun in `wb round`.
+- **A first-of-type place is launched as three briefs, never one**: (a)
+  layout and kits (steps 0-2), (b) render and fix rounds (steps 3-4), (c)
+  export, publish and gates (step 5), each a fresh `place-builder` launched
+  with the Agent tool (never inside a Workflow) that continues from the
+  previous one's hand-off note; walk-9 place-builders briefed as one job
+  ran 520k-830k context, 99.7 of 106.4 units on turns over 200k (method
+  review r7 P1).
+- **Edit the place; never rebuild it** (owner 2026-09-27; SKILL step 7).
+  Every op keeps its `uid`; ops are added, changed or removed surgically,
+  the brief's rows likewise, and `apply` re-derives the scene. A building
+  to re-site is scanned first (R31): the planner's brief names the need,
+  the scan the site. Re-authoring the layout, re-running the dossier or
+  the ledger from nothing, or re-choosing shells the owner did not fault
+  needs a planner ruling naming the cause. The inner loop of steps 2–4
+  runs to zero `check` failures and zero reader NOs; a reader NO on
+  something the owner called right goes to the planner, not fixed.
 - **A fresh agent per round.** A round ends with the WIP layout, the
   check list and the brief on disk (`wb round --report-dir
   tooling/.reports/16k/<place>/round-N/`: `summary.json`, `rounds.jsonl`,

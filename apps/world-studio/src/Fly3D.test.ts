@@ -36,7 +36,7 @@ it('retains macro terrain until an actual detail mesh exists, then excludes macr
   const source = readFileSync(new URL('./character/ChunkTerrain.tsx', import.meta.url), 'utf8');
   const built = source.indexOf('const meshes = resolved.map(');
   const gate = source.indexOf("if (!provinceDrawn) return <>{loadingFallback ?? null}</>;");
-  const detailed = source.indexOf('return <group matrixAutoUpdate={false}>{meshes}</group>;');
+  const detailed = source.indexOf('<group matrixAutoUpdate={false}>{meshes}</group>', gate);
   expect(built).toBeGreaterThan(0); expect(gate).toBeGreaterThan(built); expect(detailed).toBeGreaterThan(gate);
   // The checked array is the actual render output, not a count of requested
   // or decoded chunks.

@@ -40,10 +40,12 @@ ASSET_PIPELINE = REPO_ROOT / "tooling" / "asset-pipeline"
 RAW_KITS = ASSET_PIPELINE / "output" / "kits"
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 GAME_CORE = REPO_ROOT / "packages" / "game-core" / "src"
-#: the runtime that draws each kind of bundle; its decals are exempt only if it
-#: applies the decal depth bias
-RUNTIME = {"cell": GAME_CORE / "interior" / "interiorLoader.ts",
-           "place": GAME_CORE / "settlement" / "SettlementLayer.tsx"}
+#: the runtime chain that draws each kind of bundle, as (file, call) links;
+#: its decals are exempt only if every link is present, the last being the
+#: decal depth bias (SettlementLayer prepares colour in kitProgramWarm.ts)
+RUNTIME = {"cell": [(GAME_CORE / "interior" / "interiorLoader.ts", "applySettlementDecal(")],
+           "place": [(GAME_CORE / "settlement" / "SettlementLayer.tsx", "prepareSettlementColour("),
+                     (GAME_CORE / "settlement" / "kitProgramWarm.ts", "applySettlementDecal(")]}
 NUDGE_M = 0.005
 
 ANGLE_DEG = 2.0
@@ -289,8 +291,8 @@ def suggest(a: dict, b: dict, hit: dict) -> str:
 
 def decals_biased(kind: str) -> bool:
     """True when the runtime drawing a `kind` bundle ("cell" / "place")
-    applies the decal polygonOffset, read off its source."""
-    return "applySettlementDecal(" in RUNTIME[kind].read_text()
+    applies the decal polygonOffset, read off its source chain."""
+    return all(call in path.read_text() for path, call in RUNTIME[kind])
 
 
 def _pose_key(p: dict) -> tuple:
