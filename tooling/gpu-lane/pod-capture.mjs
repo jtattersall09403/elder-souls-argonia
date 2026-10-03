@@ -96,7 +96,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
+import { buildsAfterKits, framesBeforePose, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit, heapTopAllocators } from "./checks.mjs";
@@ -501,6 +501,9 @@ async function captureView(view) {
       const atReady = result.resources?.atReadyEntries ?? null;
       result.resources = { atReady: atReady ? resourceSummary(atReady) : null, atComplete: Array.isArray(done) ? resourceSummary(done) : null };
       writeFileSync(join(dir, "resources.json"), JSON.stringify({ ...result.resources, entriesAtReady: atReady, entriesAtComplete: Array.isArray(done) ? done : null }, null, 1));
+      // c10 harness2: kits arrived -> last pipeline build (n/a on a page with no build queue)
+      const la = buildsAfterKits(Array.isArray(done) ? done : [], result.loadTimeline, result.final?.buildQueue != null);
+      result.loadAfterKits = la; result.kitsArrivedS = la.kitsArrivedS; result.lastBuildS = la.lastBuildS; result.buildsAfterKitsS = la.buildsAfterKitsS;
     }
     result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
     sink = null;
@@ -584,12 +587,13 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
       }
       const flagOpen = !view.readyFlag || result.readyFlag.at !== null || result.readyFlag.timedOut;
       // diag19 D5: a first frame at ready, then shot times from navigation (`shotsFrom: "settle"`: from the shot settle gate)
-      const shotT = shotTime(view, s, shotGate?.at ?? null, firstAt);
-      const firstDue = !firstShot && (view.plain || (result.readyS !== null && result.poseAt !== undefined));
+      const shotT = shotTime(view, s, shotGate?.at ?? null, firstAt, result.poseAt ?? null);
+      const firstDue = !firstShot && (view.plain || (result.readyS !== null && result.poseAt !== undefined && (result.poseAt === null || s >= result.poseAt)));
       if (flagOpen && (view.plain || result.poseAt !== undefined) && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
         while (si < shots.length && shots[si] <= shotT) si++;
         if (!firstShot) firstAt = s;
         firstShot = true;
+        if (framesBeforePose(view, result.poseAt)) result.framesBeforePose = true;
         const clock = hudClock(await evaluate(HUD_TEXT_JS, 5_000));
         try {
           writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++;

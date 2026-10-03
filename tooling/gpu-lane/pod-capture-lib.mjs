@@ -55,8 +55,25 @@ export function viewShots(view, runSpec, totalS) {
 
 /** Shot time of second `s` after navigation: from navigation, or from the shot settle gate (`settleAt`, null = not yet
  * open -> -1) when the view sets `shotsFrom: "settle"` (diag19 D5: counting from a gate at ~45 s left 0-2 frames). */
-export const shotTime = (view, s, settleAt, firstAt = null) => (view.long ? (firstAt == null ? -1 : s - firstAt)
-  : view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s);
+export const shotTime = (view, s, settleAt, firstAt = null, poseAt = null) => (view.long ? (firstAt == null ? -1 : s - firstAt)
+  : view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s - (poseAt ?? 0));
+/** c10 harness2: the frame schedule counts from the pose gate's first satisfied time (`poseAt`), never page start. A view whose
+ * pose gate never passed (poseAt null: timed out) writes its frames anyway and is marked `framesBeforePose`. */
+export const framesBeforePose = (view, poseAt) => !view.plain && poseAt === null;
+/** Seconds the last `/kits/*.glb` finished arriving (resource timing entries, ms from timeOrigin); null when none. */
+export function kitsArrivedS(entries) {
+  const ends = (entries ?? []).filter((e) => /\/kits\/[^?]*\.glb(\?|$)/i.test(e.name) && Number.isFinite(e.responseEnd)).map((e) => e.responseEnd);
+  return ends.length ? Math.round(Math.max(...ends) / 100) / 10 : null;
+}
+/** Shader-side load: kits arrived -> last pipeline build. `lastBuildS` is the load probe's last createRenderPipeline/
+ * createComputePipeline/createShaderModule end (builds.last; the probe keeps count and last only, no per-build events, so
+ * the count after kitsArrivedS is not measured: buildsAfterKits stays null). Pages with no build queue (dev) are n/a. */
+export function buildsAfterKits(entries, loadTimelineOut, hasBuildQueue) {
+  const kitsArrivedS_ = kitsArrivedS(entries), lastBuildS = loadTimelineOut?.builds?.last ?? null;
+  if (!hasBuildQueue) return { kitsArrivedS: kitsArrivedS_, lastBuildS: null, buildsAfterKitsS: null, buildsAfterKits: null, na: true };
+  const d = Number.isFinite(kitsArrivedS_) && Number.isFinite(lastBuildS) ? Math.round((lastBuildS - kitsArrivedS_) * 10) / 10 : null;
+  return { kitsArrivedS: kitsArrivedS_, lastBuildS, buildsAfterKitsS: d, buildsAfterKits: null, na: false };
+}
 /** A view's run length: `long` views run `long` s past their first frame (pose + ready), else `seconds` (or the run's). */
 export const viewEndS = (view, totalS, firstAt) => (view.long ? (firstAt == null ? Infinity : firstAt + view.long) : totalS);
 /** Query parameters a capture URL may never carry: `scenario` (visualScenarios.ts; with it CombatRuntime passes
@@ -1391,7 +1408,10 @@ export function readyGateLine(r) {
   const pose = r.poseAt == null ? (r.poseTimedOut ? `pose TIMED OUT (last ${res ? `${res.posM} m, yaw ${res.yawDeg ?? "-"} deg` : "?"})` : "pose -")
     : `pose ${r.poseAt} s${res ? ` (${res.posM} m, yaw ${res.yawDeg ?? "-"} deg, pitch ${res.pitchDeg ?? "-"} deg)` : ""}`;
   const q = r.final?.buildQueue?.pending, lh = r.loadHarness ?? {};
-  return `${pose}; ready ${r.readyS ?? "-"} s; queue pending ${q ?? "n/a"}${lh.queueEmpty != null ? ` (empty from ${lh.queueEmpty} s)` : ""}; streaming quiet ${lh.streamQuiet ?? "-"} s`;
+  return `${pose}; ready ${r.readyS ?? "-"} s; queue pending ${q ?? "n/a"}${lh.queueEmpty != null ? ` (empty from ${lh.queueEmpty} s)` : ""}; streaming quiet ${lh.streamQuiet ?? "-"} s`
+    + (r.framesBeforePose ? "; FRAMES BEFORE POSE (pose gate never passed)" : "")
+    + (r.kitsArrivedS === undefined ? "" : r.loadAfterKits?.na ? `; kits arrived ${r.kitsArrivedS ?? "-"} s; builds after kits n/a (no build queue)`
+      : `; kits arrived ${r.kitsArrivedS ?? "-"} s, last build ${r.lastBuildS ?? "-"} s, builds after kits ${r.buildsAfterKitsS ?? "-"} s`);
 }
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the

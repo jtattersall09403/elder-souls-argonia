@@ -964,3 +964,41 @@ test("c10 view set: a URL with scenario/visualScenario/validation fails loudly; 
   assert.equal(shotTime(v, 40, null, null), -1); assert.equal(shotTime(v, 40, null, 15), 25);
   assert.equal(viewEndS(v, 60, null), Infinity); assert.equal(viewEndS(v, 60, 15), 195); assert.equal(viewEndS({}, 60, 15), 60);
 });
+
+test("c10 harness2: frames count from the pose gate, never page start", async () => {
+  const { shotTime, viewShots, framesBeforePose } = await import("./pod-capture-lib.mjs");
+  const view = { name: "v", url: "/x" }, shots = viewShots(view, "500@60,2000", 120);
+  // fake page: the pose gate passes at 9.0 s; a frame is due when shotTime >= next shot
+  let si = 0; const taken = [];
+  for (let s = 0; s <= 12; s += 0.1) {
+    const poseAt = s >= 9 ? 9 : undefined;
+    if (poseAt === undefined) continue;
+    const t = shotTime(view, s, null, null, poseAt);
+    if (si < shots.length && t >= shots[si]) { taken.push(s); while (si < shots.length && shots[si] <= t) si++; }
+  }
+  assert.ok(taken.length > 0 && Math.min(...taken) >= 9 - 1e-9, `first frame ${taken[0]}`);
+  assert.equal(shotTime(view, 5, null, null, 9) < 0, true);
+  assert.equal(shotTime(view, 5, null, null, null), 5, "pose never passed: counts from page start");
+  assert.equal(framesBeforePose(view, null), true);
+  assert.equal(framesBeforePose(view, 9.1), false);
+  assert.equal(framesBeforePose({ plain: true }, undefined), false);
+});
+
+test("c10 harness2: kits arrived -> last pipeline build", async () => {
+  const { kitsArrivedS, buildsAfterKits, readyGateLine } = await import("./pod-capture-lib.mjs");
+  const entries = [
+    { name: "https://h/webgpu/kits/a/a.glb", responseEnd: 4200 }, { name: "https://h/kits/b.glb?v=1", responseEnd: 6840 },
+    { name: "https://h/webgpu/kits/a/a.ktx2", responseEnd: 9000 }, { name: "https://h/terrain/t.glb", responseEnd: 9500 },
+  ];
+  assert.equal(kitsArrivedS(entries), 6.8);
+  assert.equal(kitsArrivedS([]), null);
+  const lt = { builds: { count: 40, ms: 900, last: 11.3 } };
+  const m = buildsAfterKits(entries, lt, true);
+  assert.deepEqual([m.kitsArrivedS, m.lastBuildS, m.buildsAfterKitsS, m.buildsAfterKits], [6.8, 11.3, 4.5, null]);
+  const dev = buildsAfterKits(entries, lt, false);
+  assert.equal(dev.na, true); assert.equal(dev.buildsAfterKitsS, null);
+  const line = readyGateLine({ poseAt: 9.1, readyS: 4, final: { buildQueue: { pending: 0 } }, kitsArrivedS: m.kitsArrivedS, lastBuildS: m.lastBuildS, buildsAfterKitsS: m.buildsAfterKitsS, loadAfterKits: m });
+  assert.match(line, /kits arrived 6.8 s, last build 11.3 s, builds after kits 4.5 s/);
+  assert.match(readyGateLine({ poseAt: 9.1, kitsArrivedS: 6.8, loadAfterKits: dev }), /builds after kits n\/a/);
+  assert.match(readyGateLine({ poseAt: null, poseTimedOut: true, framesBeforePose: true }), /FRAMES BEFORE POSE/);
+});
