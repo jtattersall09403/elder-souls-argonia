@@ -18,7 +18,8 @@ description: Design and build one real place (settlement, camp, shrine, works, d
 > `world/sources/climate/weather-states.json` and
 > `world/sources/lore/topics/material-culture.md` (steps 1a and 4b),
 > `world/sources/assets/README.md`, `world/sources/assets/vault-inventory.md`
-> and `apps/world-studio/public/province/blueprints.json` (step 1a § Palette). If a cited record has moved,
+> and `apps/world-studio/public/province/blueprints.json` (step 1a § Palette), the `kit-build` and `visual-look` skills and
+> `tooling/visual-look/look-lists.md` (step 1c). If a cited record has moved,
 > this skill is stale: report it, do not follow it blind.
 
 This skill holds the procedure; its `references/` hold the grounding:
@@ -45,6 +46,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/publish-gates-and-readback.md](references/publish-gates-and-readback.md) | what `place_gates` runs, the per-batch gates, the R74/R81 read-back against the published bundle | step 5, step 7 item 4 |
 | [references/walk-packet.md](references/walk-packet.md) | each walk-packet section in full and the two-run post procedure | step 6 |
 | [references/palette-and-breadth.md](references/palette-and-breadth.md) | the palette from the whole pool, siblings, internal variety, the kit lane, the ledger | step 1a |
+| [references/kit-review.md](references/kit-review.md) | the review of a kit lane's results: measured gates, the six-view look, the kit checklist, a finding changes the kit skill | step 1c, step 4 |
 | [references/asset-breadth-ledger.md](references/asset-breadth-ledger.md) | one row per closed place: palette and assets used against available | step 8 |
 
 **Tools.** `placement-workbench` is the tool manual (every `wb.py`
@@ -173,6 +175,12 @@ placed before both sections exist. A decision only the owner can make goes
 to the decision-rights table in [references/builder-practice.md](references/builder-practice.md).
 
 § Palette: choose from the whole pool, consistent with region-and-culture siblings yet distinct, further from the same type elsewhere; a chosen asset not yet in a kit starts a kit lane in this slice ([references/palette-and-breadth.md](references/palette-and-breadth.md)).
+
+### 1c. Kit review (after any kit lane, before placing)
+
+Never assume the kit lane got an asset right: [references/kit-review.md](references/kit-review.md)
+(full review on a family's first use, gates only once proven in two places;
+measured AND visual; a finding changes the owning kit skill).
 
 ## 1. Design brief
 
@@ -311,6 +319,8 @@ Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new
 
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage readers --start
     python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
+
+The first round frames any newly kitted pieces for the kit checklist ([references/kit-review.md](references/kit-review.md)).
 
 Lit pieces: add a day and a night close-up per fixture
 (`front:<uid>/2.5`, `front:<uid>/2.5@night`); the fire pass shows each

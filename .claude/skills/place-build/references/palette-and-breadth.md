@@ -143,6 +143,7 @@ lane carries:
 
 A lane that rewrites the kit manifest never runs beside a publishing lane;
 it commits in the step that writes it. Clear that with the planner first.
+Its results are reviewed by [kit-review.md](kit-review.md) before any piece is placed.
 
 ## The ledger
 
