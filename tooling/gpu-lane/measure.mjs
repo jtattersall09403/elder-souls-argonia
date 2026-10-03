@@ -38,7 +38,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
-import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems, viewProblem } from "./checks.mjs";
+import { BLACK_LUMA, FRAME_PROBES, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems, viewProblem } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
@@ -120,6 +120,17 @@ export function isReady(samples, { stableMs = 5000, tol = 0.02, minMs = 20000, q
   if (win.some((s) => s.loading || !(s.tris > 0) || typeof s.pre !== "number" || typeof s.gc !== "number" || !(s.pre < quietMs) || !(s.gc < quietMs))) return false;
   const tris = win.map((s) => s.tris);
   return (Math.max(...tris) - Math.min(...tris)) / Math.max(...tris) <= tol;
+}
+
+/**
+ * The ready gate's triangle count: the exact whole-frame figure the HUD keeps (CharacterMode's
+ * `__STUDIO_GPU_MS__.tris`), the HUD text only when that is absent. The text rounds to 0.1 M, so a small
+ * interior read "tris 0.0M" and never got ready (perf-diag23 Q3).
+ */
+export function readyTris(exact, text) {
+  if (typeof exact === "number" && Number.isFinite(exact)) return exact;
+  const m = /(?:^|\n)tris ([\d.]+)M/.exec(text ?? "");
+  return m ? Number(m[1]) * 1e6 : 0;
 }
 
 /** Frame-time stats from rAF timestamps (ms). 1 % low = fps of the mean of the slowest 1 % of frames. */
@@ -788,14 +799,14 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   while (Date.now() - t0 < o.readyTimeout * 1000) {
     const s = await hl.wrap("evaluate:ready-poll", () => page.evaluate(() => {
       const text = document.body.innerText;
-      const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
       const el = document.querySelector("[data-es-view]");
       const marks = performance.getEntriesByType("mark").filter((e) => e.name.startsWith("es:load:"));
       const v = { view: el?.getAttribute("data-es-view") ?? null, shown: !!el?.checkVisibility?.(), canvas: !!el?.querySelector("canvas"),
         lastMark: marks.length ? marks[marks.length - 1].name : null };
-      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text, v };
-    })).catch(() => ({ fps: 0, tris: 0, loading: true, text: "", v: null }));
-    const { text, v, ...rest } = s;
+      return { fps: window.__STUDIO_FPS__ ?? 0, exact: window.__STUDIO_GPU_MS__?.tris, loading: text.includes("Loading"), text, v };
+    })).catch(() => ({ fps: 0, exact: undefined, loading: true, text: "", v: null }));
+    const { text, v, exact, ...polled } = s;
+    const rest = { ...polled, tris: readyTris(exact, text) };
     // Fail fast when the page is not in the view its URL asked for (checks.mjs viewProblem names the stage).
     viewStall = v ? viewProblem({ ...v, inFlight: inFlight() }, expectedView, Math.round((Date.now() - t0) / 100) / 10) : null;
     if (viewStall) { consoleErrors.push(viewStall); break; }
@@ -883,7 +894,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const gpu = await gpuAdapter(page, o.renderer);
   const census = o.census ? await runCensus(page, o).catch((e) => ({ error: String(e) })) : null;
-  const diag = spot.diagList?.length ? await page.evaluate((names) => Object.fromEntries(names.map((n) => [n, window.__DIAG__?.[n]?.() ?? null])), spot.diagList.filter((n) => INPAGE_PROBES.includes(n))).catch((e) => ({ error: String(e) })) : null;
+  const diag = spot.diagList?.length ? await page.evaluate(async (names) => { const r = {}; for (const n of names) r[n] = (await window.__DIAG__?.[n]?.()) ?? null; return r; }, spot.diagList.filter((n) => INPAGE_PROBES.includes(n))).catch((e) => ({ error: String(e) })) : null;
   // `heap` has no in-page probe: one post-GC reading after every stats window has closed (never inside one).
   if (diag && spot.diagList.includes("heap")) diag.heap = await postGcHeap(page, hl).catch((e) => ({ error: String(e) }));
   // Page-time join: relink events within 300 ms of each long frame go on the frame as `links`.
@@ -935,9 +946,12 @@ async function main() {
   const ctx = await browser.newContext({ viewport: { width: o.width, height: o.height }, deviceScaleFactor: o.dpr });
   await ctx.addInitScript(pageProbe);
   if (o.census) await ctx.addInitScript({ content: readFileSync(probePath("census"), "utf8") });
+  if (o.diagList.some((n) => FRAME_PROBES.includes(n))) await ctx.addInitScript({ content: readFileSync(probePath("capture-lib"), "utf8") });
   for (const n of o.diagList.filter((n) => INPAGE_PROBES.includes(n))) await ctx.addInitScript({ content: probeScript(n, readFileSync(probePath(n), "utf8"), o.globalDiag) });
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
-  const result = { schemaVersion: 1, run: o.run, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
+  // The sha pod-sync.sh stamped beside the synced data (the pod tree is no git repo); null off the pod.
+  const syncStamp = () => { try { return readFileSync(join(process.env.ES_DATA_PUBLIC ?? "/root/site/public", ".sync-sha"), "utf8").trim() || null; } catch { return null; } };
+  const result = { schemaVersion: 1, run: o.run, gitSha: syncStamp() ?? git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
     builtAt: null, measuredAt: new Date().toISOString(), renderer: o.renderer, origin: o.origin, base: o.base,
     window: { width: o.width, height: o.height }, dpr: o.dpr, settleS: o.settle, walkS: o.walk, browser: browser.version(), orphansClosed, urls: [] };
   // builtAt: the served index.html's Last-Modified (the build that is actually being measured).

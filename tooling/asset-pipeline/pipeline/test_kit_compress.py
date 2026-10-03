@@ -1,12 +1,13 @@
 """Gates on kit compression (owner 2026-09-18, pulled forward from Phase 14).
 
-1. Every kit under apps/world-studio/public/kits/ ships KTX2 textures and
-   meshopt geometry with a `compression` record in its manifest — an
+1. Every kit under apps/world-studio/public/kits/ ships as KTX2/meshopt
+   parts (decision 0120) with a `compression` record in its manifest — an
    uncompressed kit cannot ship silently. First shown failing on all 21
    pre-compression kits (PNG images, no record) on 2026-09-18.
 2. The three kits every studio start downloads (flora, underwater,
    groundcover) stay under a byte budget, so the cold-start payload cannot
-   creep back: 118.9 MB before compression, 45.6 MB after.
+   creep back: 118.9 MB before compression, 45.6 MB after. Measured over the
+   published parts: every part GLB plus every distinct pool texture they name.
 """
 from __future__ import annotations
 
@@ -23,29 +24,66 @@ STARTUP_KITS = ("flora-province-v1", "underwater-v1", "groundcover-province-v1")
 STARTUP_BUDGET_BYTES = 52_000_000  # measured 45.6 MB compressed; ~14 % headroom
 
 
-def _published() -> list[Path]:
-    return sorted(PUBLIC_KITS.glob("*.glb"))
+def _published() -> list[str]:
+    return sorted(p.parent.parent.name for p in PUBLIC_KITS.glob("*/parts/index.json"))
+
+
+def startup_bytes(kits=STARTUP_KITS, public_dir: Path = PUBLIC_KITS) -> dict[str, int]:
+    """Bytes a cold start fetches per startup kit: its part GLBs, plus each
+    pool texture once, charged to the first kit that names it."""
+    seen: set[str] = set()
+    sizes: dict[str, int] = {}
+    for kit in kits:
+        index = json.loads((public_dir / kit / "parts" / "index.json").read_text())
+        total = 0
+        for row in index["assets"].values():
+            total += row["bytes"]
+            for h in row["textures"]:
+                if h not in seen:
+                    seen.add(h)
+                    total += (public_dir / "tex" / f"{h}.ktx2").stat().st_size
+        sizes[kit] = total
+    return sizes
 
 
 def test_every_published_kit_is_compressed_and_recorded():
-    problems = [p for glb in _published() for p in check(glb.stem)]
+    kits = _published()
+    assert len(kits) == len(list(PUBLIC_KITS.glob("*.kit.json"))), "a published manifest has no parts"
+    problems = [p for kit in kits for p in check(kit)]
     assert not problems, "\n".join(problems)
 
 
+def test_no_whole_kit_glb_ships():
+    """Decision 0120: kits ship only as parts."""
+    assert sorted(p.name for p in PUBLIC_KITS.glob("*.glb")) == []
+
+
 def test_startup_payload_within_budget():
-    sizes = {k: (PUBLIC_KITS / f"{k}.glb").stat().st_size for k in STARTUP_KITS}
+    sizes = startup_bytes()
     total = sum(sizes.values())
     assert total <= STARTUP_BUDGET_BYTES, (
         f"startup kits total {total / 1e6:.1f} MB > {STARTUP_BUDGET_BYTES / 1e6:.0f} MB: "
         + ", ".join(f"{k} {v / 1e6:.1f} MB" for k, v in sizes.items()))
 
 
-def test_compression_record_matches_shipped_bytes():
-    for glb in _published():
-        manifest = json.loads(glb.with_suffix(".kit.json").read_text())
-        record = manifest.get("compression") or {}
-        if record.get("enabled", True) and "bytesAfter" in record:
-            assert record["bytesAfter"] == glb.stat().st_size, glb.name
+def test_startup_budget_counts_a_shared_texture_once(tmp_path):
+    for kit, tex in (("a", ["t1", "t2"]), ("b", ["t2"])):
+        (tmp_path / kit / "parts").mkdir(parents=True)
+        (tmp_path / kit / "parts" / "index.json").write_text(json.dumps(
+            {"assets": {f"{kit}:x": {"bytes": 10, "textures": tex}}}))
+    (tmp_path / "tex").mkdir()
+    for h in ("t1", "t2"):
+        (tmp_path / "tex" / f"{h}.ktx2").write_bytes(b"x" * 100)
+    assert startup_bytes(("a", "b"), tmp_path) == {"a": 210, "b": 10}
+
+
+def test_compression_record_matches_shipped_parts():
+    for kit in _published():
+        record = json.loads((PUBLIC_KITS / f"{kit}.kit.json").read_text()).get("compression") or {}
+        index = json.loads((PUBLIC_KITS / kit / "parts" / "index.json").read_text())
+        assert record.get("sha256") == index["packed"]["sha256"], kit
+        if record.get("enabled", True):
+            assert record["bytesAfter"] == index["packed"]["bytes"], kit
 
 
 def test_gltfpack_args_keep_what_the_runtime_reads():
@@ -101,113 +139,102 @@ def test_an_atlas_kit_is_exempt_by_name_with_its_reason(tmp_path):
         assert sidecar_problems(kit_id, tmp_path) == []
 
 
+def _write_parts(public: Path, kit: str, packed_sha: str, source_sha: str, assets: dict,
+                 schema: int = 4) -> None:
+    (public / kit / "parts").mkdir(parents=True, exist_ok=True)
+    (public / kit / "parts" / "index.json").write_text(json.dumps(
+        {"schemaVersion": schema, "source": {"sha256": source_sha},
+         "packed": {"sha256": packed_sha}, "assets": assets}))
+
+
 def test_an_unchanged_input_reuses_the_record_and_a_change_does_not(tmp_path):
-    """S2a: gltfpack is skipped only when the input key matches the last run's
-    and the published GLB is still the bytes that run wrote."""
-    dst = tmp_path / "k.glb"
-    dst.write_bytes(b"compressed bytes")
-    record = {"sha256": _sha256(dst), "bytesAfter": 16, "sidecarBytes": {"x": 1},
+    """gltfpack and the cut are skipped only when the input key matches the
+    last run's and the parts index still names the packed GLB that run wrote."""
+    record = {"sha256": "p" * 64, "bytesAfter": 16, "sidecarBytes": {"x": 1},
               "sidecarsExempt": "why"}
-    published = tmp_path / "k.kit.json"
-    published.write_text(json.dumps({"compression": record}))
+    (tmp_path / "k.kit.json").write_text(json.dumps({"compression": record}))
+    _write_parts(tmp_path, "k", "p" * 64, "r" * 64, {})
     cache = tmp_path / "cache"
     remember("k", "key-1", record, cache)
-    got = reusable_record("k", "key-1", dst, published, cache)
+    got = reusable_record("k", "key-1", cache, tmp_path)
     assert got == {"sha256": record["sha256"], "bytesAfter": 16}
-    assert reusable_record("k", "key-2", dst, published, cache) is None
-    dst.write_bytes(b"someone else's bytes")
-    assert reusable_record("k", "key-1", dst, published, cache) is None
-    assert reusable_record("other", "key-1", dst, published, cache) is None
+    assert reusable_record("k", "key-2", cache, tmp_path) is None
+    _write_parts(tmp_path, "k", "q" * 64, "r" * 64, {})
+    assert reusable_record("k", "key-1", cache, tmp_path) is None
+    assert reusable_record("other", "key-1", cache, tmp_path) is None
 
 
-def test_parts_problems_name_a_missing_folder_another_glb_and_a_missing_file(tmp_path, monkeypatch):
-    """A kit's parts folder is current only when its index names the published
-    GLB's sha256 and every listed file exists at its size (16k walk 4)."""
-    import hashlib
+def test_parts_problems_fail_a_stale_or_incomplete_parts_folder(tmp_path):
+    """Decision 0120 schema 4: a kit's parts are current only when the index
+    names the packed GLB the manifest records, the raw build it was cut from,
+    a part for every manifest asset, and every listed file at its size; the
+    pool holds no texture no index names. Each branch is made to fail."""
     from . import kit_compress
-    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
-    monkeypatch.setattr(kit_compress, "parts_scope", lambda: {"k"})
-    monkeypatch.setattr(kit_compress, "parts_drawn", lambda kit: {"x:a"})
-    (tmp_path / "k.glb").write_bytes(b"glb-bytes")
-    assert "no parts folder" in kit_compress.parts_problems("k")[0]
+    raw = tmp_path / "k.raw.glb"
+    raw.write_bytes(b"raw-bytes")
+    (tmp_path / "k.kit.json").write_text(json.dumps(
+        {"assets": [{"id": "x:a"}], "compression": {"sha256": "p" * 64}}))
+    assert "no parts index" in kit_compress.parts_problems("k", raw, tmp_path)[0]
     parts = tmp_path / "k" / "parts"
     parts.mkdir(parents=True)
     (tmp_path / "tex").mkdir()
     (parts / "a.glb").write_bytes(b"12345")
     (tmp_path / "tex" / "abcd.ktx2").write_bytes(b"t")
-    index = {"schemaVersion": 2, "source": {"sha256": "0" * 64},
-             "assets": {"x:a": {"file": "a.glb", "bytes": 5, "textures": ["abcd"]}}}
-    (parts / "index.json").write_text(json.dumps(index))
-    assert "schemaVersion 2" in kit_compress.parts_problems("k")[0]
-    index["schemaVersion"] = 3
-    (parts / "index.json").write_text(json.dumps(index))
-    assert "cut from another GLB" in kit_compress.parts_problems("k")[0]
-    index["source"]["sha256"] = hashlib.sha256(b"glb-bytes").hexdigest()
-    (parts / "index.json").write_text(json.dumps(index))
-    assert kit_compress.parts_problems("k") == []
+    rows = {"x:a": {"file": "a.glb", "bytes": 5, "textures": ["abcd"]}}
+    _write_parts(tmp_path, "k", "p" * 64, _sha256(raw), rows, schema=3)
+    assert "schemaVersion 3" in kit_compress.parts_problems("k", raw, tmp_path)[0]
+    _write_parts(tmp_path, "k", "q" * 64, _sha256(raw), rows)
+    assert "another packed GLB" in kit_compress.parts_problems("k", raw, tmp_path)[0]
+    _write_parts(tmp_path, "k", "p" * 64, "0" * 64, rows)
+    assert "another raw build" in kit_compress.parts_problems("k", raw, tmp_path)[0]
+    assert kit_compress.parts_problems("k", None, tmp_path) == []  # no raw on this machine
+    _write_parts(tmp_path, "k", "p" * 64, _sha256(raw), {})
+    assert "lack manifest asset" in kit_compress.parts_problems("k", raw, tmp_path)[0]
+    _write_parts(tmp_path, "k", "p" * 64, _sha256(raw), rows)
+    assert kit_compress.parts_problems("k", raw, tmp_path) == []
+    (tmp_path / "tex" / "abcd.ktx2").unlink()
+    assert "tex/abcd.ktx2" in kit_compress.parts_problems("k", raw, tmp_path)[0]
+
+
+def test_pool_problems_name_an_orphan_texture(tmp_path, monkeypatch):
+    from . import kit_compress
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
+    _write_parts(tmp_path, "k", "p", "r", {"x:a": {"file": "a.glb", "bytes": 1, "textures": ["abcd"]}})
+    (tmp_path / "tex").mkdir()
+    (tmp_path / "tex" / "abcd.ktx2").write_bytes(b"t")
     assert kit_compress.pool_problems() == []
     (tmp_path / "tex" / "orphan.ktx2").write_bytes(b"o")
     assert "orphan.ktx2" in kit_compress.pool_problems()[0]
-    (tmp_path / "tex" / "abcd.ktx2").unlink()
-    assert "tex/abcd.ktx2" in kit_compress.parts_problems("k")[0]
 
 
-def test_exterior_parts_kits_cover_every_manifest_asset_and_match_the_writer(tmp_path, monkeypatch):
-    """Decision 0120 S1: an EXTERIOR_PARTS_KITS kit is in scope with no cell and
-    gets a part for every manifest asset; the set equals kit_parts.mjs's."""
-    import re
+def test_published_problems_refuse_a_manifest_without_a_compression_record(tmp_path):
     from . import kit_compress
-    monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", tmp_path / "none")
-    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
-    kit = kit_compress.EXTERIOR_PARTS_KITS[0]
-    (tmp_path / f"{kit}.kit.json").write_text(json.dumps({"assets": [{"id": "e:a"}, {"id": "e:b"}]}))
-    assert kit_compress.parts_scope() == set(kit_compress.EXTERIOR_PARTS_KITS)
-    assert kit_compress.parts_drawn(kit) == {"e:a", "e:b"}
+    assert "no published manifest" in kit_compress.published_problems("k", tmp_path)[0]
+    (tmp_path / "k.kit.json").write_text(json.dumps({"assets": []}))
+    assert "no `compression` record" in kit_compress.published_problems("k", tmp_path)[0]
+    (tmp_path / "k.kit.json").write_text(json.dumps({"compression": {
+        "sha256": "p", "textureContainer": "png", "geometry": "EXT_meshopt_compression"}}))
+    assert "no KTX2" in kit_compress.published_problems("k", tmp_path)[0]
+
+
+def test_the_writer_schema_matches(tmp_path):
+    from . import kit_compress
     js = kit_compress.PARTS_WRITER.read_text()
-    assert tuple(json.loads(re.search(r"EXTERIOR_PARTS_KITS = (\[[^\]]*\])", js).group(1))) \
-        == kit_compress.EXTERIOR_PARTS_KITS
     assert f"PARTS_SCHEMA_VERSION = {kit_compress.PARTS_SCHEMA_VERSION};" in js
 
 
-def test_parts_cover_exactly_the_assets_the_cells_draw(tmp_path, monkeypatch):
-    """Review 5536a1d9: parts are cut only for the assets a cell draws
-    (placements, stand-ins, swing doors), so an index that lacks a drawn
-    asset or holds an undrawn one is stale."""
-    import hashlib
-    from . import kit_compress
-    cells = tmp_path / "interiors"
-    cells.mkdir()
-    (cells / "C.json").write_text(json.dumps({
-        "kits": {"k": {}}, "placements": [{"kit": "k", "assetId": "x:a"}],
-        "substitutions": [{"kit": "k", "standInAsset": "x:b"}],
-        "doors": [{"doorType": "swing", "kit": "k", "assetId": "x:door"}, {"doorType": "load"}]}))
-    monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", cells)
-    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
-    assert kit_compress.parts_drawn("k") == {"x:a", "x:b", "x:door"}
-    (tmp_path / "k.glb").write_bytes(b"g")
-    parts = tmp_path / "k" / "parts"
-    parts.mkdir(parents=True)
-    rows = {a: {"file": f"{i}.glb", "bytes": 1, "textures": []} for i, a in enumerate(["x:a", "x:b", "x:extra"])}
-    for row in rows.values():
-        (parts / row["file"]).write_bytes(b"1")
-    (parts / "index.json").write_text(json.dumps(
-        {"schemaVersion": 3, "source": {"sha256": hashlib.sha256(b"g").hexdigest()}, "assets": rows}))
-    problem = kit_compress.parts_problems("k")[0]
-    assert "x:door" in problem and "x:extra" in problem
-
-
-def test_parts_scope_is_the_kits_published_cells_name(tmp_path, monkeypatch):
-    """Parts ship only for kits an interior cell bundle names (16k walk 4, lane
-    PARTS): an unscoped kit needs no parts folder, and one it still has fails
-    the check, because parts are a second copy that ships to Pages."""
-    from . import kit_compress
-    cells = tmp_path / "interiors"
-    cells.mkdir()
-    (cells / "C.json").write_text(json.dumps({"kits": {"in-cell": {"id": "in-cell"}}}))
-    monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", cells)
-    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
-    assert kit_compress.parts_scope() == {"in-cell", *kit_compress.EXTERIOR_PARTS_KITS}
-    (tmp_path / "exterior-only.glb").write_bytes(b"g")
-    assert kit_compress.parts_problems("exterior-only") == []
-    (tmp_path / "exterior-only" / "parts").mkdir(parents=True)
-    assert "named by no interior cell" in kit_compress.parts_problems("exterior-only")[0]
+def test_published_gltf_reads_the_parts_as_one_kit():
+    """`published_gltf` (the shipped-kit readers' view): one scene root per
+    part, its asset id, and every mesh, material and texture index in range."""
+    from .kit_compress import parts_index_path, published_gltf
+    for kit in ("camp-v1", "settlement-mud-v1"):
+        doc = published_gltf(kit)
+        index = json.loads(parts_index_path(kit).read_text())["assets"]
+        roots = [doc["nodes"][r]["extras"]["assetId"] for r in doc["scenes"][0]["nodes"]]
+        assert roots == list(index)
+        for p in (p for m in doc["meshes"] for p in m["primitives"]):
+            assert p["material"] < len(doc["materials"])
+            assert all(a < len(doc["accessors"]) for a in [*p["attributes"].values(), p.get("indices", 0)])
+        refs = [v["index"] for m in doc["materials"] for k, v in m.get("pbrMetallicRoughness", {}).items()
+                if k.endswith("Texture")]
+        assert refs and all(r < len(doc["textures"]) for r in refs)

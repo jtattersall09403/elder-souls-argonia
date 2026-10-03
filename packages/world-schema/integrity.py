@@ -184,8 +184,9 @@ def integrity_errors(root: Path = ws.REPO_ROOT) -> dict:
     promises: dict[str, list[str]] = {}
     for place_id, (_, led) in ledgers.items():
         bp = (blueprints.get(place_id) or (None, {"id": place_id}))[1]
-        sockets = _layout_sockets((layouts.get(place_id) or (None, {}))[1])
-        promises[place_id] = promise_gate_errors(bp, led, sockets)
+        lay = (layouts.get(place_id) or (None, {}))[1]
+        # the root's own layout, never the committed one fills_index reads by default
+        promises[place_id] = promise_gate_errors(bp, led, _layout_sockets(lay), layout=lay)
     return {"schema": schema_errs, "references": refs, "duplicates": duplicates,
             "promises": promises}
 

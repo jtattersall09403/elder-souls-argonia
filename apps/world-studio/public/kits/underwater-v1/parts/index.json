@@ -1,20 +1,1337 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "underwater-v1",
- "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 25597064,
+  "sha256": "afb11b565cb9e04b6218faf36c3aed8c3d70c8fc3bd7bc824a6415edfa8aae0c"
+ },
+ "packed": {
   "bytes": 13504996,
   "sha256": "10d7a2deac84fdcaf30b6837027e842b32894e3564600597e28819f732993cd9"
  },
  "totals": {
-  "parts": 2,
-  "partBytes": 82324,
-  "textureFiles": 1,
-  "textureBytes": 214952,
-  "bytes": 297276
+  "parts": 79,
+  "partBytes": 1576624,
+  "textureFiles": 55,
+  "textureBytes": 12376089,
+  "bytes": 13952713
  },
  "assets": {
+  "bmv:landscape/grass/riverbedpebbles": {
+   "file": "bmv_landscape_grass_riverbedpebbles-9570129b.glb",
+   "bytes": 9300,
+   "vertices": 278,
+   "triangles": 260,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 278,
+     "triangles": 260
+    }
+   ],
+   "textures": [
+    "65b0fc694f0200c7"
+   ]
+  },
+  "bmv:landscape/grass/smallpebbles": {
+   "file": "bmv_landscape_grass_smallpebbles-a084a5e5.glb",
+   "bytes": 9280,
+   "vertices": 276,
+   "triangles": 260,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 276,
+     "triangles": 260
+    }
+   ],
+   "textures": [
+    "65b0fc694f0200c7"
+   ]
+  },
+  "depths:dos/boats/rowboatbrokenback": {
+   "file": "depths_dos_boats_rowboatbrokenback-597ba4f7.glb",
+   "bytes": 70488,
+   "vertices": 1956,
+   "triangles": 1672,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1956,
+     "triangles": 1672
+    },
+    {
+     "lod": 1,
+     "vertices": 1197,
+     "triangles": 900
+    },
+    {
+     "lod": 2,
+     "vertices": 1197,
+     "triangles": 900
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "depths:dos/boats/rowboatbrokenfront": {
+   "file": "depths_dos_boats_rowboatbrokenfront-2e53df69.glb",
+   "bytes": 64668,
+   "vertices": 1878,
+   "triangles": 1550,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1878,
+     "triangles": 1550
+    },
+    {
+     "lod": 1,
+     "vertices": 1244,
+     "triangles": 872
+    },
+    {
+     "lod": 2,
+     "vertices": 1244,
+     "triangles": 872
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "depths:landscape/grass/tbp_seaweed01": {
+   "file": "depths_landscape_grass_tbp_seaweed01-19bb2db4.glb",
+   "bytes": 10720,
+   "vertices": 404,
+   "triangles": 282,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 404,
+     "triangles": 282
+    }
+   ],
+   "textures": [
+    "cc96814f5b74e132"
+   ]
+  },
+  "depths:landscape/grass/tbp_seaweed02": {
+   "file": "depths_landscape_grass_tbp_seaweed02-67e46afe.glb",
+   "bytes": 11028,
+   "vertices": 400,
+   "triangles": 242,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 400,
+     "triangles": 242
+    }
+   ],
+   "textures": [
+    "c59ded157100dbf4"
+   ]
+  },
+  "depths:landscape/grass/tbp_seaweed06": {
+   "file": "depths_landscape_grass_tbp_seaweed06-3b4716a1.glb",
+   "bytes": 12656,
+   "vertices": 420,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 420,
+     "triangles": 336
+    }
+   ],
+   "textures": [
+    "c59ded157100dbf4"
+   ]
+  },
+  "depths:landscape/grass/tbp_seaweed06var1": {
+   "file": "depths_landscape_grass_tbp_seaweed06var1-2cc4252d.glb",
+   "bytes": 22840,
+   "vertices": 1145,
+   "triangles": 667,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1145,
+     "triangles": 667
+    }
+   ],
+   "textures": [
+    "3fe6c6e33c710aa8"
+   ]
+  },
+  "depths:landscape/grass/tbpalgae01": {
+   "file": "depths_landscape_grass_tbpalgae01-2e545efe.glb",
+   "bytes": 6100,
+   "vertices": 95,
+   "triangles": 82,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 82
+    }
+   ],
+   "textures": [
+    "8d4f7c3e1ea680e0"
+   ]
+  },
+  "depths:landscape/grass/tbpcoastdriftwood01": {
+   "file": "depths_landscape_grass_tbpcoastdriftwood01-6ab99e21.glb",
+   "bytes": 21676,
+   "vertices": 540,
+   "triangles": 458,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 540,
+     "triangles": 458
+    },
+    {
+     "lod": 1,
+     "vertices": 399,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 399,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0a72978517779dfb"
+   ]
+  },
+  "depths:landscape/grass/tbpcoastdriftwood02": {
+   "file": "depths_landscape_grass_tbpcoastdriftwood02-0ac1dda0.glb",
+   "bytes": 22468,
+   "vertices": 507,
+   "triangles": 350,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 507,
+     "triangles": 350
+    },
+    {
+     "lod": 1,
+     "vertices": 457,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 457,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0a72978517779dfb"
+   ]
+  },
+  "depths:landscape/grass/tbprockgrasswater03": {
+   "file": "depths_landscape_grass_tbprockgrasswater03-6377bdf4.glb",
+   "bytes": 4832,
+   "vertices": 36,
+   "triangles": 40,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 40
+    }
+   ],
+   "textures": [
+    "b8d012607056570c"
+   ]
+  },
+  "depths:landscape/grass/waterkelptall02": {
+   "file": "depths_landscape_grass_waterkelptall02-cb2f0a09.glb",
+   "bytes": 4576,
+   "vertices": 22,
+   "triangles": 18,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 22,
+     "triangles": 18
+    }
+   ],
+   "textures": [
+    "c59ded157100dbf4"
+   ]
+  },
+  "depths:landscape/grass/waterkelptall03": {
+   "file": "depths_landscape_grass_waterkelptall03-256b6e24.glb",
+   "bytes": 4588,
+   "vertices": 22,
+   "triangles": 18,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 22,
+     "triangles": 18
+    }
+   ],
+   "textures": [
+    "3fe6c6e33c710aa8"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone": {
+   "file": "here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_runicstone-19b44bb4.glb",
+   "bytes": 37572,
+   "vertices": 1187,
+   "triangles": 2028,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1187,
+     "triangles": 2028
+    },
+    {
+     "lod": 1,
+     "vertices": 498,
+     "triangles": 709
+    },
+    {
+     "lod": 2,
+     "vertices": 245,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "6224931480a8eea4"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue": {
+   "file": "re_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_serpentsigilstatue-67f940fa.glb",
+   "bytes": 99964,
+   "vertices": 4973,
+   "triangles": 2957,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4973,
+     "triangles": 2957
+    },
+    {
+     "lod": 1,
+     "vertices": 1798,
+     "triangles": 1034
+    },
+    {
+     "lod": 2,
+     "vertices": 522,
+     "triangles": 354
+    }
+   ],
+   "textures": [
+    "3c0c9c89546ffd3f"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02": {
+   "file": "bm_here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_totem02-e34ed599.glb",
+   "bytes": 75928,
+   "vertices": 2883,
+   "triangles": 4974,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2883,
+     "triangles": 4974
+    },
+    {
+     "lod": 1,
+     "vertices": 1193,
+     "triangles": 1739
+    },
+    {
+     "lod": 2,
+     "vertices": 470,
+     "triangles": 595
+    }
+   ],
+   "textures": [
+    "9bb9aa6328e45cb6"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03": {
+   "file": "bm_here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_totem03-9e2d9ecc.glb",
+   "bytes": 42984,
+   "vertices": 1457,
+   "triangles": 2503,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1457,
+     "triangles": 2503
+    },
+    {
+     "lod": 1,
+     "vertices": 601,
+     "triangles": 876
+    },
+    {
+     "lod": 2,
+     "vertices": 241,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "437fe0b37e8dc636"
+   ]
+  },
+  "jokerine:_seaside/clam_large": {
+   "file": "jokerine__seaside_clam_large-58b8e514.glb",
+   "bytes": 12364,
+   "vertices": 202,
+   "triangles": 324,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 202,
+     "triangles": 324
+    },
+    {
+     "lod": 1,
+     "vertices": 190,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 190,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "5ca7d2b81b727a90"
+   ]
+  },
+  "jokerine:_seaside/conch": {
+   "file": "jokerine__seaside_conch-b3b0f8aa.glb",
+   "bytes": 6852,
+   "vertices": 166,
+   "triangles": 278,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 166,
+     "triangles": 278
+    },
+    {
+     "lod": 1,
+     "vertices": 166,
+     "triangles": 278
+    },
+    {
+     "lod": 2,
+     "vertices": 166,
+     "triangles": 278
+    }
+   ],
+   "textures": [
+    "2d38de3ce07b7a99"
+   ]
+  },
+  "jokerine:_seaside/coral": {
+   "file": "jokerine__seaside_coral-6340d3d6.glb",
+   "bytes": 15016,
+   "vertices": 281,
+   "triangles": 350,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 281,
+     "triangles": 350
+    },
+    {
+     "lod": 1,
+     "vertices": 254,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 254,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "6853c252a62e0198"
+   ]
+  },
+  "jokerine:_seaside/coral_spiky": {
+   "file": "jokerine__seaside_coral_spiky-95fef158.glb",
+   "bytes": 17556,
+   "vertices": 458,
+   "triangles": 531,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 458,
+     "triangles": 531
+    },
+    {
+     "lod": 1,
+     "vertices": 323,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 323,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "440deacb27e6f6e6"
+   ]
+  },
+  "jokerine:_seaside/sanddollar": {
+   "file": "jokerine__seaside_sanddollar-f757fa3e.glb",
+   "bytes": 23644,
+   "vertices": 642,
+   "triangles": 1216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 642,
+     "triangles": 1216
+    },
+    {
+     "lod": 1,
+     "vertices": 246,
+     "triangles": 424
+    },
+    {
+     "lod": 2,
+     "vertices": 184,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "2ab249e8780702e6"
+   ]
+  },
+  "jokerine:_seaside/scallop_blue": {
+   "file": "jokerine__seaside_scallop_blue-337b5aa7.glb",
+   "bytes": 4900,
+   "vertices": 39,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "7fa2a4412bb1e94c"
+   ]
+  },
+  "jokerine:_seaside/scallop_greenwhite": {
+   "file": "jokerine__seaside_scallop_greenwhite-6211516d.glb",
+   "bytes": 4900,
+   "vertices": 39,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "7fa2a4412bb1e94c"
+   ]
+  },
+  "jokerine:_seaside/scallop_purplewhite": {
+   "file": "jokerine__seaside_scallop_purplewhite-cb27ee22.glb",
+   "bytes": 4836,
+   "vertices": 39,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "7fa2a4412bb1e94c"
+   ]
+  },
+  "jokerine:_seaside/scallop_red": {
+   "file": "jokerine__seaside_scallop_red-5c711601.glb",
+   "bytes": 4776,
+   "vertices": 39,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "7fa2a4412bb1e94c"
+   ]
+  },
+  "jokerine:_seaside/scallop_slate": {
+   "file": "jokerine__seaside_scallop_slate-8c2ee5e4.glb",
+   "bytes": 4892,
+   "vertices": 39,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "7fa2a4412bb1e94c"
+   ]
+  },
+  "jokerine:_seaside/scallop_yellow": {
+   "file": "jokerine__seaside_scallop_yellow-d652f4d7.glb",
+   "bytes": 4896,
+   "vertices": 39,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "7fa2a4412bb1e94c"
+   ]
+  },
+  "jokerine:_seaside/sponge": {
+   "file": "jokerine__seaside_sponge-05b9f13c.glb",
+   "bytes": 5192,
+   "vertices": 78,
+   "triangles": 64,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 78,
+     "triangles": 64
+    },
+    {
+     "lod": 1,
+     "vertices": 78,
+     "triangles": 64
+    },
+    {
+     "lod": 2,
+     "vertices": 78,
+     "triangles": 64
+    }
+   ],
+   "textures": [
+    "ef36033f251e4aa7"
+   ]
+  },
+  "jokerine:_seaside/starfish": {
+   "file": "jokerine__seaside_starfish-8f22043f.glb",
+   "bytes": 18712,
+   "vertices": 532,
+   "triangles": 660,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 532,
+     "triangles": 660
+    },
+    {
+     "lod": 1,
+     "vertices": 312,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 312,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0ce020ac9d3001fa"
+   ]
+  },
+  "shores:shoresofskyrim/seashell02": {
+   "file": "shores_shoresofskyrim_seashell02-b5430f42.glb",
+   "bytes": 44324,
+   "vertices": 1520,
+   "triangles": 2535,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1520,
+     "triangles": 2535
+    },
+    {
+     "lod": 1,
+     "vertices": 623,
+     "triangles": 887
+    },
+    {
+     "lod": 2,
+     "vertices": 246,
+     "triangles": 304
+    }
+   ],
+   "textures": [
+    "37ea8897db8869bc"
+   ]
+  },
+  "shores:shoresofskyrim/seashell03": {
+   "file": "shores_shoresofskyrim_seashell03-e78cea60.glb",
+   "bytes": 50908,
+   "vertices": 1898,
+   "triangles": 3616,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1898,
+     "triangles": 3616
+    },
+    {
+     "lod": 1,
+     "vertices": 697,
+     "triangles": 1264
+    },
+    {
+     "lod": 2,
+     "vertices": 252,
+     "triangles": 433
+    }
+   ],
+   "textures": [
+    "c0004e33ebbb891e"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock01": {
+   "file": "shores_shoresofskyrim_shorerock01-20f42796.glb",
+   "bytes": 15620,
+   "vertices": 358,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 358,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 257,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 257,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "afacdbb6ea78ff65"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock02": {
+   "file": "shores_shoresofskyrim_shorerock02-d7968162.glb",
+   "bytes": 17908,
+   "vertices": 443,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 443,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 341,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 341,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "fb28a0a23b51cf33"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock03": {
+   "file": "shores_shoresofskyrim_shorerock03-83ecc6e8.glb",
+   "bytes": 15624,
+   "vertices": 362,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 362,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 260,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 260,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "4175025fe39c62f9"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock04": {
+   "file": "shores_shoresofskyrim_shorerock04-17858645.glb",
+   "bytes": 15952,
+   "vertices": 371,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 371,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 269,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 269,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "57a64ec820a33dac"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock05": {
+   "file": "shores_shoresofskyrim_shorerock05-9040d7bf.glb",
+   "bytes": 16756,
+   "vertices": 403,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 403,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 294,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 294,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "4bb6c08a90647ed8"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock06": {
+   "file": "shores_shoresofskyrim_shorerock06-0e9fc35d.glb",
+   "bytes": 19652,
+   "vertices": 498,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 498,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 393,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 393,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "6f7f9ee46f51f4a2"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock07": {
+   "file": "shores_shoresofskyrim_shorerock07-c0dfd48a.glb",
+   "bytes": 30784,
+   "vertices": 755,
+   "triangles": 1000,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 755,
+     "triangles": 1000
+    },
+    {
+     "lod": 1,
+     "vertices": 388,
+     "triangles": 350
+    },
+    {
+     "lod": 2,
+     "vertices": 337,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "5daafc49e92c9234"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock08": {
+   "file": "shores_shoresofskyrim_shorerock08-b7cee402.glb",
+   "bytes": 31324,
+   "vertices": 787,
+   "triangles": 1000,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 787,
+     "triangles": 1000
+    },
+    {
+     "lod": 1,
+     "vertices": 397,
+     "triangles": 350
+    },
+    {
+     "lod": 2,
+     "vertices": 335,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "cd5e1921c6cfebd5"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock09": {
+   "file": "shores_shoresofskyrim_shorerock09-5d01b6ab.glb",
+   "bytes": 18188,
+   "vertices": 450,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 450,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 337,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 337,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "c5778963f5260024"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock10": {
+   "file": "shores_shoresofskyrim_shorerock10-b5cc9776.glb",
+   "bytes": 17688,
+   "vertices": 439,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 439,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 332,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 332,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "cc2758b311f2bcd0"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock11": {
+   "file": "shores_shoresofskyrim_shorerock11-46e97e23.glb",
+   "bytes": 16824,
+   "vertices": 406,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 406,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 301,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 301,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "d59d9a68aa11f288"
+   ]
+  },
+  "shores:shoresofskyrim/shorerock12": {
+   "file": "shores_shoresofskyrim_shorerock12-5e7db4d0.glb",
+   "bytes": 16676,
+   "vertices": 402,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 402,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 299,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 299,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "484f4e19c20af6d1"
+   ]
+  },
+  "shores:shoresofskyrim/snailshell01": {
+   "file": "shores_shoresofskyrim_snailshell01-d2653aa0.glb",
+   "bytes": 66032,
+   "vertices": 2351,
+   "triangles": 3727,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2351,
+     "triangles": 3727
+    },
+    {
+     "lod": 1,
+     "vertices": 1047,
+     "triangles": 1303
+    },
+    {
+     "lod": 2,
+     "vertices": 451,
+     "triangles": 447
+    }
+   ],
+   "textures": [
+    "9dc11b7f2dbca488"
+   ]
+  },
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena": {
+   "file": "renroot_creationclub__shared_dungeons_ayleidruins_evgruinsset_arblockfreebrokena-4a0288c4.glb",
+   "bytes": 11768,
+   "vertices": 275,
+   "triangles": 262,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 275,
+     "triangles": 262
+    },
+    {
+     "lod": 1,
+     "vertices": 275,
+     "triangles": 262
+    },
+    {
+     "lod": 2,
+     "vertices": 275,
+     "triangles": 262
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9"
+   ]
+  },
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb": {
+   "file": "renroot_creationclub__shared_dungeons_ayleidruins_evgruinsset_arblockfreebrokenb-71d0c9b6.glb",
+   "bytes": 9728,
+   "vertices": 133,
+   "triangles": 96,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 133,
+     "triangles": 96
+    },
+    {
+     "lod": 1,
+     "vertices": 133,
+     "triangles": 96
+    },
+    {
+     "lod": 2,
+     "vertices": 133,
+     "triangles": 96
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9"
+   ]
+  },
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow": {
+   "file": "irenroot_creationclub__shared_dungeons_ayleidruins_evgruinsset_arblockfreehollow-5fcbd949.glb",
+   "bytes": 8628,
+   "vertices": 48,
+   "triangles": 32,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 32
+    },
+    {
+     "lod": 1,
+     "vertices": 48,
+     "triangles": 32
+    },
+    {
+     "lod": 2,
+     "vertices": 48,
+     "triangles": 32
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9"
+   ]
+  },
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01": {
+   "file": "creationclub__shared_dungeons_ayleidruins_evgruinsset_aruniquerubblewalkablefl01-2c41b6bc.glb",
+   "bytes": 11652,
+   "vertices": 217,
+   "triangles": 260,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 217,
+     "triangles": 260
+    },
+    {
+     "lod": 1,
+     "vertices": 217,
+     "triangles": 260
+    },
+    {
+     "lod": 2,
+     "vertices": 217,
+     "triangles": 260
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30",
+    "a031eebae76abd9f"
+   ]
+  },
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03": {
+   "file": "creationclub__shared_dungeons_ayleidruins_evgruinsset_aruniquerubblewalkablefl03-0867747c.glb",
+   "bytes": 9964,
+   "vertices": 114,
+   "triangles": 160,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 114,
+     "triangles": 160
+    },
+    {
+     "lod": 1,
+     "vertices": 114,
+     "triangles": 160
+    },
+    {
+     "lod": 2,
+     "vertices": 114,
+     "triangles": 160
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30",
+    "ceac31e57a43650f"
+   ]
+  },
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05": {
+   "file": "creationclub__shared_dungeons_ayleidruins_evgruinsset_aruniquerubblewalkablefl05-c8c85553.glb",
+   "bytes": 9976,
+   "vertices": 114,
+   "triangles": 160,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 114,
+     "triangles": 160
+    },
+    {
+     "lod": 1,
+     "vertices": 114,
+     "triangles": 160
+    },
+    {
+     "lod": 2,
+     "vertices": 114,
+     "triangles": 160
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30",
+    "ceac31e57a43650f"
+   ]
+  },
+  "vanilla:clutter/barrel01": {
+   "file": "vanilla_clutter_barrel01-65266384.glb",
+   "bytes": 12824,
+   "vertices": 286,
+   "triangles": 396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 286,
+     "triangles": 396
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "940d11c16a11b275"
+   ]
+  },
+  "vanilla:clutter/basket01": {
+   "file": "vanilla_clutter_basket01-31268527.glb",
+   "bytes": 14684,
+   "vertices": 321,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 321,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "9a27911525728b4f"
+   ]
+  },
   "vanilla:clutter/bones/humanribcagefull": {
    "file": "vanilla_clutter_bones_humanribcagefull-2574cdfe.glb",
    "bytes": 66164,
@@ -65,6 +1382,463 @@
    ],
    "textures": [
     "63d644afaac283a8"
+   ]
+  },
+  "vanilla:clutter/bones/mammothskull1": {
+   "file": "vanilla_clutter_bones_mammothskull1-c3c43347.glb",
+   "bytes": 36884,
+   "vertices": 1057,
+   "triangles": 1686,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1057,
+     "triangles": 1686
+    },
+    {
+     "lod": 1,
+     "vertices": 447,
+     "triangles": 590
+    },
+    {
+     "lod": 2,
+     "vertices": 257,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "57d5d948250c5edf"
+   ]
+  },
+  "vanilla:clutter/bucket01": {
+   "file": "vanilla_clutter_bucket01-cfff19d7.glb",
+   "bytes": 21924,
+   "vertices": 690,
+   "triangles": 764,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 690,
+     "triangles": 764
+    },
+    {
+     "lod": 1,
+     "vertices": 356,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 356,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "a3cc35ebb0f81c80"
+   ]
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards01": {
+   "file": "vanilla_clutter_shipwreck_shipwreckboards01-73444cf1.glb",
+   "bytes": 12484,
+   "vertices": 42,
+   "triangles": 26,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 1,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 2,
+     "vertices": 42,
+     "triangles": 26
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "876fdaabbb65805a"
+   ]
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards02": {
+   "file": "vanilla_clutter_shipwreck_shipwreckboards02-41f06571.glb",
+   "bytes": 12536,
+   "vertices": 42,
+   "triangles": 26,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 1,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 2,
+     "vertices": 42,
+     "triangles": 26
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "876fdaabbb65805a"
+   ]
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards03": {
+   "file": "vanilla_clutter_shipwreck_shipwreckboards03-307716c9.glb",
+   "bytes": 12768,
+   "vertices": 57,
+   "triangles": 37,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 57,
+     "triangles": 37
+    },
+    {
+     "lod": 1,
+     "vertices": 57,
+     "triangles": 37
+    },
+    {
+     "lod": 2,
+     "vertices": 57,
+     "triangles": 37
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "876fdaabbb65805a"
+   ]
+  },
+  "vanilla:landscape/plants/kelpshortstatic01": {
+   "file": "vanilla_landscape_plants_kelpshortstatic01-e7a6c972.glb",
+   "bytes": 4528,
+   "vertices": 31,
+   "triangles": 25,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 31,
+     "triangles": 25
+    }
+   ],
+   "textures": [
+    "563fc69405dab03b"
+   ]
+  },
+  "vanilla:landscape/plants/kelptallstatic01": {
+   "file": "vanilla_landscape_plants_kelptallstatic01-e86cac8e.glb",
+   "bytes": 5068,
+   "vertices": 38,
+   "triangles": 34,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 38,
+     "triangles": 34
+    }
+   ],
+   "textures": [
+    "563fc69405dab03b"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockm01wet-8a78ac86.glb",
+   "bytes": 5616,
+   "vertices": 95,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm03wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockm03wet-b4251f02.glb",
+   "bytes": 8236,
+   "vertices": 233,
+   "triangles": 348,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 233,
+     "triangles": 348
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm04wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockm04wet-a3cf0c3d.glb",
+   "bytes": 6348,
+   "vertices": 135,
+   "triangles": 195,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 135,
+     "triangles": 195
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilem01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilem01wet-4bc85151.glb",
+   "bytes": 25144,
+   "vertices": 839,
+   "triangles": 958,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 839,
+     "triangles": 958
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "96f0c39794d7ee77"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilem03wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilem03wet-e3d8441d.glb",
+   "bytes": 25108,
+   "vertices": 674,
+   "triangles": 788,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 674,
+     "triangles": 788
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "96f0c39794d7ee77"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rocks01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rocks01wet-421554eb.glb",
+   "bytes": 4888,
+   "vertices": 58,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 58,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rocks02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rocks02wet-de03607a.glb",
+   "bytes": 5156,
+   "vertices": 71,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 71,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rocks03wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rocks03wet-05cbbed7.glb",
+   "bytes": 4764,
+   "vertices": 49,
+   "triangles": 68,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 49,
+     "triangles": 68
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockshelf01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockshelf01wet-94338ebc.glb",
+   "bytes": 56008,
+   "vertices": 2722,
+   "triangles": 3304,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2722,
+     "triangles": 3304
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "96f0c39794d7ee77",
+    "a1f18029dde77b5f"
+   ]
+  },
+  "vanilla:landscape/trees/coastdriftwood01": {
+   "file": "vanilla_landscape_trees_coastdriftwood01-88e3c588.glb",
+   "bytes": 16468,
+   "vertices": 362,
+   "triangles": 458,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 362,
+     "triangles": 458
+    },
+    {
+     "lod": 1,
+     "vertices": 269,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 269,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "221e5dc3a95ffbbe"
+   ]
+  },
+  "vanilla:landscape/trees/coastdriftwood02": {
+   "file": "vanilla_landscape_trees_coastdriftwood02-4da92ad2.glb",
+   "bytes": 15200,
+   "vertices": 281,
+   "triangles": 350,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 281,
+     "triangles": 350
+    },
+    {
+     "lod": 1,
+     "vertices": 254,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 254,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "221e5dc3a95ffbbe"
+   ]
+  },
+  "vanilla:landscape/trees/coastdriftwood03": {
+   "file": "vanilla_landscape_trees_coastdriftwood03-66bd6ca7.glb",
+   "bytes": 7544,
+   "vertices": 176,
+   "triangles": 235,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 176,
+     "triangles": 235
+    },
+    {
+     "lod": 1,
+     "vertices": 176,
+     "triangles": 235
+    },
+    {
+     "lod": 2,
+     "vertices": 176,
+     "triangles": 235
+    }
+   ],
+   "textures": [
+    "221e5dc3a95ffbbe"
+   ]
+  },
+  "vanilla:plants/clam01": {
+   "file": "vanilla_plants_clam01-673953a6.glb",
+   "bytes": 13048,
+   "vertices": 404,
+   "triangles": 648,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 404,
+     "triangles": 648
+    }
+   ],
+   "textures": [
+    "5ca7d2b81b727a90"
+   ]
+  },
+  "vanilla:plants/clamlarge01": {
+   "file": "vanilla_plants_clamlarge01-5924bd81.glb",
+   "bytes": 13640,
+   "vertices": 404,
+   "triangles": 648,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 404,
+     "triangles": 648
+    }
+   ],
+   "textures": [
+    "5ca7d2b81b727a90"
+   ]
+  },
+  "vanilla:plants/clamthin01": {
+   "file": "vanilla_plants_clamthin01-da093bda.glb",
+   "bytes": 13072,
+   "vertices": 404,
+   "triangles": 648,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 404,
+     "triangles": 648
+    }
+   ],
+   "textures": [
+    "5ca7d2b81b727a90"
+   ]
+  },
+  "vanilla:plants/nordicbarnaclecluster01": {
+   "file": "vanilla_plants_nordicbarnaclecluster01-1648790b.glb",
+   "bytes": 24180,
+   "vertices": 1150,
+   "triangles": 1620,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1150,
+     "triangles": 1620
+    }
+   ],
+   "textures": [
+    "b75e4b8cb09b897e"
    ]
   }
  },

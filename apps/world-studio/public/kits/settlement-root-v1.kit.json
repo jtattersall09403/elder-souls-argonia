@@ -9361,7 +9361,7 @@
     0.108,
     0.269
    ],
-   "triangles": 5132,
+   "triangles": 5084,
    "lodRatios": [
     0.35,
     0.12
@@ -9369,7 +9369,24 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "BoneHavok02",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok03",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok04",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "C_DLC2RieklingBone01:15",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "argonianbridge.dds",
     "fence01.dds",
@@ -9441,7 +9458,7 @@
    },
    "displayName": "Argonianbonechime 01",
    "undersideClosed": true,
-   "undersideCoverage": 0.674,
+   "undersideCoverage": 0.713,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.269
   },
@@ -12217,9 +12234,9 @@
    },
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": -0.02,
-    "p50": -0.02,
-    "p75": -0.02,
+    "p25": 0.58,
+    "p50": 0.58,
+    "p75": 0.58,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy"
@@ -13125,6 +13142,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -13151,23 +13169,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 54858636,
-  "bytesAfter": 20027212,
+  "bytesBefore": 54841936,
+  "bytesAfter": 20019620,
   "images": 37,
   "imageBytesAfter": 9079264,
   "warnings": [],
-  "sha256": "d5ca6a1fac17d43ebdb1a6043dc7310a675ce042b0fb3f38b09b92e1bcca01cd",
+  "sha256": "1371a5bc036ffc9c8d23c2f8fd7be82aa68914eda893a9e86f0a74b808701f7e",
   "parts": {
-   "parts": 8,
-   "partBytes": 136740,
-   "textureFiles": 4,
-   "textureBytes": 792618,
-   "bytes": 929358,
-   "sourceSha256": "d5ca6a1fac17d43ebdb1a6043dc7310a675ce042b0fb3f38b09b92e1bcca01cd"
+   "parts": 156,
+   "partBytes": 15024296,
+   "textureFiles": 34,
+   "textureBytes": 8122355,
+   "bytes": 23146651,
+   "sourceSha256": "4c5720959bfcc0ed591f0777b40fe6580abc06ea50292445c273ecb02905f012",
+   "packedSha256": "1371a5bc036ffc9c8d23c2f8fd7be82aa68914eda893a9e86f0a74b808701f7e"
   },
   "sidecarBytes": {
    "connectors": 124654,
-   "footprints": 236439,
+   "footprints": 236503,
    "interiors": 122316
   }
  }

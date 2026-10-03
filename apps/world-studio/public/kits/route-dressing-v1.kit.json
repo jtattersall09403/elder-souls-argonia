@@ -1935,6 +1935,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -1967,6 +1968,15 @@
   "imageBytesAfter": 2207005,
   "warnings": [],
   "sha256": "97dc1ce2e0cf82cdcf84d75ed9ff660d5c0338d679a358a87f6c4069fb8e1dc4",
+  "parts": {
+   "parts": 26,
+   "partBytes": 750424,
+   "textureFiles": 8,
+   "textureBytes": 2207005,
+   "bytes": 2957429,
+   "sourceSha256": "8b226f808ebe8ee1280b2f493088c0359e312d523656f40aa55b6c10ec0f5f7c",
+   "packedSha256": "97dc1ce2e0cf82cdcf84d75ed9ff660d5c0338d679a358a87f6c4069fb8e1dc4"
+  },
   "sidecarBytes": {
    "connectors": 19547,
    "footprints": 32382,

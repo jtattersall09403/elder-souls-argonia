@@ -79,13 +79,25 @@ def overlay_from_patch(patch: dict, default_hard_m: float) -> dict:
     }
 
 
-def place_overlays(rows: list[dict], place_id: str, height_at, is_wet=None) -> list[dict]:
+def survey_water_at(survey):
+    """``water_at(x, z)`` over the province survey's recorded water level
+    (`ProvinceSurvey.water_level_m`, read in place, nothing loaded); None
+    when the survey carries no level raster."""
+    level = getattr(survey, "water_level_m", None)
+    if level is None:
+        return None
+    px_m, n = float(survey.height_px_m), level.shape[0]
+    return lambda x, z: float(level[min(max(int(z / px_m), 0), n - 1),
+                                    min(max(int(x / px_m), 0), n - 1)])
+
+
+def place_overlays(rows: list[dict], place_id: str, height_at, is_wet=None, water_at=None) -> list[dict]:
     """Every pad overlay of one place's bundle rows: the run pads measured on
-    ``height_at`` (the frozen ground) and every declared building pad, in the
-    order they apply."""
+    ``height_at`` (the frozen ground; ``water_at`` the water surface a cut
+    never goes below) and every declared building pad, in the order they apply."""
     from .scale import RAW_M
     from .settlement_run_pads import PAD_HARD_RADIUS_PX, building_pad_patches, run_pad_patches
-    patches = run_pad_patches(rows, place_id, height_at, is_wet) + building_pad_patches(rows, place_id)
+    patches = run_pad_patches(rows, place_id, height_at, is_wet, water_at) + building_pad_patches(rows, place_id)
     hard = PAD_HARD_RADIUS_PX * RAW_M
     return apply_order([overlay_from_patch(p, hard) for p in patches])
 

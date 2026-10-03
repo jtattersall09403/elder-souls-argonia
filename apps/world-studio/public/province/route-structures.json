@@ -115,6 +115,7 @@
       "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
+      "builtBy": "place.route.border-road-greenspring-crossings",
       "family": "stone-civic",
       "id": "structure.road-stormhold-thorn.12",
       "kind": "stair",

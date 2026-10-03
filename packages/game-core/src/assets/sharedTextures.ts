@@ -25,7 +25,7 @@ export class SharedKtx2Textures {
 
   /** GLTFLoader's loader contract (KHR_texture_basisu calls `load`). */
   load(raw: string, onLoad: (t: THREE.Texture) => void, _onProgress?: unknown, onError?: (e: unknown) => void): void {
-    // `kits/a/parts/../../tex/x.ktx2` and `kits/b/parts/../../tex/x.ktx2` are one pool file: one key
+    // two kits' `parts/../../tex/<sha>.ktx2` URIs resolve to one pool file: one key
     const url = normalisedUrl(raw);
     let promise = this.cache.get(url);
     if (!promise) {

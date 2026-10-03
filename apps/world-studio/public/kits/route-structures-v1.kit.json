@@ -1544,10 +1544,20 @@
   "imageBytesAfter": 8222058,
   "warnings": [],
   "sha256": "c72ac58ef023c8bf379b1179147a627e05cefbde1e6219d603d256f3c31aaa0f",
+  "parts": {
+   "parts": 20,
+   "partBytes": 1331440,
+   "textureFiles": 29,
+   "textureBytes": 8222058,
+   "bytes": 9553498,
+   "sourceSha256": "c44bf0602402a9a711a0bf2c88d301072e402a027d26e491c0c4726f5fdda9f5",
+   "packedSha256": "c72ac58ef023c8bf379b1179147a627e05cefbde1e6219d603d256f3c31aaa0f"
+  },
   "sidecarBytes": {
    "connectors": 13716,
    "footprints": 23869,
    "interiors": 19905
   }
- }
+ },
+ "schemaVersion": 1
 }

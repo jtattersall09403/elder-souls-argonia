@@ -448,7 +448,41 @@ def coherence_failures(place_id: str, index: Index, compiled: dict | None = None
                          f"water within 3 km have none")
     fails += relation_failures(place_id, index, compiled)
     fails += ecology_failures(place_id, index, compiled)
+    if compiled is not None:
+        fails += route_claim_failures(place_id)
     return sorted(set(fails))
+
+
+ROUTE_STRUCTURES = REPO / "world" / "sources" / "routes" / "route-structures.json"
+BLUEPRINTS = REPO / "world" / "sources" / "blueprints"
+
+
+def route_claim_failures(place_id: str, source: Path = ROUTE_STRUCTURES,
+                         blueprints: Path = BLUEPRINTS, province: Path = PROVINCE) -> list[str]:
+    """A route-structures.json row `builtBy` this place is built by its blueprint: a
+    parcel carries `routeStructureId: <structure id>`, and the published route bundle
+    carries no piece for the row (decision 0068)."""
+    rows = [r for r in json.loads(source.read_text()).get("structures", [])
+            if r.get("builtBy") == place_id]
+    if not rows:
+        return []
+    bp_path = blueprints / f"{place_id}.json"
+    bp = json.loads(bp_path.read_text()).get("blueprint", {}) if bp_path.exists() else {}
+    claimed = {p.get("routeStructureId") for p in bp.get("parcels") or []}
+    fails = []
+    for r in rows:
+        if r["id"] not in claimed:
+            fails.append(f"record.coherence: {r['id']} is builtBy {place_id} and no parcel in "
+                         f"{bp_path.relative_to(REPO)} claims it (routeStructureId)")
+        route = province / "settlements" / "routes" / f"{r['wayId']}.json"
+        pieces = [p["id"] for p in (json.loads(route.read_text())["placements"]
+                                    if route.exists() else [])
+                  if (p.get("provenance") or {}).get("sourceStructureId") == r["id"]]
+        if pieces:
+            fails.append(f"record.coherence: {r['id']} is builtBy {place_id} and the route "
+                         f"bundle {route.relative_to(REPO)} still places {len(pieces)} piece(s) "
+                         f"for it (export_settlement_bundle --route-claims)")
+    return fails
 
 
 def load_door_count(compiled: dict) -> int:

@@ -50,7 +50,8 @@ import math
 import numpy as np
 
 SEAT_BAR_M = 0.05          # a run member whose ground line stands this far over the ground gets a pad
-PAD_BLEND_M = 3.0          # the pad tapers back to the natural ground over this
+CUT_BLEND_M = 4.0          # a patch with a cut-only piece feathers over at least this
+PAD_BLEND_M = 3.0         # the pad tapers back to the natural ground over this
 PAD_BLEND_MIN_M = 1.0      # an authored `blendM` (a small plinth among neighbours) is clamped to
                            # [PAD_BLEND_MIN_M, PAD_BLEND_M] (Claywater walk 5: the well's pad)
 BATTER_MAX_M = 1.2         # 0101 R1 amendment (planner ruling 2026-09-27 r3): a kit with no
@@ -126,14 +127,20 @@ def climb_runs(rows: list[dict], seats: dict[str, float] | None = None) -> set[s
     return out
 
 
-def run_pad_patches(rows: list[dict], place_id: str, height_at, is_wet=None) -> list[dict]:
+def run_pad_patches(rows: list[dict], place_id: str, height_at, is_wet=None,
+                    water_at=None) -> list[dict]:
     """One `settlement-pad` patch per run with a member over the seat bar.
     A pad never fills water (0059 invariant 4): a member with a wet
     footprint point (``is_wet(x, z)``) gets no fill. A run END member that
     is only partly wet (Riverwalk lw13: 3 of 12 points wet, its dry bank
     0.45-0.56 m over the line 0.18) has its DRY points graded as a cut only
     (``cutOnly``, `pad_overlay`) down to its ground line, the line an
-    all-dry end gets, so the run lands on its bank. A climb takes no pad."""
+    all-dry end gets, so the run lands on its bank. A cut never goes below
+    the water at its member (the piece is skipped, never clamped to a pit):
+    ``water_at(x, z)`` is the surface height, else the highest ground under
+    the member's wet points. A patch carrying a cut piece blends over at
+    least CUT_BLEND_M, so no steep slope is left at the run end. A climb
+    takes no pad."""
     seats = run_seats(rows, height_at)
     climbs = climb_runs(rows, seats)
     ends = {m[k]["id"] for m in _by_run(rows).values() for k in (0, -1)}
@@ -149,7 +156,12 @@ def run_pad_patches(rows: list[dict], place_id: str, height_at, is_wet=None) -> 
             dry = [q for q, w in zip(foot, wet) if not w]
             if p["id"] in ends and len(dry) >= 3:
                 high = max(height_at(x, z) for x, z in dry)
-                if high - line > SEAT_BAR_M:
+                levels = [water_at(x, z) for (x, z), w in zip(foot, wet)
+                          if w and water_at is not None]
+                level = max((float(v) for v in levels if v is not None), default=None)
+                if level is None:
+                    level = max(height_at(x, z) for (x, z), w in zip(foot, wet) if w)
+                if high - line > SEAT_BAR_M and line >= level:
                     piece = {"placementId": p["id"], "targetM": round(line, 3),
                              "gapM": round(line - high, 3), "cutOnly": True,
                              "footprintM": [[round(x, 3), round(z, 3)] for x, z in dry]}
@@ -160,7 +172,11 @@ def run_pad_patches(rows: list[dict], place_id: str, height_at, is_wet=None) -> 
                          "footprintM": [[round(x, 3), round(z, 3)] for x, z in foot]}
         if piece is not None:
             by_run.setdefault(p["run"]["id"], []).append(piece)
-    return [pad_patch(place_id, run_id, pieces) for run_id, pieces in sorted(by_run.items())]
+    out = [pad_patch(place_id, run_id, pieces) for run_id, pieces in sorted(by_run.items())]
+    for q in out:
+        if any(r.get("cutOnly") for r in q["params"]["pieces"]):
+            q["blendM"] = max(CUT_BLEND_M, q["blendM"])
+    return out
 
 
 def pad_patch(place_id: str, owner_id: str, pieces: list[dict], owner: str = "run") -> dict:

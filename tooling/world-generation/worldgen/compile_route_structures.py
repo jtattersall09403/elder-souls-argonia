@@ -49,6 +49,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 import shutil
 import tempfile
 from pathlib import Path
@@ -64,6 +65,8 @@ GENERATOR_ID = "worldgen.compile_route_structures"
 GENERATOR_VERSION = 1
 
 KIT = "route-structures-v1"
+#: `builtBy` on a source row names the place whose blueprint builds the structure.
+BUILT_BY_RE = re.compile(r"place\.[a-z0-9-]+\.[a-z0-9-]+")
 _KIT_DIR = Path(__file__).resolve().parents[2] / "asset-pipeline" / "output" / "kits"
 KIT_PATH = _KIT_DIR / f"{KIT}.kit.json"
 OUT_DIR = Path(__file__).resolve().parents[1] / "output" / "route-structures"
@@ -340,6 +343,16 @@ def compile_all(structures: list[dict], ways_by_id: dict, heights: np.ndarray,
             continue
         way = ways_by_id[st["wayId"]]
         placements, row = compile_structure(st, way, heights, kit)
+        if st.get("builtBy"):
+            # The place named in `builtBy` builds this structure from its own
+            # blueprint (claimed by a parcel `routeStructureId`). The window
+            # stays reserved (grading, the raster and the studio footprint read
+            # it) and no route piece is emitted, so the two never stack.
+            if not BUILT_BY_RE.fullmatch(st["builtBy"]):
+                raise ValueError(f"{st['id']}: builtBy {st['builtBy']!r} is not a place id")
+            row["builtBy"] = st["builtBy"]
+            row["reservedPointsM"] = [[p["posM"][0], p["posM"][2]] for p in placements]
+            placements = []
         doc = by_way.setdefault(st["wayId"], {
             "schemaVersion": SCHEMA_VERSION, "wayId": st["wayId"], "kit": KIT,
             "generator": {"id": GENERATOR_ID, "version": GENERATOR_VERSION},
@@ -493,11 +506,15 @@ def studio_export(by_way: dict[str, dict], rows: list[dict]) -> dict:
             if not isinstance(st.get("why"), str) or not st["why"].strip():
                 unauthored.append(st["id"])
                 continue
+            # A builtBy structure has no route piece; its footprint is the
+            # reserved window the place builds in (terrain_patches reads it).
             out.append({
                 "id": st["id"], "wayId": wid, "kind": st["kind"],
                 "family": st["family"], "pieces": r["pieces"],
                 "riseM": r["riseM"], "spanM": r["spanM"], "why": st["why"],
-                "pointsM": [[p["posM"][0], p["posM"][2]] for p in ps],
+                "pointsM": r.get("reservedPointsM")
+                or [[p["posM"][0], p["posM"][2]] for p in ps],
+                **({"builtBy": r["builtBy"]} if r.get("builtBy") else {}),
             })
     for label, ids in (("place no piece", unplaced),
                        ("carry no authored `why`", unauthored)):

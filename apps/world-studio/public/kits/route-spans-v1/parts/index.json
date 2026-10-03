@@ -1,0 +1,658 @@
+{
+ "schemaVersion": 4,
+ "kit": "route-spans-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 13176632,
+  "sha256": "f2134d706f9c8f37f4982365879b678fe8e7ebf031e71be142178cc5c014d928"
+ },
+ "packed": {
+  "bytes": 5832596,
+  "sha256": "8b2a66692ed5ab234aba57d3419308f470dacf0173fe59334bae726258537953"
+ },
+ "totals": {
+  "parts": 23,
+  "partBytes": 1824604,
+  "textureFiles": 17,
+  "textureBytes": 4450910,
+  "bytes": 6275514
+ },
+ "assets": {
+  "bmv:architecture/huts/exterior/bridge01": {
+   "file": "bmv_architecture_huts_exterior_bridge01-7b06a6d1.glb",
+   "bytes": 294168,
+   "vertices": 11029,
+   "triangles": 16516,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 11029,
+     "triangles": 16516
+    },
+    {
+     "lod": 1,
+     "vertices": 4846,
+     "triangles": 5779
+    },
+    {
+     "lod": 2,
+     "vertices": 1996,
+     "triangles": 1981
+    }
+   ],
+   "textures": [
+    "71b14b13d64f9fdb",
+    "80ca1f54cb84d8af",
+    "a222dff599a2411a"
+   ]
+  },
+  "bmv:architecture/huts/exterior/steps01": {
+   "file": "bmv_architecture_huts_exterior_steps01-77c3a9dc.glb",
+   "bytes": 6692,
+   "vertices": 130,
+   "triangles": 198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 198
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 198
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 198
+    }
+   ],
+   "textures": [
+    "e0b942fc5a07c33a"
+   ]
+  },
+  "bmv:architecture/huts/exterior/steps02": {
+   "file": "bmv_architecture_huts_exterior_steps02-b4ca2eeb.glb",
+   "bytes": 356664,
+   "vertices": 13530,
+   "triangles": 20400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13530,
+     "triangles": 20400
+    },
+    {
+     "lod": 1,
+     "vertices": 5925,
+     "triangles": 7139
+    },
+    {
+     "lod": 2,
+     "vertices": 2468,
+     "triangles": 2447
+    }
+   ],
+   "textures": [
+    "71b14b13d64f9fdb",
+    "80ca1f54cb84d8af",
+    "a222dff599a2411a"
+   ]
+  },
+  "bmv:architecture/huts/exterior/steps03": {
+   "file": "bmv_architecture_huts_exterior_steps03-dd5d6778.glb",
+   "bytes": 96164,
+   "vertices": 2762,
+   "triangles": 4136,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2762,
+     "triangles": 4136
+    },
+    {
+     "lod": 1,
+     "vertices": 1175,
+     "triangles": 1447
+    },
+    {
+     "lod": 2,
+     "vertices": 829,
+     "triangles": 899
+    }
+   ],
+   "textures": [
+    "71b14b13d64f9fdb",
+    "80ca1f54cb84d8af",
+    "a222dff599a2411a"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbase0sided02": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldbase0sided02-ae5fa036.glb",
+   "bytes": 9260,
+   "vertices": 128,
+   "triangles": 112,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 128,
+     "triangles": 112
+    },
+    {
+     "lod": 1,
+     "vertices": 128,
+     "triangles": 112
+    },
+    {
+     "lod": 2,
+     "vertices": 128,
+     "triangles": 112
+    }
+   ],
+   "textures": [
+    "a7174f7b55e2e26e",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbase4sided01": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldbase4sided01-3a5469d8.glb",
+   "bytes": 12580,
+   "vertices": 384,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 384,
+     "triangles": 336
+    },
+    {
+     "lod": 1,
+     "vertices": 384,
+     "triangles": 336
+    },
+    {
+     "lod": 2,
+     "vertices": 384,
+     "triangles": 336
+    }
+   ],
+   "textures": [
+    "a7174f7b55e2e26e",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldtop0sided01": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldtop0sided01-8efb1191.glb",
+   "bytes": 11588,
+   "vertices": 235,
+   "triangles": 123,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 235,
+     "triangles": 123
+    },
+    {
+     "lod": 1,
+     "vertices": 235,
+     "triangles": 123
+    },
+    {
+     "lod": 2,
+     "vertices": 235,
+     "triangles": 123
+    }
+   ],
+   "textures": [
+    "6b13ce7cecd111ef",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldtop2sided01": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldtop2sided01-d381ee15.glb",
+   "bytes": 17124,
+   "vertices": 397,
+   "triangles": 255,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 397,
+     "triangles": 255
+    },
+    {
+     "lod": 1,
+     "vertices": 397,
+     "triangles": 255
+    },
+    {
+     "lod": 2,
+     "vertices": 397,
+     "triangles": 255
+    }
+   ],
+   "textures": [
+    "6b13ce7cecd111ef",
+    "a7174f7b55e2e26e",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldtop3sided01": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldtop3sided01-6e49d321.glb",
+   "bytes": 17856,
+   "vertices": 459,
+   "triangles": 307,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 459,
+     "triangles": 307
+    },
+    {
+     "lod": 1,
+     "vertices": 459,
+     "triangles": 307
+    },
+    {
+     "lod": 2,
+     "vertices": 459,
+     "triangles": 307
+    }
+   ],
+   "textures": [
+    "6b13ce7cecd111ef",
+    "a7174f7b55e2e26e",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/dragonbridge01": {
+   "file": "vanilla_dungeons_nordic_exterior_dragonbridge01-43801dd0.glb",
+   "bytes": 240992,
+   "vertices": 7342,
+   "triangles": 12144,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7342,
+     "triangles": 12144
+    },
+    {
+     "lod": 1,
+     "vertices": 3352,
+     "triangles": 4603
+    },
+    {
+     "lod": 2,
+     "vertices": 1719,
+     "triangles": 2170
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "63044b701594f2c6",
+    "908e4cc24eb87b7b",
+    "c3bd4ca79d871927",
+    "eaf887e59b4db437"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatshaftbot01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplatshaftbot01-55451853.glb",
+   "bytes": 21352,
+   "vertices": 420,
+   "triangles": 688,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 420,
+     "triangles": 688
+    },
+    {
+     "lod": 1,
+     "vertices": 307,
+     "triangles": 475
+    },
+    {
+     "lod": 2,
+     "vertices": 307,
+     "triangles": 475
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "a8b01970fd6246a4"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplatstaircapl01-25b530ec.glb",
+   "bytes": 23644,
+   "vertices": 486,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 486,
+     "triangles": 588
+    },
+    {
+     "lod": 1,
+     "vertices": 436,
+     "triangles": 515
+    },
+    {
+     "lod": 2,
+     "vertices": 436,
+     "triangles": 515
+    }
+   ],
+   "textures": [
+    "1f9c6625e61b62e5",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplatstaircapr01-b2972b6e.glb",
+   "bytes": 23408,
+   "vertices": 487,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 487,
+     "triangles": 588
+    },
+    {
+     "lod": 1,
+     "vertices": 437,
+     "triangles": 515
+    },
+    {
+     "lod": 2,
+     "vertices": 437,
+     "triangles": 515
+    }
+   ],
+   "textures": [
+    "1f9c6625e61b62e5",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplatstairmid02-935188d9.glb",
+   "bytes": 32740,
+   "vertices": 767,
+   "triangles": 881,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 767,
+     "triangles": 881
+    },
+    {
+     "lod": 1,
+     "vertices": 379,
+     "triangles": 307
+    },
+    {
+     "lod": 2,
+     "vertices": 372,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "1f9c6625e61b62e5"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattower01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplattower01-1af81c91.glb",
+   "bytes": 61992,
+   "vertices": 1682,
+   "triangles": 2414,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1682,
+     "triangles": 2414
+    },
+    {
+     "lod": 1,
+     "vertices": 808,
+     "triangles": 881
+    },
+    {
+     "lod": 2,
+     "vertices": 391,
+     "triangles": 356
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattower02": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplattower02-aac1bd9b.glb",
+   "bytes": 82688,
+   "vertices": 2352,
+   "triangles": 3364,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2352,
+     "triangles": 3364
+    },
+    {
+     "lod": 1,
+     "vertices": 1148,
+     "triangles": 1250
+    },
+    {
+     "lod": 2,
+     "vertices": 559,
+     "triangles": 502
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplattowerbridge01-fd18535d.glb",
+   "bytes": 18676,
+   "vertices": 338,
+   "triangles": 548,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 338,
+     "triangles": 548
+    },
+    {
+     "lod": 1,
+     "vertices": 244,
+     "triangles": 380
+    },
+    {
+     "lod": 2,
+     "vertices": 244,
+     "triangles": 380
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplattowerbridgeendcap01-876c15ff.glb",
+   "bytes": 12392,
+   "vertices": 241,
+   "triangles": 312,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 241,
+     "triangles": 312
+    },
+    {
+     "lod": 1,
+     "vertices": 241,
+     "triangles": 312
+    },
+    {
+     "lod": 2,
+     "vertices": 241,
+     "triangles": 312
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01": {
+   "file": "vanilla_dungeons_nordic_exterior_nortmpextplattowerbridgefree01-f10c08df.glb",
+   "bytes": 24428,
+   "vertices": 523,
+   "triangles": 805,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 523,
+     "triangles": 805
+    },
+    {
+     "lod": 1,
+     "vertices": 279,
+     "triangles": 356
+    },
+    {
+     "lod": 2,
+     "vertices": 279,
+     "triangles": 356
+    }
+   ],
+   "textures": [
+    "1f5141e255713d02",
+    "63044b701594f2c6"
+   ]
+  },
+  "vanilla:landscape/bridges/bridge01": {
+   "file": "vanilla_landscape_bridges_bridge01-52d66378.glb",
+   "bytes": 140100,
+   "vertices": 3803,
+   "triangles": 4750,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3803,
+     "triangles": 4750
+    },
+    {
+     "lod": 1,
+     "vertices": 2220,
+     "triangles": 2168
+    },
+    {
+     "lod": 2,
+     "vertices": 1583,
+     "triangles": 1499
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "45645c0f41cede5c",
+    "c3bd4ca79d871927",
+    "ccd2455ab3507393"
+   ]
+  },
+  "vanilla:landscape/bridges/bridgelong01": {
+   "file": "vanilla_landscape_bridges_bridgelong01-3f599200.glb",
+   "bytes": 160512,
+   "vertices": 4815,
+   "triangles": 6104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4815,
+     "triangles": 6104
+    },
+    {
+     "lod": 1,
+     "vertices": 2624,
+     "triangles": 2553
+    },
+    {
+     "lod": 2,
+     "vertices": 1641,
+     "triangles": 1531
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "45645c0f41cede5c",
+    "c3bd4ca79d871927",
+    "ccd2455ab3507393"
+   ]
+  },
+  "vanilla:landscape/bridges/bridgenarrow01": {
+   "file": "vanilla_landscape_bridges_bridgenarrow01-681e5e18.glb",
+   "bytes": 80168,
+   "vertices": 2057,
+   "triangles": 2566,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2057,
+     "triangles": 2566
+    },
+    {
+     "lod": 1,
+     "vertices": 1351,
+     "triangles": 1410
+    },
+    {
+     "lod": 2,
+     "vertices": 1316,
+     "triangles": 1367
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "45645c0f41cede5c",
+    "c3bd4ca79d871927",
+    "ccd2455ab3507393"
+   ]
+  },
+  "vanilla:landscape/bridges/bridgeshort01": {
+   "file": "vanilla_landscape_bridges_bridgeshort01-df2669c8.glb",
+   "bytes": 79416,
+   "vertices": 2053,
+   "triangles": 2566,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2053,
+     "triangles": 2566
+    },
+    {
+     "lod": 1,
+     "vertices": 1347,
+     "triangles": 1411
+    },
+    {
+     "lod": 2,
+     "vertices": 1312,
+     "triangles": 1368
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "45645c0f41cede5c",
+    "c3bd4ca79d871927",
+    "ccd2455ab3507393"
+   ]
+  }
+ },
+ "fires": {}
+}

@@ -1356,7 +1356,7 @@
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -1415,7 +1415,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -1447,7 +1447,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -1473,7 +1473,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",
@@ -1574,6 +1574,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

@@ -88,3 +88,21 @@ def test_an_empty_selection_prints_nothing_and_never_falls_back_to_the_suite(mon
     monkeypatch.setattr(sys, "argv", ["select_tests.py", "placement"])
     sel.main()
     assert capsys.readouterr().out == ""
+
+
+def test_a_workbench_hub_module_selects_its_own_tests_not_the_suite():
+    """perf10 c13: wb.py, walkway.py and rules.py reach (nearly) every
+    workbench test by import; each selects its own named set instead."""
+    sel = _module()
+    for hub, own in sel.OWN_TESTS.items():
+        got = sel.select_changed("workbench", [hub], use_reads_map=False)
+        assert got["selected"] == sorted(own) and not got["all"], hub
+
+
+def test_an_autouse_conftest_fixture_brings_only_the_imports_it_uses():
+    """The workbench conftest imports wb for `applied_layout`; its autouse
+    `_scratch_reports` uses only os, so it must not hand every test wb."""
+    sel = _module()
+    fx = sel._fixtures("tooling/placement-workbench/tests/conftest.py")
+    assert fx["_scratch_reports"] == (True, frozenset())
+    assert "tooling/placement-workbench/wb.py" in fx["applied_layout"][1]

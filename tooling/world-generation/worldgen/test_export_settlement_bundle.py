@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 import hashlib
 import struct
 
@@ -57,7 +58,7 @@ def _write(path, data):
 
 def _route_source(root, structures):
     path = root / "route-structures-source.json"
-    _write(path, {"schemaVersion": 1, "structures": structures})
+    _write(path, {"schemaVersion": ex.ROUTE_STRUCTURES_SCHEMA, "structures": structures})
     return path
 
 
@@ -543,6 +544,26 @@ def test_refuses_missing_route_output_and_missing_structure_placements(tmp_path,
                         tmp_path / "kits", source)
 
 
+def test_built_by_route_row_carries_no_piece(tmp_path):
+    """A row a place builds (`builtBy`) needs no route placement and refuses one;
+    a --places merge and --route-claims drop the published piece of such a row."""
+    row = {"id": "structure.a.1", "wayId": "route.a", "kind": "stair",
+           "fromM": 10, "toM": 20, "builtBy": "place.x.y"}
+    source = _route_source(tmp_path, [row])
+    _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [row],
+                                         "placements": []})
+    assert ex._validated_route_docs(tmp_path / "routes", source)[0]["placements"] == []
+    piece = {"id": "structure.a.1.p1", "kind": "route-structure", "fromM": 10, "toM": 20,
+             "provenance": {"sourceStructureId": row["id"]}}
+    _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [row],
+                                         "placements": [piece]})
+    with pytest.raises(ValueError, match="is builtBy place.x.y and carries no route piece"):
+        ex._validated_route_docs(tmp_path / "routes", source)
+    whole = {"placements": [piece, {"id": "p.place", "kind": "x", "provenance": {}}]}
+    assert ex.drop_built_by_route_pieces(whole, ex.route_built_by(json.loads(source.read_text()))) == 1
+    assert [p["id"] for p in whole["placements"]] == ["p.place"]
+
+
 def test_refuses_route_output_with_stale_embedded_authored_row(tmp_path, monkeypatch):
     monkeypatch.setattr(ex, "shared_survey", lambda: object())
     source_row = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
@@ -574,6 +595,19 @@ def test_refuses_a_gap_in_a_route_structure_placement_set(tmp_path, monkeypatch)
                         tmp_path / "kits", _route_source(tmp_path, [source_row]))
 
 
+def _publish_parts(public: Path, name: str, manifest: dict, raw: bytes | None = None,
+                   packed_sha: str = "p" * 64) -> None:
+    """A kit as kit_compress publishes it (decision 0120): its manifest with a
+    compression record, and a schema 4 parts index cut from `raw`."""
+    import hashlib
+    record = {"sha256": packed_sha, "textureContainer": "ktx2", "geometry": "EXT_meshopt_compression"}
+    (public / f"{name}.kit.json").write_text(json.dumps({**manifest, "compression": record}))
+    (public / name / "parts").mkdir(parents=True, exist_ok=True)
+    (public / name / "parts" / "index.json").write_text(json.dumps({
+        "schemaVersion": 4, "packed": {"sha256": packed_sha},
+        "source": {"sha256": hashlib.sha256(raw or b"").hexdigest()}, "assets": {}}))
+
+
 def test_copy_assets_validates_every_input_before_touching_publication(tmp_path):
     bundle = {"kits": {"a": {}, "b": {}}}
     for name in ("a.glb", "a.kit.json", "b.kit.json"):
@@ -581,70 +615,64 @@ def test_copy_assets_validates_every_input_before_touching_publication(tmp_path)
         (tmp_path / "source" / name).write_bytes(b"present")
     public = tmp_path / "public"
     public.mkdir()
-    (public / "a.glb").write_bytes(b"old")
+    _publish_parts(public, "a", {}, b"present")
+    before = sorted(str(p.relative_to(public)) for p in public.rglob("*"))
     with pytest.raises(ValueError, match="b.glb"):
         ex.copy_assets(bundle, tmp_path / "source", public)
-    assert (public / "a.glb").read_bytes() == b"old"
-    assert sorted(path.name for path in public.iterdir()) == ["a.glb"]
+    assert sorted(str(p.relative_to(public)) for p in public.rglob("*")) == before
 
 
-def test_copy_assets_ships_the_published_pair_never_a_raw_kit_build(tmp_path):
-    """16h M19 ruling 5, K14: the GLB that ships is the published, compressed
-    one; the raw `output/kits` build (no meshopt, no KTX2) never reaches
-    public/kits. A raw GLB over the published one is refused, a stale
-    published manifest is refused, and a kit with no published GLB is
-    compressed through kit_compress.publish first."""
-    import struct as _struct
-
-    def glb(document: dict, pad: int) -> bytes:
-        body = json.dumps(document).encode()
-        body += b" " * (-len(body) % 4)
-        chunk = _struct.pack("<II", len(body), 0x4E4F534A) + body + b"\0" * pad
-        return b"glTF" + _struct.pack("<II", 2, 12 + len(chunk)) + chunk
-
+def test_copy_assets_ships_the_published_parts_never_a_raw_kit_build(tmp_path):
+    """16h M19 ruling 5, K14, decision 0120: what ships is the kit's published
+    parts and manifest; the raw `output/kits` build never reaches public/kits.
+    A manifest without a compression record is refused, parts cut from another
+    raw build are refused, a stale published manifest is refused, and a kit
+    with no parts index is published through kit_compress.publish first."""
     source, public = tmp_path / "source", tmp_path / "public"
     source.mkdir()
     public.mkdir()
-    raw = glb({"meshes": [{}], "images": [{"mimeType": "image/png"}]}, 4000)
-    packed = glb({"meshes": [{}], "images": [{"mimeType": "image/ktx2"}],
-                  "extensionsUsed": ["KHR_texture_basisu", "EXT_meshopt_compression"]}, 0)
-    manifest = json.dumps({"compression": {"bytesAfter": len(packed)}})
+    raw = b"glTF raw build"
+    manifest = {"assets": []}
     (source / "k.glb").write_bytes(raw)
-    (source / "k.kit.json").write_text(manifest)
     (source / "k.footprints.json").write_text("{}")
 
-    # A raw build sitting in public/kits is refused and left untouched.
-    (public / "k.glb").write_bytes(raw)
-    (public / "k.kit.json").write_text(manifest)
-    with pytest.raises(ValueError, match="kit_compress --check.*not KTX2.*meshopt"):
+    # A manifest published without kit_compress is refused.
+    _publish_parts(public, "k", manifest, raw)
+    (public / "k.kit.json").write_text(json.dumps(manifest))
+    (source / "k.kit.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="kit_compress --check.*no `compression` record"):
         ex.copy_assets({"kits": {"k": {}}}, source, public)
-    assert (public / "k.glb").read_bytes() == raw
 
-    # The published pair ships; the raw build beside it is ignored.
-    (public / "k.glb").write_bytes(packed)
+    # Parts cut from another raw build are refused.
+    _publish_parts(public, "k", manifest, b"an older raw build")
+    (source / "k.kit.json").write_text((public / "k.kit.json").read_text())
+    with pytest.raises(ValueError, match="another raw build"):
+        ex.copy_assets({"kits": {"k": {}}}, source, public)
+
+    # Current parts ship with the build's sidecars; no GLB is written.
+    _publish_parts(public, "k", manifest, raw)
     ex.copy_assets({"kits": {"k": {}}}, source, public)
-    assert (public / "k.glb").read_bytes() == packed
     assert (public / "k.footprints.json").read_text() == "{}"
+    assert not list(public.glob("*.glb"))
 
     # A published manifest that is not the build's is a stale publish.
-    (source / "k.kit.json").write_text(json.dumps(
-        {"compression": {"bytesAfter": len(packed)}, "assets": []}))
+    built = (source / "k.kit.json").read_text()
+    (source / "k.kit.json").write_text(json.dumps({**json.loads(built), "assets": [{"id": "x"}]}))
     with pytest.raises(ValueError, match="stale publish"):
         ex.copy_assets({"kits": {"k": {}}}, source, public)
-    (source / "k.kit.json").write_text(manifest)
+    (source / "k.kit.json").write_text(built)
 
-    # No published GLB: the raw build is compressed through the publisher.
-    (public / "k.glb").unlink()
+    # No parts index: the raw build is published through the publisher.
+    shutil.rmtree(public / "k")
     published: list[str] = []
 
     def publish_kit(name: str) -> None:
         published.append(name)
-        (public / f"{name}.glb").write_bytes(packed)
-        (public / f"{name}.kit.json").write_text(manifest)
+        _publish_parts(public, name, manifest, raw)
 
     ex.copy_assets({"kits": {"k": {}}}, source, public, publish_kit)
     assert published == ["k"]
-    assert (public / "k.glb").read_bytes() == packed
+    assert (public / "k" / "parts" / "index.json").is_file()
 
 
 def test_copy_assets_for_named_places_checks_only_their_kits(tmp_path):
@@ -652,22 +680,14 @@ def test_copy_assets_for_named_places_checks_only_their_kits(tmp_path):
     parts included, they are placements); another lane's stale kit does not
     block it, and a named place that uses the stale kit is still refused.
     With no place list every kit in the bundle is checked."""
-    import struct as _struct
-    body = json.dumps({"meshes": [{}], "images": [{"mimeType": "image/ktx2"}],
-                       "extensionsUsed": ["KHR_texture_basisu", "EXT_meshopt_compression"]}).encode()
-    body += b" " * (-len(body) % 4)
-    chunk = _struct.pack("<II", len(body), 0x4E4F534A) + body
-    packed = b"glTF" + _struct.pack("<II", 2, 12 + len(chunk)) + chunk
-    manifest = json.dumps({"compression": {"bytesAfter": len(packed)}})
     source, public = tmp_path / "source", tmp_path / "public"
     source.mkdir()
     public.mkdir()
     for name in ("ok", "stale"):
-        (source / f"{name}.kit.json").write_text(manifest)
-        (public / f"{name}.glb").write_bytes(packed)
-        (public / f"{name}.kit.json").write_text(manifest)
-    (source / "stale.kit.json").write_text(json.dumps(
-        {"compression": {"bytesAfter": len(packed)}, "assets": ["in-flight"]}))
+        _publish_parts(public, name, {"assets": []})
+        (source / f"{name}.kit.json").write_text((public / f"{name}.kit.json").read_text())
+    stale = json.loads((source / "stale.kit.json").read_text())
+    (source / "stale.kit.json").write_text(json.dumps({**stale, "assets": [{"id": "in-flight"}]}))
     bundle = {"kits": {"ok": {}, "stale": {}}, "placements": [
         {"id": "a.1", "sourceId": "place.a", "kit": "ok"},
         {"id": "a.2", "sourceId": "place.a", "kit": "ok", "parentPlacementId": "a.1"},
@@ -1239,8 +1259,9 @@ def test_a_kit_without_its_three_sidecars_cannot_be_referenced(tmp_path):
 
 def test_every_published_kit_ships_its_sidecars(tmp_path):
     """The shipped build, not a fixture: every kit the studio downloads."""
-    missing = [problem for glb in sorted(ex.PUBLIC_KITS.glob("*.glb"))
-               for problem in ex.kit_sidecar_errors(glb.stem, ex.PUBLIC_KITS)]
+    kits = sorted(p.name[:-len(".kit.json")] for p in ex.PUBLIC_KITS.glob("*.kit.json"))
+    assert len(kits) >= 20
+    missing = [problem for kit in kits for problem in ex.kit_sidecar_errors(kit, ex.PUBLIC_KITS)]
     assert not missing, "\n".join(missing)
 
 

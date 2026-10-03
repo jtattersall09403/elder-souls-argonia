@@ -70,6 +70,17 @@ def test_shells_come_from_blueprint_and_layout_and_only_linked_ones(world):
         bpp.batch_shells(["place.nowhere"], LINKS, world["dir"])
 
 
+def test_a_slug_resolves_to_its_one_place_id(world):
+    assert bpp.resolve_places(["fixture"], world["dir"]) == [PLACE]
+    assert bpp.resolve_places([PLACE], world["dir"]) == [PLACE]
+    with pytest.raises(SystemExit):
+        bpp.resolve_places(["nowhere"], world["dir"])
+    (world["dir"] / "other.layout.json").write_text(json.dumps(
+        {"schemaVersion": 1, "placeId": "place.other.fixture", "ops": []}))
+    with pytest.raises(SystemExit):          # two ids end `.fixture`
+        bpp.resolve_places(["fixture"], world["dir"])
+
+
 @pytest.mark.parametrize("services", [["lodging"], ["trader"], ["smith"], []])
 def test_lookup_claims_equal_the_plugin_read_claims(world, services):
     doc = _table(world)
@@ -127,8 +138,15 @@ def test_a_previous_table_is_merged_only_when_its_inputs_match(world):
 
 
 def _kit(dir_: Path, kit: str, assets: list[str], glb_bytes: int = 0) -> None:
+    """A published kit (decision 0120): manifest, a parts index and one part
+    of `glb_bytes` minus 100 B, plus a 100 B pool texture the part names."""
     (dir_ / f"{kit}.kit.json").write_text(json.dumps({"kit": kit, "assets": [{"id": a} for a in assets]}))
-    (dir_ / f"{kit}.glb").write_bytes(b"x" * glb_bytes)
+    parts = dir_ / kit / "parts"
+    parts.mkdir(parents=True, exist_ok=True)
+    (dir_ / "tex").mkdir(exist_ok=True)
+    (dir_ / "tex" / f"{kit}.ktx2").write_bytes(b"t" * min(100, glb_bytes))
+    (parts / "a.glb").write_bytes(b"x" * max(0, glb_bytes - 100))
+    (parts / "index.json").write_text(json.dumps({"assets": {"a": {"file": "a.glb", "textures": [kit]}}}))
 
 
 def test_kit_plan_builds_missing_stale_and_stamped_kits(tmp_path):

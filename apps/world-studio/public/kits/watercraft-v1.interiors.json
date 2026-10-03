@@ -332,12 +332,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 220.4,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 220\u00b0 in the piece's own frame carries 5.26x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.08,
    "interior": "none",
    "planAreaM2": 0.71,

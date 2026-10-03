@@ -1644,47 +1644,27 @@
   },
   "kotm:argonia/blackwood/walkway01": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.01,
-     "kind": "leaf",
-     "offsetM": [
-      2.92,
-      7.2
-     ],
-     "sideDeg": 192.5
-    },
-    {
-     "arcM": 4.48,
-     "kind": "open-front",
-     "offsetM": [
-      3.2,
-      0.31
-     ],
-     "sideDeg": 206.95
-    }
-   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 277.7,
+    "deg": 280.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 278\u00b0 in the piece's own frame carries 7.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 281\u00b0 in the piece's own frame carries 3.88x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
-   "headroomM": 6.4,
+   "headroomM": 6.17,
    "heightM": 7.36,
    "interior": "none",
-   "medianWallM": 3.41,
-   "planAreaM2": 99.05,
+   "medianWallM": 1.38,
+   "planAreaM2": 98.32,
    "planCentreM": [
-    5.41,
-    -4.04
+    3.6,
+    -3.74
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.236,
    "roofOverhead": true,
    "sizeClass": "medium",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
@@ -1695,164 +1675,99 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 97.1,
+    "deg": 81.9,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 97\u00b0 in the piece's own frame carries 13.02x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 82\u00b0 in the piece's own frame carries 2.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 6.34,
    "heightM": 7.24,
    "interior": "none",
-   "medianWallM": 3.77,
-   "planAreaM2": 72.71,
+   "medianWallM": 2.76,
+   "planAreaM2": 65.84,
    "planCentreM": [
-    -4.94,
-    -4.78
+    -4.25,
+    -4.49
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.181,
    "roofOverhead": true,
    "sizeClass": "medium",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "kotm:argonia/blackwood/walkway03": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.56,
-     "kind": "opening",
-     "offsetM": [
-      -4.58,
-      -1.68
-     ],
-     "sideDeg": 44.59
-    },
-    {
-     "arcM": 1.52,
-     "kind": "opening",
-     "offsetM": [
-      -3.1,
-      0.06
-     ],
-     "sideDeg": 68.01
-    }
-   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 41.1,
+    "deg": 262.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 41\u00b0 in the piece's own frame carries 2.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 263\u00b0 in the piece's own frame carries 3.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
-   "headroomM": 7.24,
+   "headroomM": 6.33,
    "heightM": 7.24,
    "interior": "none",
-   "medianWallM": 7.73,
-   "planAreaM2": 254.66,
+   "medianWallM": 4.93,
+   "planAreaM2": 146.38,
    "planCentreM": [
-    -8.41,
-    2.2
+    -6.45,
+    1.9
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.167,
    "roofOverhead": true,
    "sizeClass": "large",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "kotm:argonia/blackwood/walkway04": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.04,
-     "kind": "opening",
-     "offsetM": [
-      3.03,
-      3.45
-     ],
-     "sideDeg": 97.5
-    },
-    {
-     "arcM": 1.9,
-     "kind": "opening",
-     "offsetM": [
-      3.09,
-      3.47
-     ],
-     "sideDeg": 98.13
-    },
-    {
-     "arcM": 1.14,
-     "kind": "opening",
-     "offsetM": [
-      7.03,
-      0.78
-     ],
-     "sideDeg": 63.59
-    }
-   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
-   "front": {
-    "deg": 163.6,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 164\u00b0 in the piece's own frame carries 2.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "floorOffsetM": 2.0,
+   "front": null,
    "frontFaceFraction": 1.0,
-   "headroomM": 6.39,
+   "headroomM": 4.39,
    "heightM": 7.23,
    "interior": "none",
-   "medianWallM": 7.07,
-   "planAreaM2": 317.67,
+   "medianWallM": 1.39,
+   "planAreaM2": 175.97,
    "planCentreM": [
-    1.94,
-    3.31
+    4.56,
+    3.25
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.194,
    "roofOverhead": true,
    "sizeClass": "large",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "kotm:argonia/blackwood/walkway05": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.12,
-     "kind": "leaf",
-     "offsetM": [
-      -1.09,
-      -0.45
-     ],
-     "sideDeg": 35.0
-    }
-   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
+   "floorOffsetM": 1.0,
    "front": {
-    "deg": 99.1,
+    "deg": 79.7,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 99\u00b0 in the piece's own frame carries 5.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 80\u00b0 in the piece's own frame carries 2.06x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
-   "headroomM": 5.77,
+   "headroomM": 5.34,
    "heightM": 7.28,
    "interior": "none",
-   "medianWallM": 3.49,
-   "planAreaM2": 85.01,
+   "medianWallM": 2.12,
+   "planAreaM2": 80.28,
    "planCentreM": [
-    -2.88,
-    2.11
+    -2.25,
+    -0.01
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.236,
    "roofOverhead": true,
    "sizeClass": "medium",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
@@ -1861,22 +1776,22 @@
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
+   "floorOffsetM": 4.0,
    "front": {
-    "deg": 223.0,
+    "deg": 291.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 223\u00b0 in the piece's own frame carries 5.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 292\u00b0 in the piece's own frame carries 1.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
-   "frontFaceFraction": 1.0,
-   "headroomM": 6.16,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.93,
    "heightM": 7.11,
    "interior": "none",
-   "medianWallM": 3.78,
-   "planAreaM2": 57.84,
+   "medianWallM": 0.08,
+   "planAreaM2": 54.33,
    "planCentreM": [
-    6.78,
-    -1.21
+    5.99,
+    -1.54
    ],
    "provenance": [],
    "ringFraction": 1.0,
@@ -1886,56 +1801,27 @@
   },
   "kotm:argonia/blackwood/walkway07": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 0.97,
-     "kind": "opening",
-     "offsetM": [
-      8.07,
-      -14.17
-     ],
-     "sideDeg": 62.5
-    },
-    {
-     "arcM": 5.79,
-     "kind": "open-front",
-     "offsetM": [
-      8.8,
-      -14.27
-     ],
-     "sideDeg": 64.12
-    },
-    {
-     "arcM": 1.12,
-     "kind": "opening",
-     "offsetM": [
-      0.32,
-      -6.88
-     ],
-     "sideDeg": 191.23
-    }
-   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
+   "floorOffsetM": 2.0,
    "front": {
-    "deg": 160.7,
+    "deg": 15.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 161\u00b0 in the piece's own frame carries 5.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 16\u00b0 in the piece's own frame carries 12.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
-   "headroomM": 5.44,
+   "headroomM": 1.95,
    "heightM": 5.44,
    "interior": "none",
-   "medianWallM": 7.05,
-   "planAreaM2": 204.68,
+   "medianWallM": 3.93,
+   "planAreaM2": 142.18,
    "planCentreM": [
-    1.04,
-    -10.5
+    2.6,
+    -8.71
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.264,
    "roofOverhead": true,
    "sizeClass": "large",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
@@ -1944,25 +1830,25 @@
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
+   "floorOffsetM": 8.0,
    "front": {
-    "deg": 251.6,
+    "deg": 253.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 252\u00b0 in the piece's own frame carries 11.93x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 254\u00b0 in the piece's own frame carries 1.46x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
-   "headroomM": 10.32,
+   "headroomM": 1.91,
    "heightM": 12.77,
    "interior": "none",
-   "medianWallM": 1.8,
-   "planAreaM2": 35.9,
+   "medianWallM": 0.93,
+   "planAreaM2": 33.44,
    "planCentreM": [
-    1.16,
-    0.33
+    1.26,
+    0.57
    ],
    "provenance": [],
-   "ringFraction": 1.0,
+   "ringFraction": 0.375,
    "roofOverhead": true,
    "sizeClass": "small",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"

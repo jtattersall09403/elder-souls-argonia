@@ -1,0 +1,1961 @@
+{
+ "schemaVersion": 4,
+ "kit": "vanilla-imperial-int",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 26098388,
+  "sha256": "c8ec6e9cbd0758d7daaf0022b51ae3304d15da182bcc39ce411e772d5a2c0e64"
+ },
+ "packed": {
+  "bytes": 8503328,
+  "sha256": "ec98e85b841a75b8a41d98340dcf7e69b6ddfef511148316fa0e9e4d70343846"
+ },
+ "totals": {
+  "parts": 65,
+  "partBytes": 6166228,
+  "textureFiles": 14,
+  "textureBytes": 3842411,
+  "bytes": 10008639
+ },
+ "assets": {
+  "vanilla:dungeons/imperial/door/impwooddoordouble01": {
+   "file": "vanilla_dungeons_imperial_door_impwooddoordouble01-7e87fee7.glb",
+   "bytes": 236700,
+   "vertices": 9286,
+   "triangles": 6546,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 9286,
+     "triangles": 6546
+    },
+    {
+     "lod": 1,
+     "vertices": 3800,
+     "triangles": 2718
+    },
+    {
+     "lod": 2,
+     "vertices": 2521,
+     "triangles": 1760
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "62796ffa60030984",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/door/impwooddoordoubleload01": {
+   "file": "vanilla_dungeons_imperial_door_impwooddoordoubleload01-548557a1.glb",
+   "bytes": 91384,
+   "vertices": 2712,
+   "triangles": 2425,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2712,
+     "triangles": 2425
+    },
+    {
+     "lod": 1,
+     "vertices": 1480,
+     "triangles": 1033
+    },
+    {
+     "lod": 2,
+     "vertices": 1177,
+     "triangles": 886
+    }
+   ],
+   "textures": [
+    "245c6780c7d62347",
+    "62796ffa60030984",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsingle01": {
+   "file": "vanilla_dungeons_imperial_door_impwooddoorsingle01-0c83bfa9.glb",
+   "bytes": 175448,
+   "vertices": 5634,
+   "triangles": 4871,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5634,
+     "triangles": 4871
+    },
+    {
+     "lod": 1,
+     "vertices": 2919,
+     "triangles": 2098
+    },
+    {
+     "lod": 2,
+     "vertices": 1703,
+     "triangles": 1294
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "62796ffa60030984",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsingleload01": {
+   "file": "vanilla_dungeons_imperial_door_impwooddoorsingleload01-c7038d89.glb",
+   "bytes": 109224,
+   "vertices": 3437,
+   "triangles": 2915,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3437,
+     "triangles": 2915
+    },
+    {
+     "lod": 1,
+     "vertices": 1771,
+     "triangles": 1271
+    },
+    {
+     "lod": 2,
+     "vertices": 1264,
+     "triangles": 987
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "62796ffa60030984",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsinglesmall01": {
+   "file": "vanilla_dungeons_imperial_door_impwooddoorsinglesmall01-ff3be3c4.glb",
+   "bytes": 57768,
+   "vertices": 1824,
+   "triangles": 1600,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1824,
+     "triangles": 1600
+    },
+    {
+     "lod": 1,
+     "vertices": 927,
+     "triangles": 648
+    },
+    {
+     "lod": 2,
+     "vertices": 607,
+     "triangles": 436
+    }
+   ],
+   "textures": [
+    "245c6780c7d62347",
+    "62796ffa60030984"
+   ]
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsinglesmallload01": {
+   "file": "vanilla_dungeons_imperial_door_impwooddoorsinglesmallload01-da5cae2e.glb",
+   "bytes": 30448,
+   "vertices": 946,
+   "triangles": 782,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 946,
+     "triangles": 782
+    },
+    {
+     "lod": 1,
+     "vertices": 543,
+     "triangles": 386
+    },
+    {
+     "lod": 2,
+     "vertices": 543,
+     "triangles": 386
+    }
+   ],
+   "textures": [
+    "245c6780c7d62347",
+    "62796ffa60030984"
+   ]
+  },
+  "vanilla:dungeons/imperial/door/trapdoorladder01": {
+   "file": "vanilla_dungeons_imperial_door_trapdoorladder01-73a969fd.glb",
+   "bytes": 32620,
+   "vertices": 1320,
+   "triangles": 768,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1320,
+     "triangles": 768
+    },
+    {
+     "lod": 1,
+     "vertices": 946,
+     "triangles": 524
+    },
+    {
+     "lod": 2,
+     "vertices": 946,
+     "triangles": 524
+    }
+   ],
+   "textures": [
+    "439020c4de370b99",
+    "6dc005f6d00197e5"
+   ]
+  },
+  "vanilla:dungeons/imperial/jail/impjaildoor01": {
+   "file": "vanilla_dungeons_imperial_jail_impjaildoor01-f8b8f26f.glb",
+   "bytes": 12772,
+   "vertices": 348,
+   "triangles": 200,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 348,
+     "triangles": 200
+    },
+    {
+     "lod": 1,
+     "vertices": 348,
+     "triangles": 200
+    },
+    {
+     "lod": 2,
+     "vertices": 348,
+     "triangles": 200
+    }
+   ],
+   "textures": [
+    "773383764c6fd365",
+    "d0a0497dcef0a39f"
+   ]
+  },
+  "vanilla:dungeons/imperial/jail/impjaildoorframe01": {
+   "file": "vanilla_dungeons_imperial_jail_impjaildoorframe01-21862ef3.glb",
+   "bytes": 19000,
+   "vertices": 466,
+   "triangles": 406,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 466,
+     "triangles": 406
+    },
+    {
+     "lod": 1,
+     "vertices": 400,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 400,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "773383764c6fd365"
+   ]
+  },
+  "vanilla:dungeons/imperial/jail/impjailwall01": {
+   "file": "vanilla_dungeons_imperial_jail_impjailwall01-48269a3d.glb",
+   "bytes": 7188,
+   "vertices": 204,
+   "triangles": 162,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 204,
+     "triangles": 162
+    },
+    {
+     "lod": 1,
+     "vertices": 204,
+     "triangles": 162
+    },
+    {
+     "lod": 2,
+     "vertices": 204,
+     "triangles": 162
+    }
+   ],
+   "textures": [
+    "773383764c6fd365"
+   ]
+  },
+  "vanilla:dungeons/imperial/largehall/implhall1way01": {
+   "file": "vanilla_dungeons_imperial_largehall_implhall1way01-f6b1c010.glb",
+   "bytes": 199384,
+   "vertices": 5456,
+   "triangles": 6498,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5456,
+     "triangles": 6498
+    },
+    {
+     "lod": 1,
+     "vertices": 2894,
+     "triangles": 2790
+    },
+    {
+     "lod": 2,
+     "vertices": 2261,
+     "triangles": 2097
+    }
+   ],
+   "textures": [
+    "05d2c6a30bdf141c",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largehall/implhall2way01": {
+   "file": "vanilla_dungeons_imperial_largehall_implhall2way01-b48f26d6.glb",
+   "bytes": 208436,
+   "vertices": 5750,
+   "triangles": 6626,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5750,
+     "triangles": 6626
+    },
+    {
+     "lod": 1,
+     "vertices": 3121,
+     "triangles": 2807
+    },
+    {
+     "lod": 2,
+     "vertices": 2440,
+     "triangles": 2098
+    }
+   ],
+   "textures": [
+    "05d2c6a30bdf141c",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largehall/implhall4way01": {
+   "file": "vanilla_dungeons_imperial_largehall_implhall4way01-82280a63.glb",
+   "bytes": 86268,
+   "vertices": 1982,
+   "triangles": 2338,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1982,
+     "triangles": 2338
+    },
+    {
+     "lod": 1,
+     "vertices": 1329,
+     "triangles": 1303
+    },
+    {
+     "lod": 2,
+     "vertices": 1316,
+     "triangles": 1283
+    }
+   ],
+   "textures": [
+    "05d2c6a30bdf141c",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largehall/implhalldoorl01": {
+   "file": "vanilla_dungeons_imperial_largehall_implhalldoorl01-9b30fa97.glb",
+   "bytes": 202528,
+   "vertices": 5566,
+   "triangles": 6189,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5566,
+     "triangles": 6189
+    },
+    {
+     "lod": 1,
+     "vertices": 2730,
+     "triangles": 2403
+    },
+    {
+     "lod": 2,
+     "vertices": 2175,
+     "triangles": 1831
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largehall/implhallstairs01": {
+   "file": "vanilla_dungeons_imperial_largehall_implhallstairs01-692737cd.glb",
+   "bytes": 379544,
+   "vertices": 12699,
+   "triangles": 11714,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12699,
+     "triangles": 11714
+    },
+    {
+     "lod": 1,
+     "vertices": 6162,
+     "triangles": 4219
+    },
+    {
+     "lod": 2,
+     "vertices": 3364,
+     "triangles": 2491
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "05d2c6a30bdf141c",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner01": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomcorner01-d4762d99.glb",
+   "bytes": 157720,
+   "vertices": 4192,
+   "triangles": 4489,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4192,
+     "triangles": 4489
+    },
+    {
+     "lod": 1,
+     "vertices": 2827,
+     "triangles": 2499
+    },
+    {
+     "lod": 2,
+     "vertices": 2428,
+     "triangles": 2103
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner02": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomcorner02-994ca7be.glb",
+   "bytes": 157584,
+   "vertices": 4183,
+   "triangles": 4480,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4183,
+     "triangles": 4480
+    },
+    {
+     "lod": 1,
+     "vertices": 2822,
+     "triangles": 2495
+    },
+    {
+     "lod": 2,
+     "vertices": 2429,
+     "triangles": 2102
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner03": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomcorner03-aba159b2.glb",
+   "bytes": 157964,
+   "vertices": 4184,
+   "triangles": 4518,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4184,
+     "triangles": 4518
+    },
+    {
+     "lod": 1,
+     "vertices": 2847,
+     "triangles": 2507
+    },
+    {
+     "lod": 2,
+     "vertices": 2413,
+     "triangles": 2101
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner04": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomcorner04-51ec19ea.glb",
+   "bytes": 158352,
+   "vertices": 4223,
+   "triangles": 4544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4223,
+     "triangles": 4544
+    },
+    {
+     "lod": 1,
+     "vertices": 2871,
+     "triangles": 2516
+    },
+    {
+     "lod": 2,
+     "vertices": 2420,
+     "triangles": 2102
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor01": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomdoor01-12b1b2b8.glb",
+   "bytes": 161572,
+   "vertices": 4202,
+   "triangles": 4561,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4202,
+     "triangles": 4561
+    },
+    {
+     "lod": 1,
+     "vertices": 2476,
+     "triangles": 2263
+    },
+    {
+     "lod": 2,
+     "vertices": 2168,
+     "triangles": 1980
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor02": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomdoor02-a01fa618.glb",
+   "bytes": 162248,
+   "vertices": 4200,
+   "triangles": 4591,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4200,
+     "triangles": 4591
+    },
+    {
+     "lod": 1,
+     "vertices": 2483,
+     "triangles": 2275
+    },
+    {
+     "lod": 2,
+     "vertices": 2179,
+     "triangles": 1981
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor03": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomdoor03-b8d40691.glb",
+   "bytes": 161688,
+   "vertices": 4208,
+   "triangles": 4583,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4208,
+     "triangles": 4583
+    },
+    {
+     "lod": 1,
+     "vertices": 2471,
+     "triangles": 2271
+    },
+    {
+     "lod": 2,
+     "vertices": 2157,
+     "triangles": 1980
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor04": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomdoor04-fd8bd517.glb",
+   "bytes": 162976,
+   "vertices": 4234,
+   "triangles": 4643,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4234,
+     "triangles": 4643
+    },
+    {
+     "lod": 1,
+     "vertices": 2505,
+     "triangles": 2292
+    },
+    {
+     "lod": 2,
+     "vertices": 2174,
+     "triangles": 1981
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner01": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomicorner01-cba0ede2.glb",
+   "bytes": 109168,
+   "vertices": 2828,
+   "triangles": 2940,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2828,
+     "triangles": 2940
+    },
+    {
+     "lod": 1,
+     "vertices": 1776,
+     "triangles": 1652
+    },
+    {
+     "lod": 2,
+     "vertices": 1574,
+     "triangles": 1507
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner02": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomicorner02-4daa6244.glb",
+   "bytes": 109036,
+   "vertices": 2821,
+   "triangles": 2962,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2821,
+     "triangles": 2962
+    },
+    {
+     "lod": 1,
+     "vertices": 1764,
+     "triangles": 1658
+    },
+    {
+     "lod": 2,
+     "vertices": 1566,
+     "triangles": 1506
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner03": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomicorner03-4ba07127.glb",
+   "bytes": 109240,
+   "vertices": 2823,
+   "triangles": 2947,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2823,
+     "triangles": 2947
+    },
+    {
+     "lod": 1,
+     "vertices": 1766,
+     "triangles": 1653
+    },
+    {
+     "lod": 2,
+     "vertices": 1583,
+     "triangles": 1507
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner04": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomicorner04-e2c37522.glb",
+   "bytes": 110416,
+   "vertices": 2865,
+   "triangles": 2964,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2865,
+     "triangles": 2964
+    },
+    {
+     "lod": 1,
+     "vertices": 1797,
+     "triangles": 1661
+    },
+    {
+     "lod": 2,
+     "vertices": 1591,
+     "triangles": 1508
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroommid01": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroommid01-7ba31661.glb",
+   "bytes": 91644,
+   "vertices": 2424,
+   "triangles": 2430,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2424,
+     "triangles": 2430
+    },
+    {
+     "lod": 1,
+     "vertices": 1487,
+     "triangles": 1283
+    },
+    {
+     "lod": 2,
+     "vertices": 1384,
+     "triangles": 1210
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroommid02": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroommid02-0a5b8c98.glb",
+   "bytes": 94048,
+   "vertices": 2488,
+   "triangles": 2516,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2488,
+     "triangles": 2516
+    },
+    {
+     "lod": 1,
+     "vertices": 1533,
+     "triangles": 1313
+    },
+    {
+     "lod": 2,
+     "vertices": 1393,
+     "triangles": 1210
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroompillar01": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroompillar01-700b8acb.glb",
+   "bytes": 113848,
+   "vertices": 2846,
+   "triangles": 3468,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2846,
+     "triangles": 3468
+    },
+    {
+     "lod": 1,
+     "vertices": 1597,
+     "triangles": 1513
+    },
+    {
+     "lod": 2,
+     "vertices": 1263,
+     "triangles": 1172
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall01": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomwall01-dfcf72e0.glb",
+   "bytes": 124968,
+   "vertices": 3246,
+   "triangles": 3620,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3246,
+     "triangles": 3620
+    },
+    {
+     "lod": 1,
+     "vertices": 2170,
+     "triangles": 2066
+    },
+    {
+     "lod": 2,
+     "vertices": 1914,
+     "triangles": 1800
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall02": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomwall02-2fabf662.glb",
+   "bytes": 128500,
+   "vertices": 3377,
+   "triangles": 3626,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3377,
+     "triangles": 3626
+    },
+    {
+     "lod": 1,
+     "vertices": 2299,
+     "triangles": 2068
+    },
+    {
+     "lod": 2,
+     "vertices": 1966,
+     "triangles": 1800
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall03": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomwall03-73bcd30e.glb",
+   "bytes": 128708,
+   "vertices": 3359,
+   "triangles": 3638,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3359,
+     "triangles": 3638
+    },
+    {
+     "lod": 1,
+     "vertices": 2285,
+     "triangles": 2074
+    },
+    {
+     "lod": 2,
+     "vertices": 1964,
+     "triangles": 1801
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall04": {
+   "file": "vanilla_dungeons_imperial_largeroom_implroomwall04-25ac62ec.glb",
+   "bytes": 123368,
+   "vertices": 3207,
+   "triangles": 3614,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3207,
+     "triangles": 3614
+    },
+    {
+     "lod": 1,
+     "vertices": 2144,
+     "triangles": 2064
+    },
+    {
+     "lod": 2,
+     "vertices": 1896,
+     "triangles": 1800
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "7dc51dc4e097127f",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall1way01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphall1way01-ac347327.glb",
+   "bytes": 85620,
+   "vertices": 2225,
+   "triangles": 3428,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2225,
+     "triangles": 3428
+    },
+    {
+     "lod": 1,
+     "vertices": 1049,
+     "triangles": 1356
+    },
+    {
+     "lod": 2,
+     "vertices": 874,
+     "triangles": 1043
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall1way128d01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphall1way128d01-7ff892e3.glb",
+   "bytes": 86584,
+   "vertices": 2257,
+   "triangles": 3448,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2257,
+     "triangles": 3448
+    },
+    {
+     "lod": 1,
+     "vertices": 1042,
+     "triangles": 1342
+    },
+    {
+     "lod": 2,
+     "vertices": 875,
+     "triangles": 1043
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall1way128u01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphall1way128u01-416407c2.glb",
+   "bytes": 75948,
+   "vertices": 2095,
+   "triangles": 3144,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2095,
+     "triangles": 3144
+    },
+    {
+     "lod": 1,
+     "vertices": 1003,
+     "triangles": 1264
+    },
+    {
+     "lod": 2,
+     "vertices": 882,
+     "triangles": 1044
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall2way01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphall2way01-79995493.glb",
+   "bytes": 68928,
+   "vertices": 1667,
+   "triangles": 2235,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1667,
+     "triangles": 2235
+    },
+    {
+     "lod": 1,
+     "vertices": 946,
+     "triangles": 1040
+    },
+    {
+     "lod": 2,
+     "vertices": 939,
+     "triangles": 1027
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall3way01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphall3way01-d62762bd.glb",
+   "bytes": 94668,
+   "vertices": 2625,
+   "triangles": 3211,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2625,
+     "triangles": 3211
+    },
+    {
+     "lod": 1,
+     "vertices": 1292,
+     "triangles": 1264
+    },
+    {
+     "lod": 2,
+     "vertices": 1156,
+     "triangles": 1097
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall4way01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphall4way01-7564db47.glb",
+   "bytes": 97952,
+   "vertices": 2767,
+   "triangles": 3140,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2767,
+     "triangles": 3140
+    },
+    {
+     "lod": 1,
+     "vertices": 1409,
+     "triangles": 1290
+    },
+    {
+     "lod": 2,
+     "vertices": 1288,
+     "triangles": 1156
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphalldeadend01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphalldeadend01-e950ae42.glb",
+   "bytes": 63612,
+   "vertices": 1438,
+   "triangles": 1987,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1438,
+     "triangles": 1987
+    },
+    {
+     "lod": 1,
+     "vertices": 884,
+     "triangles": 981
+    },
+    {
+     "lod": 2,
+     "vertices": 883,
+     "triangles": 980
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphallstairs01": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphallstairs01-1e3bf304.glb",
+   "bytes": 92088,
+   "vertices": 2347,
+   "triangles": 3148,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2347,
+     "triangles": 3148
+    },
+    {
+     "lod": 1,
+     "vertices": 1380,
+     "triangles": 1607
+    },
+    {
+     "lod": 2,
+     "vertices": 1267,
+     "triangles": 1424
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallhall/imphallstairs02": {
+   "file": "vanilla_dungeons_imperial_smallhall_imphallstairs02-16045828.glb",
+   "bytes": 74580,
+   "vertices": 2003,
+   "triangles": 2680,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2003,
+     "triangles": 2680
+    },
+    {
+     "lod": 1,
+     "vertices": 1133,
+     "triangles": 1307
+    },
+    {
+     "lod": 2,
+     "vertices": 1020,
+     "triangles": 1124
+    }
+   ],
+   "textures": [
+    "00be7f7b51a40757",
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improombrace01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improombrace01-548694bf.glb",
+   "bytes": 10956,
+   "vertices": 160,
+   "triangles": 150,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 160,
+     "triangles": 150
+    },
+    {
+     "lod": 1,
+     "vertices": 160,
+     "triangles": 150
+    },
+    {
+     "lod": 2,
+     "vertices": 160,
+     "triangles": 150
+    }
+   ],
+   "textures": [
+    "1e040fc4d45865fc",
+    "245c6780c7d62347"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomcorner01-34fc79da.glb",
+   "bytes": 47016,
+   "vertices": 1043,
+   "triangles": 1359,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1043,
+     "triangles": 1359
+    },
+    {
+     "lod": 1,
+     "vertices": 786,
+     "triangles": 922
+    },
+    {
+     "lod": 2,
+     "vertices": 786,
+     "triangles": 922
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner02": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomcorner02-6fee2fe5.glb",
+   "bytes": 47420,
+   "vertices": 1048,
+   "triangles": 1367,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1048,
+     "triangles": 1367
+    },
+    {
+     "lod": 1,
+     "vertices": 786,
+     "triangles": 920
+    },
+    {
+     "lod": 2,
+     "vertices": 786,
+     "triangles": 920
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner03": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomcorner03-1774e1cc.glb",
+   "bytes": 47108,
+   "vertices": 1044,
+   "triangles": 1372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1044,
+     "triangles": 1372
+    },
+    {
+     "lod": 1,
+     "vertices": 776,
+     "triangles": 921
+    },
+    {
+     "lod": 2,
+     "vertices": 776,
+     "triangles": 921
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner04": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomcorner04-5a83a29f.glb",
+   "bytes": 47444,
+   "vertices": 1048,
+   "triangles": 1379,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1048,
+     "triangles": 1379
+    },
+    {
+     "lod": 1,
+     "vertices": 777,
+     "triangles": 922
+    },
+    {
+     "lod": 2,
+     "vertices": 777,
+     "triangles": 922
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoor01-fb726d41.glb",
+   "bytes": 59108,
+   "vertices": 1374,
+   "triangles": 1578,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1374,
+     "triangles": 1578
+    },
+    {
+     "lod": 1,
+     "vertices": 1031,
+     "triangles": 1094
+    },
+    {
+     "lod": 2,
+     "vertices": 1031,
+     "triangles": 1094
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor02": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoor02-9948e66d.glb",
+   "bytes": 58556,
+   "vertices": 1364,
+   "triangles": 1557,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1364,
+     "triangles": 1557
+    },
+    {
+     "lod": 1,
+     "vertices": 1024,
+     "triangles": 1094
+    },
+    {
+     "lod": 2,
+     "vertices": 1024,
+     "triangles": 1094
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor03": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoor03-f7db712c.glb",
+   "bytes": 58828,
+   "vertices": 1379,
+   "triangles": 1582,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1379,
+     "triangles": 1582
+    },
+    {
+     "lod": 1,
+     "vertices": 1026,
+     "triangles": 1094
+    },
+    {
+     "lod": 2,
+     "vertices": 1026,
+     "triangles": 1094
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor04": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoor04-167b9ef4.glb",
+   "bytes": 58924,
+   "vertices": 1376,
+   "triangles": 1579,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1376,
+     "triangles": 1579
+    },
+    {
+     "lod": 1,
+     "vertices": 1033,
+     "triangles": 1094
+    },
+    {
+     "lod": 2,
+     "vertices": 1033,
+     "triangles": 1094
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoorb01-67d1090c.glb",
+   "bytes": 59172,
+   "vertices": 1379,
+   "triangles": 1586,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1379,
+     "triangles": 1586
+    },
+    {
+     "lod": 1,
+     "vertices": 1026,
+     "triangles": 1094
+    },
+    {
+     "lod": 2,
+     "vertices": 1026,
+     "triangles": 1094
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb02": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoorb02-a482c123.glb",
+   "bytes": 59160,
+   "vertices": 1380,
+   "triangles": 1581,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1380,
+     "triangles": 1581
+    },
+    {
+     "lod": 1,
+     "vertices": 1027,
+     "triangles": 1093
+    },
+    {
+     "lod": 2,
+     "vertices": 1027,
+     "triangles": 1093
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb03": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoorb03-b1cb0c99.glb",
+   "bytes": 58940,
+   "vertices": 1381,
+   "triangles": 1592,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1381,
+     "triangles": 1592
+    },
+    {
+     "lod": 1,
+     "vertices": 1029,
+     "triangles": 1094
+    },
+    {
+     "lod": 2,
+     "vertices": 1029,
+     "triangles": 1094
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb04": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomdoorb04-7f430379.glb",
+   "bytes": 59020,
+   "vertices": 1370,
+   "triangles": 1569,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1370,
+     "triangles": 1569
+    },
+    {
+     "lod": 1,
+     "vertices": 1030,
+     "triangles": 1095
+    },
+    {
+     "lod": 2,
+     "vertices": 1030,
+     "triangles": 1095
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomicorner01-3de4c9a2.glb",
+   "bytes": 44752,
+   "vertices": 953,
+   "triangles": 1118,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 953,
+     "triangles": 1118
+    },
+    {
+     "lod": 1,
+     "vertices": 879,
+     "triangles": 996
+    },
+    {
+     "lod": 2,
+     "vertices": 879,
+     "triangles": 996
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner02": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomicorner02-53d705aa.glb",
+   "bytes": 44880,
+   "vertices": 948,
+   "triangles": 1112,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 948,
+     "triangles": 1112
+    },
+    {
+     "lod": 1,
+     "vertices": 879,
+     "triangles": 995
+    },
+    {
+     "lod": 2,
+     "vertices": 879,
+     "triangles": 995
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner03": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomicorner03-099165b4.glb",
+   "bytes": 44792,
+   "vertices": 946,
+   "triangles": 1109,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 946,
+     "triangles": 1109
+    },
+    {
+     "lod": 1,
+     "vertices": 878,
+     "triangles": 996
+    },
+    {
+     "lod": 2,
+     "vertices": 878,
+     "triangles": 996
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner04": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomicorner04-4016d50b.glb",
+   "bytes": 44808,
+   "vertices": 950,
+   "triangles": 1106,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 950,
+     "triangles": 1106
+    },
+    {
+     "lod": 1,
+     "vertices": 884,
+     "triangles": 995
+    },
+    {
+     "lod": 2,
+     "vertices": 884,
+     "triangles": 995
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improommid01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improommid01-9cf023e7.glb",
+   "bytes": 25008,
+   "vertices": 564,
+   "triangles": 754,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 564,
+     "triangles": 754
+    },
+    {
+     "lod": 1,
+     "vertices": 564,
+     "triangles": 754
+    },
+    {
+     "lod": 2,
+     "vertices": 564,
+     "triangles": 754
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall01": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomwall01-a3ba0dc7.glb",
+   "bytes": 44116,
+   "vertices": 965,
+   "triangles": 1221,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 965,
+     "triangles": 1221
+    },
+    {
+     "lod": 1,
+     "vertices": 814,
+     "triangles": 955
+    },
+    {
+     "lod": 2,
+     "vertices": 814,
+     "triangles": 955
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall02": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomwall02-95a4844b.glb",
+   "bytes": 44744,
+   "vertices": 976,
+   "triangles": 1252,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 976,
+     "triangles": 1252
+    },
+    {
+     "lod": 1,
+     "vertices": 805,
+     "triangles": 956
+    },
+    {
+     "lod": 2,
+     "vertices": 805,
+     "triangles": 956
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall03": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomwall03-8b7f22ea.glb",
+   "bytes": 44752,
+   "vertices": 963,
+   "triangles": 1227,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 963,
+     "triangles": 1227
+    },
+    {
+     "lod": 1,
+     "vertices": 801,
+     "triangles": 956
+    },
+    {
+     "lod": 2,
+     "vertices": 801,
+     "triangles": 956
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall04": {
+   "file": "vanilla_dungeons_imperial_smallroom_improomwall04-38654ea8.glb",
+   "bytes": 44984,
+   "vertices": 985,
+   "triangles": 1270,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 985,
+     "triangles": 1270
+    },
+    {
+     "lod": 1,
+     "vertices": 806,
+     "triangles": 954
+    },
+    {
+     "lod": 2,
+     "vertices": 806,
+     "triangles": 954
+    }
+   ],
+   "textures": [
+    "18ce08237d93e318",
+    "1e040fc4d45865fc",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34"
+   ]
+  }
+ },
+ "fires": {}
+}

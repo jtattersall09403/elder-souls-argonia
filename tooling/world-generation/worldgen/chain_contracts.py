@@ -480,7 +480,7 @@ READS: dict[str, list[Check]] = {
         stale_ok(P(json_doc, PROVINCE / "routes-minor.json", ("tracks",), 1),
                  reason="16e feedback edge: the minor tracks of the previous run (they are never "
                         "graded); compile_minor_routes re-solves them later in the same run"),
-        stale_ok(P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+        stale_ok(P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 2),
                  reason="16e feedback edge: author_route_structures re-authors the structures "
                         "later in the same run; the grading reads the previous run's accepted set"),
     ],
@@ -523,7 +523,7 @@ READS: dict[str, list[Check]] = {
     "compile_route_structures": [
         P(npy, CURRENT, 2, "float32", True),
         P(json_items, PROVINCE / "routes.json", "routes", ("px", "id")),
-        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 2),
         P(json_doc, OUTPUT / "route-grading-stretches.json"),
         P(json_doc, KITS / "route-structures-v1.kit.json"),
     ],
@@ -635,7 +635,7 @@ READS: dict[str, list[Check]] = {
                  reason="the bake reads the major roads 16e published and the minor tracks "
                         "compile_minor_routes solved just above it; only compile_minor_waterways "
                         "touches the registry later, and it moves no road"),
-        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 2),
         # The bake PAINTS the minor tracks and footpaths (`rasterize_minor_paint`),
         # so it reads what `compile_minor_routes` published and must run after it
         # (2026-09-20: it did not, and the shipped ground held the old network).
@@ -693,7 +693,7 @@ READS: dict[str, list[Check]] = {
         P(exists, SOURCES / "blueprints"),
         P(exists, KITS),
         P(exists, PUBLIC_KITS),
-        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 2),
         P(npy, CURRENT, 2, "float32", True),
     ],
     "settlement_ground_control": [

@@ -88,6 +88,16 @@ test("profile token: a diag spot, and its top self-time functions per frame with
   assert.deepEqual(top, [{ name: "a", at: "http://x/assets/index.js:10", msPerFrame: 0.5 }, { name: "b", at: "http://x/assets/Char.js:1", msPerFrame: 0.5 }]);
 });
 
+test("readyTris: the exact HUD stat wins over the 0.1 M-rounded text, so a small interior gets ready (perf-diag23 Q3)", async () => {
+  const { readyTris, isReady } = await import("./measure.mjs");
+  const hut = "veg: 551 fps\ntris 0.0M / budget 4.0M: terrain 0.0M+0.0M";
+  assert.equal(readyTris(31234, hut), 31234);
+  assert.equal(readyTris(undefined, hut), 0, "text fallback still rounds");
+  assert.equal(readyTris(undefined, "tris 3.2M / budget 4.0M:"), 3.2e6);
+  const samples = Array.from({ length: 26 }, (_, i) => ({ t: i * 1000, fps: 551, loading: false, pre: 0, gc: 0, tris: readyTris(31234, hut) }));
+  assert.equal(isReady(samples), true);
+});
+
 test("isReady: 20 s, tris stable 2 % for 5 s, no Loading, pre and gc under 2 ms for 5 s", async () => {
   const { isReady } = await import("./measure.mjs");
   const at = (t, tris, extra = {}) => ({ t, tris, fps: 60, loading: false, pre: 0.5, gc: 0.3, ...extra });

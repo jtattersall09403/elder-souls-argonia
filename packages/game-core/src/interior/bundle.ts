@@ -1,3 +1,4 @@
+import type { KitPartsRef } from "../assets/kitParts";
 /**
  * The interior bundle (0103 decision 4): one file per tier A cell,
  * `public/province/interiors/<cellId>.json`, written by the interior bundle
@@ -26,7 +27,7 @@ export type Vec3 = [number, number, number];
 /** sRGB colour as the plugin stores it: three bytes, 0–255. */
 export type ColorRGB = [number, number, number];
 
-export interface InteriorKitRef { id: string; glb: string; manifest: string }
+export type InteriorKitRef = KitPartsRef;
 
 export interface InteriorPlacement {
   id: string;

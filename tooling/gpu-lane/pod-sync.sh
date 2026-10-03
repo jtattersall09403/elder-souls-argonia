@@ -19,6 +19,7 @@
 #   `rsync -a --checksum` (data dirs excluded; --prune adds --delete) and restart. Any other pod dist built for the same base is
 #   deleted first. Exits non-zero unless, after a restart, the new serve.mjs is alive and every served base answers.
 # Each step appends {step, seconds, at, skipped?, bytes?} (bytes: rsync "sent" for sync:data and sync:<dist>) to /tmp/<lane>/prep-times.jsonl (a lane log; pod-capture times its own prep).
+# After a restart, 2 sentinel data files (ground-control.png, a kit parts index) must return 200 at the local size (walk 10: a crashed server left an old one answering).
 set -euo pipefail
 : "${POD_SSH:?POD_SSH=\"ssh -i <key> -p <port> root@<ip>\"}"
 t=${POD_SSH##* }; S="${POD_SSH% *} -o StrictHostKeyChecking=no"
@@ -108,3 +109,10 @@ for d in dists/*; do b=$(grep -o "src=\"/[^\"]*/assets/" $d/index.html | head -1
 kill -0 $(cat /root/serve.pid) 2>/dev/null || { cat /root/serve.log; echo "pod-sync: serve.mjs is not running" >&2; exit 1; }
 cat /root/serve.log'
 note serve $(( $(date +%s) - t0 ))
+# Sentinels: the pod must answer 200 with the local file's size (the SPA fallback html is 200 with another size).
+for f in province/refined/ground-control.png kits/bmv-treehouse-int/parts/index.json; do
+  want=$(stat -c %s "apps/world-studio/public/$f")
+  got=$($S "$t" "curl -s -o /dev/null -w '%{http_code} %{size_download}' http://127.0.0.1:8099/elder-souls-argonia/studio/$f")
+  [ "$got" = "200 $want" ] || { echo "pod-sync: data mismatch for $f: pod '$got', local '200 $want'" >&2; exit 1; }
+done
+echo "pod-sync: data public ok"

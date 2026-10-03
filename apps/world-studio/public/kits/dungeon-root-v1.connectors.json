@@ -4369,10 +4369,10 @@
     "heightM": 3.41,
     "normalDeg": 0.0,
     "positionInPiece": [
-     0.06,
+     0.15,
      -2.39
     ],
-    "widthM": 1.05
+    "widthM": 0.88
    },
    {
     "evidence": "bounds",
@@ -4380,10 +4380,10 @@
     "heightM": 3.41,
     "normalDeg": 180.0,
     "positionInPiece": [
-     0.06,
+     0.15,
      2.18
     ],
-    "widthM": 1.05
+    "widthM": 0.88
    }
   ],
   "mudmother:gv_meshes/argoniannest/archwaysticks": [

@@ -13,7 +13,7 @@ mounts it (`apps/world-studio/src/character/InteriorDoors.tsx`).
 | `doors.ts` | Which doors open (`doorAccess`: `interiorClaim.tier === "A"` with a `cellId`, not `reserved`), reach 1.5 m, prefetch 40 m, the interior-space lift, the prompt text ids. |
 | `interiorLoader.ts` | `InteriorLoader`: fetch, validate, fetch only the parts the cell draws (each kit's `parts/index.json` once, then one part GLB per (kit, assetId), in parallel, cached per pair; injected `loadPart`, the studio passes `createKitLoader` then `buildArchitectureKit` through the scene's `KitCache`), instantiate, cache per cellId. A drawn asset with no published part fails the cell with a line naming kit and asset, which the overlay shows as its red line. Light intensity = `(fade ?? 1) × INTERIOR_LIGHT_INTENSITY_PER_FADE`, the one number the owner tunes on a walk (0102 decision 3b). The cell's fires are one `FlameSystem` in the cell group, emitters cell-local (the flame shaders apply the group's world matrix); whether the built studio shows them is answered only by `tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>`. |
 | `interiorSockets.ts` | `socketsToDraw`: the socket overlay's set: outside, the place's outdoor sockets (terrain-clamped); inside, the shown cell's own sockets plus the place's sockets authored in it, moved by the cell's `originM`, never clamped; each with its interact point (0113). |
-| `kitParts.ts` | The parts contract: `kits/<kit>/parts/index.json` (schemaVersion 2, the source GLB's sha256, one row per asset: file, bytes, vertices, triangles, texture hashes; `fires`: the drawn assets' kit-manifest fire rows, so the loader never fetches a `.kit.json`), `kitPartsDir` (from the bundle's `glb` path), the validator. Written by `tooling/asset-pipeline/pipeline/kit_parts.mjs`. |
+| `kitParts.ts` | The parts contract: `kits/<kit>/parts/index.json` (schemaVersion 4, the raw build's and the packed GLB's sha256, one row per manifest asset: file, bytes, vertices, triangles, `lods`, texture hashes; `fires`: the burning assets' kit-manifest fire rows, so the loader never fetches a `.kit.json`), `kitPartsDir` (from the bundle row's `parts` path), the validator. Written by `tooling/asset-pipeline/pipeline/kit_parts.mjs`. |
 | `doorTransition.ts` | `DoorTransition`: prompt and arbiter `candidate`, 0.4 s fade out, swap, hold at black until the cell's colliders exist, 0.4 s fade in. Entering by door D arrives at D's `interiorClaim.arrivalMarker`, else the bundle's; leaving returns to the door entered by (the transition keeps that door record, id and place), + 1 m outward; only another door of the SAME place claiming the load door left by redirects it (owner ruling B). Another place's claim is never read: places share cells (Claywater Station and Greenspring both claim KeebaHouseFisher), and following it put the player at the other place (walk 4 b). While the screen is black waiting for a cell, `loadingTextId` names the one line the overlay shows: `text.door.loading-named` ("Loading {name}…", `loadingName` = the entered door's `displayName` from the compiled place record) or `text.door.loading` when the door has none; the game reuses the same overlay. Swing doors are left out (`setDoors` keeps `loadDoorsOf`). |
 | `interiorEnvironment.ts` | While inside: no IBL, auto-exposure from the cell's ambient mean (`INTERIOR_TARGET_AMBIENT / mean`, clamped 1 to `INTERIOR_EXPOSURE_MAX`, eased over ~0.5 s from the outside value), the cell's fog, its fog colour as the renderer's clear colour with `scene.background` null, every light outside the cell hidden; restored on leave. Never a Color `scene.background`: three clears on every `render()` call when it is one, and the water pipeline's three on-screen passes after its blit then wiped the cell to flat fog-grey (walk 4 a). |
 
@@ -81,13 +81,13 @@ Both add `RETURN_LIFT_M = 0.2`.
 
 ## Load cost (kit parts, walk 4)
 
-A cell no longer loads whole kits. Every published kit carries a parts
-folder beside its GLB, `kits/<kit>/parts/`: one GLB per asset with only its
+A cell no longer loads whole kits. Every kit ships only as a parts
+folder, `kits/<kit>/parts/` (decision 0120): one GLB per asset with only its
 LOD tiers (geometry re-encoded with meshopt, lossless) and its materials,
 textures by URI into the pool `kits/tex/<sha16>.ktx2` (one file per texture across all kits,
 however many assets use it), and `index.json`. `kit_parts.mjs` writes it
-from the published GLB (no Blender run); a re-run changes no byte, and
-`--check` exits 1 on a stale folder. Before parts, KeebaHouseFisher loaded 7
+from the gltfpack GLB `kit_compress` packs (no Blender run); a re-run changes
+no byte, and `kit_compress --check` exits 1 on a stale folder. Before parts, KeebaHouseFisher loaded 7
 whole kits (108.9 MB) to draw 53 assets. The settlement layer still loads
 whole kits. The studio parses parts with `SharedKtx2Textures`
 (`sharedTextures.ts`): a texture several parts name is transcoded and

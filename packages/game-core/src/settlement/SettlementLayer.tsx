@@ -558,14 +558,13 @@ export function SettlementLayer({
     setEffectErrors((current) => (current[sprite] === message ? current : { ...current, [sprite]: message })), []);
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
-  // Loaded kit GLTFs, keyed `kit#asset` for a part (decision 0120) or `kit`
-  // for a kit still fetched whole. Arrivals queue in `arrived` and join this
+  // Loaded part GLTFs, keyed `kit#asset` (decision 0120). Arrivals queue in `arrived` and join this
   // map only between builds (useFrame), so a stream of pieces never cancels
   // a running build over and over.
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
   const arrived = useRef(new Map<string, GLTF>());
-  // Each kit's parts index (null: the kit is fetched whole), probed once.
-  const [partIndexes, setPartIndexes] = useState<Map<string, KitPartsIndex | null>>(() => new Map());
+  // Each kit's parts index, fetched once.
+  const [partIndexes, setPartIndexes] = useState<Map<string, KitPartsIndex>>(() => new Map());
   const pendingIndexes = useRef(new Set<string>());
   // The spawn ring (0120 rule 2): the request keys in the near band at the
   // first request pass; the warm gate waits until a build draws them all.
@@ -730,15 +729,13 @@ export function SettlementLayer({
       && (residents.has(p.id)
         || Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z) <= placementDrawCapM(p.kind) * drawScale));
     const wanted = new Set(wantedPlacements.map((p) => p.kit));
-    // One need per placement, keyed by the piece for a split kit (0120) and
-    // by the kit for one still whole; ordered in pieceRequestOrder.
+    // One need per placement, keyed by the piece (0120); ordered in pieceRequestOrder.
     const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4()
       .multiplyMatrices(sceneCamera.projectionMatrix, sceneCamera.matrixWorldInverse));
     const sphere = new THREE.Sphere();
     const needs: PieceNeed[] = [];
     for (const p of wantedPlacements) {
-      const parts = partIndexes.get(p.kit);
-      if (parts === undefined) continue;   // its index probe is still out
+      if (!partIndexes.has(p.kit)) continue;   // its index is still out
       const distanceM = Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z);
       const capM = placementDrawCapM(p.kind);
       let band = 0;
@@ -747,7 +744,7 @@ export function SettlementLayer({
       } catch { band = 0; }   // a two-tier piece: the build's own gate names it
       sphere.center.set(p.positionM[0], p.positionM[1], p.positionM[2]);
       sphere.radius = footprintDiagonalM(p) * 0.5 * p.scale + 1;
-      needs.push({ key: parts ? `${p.kit}#${p.assetId}` : p.kit, distanceM, band,
+      needs.push({ key: `${p.kit}#${p.assetId}`, distanceM, band,
         inView: frustum.intersectsSphere(sphere) });
     }
     const requests = orderPieceRequests(needs);
@@ -755,7 +752,6 @@ export function SettlementLayer({
     if (!ringKeys.current && [...wanted].every((id) => partIndexes.has(id))) {
       ringKeys.current = requests.filter((r) => r.ring).map((r) => r.key);
     }
-    const loader = createKitLoader(decoders);
     const failed = (what: string) => (error: unknown) => {
       if (!(error instanceof TransientFetchError)) {
         setFatalError(new Error(`settlement kit ${what} failed: `
@@ -777,16 +773,13 @@ export function SettlementLayer({
         continue;
       }
       if (!partIndexes.has(id) && !pendingIndexes.current.has(id)) {
-        // The whole-GLB path below stays ONLY for kits whose parts are not yet
-        // published for exteriors (0120 S1); S2 republishes every kit as parts and deletes it.
         pendingIndexes.current.add(id);
-        fetch(`${baseUrl}${kitPartsDir(kit)}index.json`, { priority: "high" })
-          .then((r) => (r.ok ? r.json() : null))
+        fetchJsonWithRetry(`${baseUrl}${kit.parts}`, { priority: "high" })
           .then((raw) => {
-            const index = raw ? parseKitPartsIndex(raw, id, kitPartsDir(kit)) : null;
-            return index?.exterior ? index : null;
-          }, () => null)
-          .then((index) => setPartIndexes((current) => new Map(current).set(id, index)))
+            const index = parseKitPartsIndex(raw, id, kit.parts);
+            setPartIndexes((current) => new Map(current).set(id, index));
+          })
+          .catch(failed(`parts index ${id}`))
           .finally(() => pendingIndexes.current.delete(id));
       }
       if (!manifests.has(id) && !pendingManifests.current.has(id)) {
@@ -802,19 +795,15 @@ export function SettlementLayer({
       if (gltfs.has(id) || arrived.current.has(id) || pendingKits.current.has(id)) continue;
       const kitId = requestKit(id);
       const kit = bundle.kits[kitId];
-      const index = partIndexes.get(kitId);
-      let url = `${baseUrl}${kit.glb}`;
-      if (index) {
-        const row = index.assets[id.slice(kitId.length + 1)];
-        if (!row) {
-          setFatalError(new Error(`settlement piece ${id} has no published part (${kitPartsDir(kit)}index.json)`));
-          continue;
-        }
-        url = `${baseUrl}${kitPartsDir(kit)}${row.file}`;
+      const row = partIndexes.get(kitId)!.assets[id.slice(kitId.length + 1)];
+      if (!row) {
+        setFatalError(new Error(`settlement piece ${id} has no published part (${kit.parts})`));
+        continue;
       }
+      const url = `${baseUrl}${kitPartsDir(kit)}${row.file}`;
       pendingKits.current.add(id);
       if (!performance.getEntriesByName("es:load:kit-fetch-start").length) performance.mark("es:load:kit-fetch-start");
-      kitCache.load(id, url, (u) => loadGltfWithRetry(u, index ? partLoader : loader,
+      kitCache.load(id, url, (u) => loadGltfWithRetry(u, partLoader,
         { priority: request.priority })).then((gltf) => {
         if (!performance.getEntriesByName("es:load:kit-fetch-end").length) performance.mark("es:load:kit-fetch-end");
         arrived.current.set(id, gltf);
@@ -837,7 +826,6 @@ export function SettlementLayer({
       let kit = kitIndex.current.get(gltf);
       if (!kit) { kit = buildArchitectureKit(gltf); kitIndex.current.set(gltf, kit); }
       const kitId = requestKit(key);
-      if (kitId === key) { out.set(kitId, kit); continue; }
       let into = out.get(kitId);
       if (!into) { into = new Map(); out.set(kitId, into); }
       for (const [assetId, asset] of kit) into.set(assetId, asset);
@@ -1395,7 +1383,7 @@ export function SettlementLayer({
       if (ringPendingRef && ringKeys.current) {
         ringPendingRef.current = ringKeys.current.filter((key) => {
           const kitId = requestKit(key);
-          return kitId === key ? !kits.has(kitId) : !kits.get(kitId)?.has(key.slice(kitId.length + 1));
+          return !kits.get(kitId)?.has(key.slice(kitId.length + 1));
         }).length;
       }
       lightFixtures.setFixtures(fixturesHere);

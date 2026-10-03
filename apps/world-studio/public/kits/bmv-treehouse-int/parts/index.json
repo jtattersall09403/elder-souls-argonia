@@ -1,20 +1,365 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "bmv-treehouse-int",
- "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 7707744,
+  "sha256": "b70b88a18602bc0068bf678a5128661f6824b17cb0db3e516ff4d05cb58bac47"
+ },
+ "packed": {
   "bytes": 3336864,
   "sha256": "cc3144d64c33492d2b37d2b70df66f48f802a5d0cca6d02f074b383682514161"
  },
  "totals": {
-  "parts": 1,
-  "partBytes": 12816,
-  "textureFiles": 1,
-  "textureBytes": 135456,
-  "bytes": 148272
+  "parts": 16,
+  "partBytes": 1542712,
+  "textureFiles": 9,
+  "textureBytes": 2174864,
+  "bytes": 3717576
  },
  "assets": {
+  "bmv:architecture/citebosmer/houses/housechampint001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampint001-7b4539fa.glb",
+   "bytes": 148544,
+   "vertices": 4824,
+   "triangles": 7866,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4824,
+     "triangles": 7866
+    },
+    {
+     "lod": 1,
+     "vertices": 2427,
+     "triangles": 2806
+    },
+    {
+     "lod": 2,
+     "vertices": 1291,
+     "triangles": 1283
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampintwalla15v001-11299946.glb",
+   "bytes": 131828,
+   "vertices": 4577,
+   "triangles": 7800,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4577,
+     "triangles": 7800
+    },
+    {
+     "lod": 1,
+     "vertices": 2292,
+     "triangles": 2744
+    },
+    {
+     "lod": 2,
+     "vertices": 1154,
+     "triangles": 957
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v002": {
+   "file": "bmv_architecture_citebosmer_houses_housechampintwalla15v002-61e7791a.glb",
+   "bytes": 102768,
+   "vertices": 3514,
+   "triangles": 5972,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3514,
+     "triangles": 5972
+    },
+    {
+     "lod": 1,
+     "vertices": 1735,
+     "triangles": 2107
+    },
+    {
+     "lod": 2,
+     "vertices": 877,
+     "triangles": 741
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandint001": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandint001-b040c580.glb",
+   "bytes": 279492,
+   "vertices": 7905,
+   "triangles": 13040,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7905,
+     "triangles": 13040
+    },
+    {
+     "lod": 1,
+     "vertices": 3825,
+     "triangles": 4622
+    },
+    {
+     "lod": 2,
+     "vertices": 2662,
+     "triangles": 2787
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncintet001-7b4b6351.glb",
+   "bytes": 264572,
+   "vertices": 8104,
+   "triangles": 12928,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8104,
+     "triangles": 12928
+    },
+    {
+     "lod": 1,
+     "vertices": 4372,
+     "triangles": 5272
+    },
+    {
+     "lod": 2,
+     "vertices": 2748,
+     "triangles": 3015
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet90v001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncintet90v001-99b9846d.glb",
+   "bytes": 73912,
+   "vertices": 2046,
+   "triangles": 3232,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2046,
+     "triangles": 3232
+    },
+    {
+     "lod": 1,
+     "vertices": 1211,
+     "triangles": 1531
+    },
+    {
+     "lod": 2,
+     "vertices": 962,
+     "triangles": 1188
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintrcet90v001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncintrcet90v001-629f3d6e.glb",
+   "bytes": 160472,
+   "vertices": 5183,
+   "triangles": 8209,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5183,
+     "triangles": 8209
+    },
+    {
+     "lod": 1,
+     "vertices": 2621,
+     "triangles": 2933
+    },
+    {
+     "lod": 2,
+     "vertices": 1626,
+     "triangles": 1600
+    }
+   ],
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:clutter/oaristys/the witcher/furniture/brazier": {
+   "file": "bmv_clutter_oaristys_the_witcher_furniture_brazier-a5b797ba.glb",
+   "bytes": 44900,
+   "vertices": 1530,
+   "triangles": 1712,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1530,
+     "triangles": 1712
+    },
+    {
+     "lod": 1,
+     "vertices": 678,
+     "triangles": 599
+    },
+    {
+     "lod": 2,
+     "vertices": 430,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "06b0cd66b84660c9"
+   ]
+  },
+  "bmv:clutter/oaristys/the witcher/lamps/lamp_elven": {
+   "file": "bmv_clutter_oaristys_the_witcher_lamps_lamp_elven-9f896a29.glb",
+   "bytes": 63880,
+   "vertices": 2129,
+   "triangles": 2558,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2129,
+     "triangles": 2558
+    },
+    {
+     "lod": 1,
+     "vertices": 1027,
+     "triangles": 986
+    },
+    {
+     "lod": 2,
+     "vertices": 524,
+     "triangles": 440
+    }
+   ],
+   "textures": [
+    "c09004c6ad01f672"
+   ]
+  },
+  "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue": {
+   "file": "bmv_clutter_oaristys_the_witcher_lamps_lantern02_blue-e5c6af84.glb",
+   "bytes": 8820,
+   "vertices": 257,
+   "triangles": 238,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 257,
+     "triangles": 238
+    },
+    {
+     "lod": 1,
+     "vertices": 257,
+     "triangles": 238
+    },
+    {
+     "lod": 2,
+     "vertices": 257,
+     "triangles": 238
+    }
+   ],
+   "textures": [
+    "79c2c49cddcc3566"
+   ]
+  },
+  "bmv:telvanni/tel_int_connector_01": {
+   "file": "bmv_telvanni_tel_int_connector_01-3d524a8a.glb",
+   "bytes": 28140,
+   "vertices": 691,
+   "triangles": 1150,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 691,
+     "triangles": 1150
+    },
+    {
+     "lod": 1,
+     "vertices": 483,
+     "triangles": 402
+    },
+    {
+     "lod": 2,
+     "vertices": 388,
+     "triangles": 300
+    }
+   ],
+   "textures": []
+  },
+  "bmv:telvanni/tel_int_gourdhouse01": {
+   "file": "bmv_telvanni_tel_int_gourdhouse01-75a3e8c6.glb",
+   "bytes": 103532,
+   "vertices": 3243,
+   "triangles": 4359,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3243,
+     "triangles": 4359
+    },
+    {
+     "lod": 1,
+     "vertices": 1971,
+     "triangles": 1964
+    },
+    {
+     "lod": 2,
+     "vertices": 1408,
+     "triangles": 1374
+    }
+   ],
+   "textures": []
+  },
+  "bmv:telvanni/telv_platform01": {
+   "file": "bmv_telvanni_telv_platform01-1e21e964.glb",
+   "bytes": 47916,
+   "vertices": 1407,
+   "triangles": 2618,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1407,
+     "triangles": 2618
+    },
+    {
+     "lod": 1,
+     "vertices": 619,
+     "triangles": 1074
+    },
+    {
+     "lod": 2,
+     "vertices": 366,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "0e11d0c0c2ecea98",
+    "9432c928946f6f96"
+   ]
+  },
   "vanilla:clutter/barrel01": {
    "file": "vanilla_clutter_barrel01-65266384.glb",
    "bytes": 12816,
@@ -39,6 +384,58 @@
    ],
    "textures": [
     "940d11c16a11b275"
+   ]
+  },
+  "vanilla:furniture/common/commonbench01": {
+   "file": "vanilla_furniture_common_commonbench01-4045421c.glb",
+   "bytes": 17444,
+   "vertices": 396,
+   "triangles": 424,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 396,
+     "triangles": 424
+    },
+    {
+     "lod": 1,
+     "vertices": 323,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 323,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "f6b38bffa5b31bca"
+   ]
+  },
+  "vanilla:furniture/commontabletwobenches": {
+   "file": "vanilla_furniture_commontabletwobenches-9aa52694.glb",
+   "bytes": 53676,
+   "vertices": 1795,
+   "triangles": 1636,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1795,
+     "triangles": 1636
+    },
+    {
+     "lod": 1,
+     "vertices": 968,
+     "triangles": 572
+    },
+    {
+     "lod": 2,
+     "vertices": 520,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "f6b38bffa5b31bca"
    ]
   }
  },

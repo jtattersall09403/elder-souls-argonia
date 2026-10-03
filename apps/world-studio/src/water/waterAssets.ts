@@ -1,4 +1,7 @@
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { loadWaterAssets } from "@elder-souls/game-core/water/render/loadWaterAssets";
+import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { loadLadder } from "../ladder";
 import { WATERFALL_TEXTURE_ROLES, type WaterfallTextureSlot } from "@elder-souls/game-core/water/render/WaterfallSheets";
 import { worldClock } from "../sky/timeState";
@@ -51,10 +54,10 @@ export function waterGroundHeight(x: number, z: number): number | null {
 
 /** The vanilla waterfall FX kit (decision 0064): the texture PNGs by shader
  * slot (read from the manifest by role) AND by id (every texture the kit's
- * shape roles bind), plus the piece geometry GLB `WATERFALL_GEOMETRY`.
+ * shape roles bind), plus the piece geometry kit `WATERFALL_GEOMETRY` (its parts).
  * Missing manifest = procedural fallback for the slots, no fall bodies. */
 const WATERFALL_KIT = "kits/waterfall-fx-textures";
-const WATERFALL_GEOMETRY = "kits/waterfall-fx-v1.glb";
+const WATERFALL_GEOMETRY = "waterfall-fx-v1";
 async function waterfallTextureUrls(base: string): Promise<Partial<Record<WaterfallTextureSlot, string>> & Record<string, string | undefined>> {
   try {
     const res = await fetch(`${base}${WATERFALL_KIT}/manifest.json`);
@@ -104,7 +107,9 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
     waveTimeS: waterTimeS,
     windSpeedMS: () => lastWeatherSample()?.windSpeedMS ?? 0,
     waterfallTextureUrls,
-    waterfallKitUrl: `${base}${WATERFALL_GEOMETRY}`,
+    // Compression off (PNG textures embedded in the parts): a plain loader reads it.
+    loadWaterfallGeometry: () => loadKitParts(WATERFALL_GEOMETRY, "all",
+      { baseUrl: base, kitCache: new KitCache(), loader: new GLTFLoader() }),
     localSurfaces: sharedLocalSurfaces(base),
   })).then((assets) => {
     // the terrain wet band samples the same rasters

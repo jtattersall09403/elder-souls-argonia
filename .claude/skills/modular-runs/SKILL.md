@@ -132,6 +132,10 @@ turn, snapped face to face by geometry, then walked.
     run piece of the same family (a mined run pair), a `terminates` face on the
     ground or a deck at the height the pair records, or a door threshold.
     An end that meets nothing is an `openModularEnds` defect, not a design.
+    A stair or bridge a place builds over a road's `route-structures.json` row
+    replaces the route piece: its parcel carries `routeStructureId: <structure
+    id>`, the row is marked `builtBy: <place id>`, and
+    `export_settlement_bundle --route-claims` drops the route piece (0115 item 4).
 22. Precedent: the yard's `passesc128h64d01` (a Bosmer walkway ramp,
     `parcel.proving-ground.stilt-stair`) stands as a LABELLED single piece
     whose blueprint `why.what` says so, until a ways run exists. No other
@@ -229,19 +233,38 @@ turn, snapped face to face by geometry, then walked.
     --allow-terminal`; climbs toward its -x, yaw = bearing - 270). Read
     the treads off the mesh, not bounds: top tread pivot -0.29, bottom
     tread +1.6 m along at -3.51, 0.29 m a tread (3 pieces = 9.06 m of
-    treads). Set the bottom piece's `y` by hand so the top tread meets the
-    bank-top ground within 0.05 m. A run whose adjacent members rise more
+    treads). Site it from the ground profile along its line first
+    (`wb.py bpy` ray casts every 0.1 m: tread top against ground): the top
+    tread at the LIP (the last ground point before the bank falls), within
+    0.05 m of the ground there, and every tread over the ground, so the
+    flight stands in front of the bank face (stairs02 climbs about 1.17 m
+    per metre; a bank face steeper than that is in front of nothing but
+    air). Move it along its bearing and set the bottom piece's `y` by hand
+    to get there; where the flight needs more room than the lip leaves
+    before the run that meets its foot, move that run back by whole
+    modules (audit10 c6: the river run moved 2.2 m north, 0.36 m clear of
+    the stair foot). The parcel takes `groundFit` `direct` (stairs02's
+    manifest policy is `route-structure`). A run whose adjacent members rise more
     than 0.45 m (the controller step) is a CLIMB
-    (`settlement_run_pads.climb_runs`, `rules.climb_uids`): it takes no
-    run pad and the compile's fit slope does not judge it; walkwayRule and
-    landingRule do. Still open: run-jointPair (wb.py `_pair_verdict`)
-    fails the mined pose itself (penetration 0.234 m, crossing).
+    (`settlement_run_pads.climb_runs`, `rules.climb_uids`,
+    `compile_settlement._climb_parcel`): it takes no run pad, and neither
+    the compile's ground delta and fit slope nor `wb check`'s
+    slopeRule and footFloat judge it (row flag `climb`); walkwayRule does,
+    from each climb member's mesh plan box (its footprint is its lowest
+    1.5 m: the top end read 2 m short of the top tread) and judging the
+    end's flatness ahead of the end only (the drop it climbed is behind
+    it). landingRule judges only runs over water. A run joint standing at a mined `run` pair's pose
+    within its `offsetSpreadM` (+0.01 m, 1 deg) passes run-jointPair even
+    though it crosses (stairs02's own pair crosses 0.234 m; wb.py
+    `mined_pair_pose`); off that pose the penetration and overlap bars hold.
 29c. **A rising run joint is set by the mined pair; a crossing's end height
     by grading the ground** (audit10 c5, Riverwalk lw13): never lift a
     flat crossing's end by a pair rise (it fails run-jointPair as
     crossing). A partly-wet run END takes a cut-only pad over its dry
     points down to the run's line (deck - sink; `cutOnly` in
-    `pad_overlay`), never filling water. Two run pieces' faces meeting
+    `pad_overlay`), never filling water; a cut never goes below water and
+    feathers over at least 4 m (`run_pad_patches`: skipped when its line is
+    under the member's water, patch blend >= `CUT_BLEND_M`). Two run pieces' faces meeting
     within 2 mm at a mined joint (coplanarRule, stairs02 0.0012 m) z-fight
     in the plugin's own pose too: offset the child 0.005 m along the
     joint's face normal, never exempt the joint.

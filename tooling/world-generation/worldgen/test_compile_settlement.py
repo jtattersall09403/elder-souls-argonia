@@ -459,6 +459,7 @@ class FloodSurvey:
         self.open_water = np.zeros((10, 10), dtype=bool)
         self.wet_season = np.zeros((20, 20), dtype=bool)
         self.entity_grid: dict[tuple[int, int], str] = {}
+        self.cell_entity: dict[tuple[int, int], str] = {}   # the analysis cell's label
         self.reaches: dict[str, dict] = {}
         self.bodies: dict[str, dict] = {}
 
@@ -485,11 +486,38 @@ class FloodSurvey:
         return {"entityId": entity_id, "kind": record.get("kind"),
                 "levelM": record.get("levelM"), "season": None}
 
+    def nearest_water_entity(self, x, z):
+        """The analysis cell's own entity (distance 0) where the cell is open
+        water and `cell_entity` names one; the id raster may not."""
+        entity_id = self.cell_entity.get(self.grid_px(x, z))
+        if entity_id is None or not self.open_water[self.grid_px(x, z)]:
+            return None
+        record = self.reaches.get(entity_id) or self.bodies.get(entity_id)
+        return {"entityId": entity_id, "kind": record.get("kind"),
+                "levelM": record.get("levelM"), "season": None, "distanceM": 0.0}
+
     def reach(self, entity_id):
         return self.reaches.get(entity_id)
 
     def body(self, entity_id):
         return self.bodies.get(entity_id)
+
+
+def test_an_open_cell_whose_id_texel_is_dry_is_named_by_the_cell():
+    """audit10 c6 crossings bank-stair: the analysis cell is open water but the
+    finer id raster under the sample is dry (the cell's edge). The fact is
+    named by the cell it was read from; with no entity anywhere it stays a
+    0066 failure."""
+    survey = FloodSurvey()
+    survey.open_water[3, 3] = True
+    survey.bodies["body.river"] = {"id": "body.river", "kind": "lake", "levelM": 0.0}
+    parcel = _flood_parcel("stair", "d", "stair", [0.35, 0.35],
+                           [[0.33, 0.33], [0.37, 0.33], [0.37, 0.37], [0.33, 0.37]])
+    nameless = cs._parcel_flood_evidence(parcel, survey)
+    assert nameless["openWaterSamples"] > 0 and nameless["waterEntityIds"] == []
+    survey.cell_entity = {(3, 3): "body.river"}
+    named = cs._parcel_flood_evidence(parcel, survey)
+    assert named["waterEntityIds"] == ["body.river"]
 
 
 def _flood_parcel(pid, district, use, centre, footprint):
@@ -1315,3 +1343,13 @@ def test_walkable_surface_of_a_house_on_piles_is_its_floor():
                   {"id": "h", "assetId": "house", "positionM": [10.0, -2.0, 0.0], "scale": 1.2}]
     tops = {pid: top for _, top, pid in walkable_surfaces(placements, shelf)}
     assert tops == {"d": -1.0, "h": pytest.approx(-2.0 + 2.5 * 1.2)}
+
+
+def test_a_stair_flight_is_a_climb_and_a_plank_run_is_not():
+    """audit10 c6: the crossings stair's lowest 1.5 m spans 0.91 m of bank toe;
+    a climb's ground delta is not judged (its walk is), a flat run's is."""
+    bp = json.loads((Path(__file__).resolve().parents[3] / "world" / "sources" / "blueprints"
+                     / "place.route.border-road-greenspring-crossings.json").read_text())["blueprint"]
+    by_id = {p["id"]: p for p in bp["parcels"]}
+    assert cs._climb_parcel(by_id["parcel.border-road-greenspring-crossings.bank-stair"])
+    assert not cs._climb_parcel(by_id["parcel.border-road-greenspring-crossings.river-bridge"])

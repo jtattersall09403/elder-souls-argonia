@@ -39,7 +39,7 @@ function partsHosts(bundle: unknown, assetsOf: (kitId: string) => string[]) {
       const published = new URL(`../../../../apps/world-studio/public/kits/${kit}/parts/index.json`, import.meta.url);
       const fires = existsSync(published) ? JSON.parse(readFileSync(published, "utf8")).fires : {};
       return {
-        schemaVersion: 3, kit, exterior: false, source: { bytes: 0, sha256: "" }, fires,
+        schemaVersion: 4, kit, source: { bytes: 0, sha256: "" }, packed: { bytes: 0, sha256: "" }, fires,
         assets: Object.fromEntries(assetsOf(kit).map((id) => [id, { file: `${encodeURIComponent(id)}.glb`, bytes: 0, vertices: 0, triangles: 0, lods: [{ lod: 0, vertices: 0, triangles: 0 }], textures: [] }])),
       };
     },

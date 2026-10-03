@@ -105,7 +105,8 @@ def test_kits_fresh_gate_fails_a_stale_publish(tmp_path, monkeypatch):
     """16k walk 9: the exporter's publish refusal runs as gate kits.fresh."""
     from . import export_settlement_bundle  # noqa: F401  (puts pipeline on the path)
     import pipeline.kit_compress as kc
-    monkeypatch.setattr(kc, "glb_problems", lambda name, glb, manifest: [])
+    monkeypatch.setattr(kc, "published_problems", lambda name, public_dir=None: [])
+    monkeypatch.setattr(kc, "parts_problems", lambda name, raw=None, public_dir=None: [])
     built, public = tmp_path / "built", tmp_path / "public"
     built.mkdir(), public.mkdir()
     (built / "k.kit.json").write_text('{"assets": [1]}')

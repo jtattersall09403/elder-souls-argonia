@@ -8,22 +8,22 @@
  "kits": {
   "flora-province-v1": {
    "id": "flora-province-v1",
-   "glb": "kits/flora-province-v1.glb",
+   "parts": "kits/flora-province-v1/parts/index.json",
    "manifest": "kits/flora-province-v1.kit.json"
   },
   "interior-kotm-v1": {
    "id": "interior-kotm-v1",
-   "glb": "kits/interior-kotm-v1.glb",
+   "parts": "kits/interior-kotm-v1/parts/index.json",
    "manifest": "kits/interior-kotm-v1.kit.json"
   },
   "settlement-root-v1": {
    "id": "settlement-root-v1",
-   "glb": "kits/settlement-root-v1.glb",
+   "parts": "kits/settlement-root-v1/parts/index.json",
    "manifest": "kits/settlement-root-v1.kit.json"
   },
   "underwater-v1": {
    "id": "underwater-v1",
-   "glb": "kits/underwater-v1.glb",
+   "parts": "kits/underwater-v1/parts/index.json",
    "manifest": "kits/underwater-v1.kit.json"
   }
  },

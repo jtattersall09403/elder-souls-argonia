@@ -93,7 +93,7 @@ def burning_assets(bundle: dict, public: Path) -> dict[str, dict]:
     """Fires-map rows (light, flame cards) of every burning asset in the bundle's kits, by asset id."""
     out: dict[str, dict] = {}
     for kit_id in sorted(bundle.get("kits", {})):
-        idx = public / (bundle["kits"][kit_id]["glb"][:-4] + "/parts/index.json")
+        idx = public / bundle["kits"][kit_id]["parts"]
         if not idx.exists():
             continue
         for aid, row in sorted((json.loads(idx.read_text()).get("fires") or {}).items()):

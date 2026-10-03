@@ -112,14 +112,15 @@ const entry = settlementIndex.places.find((p) => p.id === place);
 if (!entry) { console.error(`webgpu-boot-check: ${place} is not in the settlement index`); process.exit(2); }
 const query = arg("query", `view=character&x=${(entry.positionM[0] / 1000).toFixed(3)}&z=${(entry.positionM[1] / 1000).toFixed(3)}&t=10%3A00`)
   + "&q=low&dpr=0.5";
-// the place's own data: its bundle and every kit GLB it loads (a kit republish re-runs it)
-const kitGlbs = new Map();
+// the place's own data: its bundle and every kit's parts index (it names each
+// part's bytes and the packed GLB's sha256, so a kit republish re-runs it)
+const kitParts = new Map();
 for (const p of flag("only") ? [entry] : settlementIndex.places) {
-  for (const kit of Object.values(JSON.parse(readFileSync(join(publicDir, "province", p.bundle), "utf8")).kits ?? {})) kitGlbs.set(kit.glb, kit);
+  for (const kit of Object.values(JSON.parse(readFileSync(join(publicDir, "province", p.bundle), "utf8")).kits ?? {})) kitParts.set(kit.parts, kit);
 }
-for (const kit of [...kitGlbs.values()].sort((a, b) => a.glb.localeCompare(b.glb))) {
-  const f = join(publicDir, kit.glb);
-  hash.update(kit.glb); if (existsSync(f)) hash.update(readFileSync(f));
+for (const kit of [...kitParts.values()].sort((a, b) => a.parts.localeCompare(b.parts))) {
+  const f = join(publicDir, kit.parts);
+  hash.update(kit.parts); if (existsSync(f)) hash.update(readFileSync(f));
 }
 for (const p of flag("only") ? [entry] : settlementIndex.places) hash.update(p.sha256 ?? p.id);
 hash.update(query); hash.update(String(holdS)); hash.update(String(flag("only")));

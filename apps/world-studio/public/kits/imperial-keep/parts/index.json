@@ -1,0 +1,2559 @@
+{
+ "schemaVersion": 4,
+ "kit": "imperial-keep",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 18363932,
+  "sha256": "84ba9c5b228d49c918e2ff2a21e4e1f2efd5269de857307b0a5251f8e3c95ce9"
+ },
+ "packed": {
+  "bytes": 7327624,
+  "sha256": "be5a7d4eaba7a2a6b2eb315a19a588738f93a4407c78bfd9b387a6b11b5a90fa"
+ },
+ "totals": {
+  "parts": 88,
+  "partBytes": 4094264,
+  "textureFiles": 15,
+  "textureBytes": 4290028,
+  "bytes": 8384292
+ },
+ "assets": {
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01": {
+   "file": "keep_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchaltar01-99d07a23.glb",
+   "bytes": 32804,
+   "vertices": 776,
+   "triangles": 944,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 776,
+     "triangles": 944
+    },
+    {
+     "lod": 1,
+     "vertices": 461,
+     "triangles": 436
+    },
+    {
+     "lod": 2,
+     "vertices": 461,
+     "triangles": 436
+    }
+   ],
+   "textures": [
+    "5c6924590e66f2a1",
+    "f158b44ee67a1fce",
+    "f82a4541e9ad7296"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01": {
+   "file": "p_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchflagpole01-f04fc83b.glb",
+   "bytes": 20868,
+   "vertices": 547,
+   "triangles": 736,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 547,
+     "triangles": 736
+    },
+    {
+     "lod": 1,
+     "vertices": 295,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 295,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "6dce0d5984da9d9d"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01": {
+   "file": "ep_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchmooring01-51abac2b.glb",
+   "bytes": 21004,
+   "vertices": 388,
+   "triangles": 488,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 388,
+     "triangles": 488
+    },
+    {
+     "lod": 1,
+     "vertices": 352,
+     "triangles": 424
+    },
+    {
+     "lod": 2,
+     "vertices": 352,
+     "triangles": 424
+    }
+   ],
+   "textures": [
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01": {
+   "file": "p_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchpedestal01-b55d24e4.glb",
+   "bytes": 18132,
+   "vertices": 320,
+   "triangles": 326,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 320,
+     "triangles": 326
+    },
+    {
+     "lod": 1,
+     "vertices": 320,
+     "triangles": 326
+    },
+    {
+     "lod": 2,
+     "vertices": 320,
+     "triangles": 326
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f158b44ee67a1fce",
+    "f82a4541e9ad7296"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02": {
+   "file": "p_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchpedestal02-7bb64ecf.glb",
+   "bytes": 17944,
+   "vertices": 308,
+   "triangles": 326,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 308,
+     "triangles": 326
+    },
+    {
+     "lod": 1,
+     "vertices": 308,
+     "triangles": 326
+    },
+    {
+     "lod": 2,
+     "vertices": 308,
+     "triangles": 326
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f158b44ee67a1fce",
+    "f82a4541e9ad7296"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01": {
+   "file": "ep_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchplanter01-8bf8887d.glb",
+   "bytes": 14552,
+   "vertices": 104,
+   "triangles": 120,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 104,
+     "triangles": 120
+    },
+    {
+     "lod": 1,
+     "vertices": 104,
+     "triangles": 120
+    },
+    {
+     "lod": 2,
+     "vertices": 104,
+     "triangles": 120
+    }
+   ],
+   "textures": [
+    "279e2ff2dfa6e9a8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01": {
+   "file": "keep_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchsewer01-56fff936.glb",
+   "bytes": 23340,
+   "vertices": 599,
+   "triangles": 564,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 599,
+     "triangles": 564
+    },
+    {
+     "lod": 1,
+     "vertices": 559,
+     "triangles": 504
+    },
+    {
+     "lod": 2,
+     "vertices": 559,
+     "triangles": 504
+    }
+   ],
+   "textures": [
+    "6dce0d5984da9d9d",
+    "c5c7ddf3f4833223"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01": {
+   "file": "wkeep_tesak1243_mwimperialarchitecture_architecture_keep_clutter_mwimparchwell01-9c32094d.glb",
+   "bytes": 57760,
+   "vertices": 1684,
+   "triangles": 1888,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1684,
+     "triangles": 1888
+    },
+    {
+     "lod": 1,
+     "vertices": 1027,
+     "triangles": 988
+    },
+    {
+     "lod": 2,
+     "vertices": 1005,
+     "triangles": 952
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "6dce0d5984da9d9d",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01": {
+   "file": "eep_tesak1243_mwimperialarchitecture_architecture_keep_doors_mwimparchdoorjail01-b9ab0ea3.glb",
+   "bytes": 34720,
+   "vertices": 1114,
+   "triangles": 1520,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1114,
+     "triangles": 1520
+    },
+    {
+     "lod": 1,
+     "vertices": 534,
+     "triangles": 532
+    },
+    {
+     "lod": 2,
+     "vertices": 308,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "1f6988a271cf6f02"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01": {
+   "file": "eep_tesak1243_mwimperialarchitecture_architecture_keep_doors_mwimparchdoorload01-90e104a0.glb",
+   "bytes": 39760,
+   "vertices": 1258,
+   "triangles": 1326,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1258,
+     "triangles": 1326
+    },
+    {
+     "lod": 1,
+     "vertices": 712,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 712,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "78b5195543d7a11c"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01": {
+   "file": "p_tesak1243_mwimperialarchitecture_architecture_keep_doors_mwimparchdoorsingle01-0c28d0ac.glb",
+   "bytes": 40024,
+   "vertices": 1391,
+   "triangles": 1590,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1391,
+     "triangles": 1590
+    },
+    {
+     "lod": 1,
+     "vertices": 655,
+     "triangles": 556
+    },
+    {
+     "lod": 2,
+     "vertices": 429,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "1f6988a271cf6f02"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01": {
+   "file": "1243_mwimperialarchitecture_architecture_keep_exterior_bridges_mwimparchbridge01-0dd76ada.glb",
+   "bytes": 73676,
+   "vertices": 1904,
+   "triangles": 2440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1904,
+     "triangles": 2440
+    },
+    {
+     "lod": 1,
+     "vertices": 1026,
+     "triangles": 1087
+    },
+    {
+     "lod": 2,
+     "vertices": 1026,
+     "triangles": 1087
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02": {
+   "file": "1243_mwimperialarchitecture_architecture_keep_exterior_bridges_mwimparchbridge02-0915097d.glb",
+   "bytes": 74916,
+   "vertices": 1881,
+   "triangles": 2307,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1881,
+     "triangles": 2307
+    },
+    {
+     "lod": 1,
+     "vertices": 1372,
+     "triangles": 1478
+    },
+    {
+     "lod": 2,
+     "vertices": 1372,
+     "triangles": 1478
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_docks_mwimparchdock01-d753f809.glb",
+   "bytes": 48812,
+   "vertices": 1082,
+   "triangles": 1404,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1082,
+     "triangles": 1404
+    },
+    {
+     "lod": 1,
+     "vertices": 749,
+     "triangles": 869
+    },
+    {
+     "lod": 2,
+     "vertices": 749,
+     "triangles": 869
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_docks_mwimparchdock02-d24ee82a.glb",
+   "bytes": 37004,
+   "vertices": 860,
+   "triangles": 963,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 860,
+     "triangles": 963
+    },
+    {
+     "lod": 1,
+     "vertices": 860,
+     "triangles": 963
+    },
+    {
+     "lod": 2,
+     "vertices": 860,
+     "triangles": 963
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01": {
+   "file": "mwimperialarchitecture_architecture_keep_exterior_docks_mwimparchdockplatcorin01-bea4fb74.glb",
+   "bytes": 27112,
+   "vertices": 373,
+   "triangles": 337,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 373,
+     "triangles": 337
+    },
+    {
+     "lod": 1,
+     "vertices": 373,
+     "triangles": 337
+    },
+    {
+     "lod": 2,
+     "vertices": 373,
+     "triangles": 337
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01": {
+   "file": "wimperialarchitecture_architecture_keep_exterior_docks_mwimparchdockplatcorout01-92f48816.glb",
+   "bytes": 26512,
+   "vertices": 332,
+   "triangles": 389,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 332,
+     "triangles": 389
+    },
+    {
+     "lod": 1,
+     "vertices": 332,
+     "triangles": 389
+    },
+    {
+     "lod": 2,
+     "vertices": 332,
+     "triangles": 389
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01": {
+   "file": "mwimperialarchitecture_architecture_keep_exterior_docks_mwimparchdockplatfront01-e3fc138e.glb",
+   "bytes": 34192,
+   "vertices": 472,
+   "triangles": 584,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 472,
+     "triangles": 584
+    },
+    {
+     "lod": 1,
+     "vertices": 450,
+     "triangles": 552
+    },
+    {
+     "lod": 2,
+     "vertices": 450,
+     "triangles": 552
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01": {
+   "file": "3_mwimperialarchitecture_architecture_keep_exterior_docks_mwimparchdockplatmid01-77b8c785.glb",
+   "bytes": 4744,
+   "vertices": 20,
+   "triangles": 10,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 20,
+     "triangles": 10
+    },
+    {
+     "lod": 1,
+     "vertices": 20,
+     "triangles": 10
+    },
+    {
+     "lod": 2,
+     "vertices": 20,
+     "triangles": 10
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01": {
+   "file": "ak1243_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledge01-2f1be17a.glb",
+   "bytes": 13488,
+   "vertices": 40,
+   "triangles": 32,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 40,
+     "triangles": 32
+    },
+    {
+     "lod": 1,
+     "vertices": 40,
+     "triangles": 32
+    },
+    {
+     "lod": 2,
+     "vertices": 40,
+     "triangles": 32
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02": {
+   "file": "ak1243_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledge02-ef719126.glb",
+   "bytes": 20628,
+   "vertices": 257,
+   "triangles": 260,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 257,
+     "triangles": 260
+    },
+    {
+     "lod": 1,
+     "vertices": 257,
+     "triangles": 260
+    },
+    {
+     "lod": 2,
+     "vertices": 257,
+     "triangles": 260
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01": {
+   "file": "3_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgecorin01-25e34e40.glb",
+   "bytes": 20388,
+   "vertices": 232,
+   "triangles": 251,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 232,
+     "triangles": 251
+    },
+    {
+     "lod": 1,
+     "vertices": 232,
+     "triangles": 251
+    },
+    {
+     "lod": 2,
+     "vertices": 232,
+     "triangles": 251
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01": {
+   "file": "_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgecorout01-458c47df.glb",
+   "bytes": 20536,
+   "vertices": 229,
+   "triangles": 253,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 229,
+     "triangles": 253
+    },
+    {
+     "lod": 1,
+     "vertices": 229,
+     "triangles": 253
+    },
+    {
+     "lod": 2,
+     "vertices": 229,
+     "triangles": 253
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01": {
+   "file": "243_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgemid01-b334a20a.glb",
+   "bytes": 4720,
+   "vertices": 20,
+   "triangles": 10,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 20,
+     "triangles": 10
+    },
+    {
+     "lod": 1,
+     "vertices": 20,
+     "triangles": 10
+    },
+    {
+     "lod": 2,
+     "vertices": 20,
+     "triangles": 10
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02": {
+   "file": "243_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgemid02-b2ecfea4.glb",
+   "bytes": 5236,
+   "vertices": 66,
+   "triangles": 40,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 66,
+     "triangles": 40
+    },
+    {
+     "lod": 1,
+     "vertices": 66,
+     "triangles": 40
+    },
+    {
+     "lod": 2,
+     "vertices": 66,
+     "triangles": 40
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01": {
+   "file": "_mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgestairs01-32edd0d3.glb",
+   "bytes": 52388,
+   "vertices": 1091,
+   "triangles": 1204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1091,
+     "triangles": 1204
+    },
+    {
+     "lod": 1,
+     "vertices": 931,
+     "triangles": 960
+    },
+    {
+     "lod": 2,
+     "vertices": 931,
+     "triangles": 960
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01": {
+   "file": "mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgestairsl01-5283c1a1.glb",
+   "bytes": 34004,
+   "vertices": 600,
+   "triangles": 639,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 600,
+     "triangles": 639
+    },
+    {
+     "lod": 1,
+     "vertices": 600,
+     "triangles": 639
+    },
+    {
+     "lod": 2,
+     "vertices": 600,
+     "triangles": 639
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01": {
+   "file": "imperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgestairsmid01-35602104.glb",
+   "bytes": 10456,
+   "vertices": 100,
+   "triangles": 74,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 100,
+     "triangles": 74
+    },
+    {
+     "lod": 1,
+     "vertices": 100,
+     "triangles": 74
+    },
+    {
+     "lod": 2,
+     "vertices": 100,
+     "triangles": 74
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01": {
+   "file": "mwimperialarchitecture_architecture_keep_exterior_ledges_mwimparchledgestairsr01-94232beb.glb",
+   "bytes": 33912,
+   "vertices": 591,
+   "triangles": 639,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 591,
+     "triangles": 639
+    },
+    {
+     "lod": 1,
+     "vertices": 591,
+     "triangles": 639
+    },
+    {
+     "lod": 2,
+     "vertices": 591,
+     "triangles": 639
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparcharrowslit01-8b312945.glb",
+   "bytes": 5688,
+   "vertices": 44,
+   "triangles": 62,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 44,
+     "triangles": 62
+    },
+    {
+     "lod": 1,
+     "vertices": 44,
+     "triangles": 62
+    },
+    {
+     "lod": 2,
+     "vertices": 44,
+     "triangles": 62
+    }
+   ],
+   "textures": [
+    "c5c7ddf3f4833223"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparcharrowslit02-f0645dcd.glb",
+   "bytes": 25064,
+   "vertices": 376,
+   "triangles": 512,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 376,
+     "triangles": 512
+    },
+    {
+     "lod": 1,
+     "vertices": 337,
+     "triangles": 440
+    },
+    {
+     "lod": 2,
+     "vertices": 337,
+     "triangles": 440
+    }
+   ],
+   "textures": [
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01": {
+   "file": "_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchentrance01-18352eda.glb",
+   "bytes": 31596,
+   "vertices": 708,
+   "triangles": 839,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 708,
+     "triangles": 839
+    },
+    {
+     "lod": 1,
+     "vertices": 460,
+     "triangles": 461
+    },
+    {
+     "lod": 2,
+     "vertices": 460,
+     "triangles": 461
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02": {
+   "file": "_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchentrance02-dc1103e1.glb",
+   "bytes": 26044,
+   "vertices": 456,
+   "triangles": 529,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 456,
+     "triangles": 529
+    },
+    {
+     "lod": 1,
+     "vertices": 374,
+     "triangles": 402
+    },
+    {
+     "lod": 2,
+     "vertices": 374,
+     "triangles": 402
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchfoundation01-cfc45a00.glb",
+   "bytes": 42112,
+   "vertices": 1063,
+   "triangles": 1828,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1063,
+     "triangles": 1828
+    },
+    {
+     "lod": 1,
+     "vertices": 470,
+     "triangles": 700
+    },
+    {
+     "lod": 2,
+     "vertices": 310,
+     "triangles": 394
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchfoundation02-5ca30208.glb",
+   "bytes": 32880,
+   "vertices": 1004,
+   "triangles": 1856,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1004,
+     "triangles": 1856
+    },
+    {
+     "lod": 1,
+     "vertices": 370,
+     "triangles": 648
+    },
+    {
+     "lod": 2,
+     "vertices": 187,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "c5c7ddf3f4833223"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01": {
+   "file": "_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchfreeplat01-d3cec50d.glb",
+   "bytes": 13856,
+   "vertices": 113,
+   "triangles": 104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 113,
+     "triangles": 104
+    },
+    {
+     "lod": 1,
+     "vertices": 113,
+     "triangles": 104
+    },
+    {
+     "lod": 2,
+     "vertices": 113,
+     "triangles": 104
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchguardtower01-cb0b8189.glb",
+   "bytes": 157424,
+   "vertices": 4803,
+   "triangles": 5608,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4803,
+     "triangles": 5608
+    },
+    {
+     "lod": 1,
+     "vertices": 2665,
+     "triangles": 2231
+    },
+    {
+     "lod": 2,
+     "vertices": 1449,
+     "triangles": 1316
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01": {
+   "file": "imperialarchitecture_architecture_keep_exterior_mwimparchguardtower01destroyed01-8e3b2675.glb",
+   "bytes": 71128,
+   "vertices": 1825,
+   "triangles": 1819,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1825,
+     "triangles": 1819
+    },
+    {
+     "lod": 1,
+     "vertices": 1373,
+     "triangles": 1124
+    },
+    {
+     "lod": 2,
+     "vertices": 1373,
+     "triangles": 1124
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchguardtower02-544e85ed.glb",
+   "bytes": 135184,
+   "vertices": 3978,
+   "triangles": 4960,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3978,
+     "triangles": 4960
+    },
+    {
+     "lod": 1,
+     "vertices": 2359,
+     "triangles": 2255
+    },
+    {
+     "lod": 2,
+     "vertices": 1624,
+     "triangles": 1411
+    }
+   ],
+   "textures": [
+    "909c7d2796f4cbb8",
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01": {
+   "file": "keep_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchkeep01-7e7f1735.glb",
+   "bytes": 212228,
+   "vertices": 7010,
+   "triangles": 8640,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7010,
+     "triangles": 8640
+    },
+    {
+     "lod": 1,
+     "vertices": 3601,
+     "triangles": 3383
+    },
+    {
+     "lod": 2,
+     "vertices": 2090,
+     "triangles": 1797
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02": {
+   "file": "keep_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchkeep02-44736b51.glb",
+   "bytes": 142944,
+   "vertices": 4366,
+   "triangles": 5420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4366,
+     "triangles": 5420
+    },
+    {
+     "lod": 1,
+     "vertices": 2460,
+     "triangles": 2347
+    },
+    {
+     "lod": 2,
+     "vertices": 1676,
+     "triangles": 1533
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01": {
+   "file": "eep_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchplaza01-cfbbbf2c.glb",
+   "bytes": 90716,
+   "vertices": 2596,
+   "triangles": 3024,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2596,
+     "triangles": 3024
+    },
+    {
+     "lod": 1,
+     "vertices": 1425,
+     "triangles": 1323
+    },
+    {
+     "lod": 2,
+     "vertices": 1320,
+     "triangles": 1203
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01": {
+   "file": "keep_tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchpool01-a14ee22c.glb",
+   "bytes": 98452,
+   "vertices": 2857,
+   "triangles": 3640,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2857,
+     "triangles": 3640
+    },
+    {
+     "lod": 1,
+     "vertices": 1450,
+     "triangles": 1524
+    },
+    {
+     "lod": 2,
+     "vertices": 1134,
+     "triangles": 1140
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": {
+   "file": "_mwimperialarchitecture_architecture_keep_exterior_stables_mwimparchstableendl01-28aa1e20.glb",
+   "bytes": 54124,
+   "vertices": 1098,
+   "triangles": 1446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1098,
+     "triangles": 1446
+    },
+    {
+     "lod": 1,
+     "vertices": 870,
+     "triangles": 1050
+    },
+    {
+     "lod": 2,
+     "vertices": 870,
+     "triangles": 1050
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad",
+    "f82a4541e9ad7296"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": {
+   "file": "_mwimperialarchitecture_architecture_keep_exterior_stables_mwimparchstableendr01-a281328e.glb",
+   "bytes": 54072,
+   "vertices": 1094,
+   "triangles": 1446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1094,
+     "triangles": 1446
+    },
+    {
+     "lod": 1,
+     "vertices": 864,
+     "triangles": 1050
+    },
+    {
+     "lod": 2,
+     "vertices": 864,
+     "triangles": 1050
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad",
+    "f82a4541e9ad7296"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01": {
+   "file": "mperialarchitecture_architecture_keep_exterior_stables_mwimparchstablestraight01-788f9501.glb",
+   "bytes": 53180,
+   "vertices": 1037,
+   "triangles": 1371,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1037,
+     "triangles": 1371
+    },
+    {
+     "lod": 1,
+     "vertices": 823,
+     "triangles": 991
+    },
+    {
+     "lod": 2,
+     "vertices": 823,
+     "triangles": 991
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad",
+    "f82a4541e9ad7296"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01": {
+   "file": "perialarchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallcor01-0e74436a.glb",
+   "bytes": 11152,
+   "vertices": 150,
+   "triangles": 106,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 150,
+     "triangles": 106
+    },
+    {
+     "lod": 1,
+     "vertices": 150,
+     "triangles": 106
+    },
+    {
+     "lod": 2,
+     "vertices": 150,
+     "triangles": 106
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02": {
+   "file": "perialarchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallcor02-e0bbf1c1.glb",
+   "bytes": 52948,
+   "vertices": 1658,
+   "triangles": 1546,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1658,
+     "triangles": 1546
+    },
+    {
+     "lod": 1,
+     "vertices": 903,
+     "triangles": 610
+    },
+    {
+     "lod": 2,
+     "vertices": 672,
+     "triangles": 406
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01": {
+   "file": "erialarchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallpost01-123e9db5.glb",
+   "bytes": 10724,
+   "vertices": 95,
+   "triangles": 110,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 110
+    },
+    {
+     "lod": 1,
+     "vertices": 95,
+     "triangles": 110
+    },
+    {
+     "lod": 2,
+     "vertices": 95,
+     "triangles": 110
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02": {
+   "file": "erialarchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallpost02-6ea24da6.glb",
+   "bytes": 10724,
+   "vertices": 95,
+   "triangles": 110,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 110
+    },
+    {
+     "lod": 1,
+     "vertices": 95,
+     "triangles": 110
+    },
+    {
+     "lod": 2,
+     "vertices": 95,
+     "triangles": 110
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03": {
+   "file": "erialarchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallpost03-75435853.glb",
+   "bytes": 16776,
+   "vertices": 203,
+   "triangles": 246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 203,
+     "triangles": 246
+    },
+    {
+     "lod": 1,
+     "vertices": 203,
+     "triangles": 246
+    },
+    {
+     "lod": 2,
+     "vertices": 203,
+     "triangles": 246
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04": {
+   "file": "erialarchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallpost04-ca383002.glb",
+   "bytes": 16824,
+   "vertices": 203,
+   "triangles": 246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 203,
+     "triangles": 246
+    },
+    {
+     "lod": 1,
+     "vertices": 203,
+     "triangles": 246
+    },
+    {
+     "lod": 2,
+     "vertices": 203,
+     "triangles": 246
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01": {
+   "file": "larchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraight01-8fc01277.glb",
+   "bytes": 9624,
+   "vertices": 34,
+   "triangles": 28,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 34,
+     "triangles": 28
+    },
+    {
+     "lod": 1,
+     "vertices": 34,
+     "triangles": 28
+    },
+    {
+     "lod": 2,
+     "vertices": 34,
+     "triangles": 28
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble": {
+   "file": "tecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraight01rubble-5c9d191d.glb",
+   "bytes": 11764,
+   "vertices": 148,
+   "triangles": 140,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 148,
+     "triangles": 140
+    },
+    {
+     "lod": 1,
+     "vertices": 148,
+     "triangles": 140
+    },
+    {
+     "lod": 2,
+     "vertices": 148,
+     "triangles": 140
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall": {
+   "file": "hitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraight01tall-f8f0fee6.glb",
+   "bytes": 9768,
+   "vertices": 38,
+   "triangles": 32,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 38,
+     "triangles": 32
+    },
+    {
+     "lod": 1,
+     "vertices": 38,
+     "triangles": 32
+    },
+    {
+     "lod": 2,
+     "vertices": 38,
+     "triangles": 32
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02": {
+   "file": "larchitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraight02-981b2088.glb",
+   "bytes": 53632,
+   "vertices": 1525,
+   "triangles": 1388,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1525,
+     "triangles": 1388
+    },
+    {
+     "lod": 1,
+     "vertices": 787,
+     "triangles": 504
+    },
+    {
+     "lod": 2,
+     "vertices": 581,
+     "triangles": 328
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall": {
+   "file": "hitecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraight02tall-6c8b20cc.glb",
+   "bytes": 53836,
+   "vertices": 1529,
+   "triangles": 1392,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1529,
+     "triangles": 1392
+    },
+    {
+     "lod": 1,
+     "vertices": 791,
+     "triangles": 508
+    },
+    {
+     "lod": 2,
+     "vertices": 586,
+     "triangles": 332
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01": {
+   "file": "itecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraightshort01-540a0e9f.glb",
+   "bytes": 9672,
+   "vertices": 34,
+   "triangles": 28,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 34,
+     "triangles": 28
+    },
+    {
+     "lod": 1,
+     "vertices": 34,
+     "triangles": 28
+    },
+    {
+     "lod": 2,
+     "vertices": 34,
+     "triangles": 28
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02": {
+   "file": "itecture_architecture_keep_exterior_stonewalls_mwimparchstonewallstraightshort02-384deb62.glb",
+   "bytes": 29120,
+   "vertices": 666,
+   "triangles": 748,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 666,
+     "triangles": 748
+    },
+    {
+     "lod": 1,
+     "vertices": 408,
+     "triangles": 328
+    },
+    {
+     "lod": 2,
+     "vertices": 408,
+     "triangles": 328
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "6dce0d5984da9d9d",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01": {
+   "file": "1243_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowerbg01-1c4cf97e.glb",
+   "bytes": 10720,
+   "vertices": 136,
+   "triangles": 112,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 136,
+     "triangles": 112
+    },
+    {
+     "lod": 1,
+     "vertices": 136,
+     "triangles": 112
+    },
+    {
+     "lod": 2,
+     "vertices": 136,
+     "triangles": 112
+    }
+   ],
+   "textures": [
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01": {
+   "file": "_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowerbgbase01-cf9dfec6.glb",
+   "bytes": 39324,
+   "vertices": 953,
+   "triangles": 728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 953,
+     "triangles": 728
+    },
+    {
+     "lod": 1,
+     "vertices": 869,
+     "triangles": 652
+    },
+    {
+     "lod": 2,
+     "vertices": 869,
+     "triangles": 652
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01": {
+   "file": "3_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowerbgtop01-a3034b33.glb",
+   "bytes": 123224,
+   "vertices": 3299,
+   "triangles": 4026,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3299,
+     "triangles": 4026
+    },
+    {
+     "lod": 1,
+     "vertices": 1929,
+     "triangles": 1875
+    },
+    {
+     "lod": 2,
+     "vertices": 1511,
+     "triangles": 1466
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02": {
+   "file": "3_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowerbgtop02-f3d7404a.glb",
+   "bytes": 47664,
+   "vertices": 1205,
+   "triangles": 1416,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1205,
+     "triangles": 1416
+    },
+    {
+     "lod": 1,
+     "vertices": 881,
+     "triangles": 948
+    },
+    {
+     "lod": 2,
+     "vertices": 881,
+     "triangles": 948
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "b0d5652c4bb44e9a",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01": {
+   "file": "1243_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowersm01-26694339.glb",
+   "bytes": 10672,
+   "vertices": 136,
+   "triangles": 112,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 136,
+     "triangles": 112
+    },
+    {
+     "lod": 1,
+     "vertices": 136,
+     "triangles": 112
+    },
+    {
+     "lod": 2,
+     "vertices": 136,
+     "triangles": 112
+    }
+   ],
+   "textures": [
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01": {
+   "file": "_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowersmbase01-d42e0237.glb",
+   "bytes": 33136,
+   "vertices": 641,
+   "triangles": 728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 641,
+     "triangles": 728
+    },
+    {
+     "lod": 1,
+     "vertices": 595,
+     "triangles": 652
+    },
+    {
+     "lod": 2,
+     "vertices": 595,
+     "triangles": 652
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01": {
+   "file": "3_mwimperialarchitecture_architecture_keep_exterior_towers_mwimparchtowersmtop01-25ebe73b.glb",
+   "bytes": 98688,
+   "vertices": 2462,
+   "triangles": 2960,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2462,
+     "triangles": 2960
+    },
+    {
+     "lod": 1,
+     "vertices": 1572,
+     "triangles": 1542
+    },
+    {
+     "lod": 2,
+     "vertices": 1519,
+     "triangles": 1468
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwall01-fa7172f8.glb",
+   "bytes": 65984,
+   "vertices": 1670,
+   "triangles": 1238,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1670,
+     "triangles": 1238
+    },
+    {
+     "lod": 1,
+     "vertices": 986,
+     "triangles": 666
+    },
+    {
+     "lod": 2,
+     "vertices": 972,
+     "triangles": 658
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01": {
+   "file": "imperialarchitecture_architecture_keep_exterior_walls_mwimparchwall01destroyed01-ab904dd6.glb",
+   "bytes": 77588,
+   "vertices": 1763,
+   "triangles": 1672,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1763,
+     "triangles": 1672
+    },
+    {
+     "lod": 1,
+     "vertices": 1398,
+     "triangles": 1162
+    },
+    {
+     "lod": 2,
+     "vertices": 1398,
+     "triangles": 1162
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "723401e7367aba58",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02": {
+   "file": "imperialarchitecture_architecture_keep_exterior_walls_mwimparchwall01destroyed02-e337b7df.glb",
+   "bytes": 77684,
+   "vertices": 1812,
+   "triangles": 1695,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1812,
+     "triangles": 1695
+    },
+    {
+     "lod": 1,
+     "vertices": 1491,
+     "triangles": 1265
+    },
+    {
+     "lod": 2,
+     "vertices": 1491,
+     "triangles": 1265
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "723401e7367aba58",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01": {
+   "file": "243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallcorin01-4261cfbc.glb",
+   "bytes": 63996,
+   "vertices": 1628,
+   "triangles": 1221,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1628,
+     "triangles": 1221
+    },
+    {
+     "lod": 1,
+     "vertices": 1157,
+     "triangles": 849
+    },
+    {
+     "lod": 2,
+     "vertices": 1157,
+     "triangles": 849
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01": {
+   "file": "ialarchitecture_architecture_keep_exterior_walls_mwimparchwallcorin01destroyed01-70125ee2.glb",
+   "bytes": 71000,
+   "vertices": 1752,
+   "triangles": 1578,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1752,
+     "triangles": 1578
+    },
+    {
+     "lod": 1,
+     "vertices": 1418,
+     "triangles": 1196
+    },
+    {
+     "lod": 2,
+     "vertices": 1418,
+     "triangles": 1196
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "723401e7367aba58",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01": {
+   "file": "43_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallcorout01-e6b30591.glb",
+   "bytes": 97720,
+   "vertices": 2619,
+   "triangles": 2122,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2619,
+     "triangles": 2122
+    },
+    {
+     "lod": 1,
+     "vertices": 1579,
+     "triangles": 1113
+    },
+    {
+     "lod": 2,
+     "vertices": 1285,
+     "triangles": 975
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01": {
+   "file": "k1243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallent01-2a096d13.glb",
+   "bytes": 20264,
+   "vertices": 216,
+   "triangles": 216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 216,
+     "triangles": 216
+    },
+    {
+     "lod": 1,
+     "vertices": 216,
+     "triangles": 216
+    },
+    {
+     "lod": 2,
+     "vertices": 216,
+     "triangles": 216
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01": {
+   "file": "1243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallgate01-b0bfdcc6.glb",
+   "bytes": 89736,
+   "vertices": 2264,
+   "triangles": 2606,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2264,
+     "triangles": 2606
+    },
+    {
+     "lod": 1,
+     "vertices": 1578,
+     "triangles": 1502
+    },
+    {
+     "lod": 2,
+     "vertices": 1578,
+     "triangles": 1502
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01": {
+   "file": "rialarchitecture_architecture_keep_exterior_walls_mwimparchwallgate01destroyed01-b99cd59c.glb",
+   "bytes": 55100,
+   "vertices": 1289,
+   "triangles": 1447,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1289,
+     "triangles": 1447
+    },
+    {
+     "lod": 1,
+     "vertices": 1288,
+     "triangles": 1445
+    },
+    {
+     "lod": 2,
+     "vertices": 1288,
+     "triangles": 1445
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "723401e7367aba58",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01": {
+   "file": "43_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallstairs01-5fafe44e.glb",
+   "bytes": 105100,
+   "vertices": 3031,
+   "triangles": 3139,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3031,
+     "triangles": 3139
+    },
+    {
+     "lod": 1,
+     "vertices": 2094,
+     "triangles": 1735
+    },
+    {
+     "lod": 2,
+     "vertices": 2094,
+     "triangles": 1735
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02": {
+   "file": "43_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallstairs02-ac9a9771.glb",
+   "bytes": 107072,
+   "vertices": 3028,
+   "triangles": 3139,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3028,
+     "triangles": 3139
+    },
+    {
+     "lod": 1,
+     "vertices": 2087,
+     "triangles": 1736
+    },
+    {
+     "lod": 2,
+     "vertices": 2087,
+     "triangles": 1736
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03": {
+   "file": "43_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallstairs03-7cbd090d.glb",
+   "bytes": 77316,
+   "vertices": 1931,
+   "triangles": 2395,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1931,
+     "triangles": 2395
+    },
+    {
+     "lod": 1,
+     "vertices": 1177,
+     "triangles": 1099
+    },
+    {
+     "lod": 2,
+     "vertices": 1088,
+     "triangles": 1001
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04": {
+   "file": "43_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallstairs04-f9495c01.glb",
+   "bytes": 78704,
+   "vertices": 1936,
+   "triangles": 2395,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1936,
+     "triangles": 2395
+    },
+    {
+     "lod": 1,
+     "vertices": 1168,
+     "triangles": 1099
+    },
+    {
+     "lod": 2,
+     "vertices": 1079,
+     "triangles": 1001
+    }
+   ],
+   "textures": [
+    "240e22c7524b08ef",
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": {
+   "file": "243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwalltower01-944626c6.glb",
+   "bytes": 125132,
+   "vertices": 3542,
+   "triangles": 3086,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3542,
+     "triangles": 3086
+    },
+    {
+     "lod": 1,
+     "vertices": 1930,
+     "triangles": 1250
+    },
+    {
+     "lod": 2,
+     "vertices": 1518,
+     "triangles": 1058
+    }
+   ],
+   "textures": [
+    "3590fa6b9269a764",
+    "40e87e2903efb69b",
+    "909c7d2796f4cbb8",
+    "c5c7ddf3f4833223",
+    "f158b44ee67a1fce",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchfloorchunk01-3002a39b.glb",
+   "bytes": 60236,
+   "vertices": 1691,
+   "triangles": 1735,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1691,
+     "triangles": 1735
+    },
+    {
+     "lod": 1,
+     "vertices": 902,
+     "triangles": 712
+    },
+    {
+     "lod": 2,
+     "vertices": 700,
+     "triangles": 463
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "723401e7367aba58"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchfloorchunk02-1ea81012.glb",
+   "bytes": 52528,
+   "vertices": 1084,
+   "triangles": 1697,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1084,
+     "triangles": 1697
+    },
+    {
+     "lod": 1,
+     "vertices": 655,
+     "triangles": 868
+    },
+    {
+     "lod": 2,
+     "vertices": 569,
+     "triangles": 728
+    }
+   ],
+   "textures": [
+    "40e87e2903efb69b",
+    "723401e7367aba58"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchrubblepiece01-e417f949.glb",
+   "bytes": 7448,
+   "vertices": 130,
+   "triangles": 190,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 190
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 190
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 190
+    }
+   ],
+   "textures": [
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchrubblepiece02-51f901a3.glb",
+   "bytes": 6528,
+   "vertices": 84,
+   "triangles": 104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 84,
+     "triangles": 104
+    },
+    {
+     "lod": 1,
+     "vertices": 84,
+     "triangles": 104
+    },
+    {
+     "lod": 2,
+     "vertices": 84,
+     "triangles": 104
+    }
+   ],
+   "textures": [
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03": {
+   "file": "esak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchrubblepiece03-696ba1b0.glb",
+   "bytes": 6492,
+   "vertices": 84,
+   "triangles": 104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 84,
+     "triangles": 104
+    },
+    {
+     "lod": 1,
+     "vertices": 84,
+     "triangles": 104
+    },
+    {
+     "lod": 2,
+     "vertices": 84,
+     "triangles": 104
+    }
+   ],
+   "textures": [
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchrubblepile01-a346f0c5.glb",
+   "bytes": 27052,
+   "vertices": 439,
+   "triangles": 640,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 439,
+     "triangles": 640
+    },
+    {
+     "lod": 1,
+     "vertices": 437,
+     "triangles": 636
+    },
+    {
+     "lod": 2,
+     "vertices": 437,
+     "triangles": 636
+    }
+   ],
+   "textures": [
+    "723401e7367aba58",
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchrubblepile02-a8d260ab.glb",
+   "bytes": 30392,
+   "vertices": 622,
+   "triangles": 846,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 622,
+     "triangles": 846
+    },
+    {
+     "lod": 1,
+     "vertices": 620,
+     "triangles": 842
+    },
+    {
+     "lod": 2,
+     "vertices": 620,
+     "triangles": 842
+    }
+   ],
+   "textures": [
+    "723401e7367aba58",
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03": {
+   "file": "tesak1243_mwimperialarchitecture_architecture_keep_rubbles_mwimparchrubblepile03-4e373f88.glb",
+   "bytes": 20876,
+   "vertices": 407,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 407,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 407,
+     "triangles": 500
+    },
+    {
+     "lod": 2,
+     "vertices": 407,
+     "triangles": 500
+    }
+   ],
+   "textures": [
+    "723401e7367aba58",
+    "c5c7ddf3f4833223",
+    "f6fbb5b6974a1bad"
+   ]
+  }
+ },
+ "fires": {}
+}

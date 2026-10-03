@@ -28,3 +28,12 @@ place.
    its own, never a chain stage.
 3. **`route-spans-v1` stays a kit** (its pieces are what a place draws from),
    and 16k item 32 still replaces its Nordic pieces before any place uses them.
+4. **A route stair or bridge a place builds is claimed, never stacked**: a
+   `world/sources/routes/route-structures.json` row (schemaVersion 2) may carry
+   `builtBy: <place id>`. Grading, the route raster and the studio footprint keep
+   reserving its window; `compile_route_structures` emits no piece for it, the
+   export refuses one, and `export_settlement_bundle --route-claims` (or the
+   next `--places` publish) drops the published piece. The place's blueprint
+   claims the row with a parcel `routeStructureId: <structure id>`; gate
+   `record.coherence` fails a built place whose `builtBy` row has no claiming
+   parcel or still has a route piece.

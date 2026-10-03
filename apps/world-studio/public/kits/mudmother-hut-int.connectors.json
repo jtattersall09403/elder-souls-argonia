@@ -56,9 +56,9 @@
     "normalDeg": 90.0,
     "positionInPiece": [
      1.07,
-     -0.0
+     0.01
     ],
-    "widthM": 0.23
+    "widthM": 0.19
    },
    {
     "evidence": "bounds",
@@ -67,9 +67,9 @@
     "normalDeg": 270.0,
     "positionInPiece": [
      -1.11,
-     -0.0
+     0.01
     ],
-    "widthM": 0.23
+    "widthM": 0.19
    }
   ],
   "mudmother:gv_meshes/argoniannest/argonianfence02": [

@@ -2602,64 +2602,6 @@
    "pivotAboveBaseM": 3.228
   },
   {
-   "id": "bmv:architecture/jets/miscstuff/dockracked02",
-   "node": "es|aa59a20d40|architecture_jets_miscstuff_dockracked02",
-   "category": "architecture",
-   "sizeM": [
-    3.355,
-    9.624,
-    3.761
-   ],
-   "originOffsetM": [
-    1.617,
-    4.945,
-    0.858
-   ],
-   "triangles": 6002,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": false,
-   "alphaTest": false,
-   "collision": "mesh",
-   "droppedShapes": [],
-   "textures": [],
-   "materials": [],
-   "lodLevels": 3,
-   "designedSinkM": {
-    "p25": -0.8582,
-    "p50": -0.8582,
-    "p75": -0.8582,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.8582
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.858,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
-   "displayName": "Dockracked 02",
-   "undersideClosed": true,
-   "undersideCoverage": 0.864,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.858
-  },
-  {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
    "node": "es|c1fdc2cece|cture_villages_kothringi_tamu_wooddock01",
    "category": "architecture",
@@ -3559,6 +3501,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -3585,16 +3528,25 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 9293132,
-  "bytesAfter": 3673860,
+  "bytesBefore": 8897240,
+  "bytesAfter": 3601324,
   "images": 14,
   "imageBytesAfter": 2299696,
   "warnings": [],
-  "sha256": "6d409dc5ea8194d2ca2c69354c9fcf59f85e1ecbaf4da62472a9d406fe68b1fd",
+  "sha256": "79e72996ab7c273411ec6a047ac0bbd4cc6e058ee378986b4126454e574a9c37",
+  "parts": {
+   "parts": 48,
+   "partBytes": 1935276,
+   "textureFiles": 14,
+   "textureBytes": 2299696,
+   "bytes": 4234972,
+   "sourceSha256": "00d0219b9ebe19093ccc10cde2fe5f2b627f45cb5b4f2a2a32d9a3a075f6f4c8",
+   "packedSha256": "79e72996ab7c273411ec6a047ac0bbd4cc6e058ee378986b4126454e574a9c37"
+  },
   "sidecarBytes": {
-   "connectors": 44210,
-   "footprints": 56336,
-   "interiors": 36865
+   "connectors": 43805,
+   "footprints": 54948,
+   "interiors": 36223
   }
  }
 }

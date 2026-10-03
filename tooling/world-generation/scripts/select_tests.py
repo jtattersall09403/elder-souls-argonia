@@ -36,8 +36,9 @@ tooling/world-generation), pipeline (tooling/asset-pipeline) and workbench
     data paths and are ignored. The cost: a kit or world-record change
     selects ~90 % of placement (most tests do read the kits through
     compile_settlement), a code-only change 0-36 % (measured 2026-09-27).
-A conftest's closure joins a test's when the test requests one of its
-fixtures (by parameter name) or the fixture is autouse. The WHOLE suite is
+A conftest fixture's closure (the imports its body names) joins a test's when
+the test requests it (by parameter name) or it is autouse. A hub module in
+OWN_TESTS selects its own named tests instead of its closure. The WHOLE suite is
 selected only when a shared file changes (a package __init__, a conftest,
 pytest.ini, this script, requirements-test.txt).
 DECISION 0106 (owner 2026-09-28, scoped means scoped): a .md, a README and
@@ -150,6 +151,25 @@ CONFTESTS = {
     "tooling/placement-workbench": ["tooling/placement-workbench/conftest.py",
                                     "tooling/placement-workbench/tests/conftest.py"],
 }
+# Hub modules whose import closure is (nearly) the whole suite: a change to one
+# selects its OWN tests, the files that exercise it directly, not every test
+# that reaches it (perf10 c13, measured 2026-10-03: the closure ran 33-54 of 54
+# workbench files, 205-537 s; these sets run in 21-45 s). The full `--runner`
+# run before a merge to main is the backstop for an indirect break.
+OWN_TESTS = {
+    "tooling/placement-workbench/workbench/walkway.py": (
+        "tooling/placement-workbench/tests/test_walkway.py",
+        "tooling/placement-workbench/tests/test_audit10_c6_wbrules.py"),
+    "tooling/placement-workbench/workbench/rules.py": (
+        "tooling/placement-workbench/tests/test_0102_rules.py",
+        "tooling/placement-workbench/tests/test_walk2_rules.py",
+        "tooling/placement-workbench/tests/test_audit10_c6_wbrules.py"),
+    "tooling/placement-workbench/wb.py": (
+        "tooling/placement-workbench/tests/test_workbench.py",
+        "tooling/placement-workbench/tests/test_audit10_c5_wb.py",
+        "tooling/placement-workbench/tests/test_walk4_wb.py",
+        "tooling/placement-workbench/tests/test_audit10_c6_wbrules.py"),
+}
 EXT = re.compile(r"\.(json|jsonl|npy|npz|png|jpg|ktx2|glb|gltf|nif|dds|esp|esm|yaml|yml|csv|txt|md|py|mjs|ts|"
                  r"tsx|xz|gz|bin|obj|blend|toml|ini|sh)$")
 # a two-segment literal under these is a package or app root (a module
@@ -201,11 +221,12 @@ def _norm_literal(text: str) -> str | None:
 
 
 @lru_cache(maxsize=None)
-def _scan(rel: str) -> tuple[frozenset, frozenset, bool]:
-    """(imported module files, path literals, has slow-marked tests) of one file."""
+def _scan(rel: str, source: str | None = None) -> tuple[frozenset, frozenset, bool]:
+    """(imported module files, path literals, has slow-marked tests) of one
+    file, or of `source` read as if it sat at `rel`."""
     path = REPO / rel
     try:
-        tree = ast.parse(path.read_text(encoding="utf-8"), filename=rel)
+        tree = ast.parse(path.read_text(encoding="utf-8") if source is None else source, filename=rel)
     except (OSError, SyntaxError, UnicodeDecodeError):
         return frozenset(), frozenset(), False
     here = path.parent
@@ -294,18 +315,34 @@ def _scan(rel: str) -> tuple[frozenset, frozenset, bool]:
 
 
 @lru_cache(maxsize=None)
-def _fixtures(rel: str) -> tuple[frozenset, bool]:
-    """(fixture names a conftest defines, whether any is autouse)."""
+def _fixtures(rel: str) -> dict:
+    """{fixture name: (autouse, module files its body reaches)} of a conftest.
+    A fixture reaches the conftest's module-level imports it names in its body
+    (perf10 c13: the workbench conftest imports `wb` for one session fixture,
+    and its autouse env fixture used to hand every test wb's whole closure, so
+    a change to any workbench module selected all 54 files); nested imports
+    inside the body count too. Unresolvable names reach nothing."""
     tree = ast.parse((REPO / rel).read_text(encoding="utf-8"))
-    names, autouse = set(), False
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            for d in node.decorator_list:
-                text = ast.unparse(d)
-                if "fixture" in text:
-                    names.add(node.name)
-                    autouse |= "autouse=True" in text
-    return frozenset(names), autouse
+    bound: dict[str, str] = {}                          # module-level name -> dotted module
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            for a in node.names:
+                bound[(a.asname or a.name).split(".")[0]] = a.name if a.asname else a.name.split(".")[0]
+        elif isinstance(node, ast.ImportFrom) and not node.level and node.module:
+            for a in node.names:
+                bound[a.asname or a.name] = f"{node.module}.{a.name}"
+    out = {}
+    for node in tree.body:
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        texts = [ast.unparse(d) for d in node.decorator_list]
+        if not any("fixture" in t for t in texts):
+            continue
+        used = {n.id for n in ast.walk(node) if isinstance(n, ast.Name)}
+        src = "\n".join([f"import {bound[u]}" for u in sorted(used & set(bound))]
+                        + [ast.unparse(n) for n in ast.walk(node) if isinstance(n, (ast.Import, ast.ImportFrom))])
+        out[node.name] = (any("autouse=True" in t for t in texts), _scan(rel, src)[0])
+    return out
 
 
 @lru_cache(maxsize=None)
@@ -412,14 +449,27 @@ def select_changed(suite: str, changed: list[str], use_reads_map: bool = True) -
     mapped = reads_map(suite) if use_reads_map else {}
     data_changed = [c for c in changed if _is_data(c)]
     literal_changed = [c for c in changed if not _is_data(c)]   # data selects by the reads map only (0106)
+    hubs = [c for c in changed if c in OWN_TESTS]
+    changed = [c for c in changed if c not in OWN_TESTS]
+    literal_changed = [c for c in literal_changed if c not in OWN_TESTS]
+    for hub in hubs:
+        missing = [t for t in OWN_TESTS[hub] if not (REPO / t).is_file()]
+        if missing:
+            raise SystemExit(f"select_tests: OWN_TESTS[{hub!r}] names {missing}, which no longer exist")
+        for t in OWN_TESTS[hub]:
+            if t in tests:
+                reasons.setdefault(t, f"own test of {hub}")
     for t in tests:
+        if t in reasons:
+            continue
         files = _closure(t)
         used = _arg_names(t)
         for c in confs:                                   # a conftest reaches a test through the fixtures it uses
-            names, autouse = conf_fixtures[c]
             files.add(c)
-            if autouse or used & names:
-                files |= _closure(c)
+            for name, (autouse, deps) in conf_fixtures[c].items():
+                if autouse or name in used:
+                    for d in deps:
+                        files |= _closure(d)
         why = None
         for c in changed:
             if c in files:

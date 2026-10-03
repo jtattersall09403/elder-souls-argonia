@@ -38,12 +38,13 @@ python3 -m pipeline.vault_inventory                      # -> world/sources/asse
 **Kits reach `public/kits/` only through `kit_compress`** (owner 2026-09-18,
 pulled forward from Phase 14): the raw build under `output/kits/` is what the
 measuring tools read (`vet_kit`, `trunk_solids`, `measure_footprints`,
-`interiors_index`, trimesh); the published copy is gltfpack's KTX2/UASTC +
-meshopt compression of it, recorded in the manifest's `compression` block,
-and `test_kit_compress.py` refuses an unrecorded or uncompressed kit (or one
-whose parts folder is stale). Every publish ends with `pipeline/kit_parts.mjs`,
-which cuts the published GLB into `public/kits/<kit>/parts/` (one GLB per
-asset, LOD0 only, textures once per kit) for the interior loader. The
+`interiors_index`, trimesh); what ships is gltfpack's KTX2/UASTC + meshopt
+compression of it, cut by `pipeline/kit_parts.mjs` into
+`public/kits/<kit>/parts/` (one GLB per manifest asset with every LOD tier,
+textures once province-wide in `public/kits/tex/`; decision 0120: no whole
+kit GLB ships), recorded in the manifest's `compression` block, and
+`test_kit_compress.py` refuses an unrecorded kit or one whose parts are
+stale. The
 encoder is the native gltfpack 1.2 at `toolchain.json` `gltfpack` (the npm
 build has no Basis encoder). Format choice and numbers:
 [docs/research/rendering/gpu-texture-and-mesh-compression.md](../../docs/research/rendering/gpu-texture-and-mesh-compression.md).

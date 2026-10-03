@@ -22,10 +22,9 @@ export async function runSeam({ place, suffix, bearing = 0, outDir, width = 480,
   if (py.status !== 0) throw new Error(py.stderr.slice(-2000));
   const g = JSON.parse(py.stdout);
   const row = g.row;
-  const manifest = JSON.parse(readFileSync(join(pub, "kits", `${row.kit}.kit.json`), "utf8"));
-  const asset = manifest.assets.find((a) => a.id === row.assetId);
   const partsIndex = join(pub, "kits", row.kit, "parts/index.json");
   const part = existsSync(partsIndex) ? JSON.parse(readFileSync(partsIndex, "utf8")).assets[row.assetId] : undefined;
+  if (!part) throw new Error(`${row.assetId} has no part in kits/${row.kit}/parts/index.json`);
   const set = JSON.parse(readFileSync(join(pub, "textures/ground/index.json"), "utf8")).default;
   const rows = JSON.parse(readFileSync(join(pub, "textures/ground", set, "materials.json"), "utf8")).materials;
   const dist = join(tmpdir(), "es-seam-look");
@@ -55,8 +54,8 @@ export async function runSeam({ place, suffix, bearing = 0, outDir, width = 480,
     const res = await page.evaluate((o) => window.runSeam(o), {
       base: "http://seam.local/", set, rows, entries: g.paint.entries,
       grid: { x0: g.x0, z0: g.z0, step: g.step, n: g.n, heights: g.heights, wet: g.wet },
-      place: row, glbUrl: part ? `/kits/${row.kit}/parts/${part.file}` : `/kits/${row.kit}.glb`,
-      node: asset?.node ?? "", fromPart: !!part, bearingDeg: bearing, distM, eyeM, width, height });
+      place: row, glbUrl: `/kits/${row.kit}/parts/${part.file}`,
+      bearingDeg: bearing, distM, eyeM, width, height });
     if (errors.length) console.error(`page errors:\n${errors.join("\n")}`);
     const slug = `${place.split(".").pop()}__${suffix.replace(/[^a-z0-9]+/gi, "_")}__b${bearing}`;
     const files = Object.entries(res.shots).map(([k, url]) => {

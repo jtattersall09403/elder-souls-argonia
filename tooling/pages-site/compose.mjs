@@ -290,13 +290,10 @@ console.log(`compose: excluded ${fmt(excludedBytes)}`);
 const sidecarBytes = (existsSync(kitsDir) ? walk(kitsDir) : []).filter((f) => /\.(connectors|footprints|interiors)\.json$/.test(f))
   .reduce((s, f) => s + statSync(f).size, 0);
 console.log(`compose: kit sidecars ${fmt(sidecarBytes)} of the kept kits`);
-// Kit parts (`kits/<kit>/parts/`, pipeline/kit_parts.mjs) ship inside a kept
-// kit's own folder: the interior loader's per-asset GLBs and their KTX2 files,
-// a second copy of the kit's LOD0 geometry and textures, published only for
-// the assets an interior cell draws (kit_parts.mjs `drawnAssets`; walk 4:
-// 131.7 MB for every asset of 10 kits, site 709.0 MB; review 5536a1d9, drawn
-// assets only: 19.3 MB, site 597.3 MB). Reported so the budget's composition
-// is visible when it moves.
+// Kit parts (`kits/<kit>/parts/`, pipeline/kit_parts.mjs) are how every kit
+// ships (decision 0120): one GLB per manifest asset with every LOD tier, its
+// KTX2 textures in the shared pool `kits/tex/` (counted in `after`, not here).
+// Reported so the budget's composition is visible when it moves.
 const partsBytes = (existsSync(kitsDir) ? walk(kitsDir) : []).filter((f) => /[\\/]parts[\\/]/.test(kitRel(f)))
   .reduce((s, f) => s + statSync(f).size, 0);
 console.log(`compose: kit parts ${fmt(partsBytes)} of the kept kits`);
