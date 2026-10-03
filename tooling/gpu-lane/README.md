@@ -60,6 +60,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 4. Sync: `POD_SSH="ssh -i /tmp/<lane>/rp_key -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh /tmp/<lane>/site/studio dev`
    (and `pod-sync.sh <branch dist> webgpu` to serve the branch beside it).
 5. Tunnel: `node tooling/gpu-lane/tunnels.mjs open --pod "<same ssh>" --local <port>`; `tunnels.mjs close` after.
+5a. After any commit touching a shader or material: `node tooling/gpu-lane/shader-compile-check.mjs` (water field/strip x tiers x above/below on SwiftShader; exit 1 on any shader error) before any pod capture.
 6. Measure, ONE invocation for the round:
    `node tooling/gpu-lane/measure.mjs --run <round> --cdp 127.0.0.1:<port> --spots tooling/gpu-lane/spots/perf10-c4.txt [--bar 83,69]` (no global probe flag: the headline spots stay probe-off, the diagnosis spots carry their own tokens)
    It moves between spots in one tab (ready gate per spot), takes a clean (HUD-free) settled screenshot (captures run with the clock running, `rate=0.5`, and the HUD hidden)
