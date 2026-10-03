@@ -34,6 +34,14 @@ def test_split_and_assemble_round_trip_and_budget_is_the_max():
     assert sb.assemble(list(places.values()) + list(routes.values())) == _whole()
 
 
+def test_a_door_apron_treatment_goes_to_its_doors_place():
+    whole = _whole()
+    whole["groundTreatments"].append({"id": "treatment.door.1.apron", "kind": "floor"})
+    places, _ = sb.split(whole, {"place.a": 7})
+    assert [t["id"] for t in places["place.a"]["groundTreatments"]] == [
+        "treatment.place.a.house", "treatment.door.1.apron"]
+
+
 def test_a_whole_file_key_with_no_home_refuses():
     whole = {**_whole(), "newThing": 1}
     with pytest.raises(ValueError, match="no home"):

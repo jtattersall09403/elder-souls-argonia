@@ -519,6 +519,19 @@
             "yMeasured": 15.9296
           },
           {
+            "id": "sd-spoil",
+            "asset": "vanilla:dungeons/mines/rocks/minecdirtmound02",
+            "atM": [
+              47.4,
+              -30.2
+            ],
+            "yaw": 285.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.2845
+          },
+          {
             "id": "y1-bl-bellows",
             "asset": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
             "atM": [
@@ -1293,11 +1306,11 @@
         "settlement-imperial-v1": "9144866ffc6959ca92347c9eda44923bc516f98add601b49781101ac7d5a5972",
         "settlement-mud-v1": "cb681afe4a6def2ebb571a52282dd3d20fa22a9f1e20bb3de83c8817fcf53279",
         "settlement-root-v1": "967048d24c8b6bc0f81f738618cdd4295e699c231a220878c00a5f28e1c3dbc6",
-        "works-v1": "70449d43bd0f5e8683ece844f8ef99eb86b4e690785844b15c70f71f59c33549"
+        "works-v1": "528483fad45c75466c5b8cc84ddfb362d726d0bff0606267e73300cd85594d6e"
       },
       "layout": {
         "path": "world/sources/blueprints/bog-iron-workings.layout.json",
-        "sha256": "b8b91806012bd69670918fd71e424bb0f691df7eef5632343005d42c3fd102a3"
+        "sha256": "f8724859bbac482a45fad9557aa16d5af17757ed32086834b6661f943d45ae74"
       }
     },
     "walkRoutes": {

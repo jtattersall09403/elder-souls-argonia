@@ -107,8 +107,13 @@ def split(whole: dict, budgets: dict[str, int]) -> tuple[dict[str, dict], dict[s
 
     for p in whole["placements"]:
         put("placements", p, owner[p["id"]], p["id"])
+    door_owner = {d["id"]: ("place", d["settlementId"]) for d in whole.get("doors") or []}
     for row in whole.get("groundTreatments") or []:
-        put("groundTreatments", row, owner.get(row["id"].removeprefix("treatment.")), row["id"])
+        ref = row["id"].removeprefix("treatment.")
+        # a door apron (`treatment.<door id>.apron`) belongs to its door's place
+        key = (door_owner.get(ref.removesuffix(".apron")) if ref.endswith(".apron")
+               else owner.get(ref))
+        put("groundTreatments", row, key, row["id"])
     for field in ("navmeshCuts", "navmeshLinks"):
         for row in whole.get(field) or []:
             put(field, row, owner.get(row["placementId"]), row["id"])

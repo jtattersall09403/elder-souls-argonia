@@ -385,11 +385,71 @@
    "yaw": 0.0,
    "settle": true
   },
-  {"op": "bind", "uid": "sd-shovel", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "sd-ore1", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "sd-ore2", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "sd-orebucket", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "sd-basket", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {
+   "op": "place",
+   "uid": "sd-spoil",
+   "asset": "vanilla:dungeons/mines/rocks/minecdirtmound02",
+   "at": [
+    2038.2,
+    2588.4
+   ],
+   "yaw": 15.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sd-spoil",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sd-shovel",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sd-ore1",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sd-ore2",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sd-orebucket",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sd-basket",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
   {
    "op": "note",
    "uid": "sd-shovel",
