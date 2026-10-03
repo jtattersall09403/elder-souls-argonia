@@ -139,14 +139,16 @@ function sunPhase(cSun: TslNode, sunY: TslNode): TslNode {
 
 /** Peak densities (m^-1) and shapes of the outdoor fog terms in density() (vol10 diag8 F-1..F-6, O-2). */
 export const FOG_TERMS = {
-  /** Radiation mist at the basin floor, full cover; over water its scale height is capped at
-   * mistWaterScaleM, so the eye at 1.6 m stands above it (vol10 c8 veil2). */
-  mistPeakPerM: 0.015, mistWaterScaleM: 0.4,
+  /** Radiation mist at the basin floor, full cover. Over water it is measured from the water surface
+   * at mistWaterPeakPerM with scale height mistWaterScaleM: a layer that rises past the eye and thins
+   * upward, so it reads as a layer, never as a flat haze under the eye (0112 §4, vol10 c10). */
+  mistPeakPerM: 0.015, mistWaterPeakPerM: 0.008, mistWaterScaleM: 3,
   /** Mist is integrated out to here from the camera (m), fading over the last quarter: a grazing ray
    * along a 6 m layer never sums more than this much of it (no white horizon band). */
   mistFarCapM: 400,
-  /** Marsh ground fog at its base, full cover: a thin dense bank the eye looks down on. */
-  marshPeakPerM: 0.27, marshTopM: 1.2,
+  /** Marsh ground fog at its base, full cover: a knee-high bank under the mist, thin enough that a
+   * pier base 50 m off stays readable (0112 §4). */
+  marshPeakPerM: 0.12, marshTopM: 1.2,
   /** Mist and marsh tops move +- these (m) with the low-octave shape (fogShapeAt .z). */
   mistReliefM: 1, marshReliefM: 0.5,
   /** Sea fog bank: density, top above sea level (m, billowed +-6 m by the shape) and its fade (m). */
@@ -196,14 +198,15 @@ export function fogTermsAt(q: FogTermPoint, out: FogTerms): FogTerms {
   const moistW = MOISTURE_FLOOR + (1 - MOISTURE_FLOOR) * q.moist * q.moist;
   const top = q.floor + q.mistDepth + lowS * T.mistReliefM;
   const depth = Math.max(top - q.floor, 1);
-  const hF = Math.max(q.y - q.floor, 0);
+  const surf = q.ground + (Math.max(q.ground, q.waterH) - q.ground) * q.waterMask;
+  const hF = Math.max(q.y - (q.floor + (surf - q.floor) * q.waterMask), 0);
   const mistRim = ((q.ground - q.floor) / depth * 0.5 + (1 - q.moist)) * q.mistBurn;
   const mistScale = depth * MIST_SCALE_SHARE * Math.max(q.mistHeightScale, 1e-3);
-  out.mist = Math.exp(-hF / (mistScale + (Math.min(mistScale, T.mistWaterScaleM) - mistScale) * q.waterMask))
-    * (1 - sm(top - Math.max(depth * MIST_FADE_SHARE, 1.5), top, q.y)) * sm(-1, 1, hAG) * sm(0, 6, top - q.ground)
+  out.mist = Math.exp(-hF / (mistScale + (T.mistWaterScaleM - mistScale) * q.waterMask))
+    * (1 - sm(top - Math.max(depth * MIST_FADE_SHARE, 1.5), top, q.y)) * (sm(-1, 1, hAG) + (1 - sm(-1, 1, hAG)) * q.waterMask)
+    * sm(0, 6, top - q.ground)
     * (1 - sm(0.75 * T.mistFarCapM, T.mistFarCapM, q.distM))
-    * burnCpu(n, q.cover[0], mistRim) * moistW * T.mistPeakPerM;
-  const surf = q.ground + (Math.max(q.ground, q.waterH) - q.ground) * q.waterMask;
+    * burnCpu(n, q.cover[0], mistRim) * moistW * (T.mistPeakPerM + (T.mistWaterPeakPerM - T.mistPeakPerM) * q.waterMask);
   const hAS = q.y - surf;
   const low = 1 - sm(2, 12, q.ground - q.floor);
   const marshTop = T.marshTopM + lowS * T.marshReliefM;
@@ -635,18 +638,20 @@ export class Volumetrics implements VolumetricsSampler {
     // (slopes, rims) sits higher in the profile and carries less; the lateral edge fades over the last 6 m.
     const top = farT.g.add(u.mistDepth).add(lowS.mul(FOG_TERMS.mistReliefM));
     const depth = max(top.sub(farT.g), float(1));
-    const hF = max(p.y.sub(farT.g), float(0));
-    // over water the scale height is capped at mistWaterScaleM (fogTermsAt mistScale)
+    // over water the layer is measured from the water surface with its own peak and scale height
+    // (FOG_TERMS.mistWater*; fogTermsAt is the CPU twin)
+    const surf = mix(ground, max(ground, nearT.g), waterMask);
+    const hF = max(p.y.sub(mix(farT.g, surf, waterMask)), float(0));
     const mistScale = depth.mul(MIST_SCALE_SHARE).mul(max(u.mistHeightScale, float(1e-3)));
-    const mist = exp(hF.div(mix(mistScale, min(mistScale, float(FOG_TERMS.mistWaterScaleM)), waterMask)).negate())
+    const mist = exp(hF.div(mix(mistScale, float(FOG_TERMS.mistWaterScaleM), waterMask)).negate())
       .mul(float(1).sub(smoothstep(top.sub(max(depth.mul(MIST_FADE_SHARE), soft(1.5))), top, p.y)))
-      .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
+      .mul(mix(smoothstep(-1, 1, hAG), float(1), waterMask)).mul(smoothstep(0, 6, top.sub(ground)))
       // integrated only out to mistFarCapM: a grazing ray in the thin layer never saturates to a white band
       .mul(float(1).sub(smoothstep(0.75 * FOG_TERMS.mistFarCapM, FOG_TERMS.mistFarCapM, length(p.xz.sub(u.camPos.xz)))))
       // the sun clears rims, dry land and shores first, water last: the burn threshold rises with height
       // above the basin floor and with dryness (fogTermsAt mistRim)
       .mul(this.burn(n, u.cover.x, cov, ground.sub(farT.g).div(depth).mul(0.5).add(float(1).sub(moist)).mul(u.mistBurn)))
-      .mul(moistW).mul(FOG_TERMS.mistPeakPerM);
+      .mul(moistW).mul(mix(float(FOG_TERMS.mistPeakPerM), float(FOG_TERMS.mistWaterPeakPerM), waterMask));
     // steam fog: wisps over water, thin rising columns, patchy (~half covered), each column fading with
     // height at its own 1..5 m; its own drift and rise (FogDrift steam/wisp offsets)
     const signed = (v: TslNode) => v.sub(0.5).mul(3.2);
@@ -659,10 +664,9 @@ export class Volumetrics implements VolumetricsSampler {
     // marsh ground fog: knee-to-waist over wet ground and standing water (measured from the water surface
     // there), pooling in low ground (within 12 m of the basin floor); the top torn by the shape into
     // mounds and gaps, density falling linearly with height to that top
-    const surf = mix(ground, max(ground, nearT.g), waterMask);
     const hAS = p.y.sub(surf);
     const low = float(1).sub(smoothstep(2, 12, ground.sub(farT.g)));
-    // top marshTopM + the low-octave relief (+-marshReliefM): a thin dense bank under a 1.6 m eye (vol10 c8 veil2)
+    // top marshTopM + the low-octave relief (+-marshReliefM), under the mist layer (0112 §4)
     const marshTop = float(FOG_TERMS.marshTopM).add(lowS.mul(FOG_TERMS.marshReliefM));
     const marshFall = clamp(float(1).sub(hAS.div(max(marshTop, float(0.2)))), 0, 1);
     const marsh = moist.mul(low).mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))

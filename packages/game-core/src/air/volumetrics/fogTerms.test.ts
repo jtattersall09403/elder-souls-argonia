@@ -25,19 +25,22 @@ const horizT = (y: number, len: number) => {
   return Math.exp(-tau);
 };
 
-describe("dawn marsh mist over water (vol10 diag8 F-1/F-2)", () => {
-  it("is a thin dense bank the 1.6 m eye looks over: tau100 0.5 m >= 2, T400 at 1.6 m >= 0.9, top <= 1.5 m (vol10 c8 veil2)", () => {
-    const t100 = horizT(1.6, 100), t400 = horizT(1.6, 400);
-    console.log(`tau100 0.5 m ${tau100(0.5).toFixed(3)}, T100 1.6 m ${t100.toFixed(3)}, T400 1.6 m ${t400.toFixed(3)}`);
+describe("dawn marsh mist over water (vol10 diag8 F-1/F-2, c10)", () => {
+  it("is a layer rising past the 1.6 m eye and thinning upward (0112 §4, vol10 c10)", () => {
+    const t400 = horizT(1.6, 400), t400hi = horizT(10, 400);
+    // eye 1.6 m to the water surface 50 m off: tau = 50/1.6 x the column integral (1 cm steps)
+    let col = 0;
+    for (let y = 0.005; y < 1.6; y += 0.01) col += total(y) * 0.01;
+    const eyeToWater = (Math.hypot(50, 1.6) / 1.6) * col;
+    console.log(`tau100 0.5 m ${tau100(0.5).toFixed(3)}, T400 1.6 m ${t400.toFixed(3)}, T400 10 m ${t400hi.toFixed(4)}, eye-to-water 50 m ${eyeToWater.toFixed(3)}`);
     expect(tau100(0.5)).toBeGreaterThanOrEqual(2);
-    expect(t400).toBeGreaterThanOrEqual(0.9);
-    let top = 0;
-    for (let y = 0; y < 10; y += 0.05) if (total(y) >= 0.1 * FOG_TERMS.marshPeakPerM) top = y;
-    expect(top).toBeLessThanOrEqual(1.5);
+    expect(t400).toBeGreaterThanOrEqual(0.5);
+    expect(t400).toBeLessThanOrEqual(0.7);
+    expect(t400hi).toBeGreaterThanOrEqual(0.95);
+    expect(eyeToWater).toBeLessThanOrEqual(0.9);
   });
-  it("falls with height (a gradient, not a slab)", () => {
-    expect(total(0.5)).toBeGreaterThan(total(2));
-    expect(total(2)).toBeGreaterThan(total(5));
+  it("density never rises with height from the water to 6 m", () => {
+    for (let y = 0; y < 6; y += 0.05) expect(total(y + 0.05)).toBeLessThanOrEqual(total(y) + 1e-12);
   });
   it("burns off land and shore before water", () => {
     const burn = { mistBurn: 0.6 };
@@ -135,11 +138,11 @@ describe("layer tops from the low octaves (vol10 diag9 S4)", () => {
     console.log(`low-octave sign flips over 1500 m: ${flips}`);
     expect(flips).toBeLessThan(1500 / 50);
   });
-  it("keeps the dawn bar on the mean over the low-octave field: tau100 0.5 m >= 2, 2 m <= 0.1", () => {
+  it("keeps the dawn bar on the mean over the low-octave field: tau100 0.5 m >= 2, 10 m <= 0.0125 (T400 >= 0.95)", () => {
     const mean = (y: number) => lows.reduce((s, nl) => s + 100 * total(y, { noiseLow: nl }), 0) / lows.length;
-    console.log(`mean tau100 0.5 m ${mean(0.5).toFixed(3)}, 2 m ${mean(2).toFixed(3)}`);
+    console.log(`mean tau100 0.5 m ${mean(0.5).toFixed(3)}, 10 m ${mean(10).toFixed(4)}`);
     expect(mean(0.5)).toBeGreaterThanOrEqual(2);
-    expect(mean(2)).toBeLessThanOrEqual(0.1);
+    expect(mean(10)).toBeLessThanOrEqual(0.0125);
   });
 });
 
