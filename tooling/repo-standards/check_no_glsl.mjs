@@ -10,18 +10,25 @@
  * source. Each line is reported once, under its most specific token
  * (RawShaderMaterial before ShaderMaterial). Exit 1 on any hit.
  *
+ * `--root <dir>` scans every source file under <dir> instead (node_modules
+ * skipped, dist NOT skipped), e.g. a built webgpu dist. The summary line names
+ * the files scanned as well as the files with hits, and the run exits 1 when it
+ * scanned none (a gate that reads nothing cannot fail).
+ *
  * Also flags a TSL `select(` call (bare or `.select(` on a node) in any file
  * that imports from "three/tsl" or "three/webgpu", except materialNodes.ts, home of the
  * branch-free `sel()`: three 0.184 may lower select() on computed operands
  * to an if/else reading unassigned temporaries (silent NaN, decision 0111).
  */
 import { readdirSync, readFileSync } from "node:fs";
-import { join, relative, dirname, extname } from "node:path";
+import { join, relative, dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const EXT = new Set([".ts", ".tsx", ".js", ".mjs", ".jsx"]);
-const SKIP = new Set(["node_modules", "dist"]);
+const rootArg = process.argv.indexOf("--root");
+const SCAN_ROOT = rootArg > 0 ? resolve(process.argv[rootArg + 1]) : null;
+const SKIP = new Set(SCAN_ROOT ? ["node_modules"] : ["node_modules", "dist"]);
 // Most specific first: a line is reported under the first token it contains.
 const TOKENS = [
   ["RawShaderMaterial", /\bRawShaderMaterial\b/],
@@ -56,7 +63,8 @@ function walk(dir, out) {
 }
 
 const files = [];
-for (const top of ["packages", "apps"]) {
+if (SCAN_ROOT) walk(SCAN_ROOT, files);
+else for (const top of ["packages", "apps"]) {
   let ws;
   try { ws = readdirSync(join(root, top), { withFileTypes: true }); } catch { continue; }
   for (const w of ws) if (w.isDirectory()) walk(join(root, top, w.name, "src"), files);
@@ -70,7 +78,7 @@ for (const f of files) {
   const text = readFileSync(f, "utf8");
   const checkSelect = TSL_IMPORT.test(text) && !f.endsWith(SELECT_EXEMPT);
   if (!ANY.test(text) && !(checkSelect && SELECT_CALL.test(text))) continue;
-  const rel = relative(root, f).split("\\").join("/");
+  const rel = relative(SCAN_ROOT ?? root, f).split("\\").join("/");
   const lines = text.split("\n");
   for (let i = 0; i < lines.length; i++) {
     let token;
@@ -82,5 +90,6 @@ for (const f of files) {
     hitFiles.add(rel);
   }
 }
-console.log(`check_no_glsl: ${hits} hits in ${hitFiles.size} files`);
-process.exit(hits ? 1 : 0);
+console.log(`check_no_glsl: ${hits} hits in ${hitFiles.size} files (${files.length} files scanned)`);
+if (!files.length) console.log("check_no_glsl: scanned 0 files, the gate read nothing");
+process.exit(hits || !files.length ? 1 : 0);

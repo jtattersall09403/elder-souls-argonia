@@ -79,6 +79,8 @@ export const VOLUME_PREWARM_STEPS = 60;
 const CURL_PERIOD = 8;
 /** Box bottom sits this share of the flame height below the emitter (as the cards' root). */
 const ROOT = FLAME_ROOT_SHARE;
+/** The box extends this share of the flame height below the field's floor (fade-in band, F2). */
+export const VOLUME_FLOOR_EXTRA = 0.1;
 
 function makeGrid(grid: readonly [number, number, number], name: string): Storage3DTexture {
   const t = new Storage3DTexture(grid[0], grid[1], grid[2]);
@@ -413,8 +415,12 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
   const iAnim = attribute("iAnim", "vec4");
   const position = attribute("position", "vec3");
   const at = T.modelWorldMatrix.mul(vec4(iPosSeed.xyz, 1)).xyz; // group space -> world (interior cells stand at 4000 m)
-  const size = vec3(iBox.x, iBox.y, iBox.x);
-  const floor = at.sub(vec3(0, iBox.y.mul(fu.rootShare), 0));
+  // the box reaches VOLUME_FLOOR_EXTRA x the flame height below the field's floor and the
+  // density fades in over that band, so the box floor never clips the flame flat (F2)
+  const flameH = iBox.y.mul(fu.flameShare);
+  const extra = flameH.mul(VOLUME_FLOOR_EXTRA);
+  const size = vec3(iBox.x, iBox.y.add(extra), iBox.x);
+  const floor = at.sub(vec3(0, iBox.y.mul(fu.rootShare).add(extra), 0));
   const world = floor.add(position.mul(size));
   const dist = length(T.cameraPosition.sub(at));
   const share = volumeShareNode(u, dist);
@@ -470,11 +476,16 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const midC = u.uRamp.element(row.mul(3).add(1));
     const tip = u.uRamp.element(row.mul(3).add(2));
     // optical depth per metre of ray at temperature 1
-    const sigma = fu.density.div(vSize.y);
+    const eShare = fu.flameShare.mul(VOLUME_FLOOR_EXTRA).div(fu.flameShare.mul(VOLUME_FLOOR_EXTRA).add(1)); // band share of the box
+    const fieldH = vSize.y.mul(float(1).sub(eShare)); // the field's own height, as before the extension
+    const sigma = fu.density.div(fieldH);
     Loop({ start: int(0), end: steps, type: "int", condition: "<" }, ({ i }: { i: TslNode }) => {
       const tr = tEnter.add(float(i).add(jitter).mul(stepLen));
       const pos = o.add(d.mul(tr));
-      const box = pos.sub(bmin).div(vSize);
+      const boxE = pos.sub(bmin).div(vSize);
+      // field-normalised box: y 0 is the field's floor, negative in the fade-in band
+      const box = vec3(boxE.x, boxE.y.mul(vSize.y).sub(vSize.y.mul(eShare)).div(fieldH), boxE.z);
+      const floorFade = smoothstep(0, eShare, boxE.y);
       // the wind lean is in the field (its velocity carries the force); the box stays upright
       const leaned = box;
       const mx = mix(leaned.x, float(1).sub(leaned.x), flipX);
@@ -501,7 +512,7 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
         .mul(smoothstep(fu.flameShare.mul(0.5), fu.flameShare, box.y))
         .mul(float(1).sub(smoothstep(0.85, 1.0, box.y)));
       const dye = field.dyeView.sample(uvw).level(0);
-      const raw = dye.y.mul(env);
+      const raw = dye.y.mul(env).mul(floorFade);
       // erosion: hot cells survive, cool cells only where the detail noise is high
       const temp = raw.mul(smoothstep(0.35, 0.65, hi.mul(0.8).add(raw.mul(0.5))));
       const a = float(1).sub(exp(temp.mul(sigma).mul(stepLen).negate()));
