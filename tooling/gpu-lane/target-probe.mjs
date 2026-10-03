@@ -16,6 +16,7 @@
  * `sceneGrid`: the scene target read whole and sampled on a 64x36 grid: NaN, Inf, black (luma < 0.001), lit, mean luma,
  * 8 raw RGBA samples, and the depth texture's raw min/max/mean with counts below 0.001 / above 0.999 when the backend can
  * copy it (else `skipped` with the reason).
+ * `heldDraws`: each draw the build queue skipped in the window (object, parents, material, attributes, pass camera, wait).
  * The canvas luma is the harness's screenshot screen-middle luma (pod-capture.mjs). Self-contained: stringified.
  */
 
@@ -88,6 +89,34 @@ export function installTargetProbe(win, recordPass) {
     }
     return f.call(this, d);
   });
+  // Held draws (webgpu10 c7): the build queue's request() runs once per draw it skips (shaderBuildQueue.ts). It is hooked
+  // once the renderer's esBuildQueue exists (polled 4/s for 10 min, and again at capture): a Map lookup per SKIPPED draw
+  // (never per drawn one) keeps when each key first waited; the per-draw context is recorded only inside capture().
+  const pnow = () => (win.performance?.now ? win.performance.now() : Date.now());
+  const firstSeen = new Map();
+  let hold = null;
+  const hookQueue = (q) => {
+    if (!q || typeof q.request !== "function" || q.__targetProbeHooked) return;
+    const req = q.request;
+    q.request = function (key, ...a) {
+      if (!firstSeen.has(key) && firstSeen.size < 5000) firstSeen.set(key, pnow());
+      if (hold?.cur) { try { hold.note(this, key, hold.cur); } catch {} }
+      return req.call(this, key, ...a);
+    };
+    Object.defineProperty(q, "__targetProbeHooked", { value: pnow(), configurable: true });
+  };
+  if (typeof win.setInterval === "function") {
+    let n = 0;
+    const poll = win.setInterval(() => { const q = win.__RENDERER__?.esBuildQueue; if (q) hookQueue(q); if (q || ++n > 2400) win.clearInterval(poll); }, 250);
+  }
+  const heldRecord = (q, key, c) => {
+    const o = c.object, m = c.material, parents = [];
+    for (let p = o?.parent, i = 0; p && i < 4; p = p.parent, i++) parents.push({ name: p.name ?? "", type: p.type ?? null });
+    const t0 = firstSeen.get(key);
+    return { object: { name: o?.name ?? "", type: o?.type ?? null, uuid: o?.uuid ?? null }, parents, material: { type: m?.type ?? null, name: m?.name ?? "" },
+      geometryAttributes: Object.keys(o?.geometry?.attributes ?? {}), camera: c.camera, target: c.target ? (c.target.texture?.name ?? "") || "unnamed target" : "canvas",
+      key: String(key).slice(0, 160), waitedMs: t0 === undefined ? null : Math.round(pnow() - t0), running: q.running?.has?.(key) ?? null, timedOut: q.timedOut?.has?.(key) ?? null, count: 0 };
+  };
   const raf = () => new Promise((res) => (win.requestAnimationFrame ? win.requestAnimationFrame(() => res()) : setTimeout(res, 16)));
   const halfToFloat = (h) => {
     const s = h & 0x8000 ? -1 : 1, e = (h >> 10) & 0x1f, m = h & 0x3ff;
@@ -148,6 +177,24 @@ export function installTargetProbe(win, recordPass) {
     const keep = (sc, cam, d) => { if (P.armed && d >= big.draws) { big.draws = d; big.camera = cam; big.scene = sc; } };
     if (typeof renderFn === "function") r.render = function (sc, cam, ...a) { const d0 = P.totalDraws ?? 0; const out = renderFn.call(this, sc, cam, ...a); keep(sc, cam, (P.totalDraws ?? 0) - d0); return out; };
     if (typeof renderAsyncFn === "function") r.renderAsync = async function (sc, cam, ...a) { const d0 = P.totalDraws ?? 0; const out = await renderAsyncFn.call(this, sc, cam, ...a); keep(sc, cam, (P.totalDraws ?? 0) - d0); return out; };
+    // Held draws: the draw in progress (object, material, camera, target) is kept while the queue's _renderObjectDirect runs
+    hookQueue(q);
+    const rod = r._renderObjectDirect, held = new Map();
+    let heldCount = 0;
+    if (q && typeof rod === "function") {
+      hold = { cur: null, note(qq, key, c) {
+        heldCount++;
+        const id = `${c.object?.uuid ?? "?"}|${String(key)}`;
+        let h = held.get(id);
+        if (!h && held.size < 20) { h = heldRecord(qq, key, c); held.set(id, h); }
+        if (h) { h.count++; h.waitedMs = firstSeen.has(key) ? Math.round(pnow() - firstSeen.get(key)) : null; }
+      } };
+      r._renderObjectDirect = function (object, material, scene, camera, ...a) {
+        const prev = hold.cur;
+        hold.cur = P.armed ? { object, material, camera, target: this._renderTarget ?? null } : null;
+        try { return rod.call(this, object, material, scene, camera, ...a); } finally { hold.cur = prev; }
+      };
+    }
     await raf();
     const skipped0 = q ? q.skippedDraws : null;
     P.armed = true; await raf(); await raf(); P.armed = false; P.curRt = null; P.curPass = null;
@@ -156,6 +203,14 @@ export function installTargetProbe(win, recordPass) {
     if (typeof renderFn === "function") r.render = renderFn;
     if (typeof renderAsyncFn === "function") r.renderAsync = renderAsyncFn;
     if (typeof isReady0 === "function") pl.isReady = isReady0;
+    if (hold) { r._renderObjectDirect = rod; hold = null; }
+    let heldDraws;
+    try {
+      const pass = (cam, h) => (cam && cam === big.camera ? "main" : cam?.isOrthographicCamera || /shadow/i.test(h.target) ? "shadow/ortho" : "other");
+      heldDraws = !q ? { err: "no esBuildQueue on the renderer" } : typeof rod !== "function" ? { err: "no renderer._renderObjectDirect" } : {
+        perFrame: heldCount / FRAMES, twinsHeld: q.twinsHeld ?? null, hookedAt: q.__targetProbeHooked ?? null,
+        objects: [...held.values()].map((h) => ({ ...h, pass: pass(h.camera, h), camera: h.camera ? { type: h.camera.type ?? null, name: h.camera.name ?? "" } : null })) };
+    } catch (e) { heldDraws = { err: String(e.message ?? e).slice(0, 200) }; }
     let notReadyPipelines; try { notReadyPipelines = typeof isReady0 === "function" ? { perFrame: nr.count / FRAMES, names: [...nr.names.values()], fields: [...nr.fields] } : { err: "no renderer._pipelines.isReady" }; } catch (e) { notReadyPipelines = { err: String(e.message ?? e).slice(0, 200) }; }
     const exposure = {};
     try { exposure.toneMappingExposure = r.toneMappingExposure ?? null; exposure.toneMapping = r.toneMapping ?? null; exposure.outputColorSpace = r.outputColorSpace ?? null; } catch (e) { exposure.err = String(e.message ?? e); }
@@ -236,7 +291,7 @@ export function installTargetProbe(win, recordPass) {
     let queue; try { queue = q ? { skippedDraws: skipped1 - skipped0, frames: FRAMES, skippedPerFrame: (skipped1 - skipped0) / FRAMES, notReady: q.pending ?? null, timedOut: q.timedOut?.size ?? null } : { err: "no esBuildQueue on the renderer" }; } catch (e) { queue = { err: String(e.message ?? e).slice(0, 200) }; }
     let grid; try { grid = scene && (scene.samples ?? 0) <= 1 ? await sceneGrid(scene) : { skipped: scene ? "multisampled" : "no scene target" }; } catch (e) { grid = { err: String(e.message ?? e).slice(0, 200) }; }
     let state; try { state = readState(r, big.camera, big.scene); } catch (e) { state = { err: String(e.message ?? e).slice(0, 200) }; }
-    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, exposure, state, targets, setRenderTarget: P.rts, passes: P.passes };
+    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, heldDraws, exposure, state, targets, setRenderTarget: P.rts, passes: P.passes };
   };
 }
 

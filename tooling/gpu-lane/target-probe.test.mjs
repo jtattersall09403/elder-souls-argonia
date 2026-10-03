@@ -230,3 +230,35 @@ test("target probe: a depth24plus depth target is never copied (WebGPU forbids i
   assert.equal(ok.copies.length, 1);
   assert.equal(ok.depth.mean, 0.5);
 });
+
+test("target probe: heldDraws names each draw the build queue skips (object, parents, material, attributes, pass camera, wait); empty when none", async () => {
+  let t = 1000;
+  const q = { skippedDraws: 0, pending: 1, twinsHeld: 6, timedOut: new Set(), running: new Set(["k-water"]), frameTargets: new WeakSet(),
+    request(key) { this.skippedDraws++; } };
+  const root = { name: "World", type: "Scene" }, grp = { name: "riverwalk", type: "Group", parent: root };
+  const water = { name: "waterSheet", type: "Mesh", uuid: "u1", parent: grp, geometry: { attributes: { position: {}, uv: {} } } };
+  const rock = { name: "rock", type: "Mesh", uuid: "u2", parent: root, geometry: { attributes: { position: {} } } };
+  const mainCam = { type: "PerspectiveCamera", name: "main" }, sunCam = { type: "OrthographicCamera", name: "", isOrthographicCamera: true };
+  let skipWater = true;
+  const r = { esBuildQueue: q, setRenderTarget() {}, getRenderTarget: () => null, readRenderTargetPixelsAsync: async () => new Uint16Array(4),
+    _renderObjectDirect(object, material, scene, camera) { if (object === water && skipWater) q.request("k-water", 1, () => {}, ""); else if (camera === sunCam && skipWater) q.request("k-rock-shadow", 1, () => {}, ""); },
+    render(sc, cam) { this._renderObjectDirect(water, { type: "MeshBasicNodeMaterial", name: "water" }, sc, cam); this._renderObjectDirect(rock, { type: "MeshStandardNodeMaterial", name: "rockMat" }, sc, sunCam); } };
+  const { win } = fakeWindow(r);
+  win.performance = { now: () => (t += 5) };
+  const orig = r._renderObjectDirect;
+  const tick = setInterval(() => r.render({}, mainCam), 0);
+  const p = await win.__targetProbe.capture();
+  assert.equal(r._renderObjectDirect, orig, "_renderObjectDirect restored after the window");
+  assert.ok(p.heldDraws.perFrame >= 1); assert.equal(p.heldDraws.twinsHeld, 6);
+  const w = p.heldDraws.objects.find((o) => o.object.name === "waterSheet");
+  assert.deepEqual(w.parents, [{ name: "riverwalk", type: "Group" }, { name: "World", type: "Scene" }]);
+  assert.deepEqual([w.material.type, w.material.name, w.geometryAttributes.join(","), w.pass, w.camera.type, w.target, w.running, w.timedOut], ["MeshBasicNodeMaterial", "water", "position,uv", "main", "PerspectiveCamera", "canvas", true, false]);
+  assert.ok(w.waitedMs > 0 && w.count >= 1);
+  const s = p.heldDraws.objects.find((o) => o.object.name === "rock");
+  assert.equal(s.pass, "shadow/ortho");
+  // the request hook stays (one Map lookup per skipped draw); with nothing skipped the list is empty
+  skipWater = false;
+  const p2 = await win.__targetProbe.capture();
+  clearInterval(tick);
+  assert.deepEqual([p2.heldDraws.perFrame, p2.heldDraws.objects.length], [0, 0]);
+});

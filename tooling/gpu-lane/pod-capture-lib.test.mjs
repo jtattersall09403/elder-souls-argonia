@@ -566,3 +566,51 @@ test("nan probe: a mapped NaN pattern beside denormals is packed, not bad; a uni
   assert.equal(win.__nanProbe.bad, 1); assert.equal(win.__nanProbe.packedSkipped, 1);
   assert.match(nanProbeLine(win.__nanProbe), /packed-skipped 1\)/);
 });
+
+test("gpu-error probe: encoderPasses names each encoder label's pass once (attachments, first pipeline, camera); destroyedInSubmit carries it", () => {
+  class GPUTexture { constructor(label, format, w, h, sc) { Object.assign(this, { label, format, width: w, height: h, sampleCount: sc }); } createView() { return {}; } }
+  class GPUBuffer { constructor(d) { this.label = d.label; this.size = d.size; } destroy() {} }
+  class GPURenderPassEncoder { setPipeline() {} setBindGroup() {} end() {} }
+  class GPUCommandEncoder { constructor(d) { this.label = d?.label ?? ""; } beginRenderPass() { return new GPURenderPassEncoder(); } finish() { return {}; } }
+  class GPUDevice { createBuffer(d) { return new GPUBuffer(d); } createBindGroup() { return {}; } createCommandEncoder(d) { return new GPUCommandEncoder(d); } createRenderPipeline() { return {}; } }
+  class GPUQueue { submit() {} }
+  const at = {};
+  const renderer = { backend: { draw(ro) { at.pass.setPipeline(at.pipe); } } };
+  const win = { GPUTexture, GPUDevice, GPUBuffer, GPURenderPassEncoder, GPUCommandEncoder, GPUQueue, __RENDERER__: renderer, performance: { now: () => 1 } };
+  installGpuErrorProbe(win);
+  const dev = new GPUDevice(), q = new GPUQueue();
+  const shadow = new GPUTexture("shadowMap", "depth32float", 2048, 2048, 1), colour = new GPUTexture("scene", "rgba16float", 1280, 720, 4), depth = new GPUTexture("", "depth24plus", 1280, 720, 4);
+  at.pipe = dev.createRenderPipeline({ label: "renderPipeline_shadow", vertex: { buffers: [] } });
+  const doomed = dev.createBuffer({ label: "lights", size: 64 }), bg = dev.createBindGroup({ label: "bg", entries: [{ binding: 0, resource: { buffer: doomed } }] });
+  const run = (label, d, cam) => { const e = dev.createCommandEncoder({ label }); at.pass = e.beginRenderPass(d); at.pass.setBindGroup(0, bg); renderer.backend.draw({ camera: cam, object: { name: "sunShadow" } }); at.pass.end(); q.submit([e.finish()]); };
+  const P = win.__gpuErrorProbe;
+  run("renderContext_6", { colorAttachments: [], depthStencilAttachment: { view: shadow.createView() } }, { type: "OrthographicCamera", name: "", isOrthographicCamera: true });
+  run("renderContext_6", { colorAttachments: [{ view: colour.createView() }], depthStencilAttachment: { view: depth.createView() } }, { type: "PerspectiveCamera" });
+  assert.deepEqual(P.encoderPasses.renderContext_6, { passLabel: "", colour: [], depth: { label: "shadowMap", format: "depth32float", size: [2048, 2048], sampleCount: 1 },
+    firstPipeline: "renderPipeline_shadow", camera: { type: "OrthographicCamera", name: "", ortho: true, array: false, object: "sunShadow" } }, "first pass of the label only");
+  assert.equal(P.destroyedInSubmit.length, 0, "no destroyed buffer yet: no record");
+  run("renderContext_2", { colorAttachments: [{ view: colour.createView() }] }, null);
+  assert.deepEqual(P.encoderPasses.renderContext_2.colour, [{ label: "scene", format: "rgba16float", size: [1280, 720], sampleCount: 4 }]);
+  assert.equal(P.encoderPasses.renderContext_2.camera, null);
+  doomed.destroy();
+  run("renderContext_6", { colorAttachments: [] }, null);
+  assert.equal(P.destroyedInSubmit[0].pass.firstPipeline, "renderPipeline_shadow");
+});
+test("load timeline: buffered longtask records and bootLongestTask; empty list and null when there were none", async () => {
+  const { installLoadTimeline, loadTimeline } = await import("./pod-capture-lib.mjs");
+  const observers = [];
+  class PerformanceObserver { constructor(cb) { this.cb = cb; observers.push(this); } observe(o) { this.opts = o; } }
+  const win = { performance: { now: () => 0, setResourceTimingBufferSize() {} }, PerformanceObserver };
+  installLoadTimeline(win);
+  assert.deepEqual(observers[0].opts, { type: "longtask", buffered: true });
+  const t = win.__loadTimeline;
+  const none = loadTimeline({ probe: JSON.parse(JSON.stringify(t)), fetch: null }, {});
+  assert.deepEqual([none.longTasks, none.bootLongestTask], [[], null]);
+  observers[0].cb({ getEntries: () => [{ startTime: 310.4, duration: 8412.6, name: "self", attribution: [{ name: "unknown", containerType: "window" }] }, { startTime: 9100, duration: 120, name: "self", attribution: [] }] });
+  const lt = loadTimeline({ probe: JSON.parse(JSON.stringify(t)), fetch: null }, {});
+  assert.equal(lt.longTasks.length, 2);
+  assert.deepEqual(lt.bootLongestTask, { at: 0.3, ms: 8413, name: "self", attribution: "unknown window" });
+  const bare = { performance: { now: () => 0, setResourceTimingBufferSize() {} } };
+  installLoadTimeline(bare);
+  assert.equal(loadTimeline({ probe: bare.__loadTimeline, fetch: null }, {}).longTasksUnobservable, "no PerformanceObserver");
+});

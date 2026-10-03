@@ -490,7 +490,7 @@ export function installGpuErrorProbe(win) {
         if (P.destroyedInSubmit.length >= MAX_DIS && !fresh) continue;
         disLabels.add(u.label);
         const t = now();
-        P.destroyedInSubmit.push({ t, encoder: u.label, buffers: hits.map(({ id, via, d }) => ({ id, label: d.meta.label, size: d.meta.size, usage: d.meta.usage,
+        P.destroyedInSubmit.push({ t, encoder: u.label, pass: P.encoderPasses[u.label] ?? null, buffers: hits.map(({ id, via, d }) => ({ id, label: d.meta.label, size: d.meta.size, usage: d.meta.usage,
           via, createStack: d.meta.createStack, destroyStack: d.stack, msDestroyToSubmit: t - d.t })) });
       }
     } catch {}
@@ -505,15 +505,36 @@ export function installGpuErrorProbe(win) {
     });
     return d;
   });
+  // pass identity per encoder label, once per label (first 40): attachment formats/sizes of its first render pass, the
+  // label of the first pipeline set in it and the camera of the backend.draw in progress then
+  P.encoderPasses = {};
+  const viewTex = new WeakMap(), MAX_ENC_PASSES = 40;
+  let encPassCount = 0;
+  wrap(win.GPUTexture?.prototype, "createView", (f) => function (...a) { const v = f.apply(this, a); try { viewTex.set(v, this); } catch {} return v; });
+  const attInfo = (v) => { const t = v ? viewTex.get(v) : null; return t ? { label: t.label ?? "", format: t.format ?? null, size: [t.width, t.height], sampleCount: t.sampleCount ?? 1 } : v ? { label: "?" } : null; };
+  const passIdentity = (d) => ({ passLabel: d?.label ?? "", colour: Array.from(d?.colorAttachments ?? [], (c) => (c ? attInfo(c.view) : null)),
+    depth: d?.depthStencilAttachment ? attInfo(d.depthStencilAttachment.view) : null, firstPipeline: null, camera: null });
   wrap(win.GPUCommandEncoder?.prototype, "beginRenderPass", (f) => function (d) {
     const pass = f.call(this, d);
-    try { passEnc.set(pass, useOf(this)); } catch {}
+    let idRec = null;
+    try {
+      const u = useOf(this); passEnc.set(pass, u);
+      if (encPassCount < MAX_ENC_PASSES && !Object.hasOwn(P.encoderPasses, u.label)) { idRec = P.encoderPasses[u.label] = passIdentity(d); encPassCount++; }
+    } catch {}
     passes.set(pass, { pipeline: null, info: null, vb: new Array(MAX_SLOTS).fill(null), vbOff: new Array(MAX_SLOTS).fill(0), vbSize: new Array(MAX_SLOTS).fill(0),
-      ib: null, ibFormat: null, groups: new Array(8).fill(null), label: d?.label ?? "" });
+      ib: null, ibFormat: null, groups: new Array(8).fill(null), label: d?.label ?? "", idRec });
     return pass;
   });
+  const cameraOf = (ro) => { const c = ro?.camera; return c ? { type: c.type ?? null, name: c.name ?? "", ortho: Boolean(c.isOrthographicCamera), array: Boolean(c.isArrayCamera), object: ro.object?.name ?? null } : null; };
   const RP = win.GPURenderPassEncoder?.prototype;
-  wrap(RP, "setPipeline", (f) => function (p) { const s = passes.get(this); if (s) { s.pipeline = p; s.info = pipelines.get(p) ?? null; } return f.call(this, p); });
+  wrap(RP, "setPipeline", (f) => function (p) {
+    const s = passes.get(this);
+    if (s) {
+      s.pipeline = p; s.info = pipelines.get(p) ?? null;
+      if (s.idRec) { try { s.idRec.firstPipeline = s.info?.label ?? p?.label ?? ""; s.idRec.camera = cameraOf(curRO); } catch {} s.idRec = null; }
+    }
+    return f.call(this, p);
+  });
   wrap(RP, "setVertexBuffer", (f) => function (slot, buf, off, size) { const s = passes.get(this); if (s && slot < MAX_SLOTS) { s.vb[slot] = buf ?? null; s.vbOff[slot] = off ?? 0; s.vbSize[slot] = size ?? -1; } return f.call(this, slot, buf, off, size); });
   wrap(RP, "setIndexBuffer", (f) => function (buf, fmt, off, size) { const s = passes.get(this); if (s) { s.ib = buf; s.ibFormat = fmt; } return f.call(this, buf, fmt, off, size); });
   wrap(RP, "setBindGroup", (f) => function (i, g, ...a) { const s = passes.get(this); if (s && i < 8) s.groups[i] = g ?? null; return f.call(this, i, g, ...a); });
@@ -940,8 +961,16 @@ export function cpuTop(profile, frames, n = 25) {
  * navigation start (timeOrigin). Raises the resource timing buffer so the end read sees every fetch.
  * Self-contained: it is stringified into the page. */
 export function installLoadTimeline(win) {
-  const t = { firstPresent: null, builds: { count: 0, ms: 0, last: null }, transcode: { count: 0, ms: 0, last: null, workers: 0 } };
+  const t = { firstPresent: null, builds: { count: 0, ms: 0, last: null }, transcode: { count: 0, ms: 0, last: null, workers: 0 }, longTasks: [] };
   win.__loadTimeline = t;
+  // main-thread tasks over 50 ms (buffered: the boot tasks before this observer ran too), first 200
+  try {
+    if (typeof win.PerformanceObserver !== "function") t.longTasksUnobservable = "no PerformanceObserver";
+    else new win.PerformanceObserver((list) => {
+      for (const e of list.getEntries()) if (t.longTasks.length < 200) t.longTasks.push({ start: Math.round(e.startTime), ms: Math.round(e.duration), name: e.name ?? "",
+        attribution: Array.from(e.attribution ?? [], (a) => [a.name, a.containerType, a.containerName || a.containerSrc || a.containerId].filter(Boolean).join(" ")).join("; ") });
+    }).observe({ type: "longtask", buffered: true });
+  } catch (e) { t.longTasksUnobservable = String(e?.message ?? e).slice(0, 120); }
   try { win.performance.setResourceTimingBufferSize(100000); } catch { /* old browser: 250 entries */ }
   const now = () => win.performance.now();
   const present = () => { if (t.firstPresent === null) t.firstPresent = now(); };
@@ -1005,8 +1034,12 @@ export function loadTimeline(page, harness, bar = LOAD_BAR_S) {
     fetch: { at: s(page?.fetch?.last), count: page?.fetch?.count ?? null, mb: page?.fetch ? Math.round(page.fetch.bytes / 1e5) / 10 : null },
     transcode: p ? { count: p.transcode.count, ms: Math.round(p.transcode.ms), last: s(p.transcode.last) } : { unobservable: "no load-timeline probe on the page" },
     builds: p ? { count: p.builds.count, ms: Math.round(p.builds.ms), last: s(p.builds.last) } : null,
+    longTasks: p?.longTasks ? p.longTasks.map((x) => ({ at: s(x.start), ms: x.ms, name: x.name, attribution: x.attribution })) : null,
+    bootLongestTask: null,
     streamFirst: harness?.streamFirst ?? null, streamQuiet: harness?.streamQuiet ?? null, queueEmpty: harness?.queueEmpty ?? null,
   };
+  if (out.longTasks?.length) out.bootLongestTask = out.longTasks.reduce((m, x) => (x.ms > m.ms ? x : m));
+  if (p?.longTasksUnobservable) out.longTasksUnobservable = p.longTasksUnobservable;
   if (p && p.transcode.workers === 0) out.transcode.unobservable = "no KTX2 transcode worker started (no KTX2 texture on this view, or a loader that does not post {type: transcode})";
   const parts = [out.streamQuiet, out.queueEmpty, out.builds?.last];
   out.complete = parts.every((x) => Number.isFinite(x)) ? Math.max(...parts) : null;
