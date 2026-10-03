@@ -570,3 +570,30 @@ describe("every lit piece burns a flame", () => {
     expect(coverage.flatMap((c) => c.uncovered)).toEqual([]);
   });
 });
+
+describe("shared fire curl (webgpu10 c10 fix C)", () => {
+  it("two FlameSystems on one renderer share one curl; disposing one keeps it alive", () => {
+    const renderer = { compute: () => {}, toneMappingExposure: 1, toneMapping: THREE.NoToneMapping,
+      getRenderTarget: () => null };
+    const camera = new THREE.PerspectiveCamera();
+    const make = () => {
+      const fire = new FlameSystem();
+      const cards = fire.group.getObjectByName("fire-flame-cards") as THREE.Mesh;
+      cards.onBeforeRender(renderer as never, new THREE.Scene(), camera, cards.geometry, cards.material as never, null as never);
+      fire.setBackend("webgpu");
+      fire.setEmitters([{ position: new THREE.Vector3(), preset: "brazier" as const, scale: 1, seed: 0.1, owner: 0 }]);
+      return fire;
+    };
+    const a = make(), b = make();
+    const curlOf = (f: FlameSystem) => (f as unknown as { curl: THREE.Data3DTexture | null }).curl;
+    expect(curlOf(a)).not.toBeNull();
+    expect(curlOf(a)).toBe(curlOf(b));
+    const texture = curlOf(a)!;
+    let disposed = 0;
+    texture.addEventListener("dispose", () => { disposed++; });
+    a.dispose();
+    expect(disposed).toBe(0);
+    b.dispose();
+    expect(disposed).toBe(1);
+  });
+});

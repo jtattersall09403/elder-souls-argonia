@@ -9,7 +9,8 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useGroundArray } from "../terrain/groundArray";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
+import { deferDispose, tagGeometryBuffers } from "../render/deferDispose";
 import * as THREE from "three";
 import type { GroundArea, GroundArrivals, TerrainHeight } from "./types";
 import { PAINT_LIFT_M, groundPaintOfBundle, paintTextures, type GroundPaintDoc, type GroundPaintEntry } from "./groundPaint";
@@ -136,6 +137,7 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
   groundArrivals?: GroundArrivals;
 }) {
   const group = useMemo(() => new THREE.Group(), []);
+  const gl = useThree((s) => s.gl);
   const [materials, setMaterials] = useState<{ set: string; rows: GroundMaterialRow[] } | null>(null);
   const [array, setArray] = useState<THREE.Texture | null>(null);
   /** Every place's paint of the current bundle, and its extent. */
@@ -154,11 +156,11 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
     const next = paintGroups(settlements ?? []);
     // The live meshes stay drawn until their replacements are added
     // (review 2026-09-30: a requery blanked all road paint for a frame).
-    retainPaint(group, new Set(next.keys()));
+    retainPaint(group, new Set(next.keys()), gl);
     groups.current = new Map([...next].map(([k, g]) => [k, { group: g, bounds: paintBounds(g) }]));
     dirty.current = new Set(next.keys());
     waiting.current = new Set();
-  }, [settlements, groundAt, group]);
+  }, [settlements, groundAt, group, gl]);
   useEffect(() => groundArrivals?.((area) => {
     for (const [key, { bounds }] of groups.current) {
       if (!areasTouch(area, bounds)) continue;
@@ -183,7 +185,7 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
       want, groundAt, (t) => materials.rows.some((r) => r.name === t));
     for (const g of missing) {
       console.warn(`[ground-paint] no ground material for ${g.textures.join(", ")} (${g.placeId})`);
-      replacePaint(group, g.key, null);
+      replacePaint(group, g.key, null, gl);
     }
     for (const g of unbuilt) waiting.current.add(g.key);
     for (const { group: g, geometry } of built) {
@@ -197,16 +199,19 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
       const mesh = new THREE.Mesh(geometry, material);
       mesh.userData.paintMat = matKey;
       mesh.name = `ground-paint:${g.placeId}`;
+      tagGeometryBuffers(geometry, mesh.name);
       mesh.receiveShadow = true;
       mesh.renderOrder = 1;
       mesh.matrixAutoUpdate = false;   // world-space patch at identity (perf10 O4)
-      replacePaint(group, g.key, mesh);
+      // identity matrix, no app-written uniform (groundPaintMaterial.ts): skips the per-frame node refresh (render/staticRefresh.ts)
+      mesh.userData.esStatic = true;
+      replacePaint(group, g.key, mesh, gl);
     }
     if (built.length) {
       console.info(`[ground-paint] ${built.length} mesh(es) in ${(performance.now() - start).toFixed(1)} ms`);
     }
   });
-  useEffect(() => () => disposeGroup(group), [group]);
+  useEffect(() => () => disposeGroup(group, gl), [group, gl]);
   return (
     <>
       <primitive object={group} />
@@ -232,31 +237,31 @@ function GroundArrayFeed({ baseUrl, set, onArray }: { baseUrl: string; set: stri
  * the newest mesh of every kept key stays drawn until `replacePaint` swaps its
  * replacement in, so paint never blanks between two builds.
  */
-export function retainPaint(group: THREE.Group, keys: ReadonlySet<string>): void {
+export function retainPaint(group: THREE.Group, keys: ReadonlySet<string>, renderer?: object): void {
   const kept = new Set<string>();
   for (const child of [...group.children].reverse()) {
     const key = child.userData.paintKey as string | undefined;
     if (key !== undefined && keys.has(key) && !kept.has(key)) { kept.add(key); continue; }
-    disposeMesh(group, child as THREE.Mesh);
+    disposeMesh(group, child as THREE.Mesh, renderer);
   }
 }
 
 /** Add `mesh` as the paint of `key` (or none, for `null`), then free the one it replaces. */
-export function replacePaint(group: THREE.Group, key: string, mesh: THREE.Mesh | null): void {
+export function replacePaint(group: THREE.Group, key: string, mesh: THREE.Mesh | null, renderer?: object): void {
   const old = group.children.filter((child) => child.userData.paintKey === key);
   if (mesh) { mesh.userData.paintKey = key; group.add(mesh); }
-  for (const child of old) disposeMesh(group, child as THREE.Mesh, mesh?.material);
+  for (const child of old) disposeMesh(group, child as THREE.Mesh, renderer, mesh?.material);
 }
 
-/** Free a paint mesh; its material too unless the replacement kept it. */
-function disposeMesh(group: THREE.Group, mesh: THREE.Mesh, keep?: THREE.Material | THREE.Material[]): void {
-  mesh.geometry.dispose();
+/** Free a paint mesh after the frame that may still draw it (`deferDispose`); its material too unless the replacement kept it. */
+function disposeMesh(group: THREE.Group, mesh: THREE.Mesh, renderer?: object, keep?: THREE.Material | THREE.Material[]): void {
+  deferDispose(renderer, mesh.geometry);
   const m = mesh.material as THREE.MeshStandardMaterial;
   // the albedo array is the terrain's (loader cache): only the material goes
-  if (m !== keep) m.dispose();
+  if (m !== keep) deferDispose(renderer, m);
   group.remove(mesh);
 }
 
-function disposeGroup(group: THREE.Group): void {
-  for (const child of [...group.children]) disposeMesh(group, child as THREE.Mesh);
+function disposeGroup(group: THREE.Group, renderer?: object): void {
+  for (const child of [...group.children]) disposeMesh(group, child as THREE.Mesh, renderer);
 }

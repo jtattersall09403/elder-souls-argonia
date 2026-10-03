@@ -125,6 +125,15 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - A named storage node must be ONE node per buffer, reused by every mesh and pass (the shadow pass
   builds the mesh twice; a second node of the same name is renamed into invalid WGSL). Unnamed, each
   mesh gets `NodeBuffer_<id>` and its own shader module: see `render/gpuCull/stableInstanceNames.ts`.
+- Dispose streamed GPU geometry through `deferDispose(renderer, d)` (`render/deferDispose.ts`), never
+  directly: a dispose inside an `onBeforeRender` or between two render calls of one frame destroys
+  buffers an encoded pass still draws ("used in submit while destroyed"). Name owned buffers with
+  `tagGeometryBuffers(geometry, tag)`: three passes `attribute.name` as the GPUBuffer label, so a
+  validation error names the owner (webgpu10 c10).
+- The GPU-cull pool is WebGPU-backend only (`GpuCullSystem.supported` reads `backend.isWebGPUBackend`
+  and the `indirect-first-instance` feature): on WebGL2 its storage reads become vertex attributes
+  (`nodeAttribute*`, one location each, a mat4 taking four) and WebGL2 has 16 attribute slots. Never
+  enable it on WebGL2; the CPU-culled instanced path draws there.
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 

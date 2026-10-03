@@ -71,27 +71,30 @@ function makeGrid(grid: readonly [number, number, number], name: string): Storag
   return t;
 }
 
+const fade = (t: number): number => t * t * t * (t * (t * 6 - 15) + 10);
+const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
+const wrap = (v: number, period: number): number => ((v % period) + period) % period;
+
+/** Lattice gradient at (ix, iy, iz) dotted with (dx, dy, dz); module-level and pure (no per-call closures). */
+function grad(ix: number, iy: number, iz: number, dx: number, dy: number, dz: number, period: number, salt: number): number {
+  let h = (wrap(ix, period) * 73856093) ^ (wrap(iy, period) * 19349663) ^ (wrap(iz, period) * 83492791) ^ (salt * 2654435761);
+  h = Math.imul(h ^ (h >>> 13), 0x5bd1e995);
+  h ^= h >>> 15;
+  const a = ((h >>> 0) % 4096) / 4096 * Math.PI * 2;
+  const c = (((h >>> 12) % 4096) / 4096) * 2 - 1;
+  const r = Math.sqrt(1 - c * c);
+  return (Math.cos(a) * r * dx + Math.sin(a) * r * dy + c * dz) * 1.6;
+}
+
 /** Periodic 3-D gradient noise in about -1..1 (quintic fade), lattice period `period` cells. */
-function periodicNoise(x: number, y: number, z: number, period: number, salt: number): number {
+function periodicNoise(x: number, y: number, z: number, P: number, s: number): number {
   const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
   const fx = x - xi, fy = y - yi, fz = z - zi;
-  const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
-  const grad = (ix: number, iy: number, iz: number, dx: number, dy: number, dz: number) => {
-    const m = (v: number) => ((v % period) + period) % period;
-    let h = (m(ix) * 73856093) ^ (m(iy) * 19349663) ^ (m(iz) * 83492791) ^ (salt * 2654435761);
-    h = Math.imul(h ^ (h >>> 13), 0x5bd1e995);
-    h ^= h >>> 15;
-    const a = ((h >>> 0) % 4096) / 4096 * Math.PI * 2;
-    const c = (((h >>> 12) % 4096) / 4096) * 2 - 1;
-    const r = Math.sqrt(1 - c * c);
-    return (Math.cos(a) * r * dx + Math.sin(a) * r * dy + c * dz) * 1.6;
-  };
   const u = fade(fx), v = fade(fy), w = fade(fz);
-  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-  const x0 = lerp(grad(xi, yi, zi, fx, fy, fz), grad(xi + 1, yi, zi, fx - 1, fy, fz), u);
-  const x1 = lerp(grad(xi, yi + 1, zi, fx, fy - 1, fz), grad(xi + 1, yi + 1, zi, fx - 1, fy - 1, fz), u);
-  const x2 = lerp(grad(xi, yi, zi + 1, fx, fy, fz - 1), grad(xi + 1, yi, zi + 1, fx - 1, fy, fz - 1), u);
-  const x3 = lerp(grad(xi, yi + 1, zi + 1, fx, fy - 1, fz - 1), grad(xi + 1, yi + 1, zi + 1, fx - 1, fy - 1, fz - 1), u);
+  const x0 = lerp(grad(xi, yi, zi, fx, fy, fz, P, s), grad(xi + 1, yi, zi, fx - 1, fy, fz, P, s), u);
+  const x1 = lerp(grad(xi, yi + 1, zi, fx, fy - 1, fz, P, s), grad(xi + 1, yi + 1, zi, fx - 1, fy - 1, fz, P, s), u);
+  const x2 = lerp(grad(xi, yi, zi + 1, fx, fy, fz - 1, P, s), grad(xi + 1, yi, zi + 1, fx - 1, fy, fz - 1, P, s), u);
+  const x3 = lerp(grad(xi, yi + 1, zi + 1, fx, fy - 1, fz - 1, P, s), grad(xi + 1, yi + 1, zi + 1, fx - 1, fy - 1, fz - 1, P, s), u);
   return lerp(lerp(x0, x1, v), lerp(x2, x3, v), w);
 }
 
@@ -99,7 +102,7 @@ function periodicNoise(x: number, y: number, z: number, period: number, salt: nu
  * The fire's own curl texture (vol-fix-design.md B2): the curl of a periodic
  * vec3 gradient noise (lattice period `CURL_PERIOD`), by central differences
  * on the texture's own lattice, normalised to unit rms; `n`^3 rgba16float,
- * repeat-wrapped. Deterministic (std 6); baked once per FlameSystem. The fog
+ * repeat-wrapped. Deterministic (std 6); baked once per renderer and size (`acquireFireCurl`). The fog
  * never samples it.
  */
 export function makeFireCurl(n: number): THREE.Data3DTexture {
@@ -140,6 +143,35 @@ export function makeFireCurl(n: number): THREE.Data3DTexture {
   t.unpackAlignment = 1;
   t.needsUpdate = true;
   return t;
+}
+
+/** Curl textures shared per renderer (or per owner without one) and size, reference-counted. */
+const curls = new WeakMap<object, Map<number, { texture: THREE.Data3DTexture; refs: number }>>();
+
+/**
+ * The curl texture of size `n` shared by every fire on `key` (the renderer;
+ * a FlameSystem that has not drawn yet keys on itself). Each acquire is paired
+ * with one `releaseFireCurl`; the last release disposes the texture, so one
+ * system's dispose never frees a texture another still samples.
+ */
+export function acquireFireCurl(key: object, n: number): THREE.Data3DTexture {
+  let bySize = curls.get(key);
+  if (!bySize) { bySize = new Map(); curls.set(key, bySize); }
+  let entry = bySize.get(n);
+  if (!entry) { entry = { texture: makeFireCurl(n), refs: 0 }; bySize.set(n, entry); }
+  entry.refs++;
+  return entry.texture;
+}
+
+/** Drop one reference taken by `acquireFireCurl`; disposes the texture at zero. */
+export function releaseFireCurl(key: object, texture: THREE.Data3DTexture): void {
+  const bySize = curls.get(key);
+  const n = texture.image.width as number;
+  const entry = bySize?.get(n);
+  if (!bySize || !entry || entry.texture !== texture) return;
+  if (--entry.refs > 0) return;
+  bySize.delete(n);
+  texture.dispose();
 }
 
 /**

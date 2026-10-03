@@ -27,7 +27,10 @@
  * the render call, as FlameSystem's draw state); an `onObjectUpdate` value
  * is safe only when it derives from the key (a texture picked by the object,
  * the fixture-light slots by epoch). Marked: terrain chunks, vegetation,
- * groundcover, settlement merged draws, fire draws.
+ * groundcover, settlement merged draws, fire draws, ground paint, interior
+ * cell parts and swing doors (`markStaticDraws`: a swinging leaf refreshes
+ * while its matrix moves and skips once closed; window panes excluded, their
+ * emissive is written every frame by InteriorDaylight.set).
  */
 import type * as THREE from "three";
 import { fixtureLightEpochOf } from "./fixtureLights/fixtureLightField";
@@ -169,4 +172,21 @@ export function skipStaticRefresh(renderer: object): StaticRefreshCounts {
 /** The counts of a renderer the skip is installed on, else null. */
 export function staticRefreshOf(renderer: object): StaticRefreshCounts | null {
   return (renderer as { [COUNTS_KEY]?: StaticRefreshCounts })[COUNTS_KEY] ?? null;
+}
+
+/**
+ * Mark every mesh under `root` static (`userData.esStatic`), except meshes
+ * whose material is in `skip` and anything under `keepOut` (a subtree that
+ * marks its own draws, as a cell's FlameSystem group). The caller states the
+ * precondition above holds for every other material under `root`.
+ */
+export function markStaticDraws(root: THREE.Object3D, skip: ReadonlySet<THREE.Material> = new Set(),
+  keepOut: THREE.Object3D | null = null): void {
+  if (root === keepOut) return;
+  const mesh = root as THREE.Mesh;
+  if (mesh.isMesh) {
+    const m = mesh.material;
+    if (!(Array.isArray(m) ? m.some((x) => skip.has(x)) : skip.has(m))) root.userData.esStatic = true;
+  }
+  for (const child of root.children) markStaticDraws(child, skip, keepOut);
 }

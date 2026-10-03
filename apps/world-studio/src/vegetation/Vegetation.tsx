@@ -106,6 +106,7 @@ import {
   type TerrainLod,
 } from "@elder-souls/game-core/vegetation/cellRegistry";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
+import { deferDispose } from "@elder-souls/game-core/render/deferDispose";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import { compactRows } from "@elder-souls/game-core/vegetation/compactRows";
 import { LINK_HELD, applyVisibility, setDrawCount, type VisibleRule } from "@elder-souls/game-core/vegetation/drawCount";
@@ -909,8 +910,8 @@ export function Vegetation({
    * has initialised, and the guard is idempotent). */
   const disposeShallowGeometry = (geo: GeoMesh): void => {
     guardSharedBuffers(gl);
-    geo.mesh.dispose();
-    geo.geometry.dispose();
+    deferDispose(gl, geo.mesh);
+    deferDispose(gl, geo.geometry); // after the frame: a pass already encoded may draw it
   };
 
   const configureGeoMesh = (batch: Batch, mesh: THREE.InstancedMesh): void => {

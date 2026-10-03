@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { skipStaticRefresh, staticRefreshOf } from "./staticRefresh";
+import { markStaticDraws, skipStaticRefresh, staticRefreshOf } from "./staticRefresh";
 import { fixtureLightFieldOf } from "./fixtureLights/fixtureLightField";
 
 /** A renderer whose node manager answers like three 0.184 for a node material: always refresh. */
@@ -89,5 +89,27 @@ describe("skipStaticRefresh", () => {
     skipStaticRefresh(renderer);
     const ro = renderObject(new THREE.Scene(), false);
     for (let i = 0; i < 3; i++) { frame.renderId += 1; expect(nodes.needsRefresh(ro)).toBe(true); }
+  });
+});
+
+describe("markStaticDraws", () => {
+  it("marks meshes, skips listed materials and the kept-out subtree", () => {
+    const root = new THREE.Group();
+    const wall = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial());
+    const paneMat = new THREE.MeshStandardMaterial();
+    const pane = new THREE.Mesh(new THREE.BufferGeometry(), paneMat);
+    const fire = new THREE.Group();
+    const flame = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial());
+    fire.add(flame);
+    const leaf = new THREE.Group();
+    const door = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial());
+    leaf.add(door);
+    root.add(wall, pane, fire, leaf);
+    markStaticDraws(root, new Set([paneMat]), fire);
+    expect(wall.userData.esStatic).toBe(true);
+    expect(door.userData.esStatic).toBe(true);
+    expect(pane.userData.esStatic).toBeUndefined();
+    expect(flame.userData.esStatic).toBeUndefined();
+    expect(root.userData.esStatic).toBeUndefined();
   });
 });

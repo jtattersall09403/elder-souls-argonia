@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
+import { deferDispose } from "@elder-souls/game-core/render/deferDispose";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import type { MeshStandardNodeMaterial } from "three/webgpu";
@@ -385,7 +386,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // Evict what is no longer drawn (this replaces ChunkMesh's own dispose).
   for (const [key, geometry] of geometries.current) {
     if (wantedKeys.has(key)) continue;
-    geometry.dispose();
+    deferDispose(gl, geometry); // streamed out: free after the frame that may still draw it
     geometries.current.delete(key);
   }
   if (missing.length) {

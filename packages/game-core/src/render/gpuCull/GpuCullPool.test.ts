@@ -277,3 +277,22 @@ describe("GpuCullPool stand-in matrix (webgpu10 diag20 E3)", () => {
     expect(f.destroyed.has(pool.standIn)).toBe(true);
   });
 });
+
+describe("GpuCullPool backend (webgpu10 c10 fix C)", () => {
+  it("is WebGPU-backend only: WebGL2 has 16 attribute slots and no indirect draw", () => {
+    const features = new Set(["indirect-first-instance"]);
+    const as = (backend: object) => ({ backend }) as unknown as WebGPURenderer;
+    expect(GpuCullPool.supported(as({ isWebGLBackend: true, device: { features } }))).toBe(false);
+    expect(GpuCullPool.supported(as({ isWebGPUBackend: true, device: { features: new Set() } }))).toBe(false);
+    expect(GpuCullPool.supported(as({ isWebGPUBackend: true, device: { features } }))).toBe(true);
+  });
+
+  it("tags members esIndirect for the census and clears it on release", () => {
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const a = member();
+    const da = pool.addDraw(a, opts);
+    expect(a.userData.esIndirect).toBe(true);
+    pool.removeDraw(da);
+    expect(a.userData.esIndirect).toBeUndefined();
+  });
+});

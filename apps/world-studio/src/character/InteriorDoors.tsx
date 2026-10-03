@@ -12,6 +12,7 @@ import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import { markStaticDraws } from "@elder-souls/game-core/render/staticRefresh";
 import { drawnLightRigOf } from "../sky/lightRig";
 import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/assets/kitParts";
@@ -401,6 +402,18 @@ export function InteriorDoors({
         + `${loadNet.current ? `${loadNet.current.requests} requests ${(loadNet.current.bytes / 1e6).toFixed(2)} MB` : "-"})`);
     }
   });
+
+  // Cell parts and door leaves read no app-written uniform: static draws
+  // (render/staticRefresh.ts) that refresh only when their matrix moves (a
+  // swinging leaf). Window panes are excluded (InteriorDaylight.set writes
+  // their emissive every frame); the cell's fire marks its own draws.
+  useEffect(() => {
+    if (shown) {
+      markStaticDraws(shown.interior.group, new Set(shown.interior.daylight.paneMaterials), shown.interior.fire?.group ?? null);
+    } else {
+      for (const d of exteriorSwing) markStaticDraws(d.object);
+    }
+  }, [shown, exteriorSwing]);
 
   useEffect(() => {
     if (!probeRef) return undefined;
