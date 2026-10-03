@@ -51,3 +51,11 @@ describe("aerial perspective as the scene fog node (decision 0107)", () => {
     expect(mipAlphaBoost(9)).toBe(2);
   });
 });
+
+describe("aerialFogRegimeScale (vol10 diag7 O1a)", () => {
+  it("zeroes the aerial mist/advection/whiteout terms while the froxel field draws", async () => {
+    const { aerialFogRegimeScale } = await import("./aerial");
+    expect(aerialFogRegimeScale("off")).toBe(1);
+    for (const b of ["low", "medium", "high"]) expect(aerialFogRegimeScale(b)).toBe(0);
+  });
+});

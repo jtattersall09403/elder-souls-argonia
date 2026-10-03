@@ -27,6 +27,7 @@ import { isNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNode
 import { adaptExposure, stepShadowSun } from "@elder-souls/game-core/render/lightAdaptation";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import {
+  aerialFogRegimeScale,
   aerialRasterLoaded,
   applyMipAlphaBoost,
   createMipAlphaShare,
@@ -762,14 +763,15 @@ export function WorldSky({
     a.uHazeSunLight.value.set(...rig.hazeSunLight);
     a.uHazeAmbient.value.set(...rig.hazeAmbient);
     a.uProvinceExtentM.value = extentM;
-    a.uMistStrength.value = rig.mistStrength;
+    const aerialOwn = aerialFogRegimeScale(volumetrics.band);
+    a.uMistStrength.value = rig.mistStrength * aerialOwn;
     // Weather fog regimes into the ONE inscatter authority (module 55 §97,
     // localized round 3): the uniforms carry province-wide CONDITIONS; the
     // shader applies locality per-pixel from the climate rasters along the
     // view path (fog banks live where their rasters say — never a veil that
     // follows the camera). The whiteout band rides in runtime (scaled)
     // metres; its horizontal mask is the climate-vis orographic channel.
-    a.uAdvectionFog.value = wx.mist.advectionBase;
+    a.uAdvectionFog.value = wx.mist.advectionBase * aerialOwn;
     a.uWhiteout.value.set(
       WHITEOUT_BELT.centreM * verticalScale,
       WHITEOUT_BELT.sigmaBelowM * verticalScale,
@@ -777,7 +779,7 @@ export function WorldSky({
       // whiteoutBase is published RAW for probes/re-enable even while the cap
       // cloud is off — the renderer must apply the same gate as mist.whiteout,
       // or the belt slab draws for every non-clear deck (owner defect 2026-08-30).
-      wx.mist.whiteoutBase,
+      wx.mist.whiteoutBase * aerialOwn,
     );
     // Region ambient haze (round 4): visibility IS local weather now — the
     // live multiplier comes off the weather sample (world-weather

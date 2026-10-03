@@ -132,6 +132,13 @@ function placeholderRaster(): THREE.DataTexture {
 }
 
 /** True once a real raster has replaced the placeholder. */
+/** One fog, not two (vol10 diag7 O1a/O3a): while the froxel medium draws (volumetric band not
+ * "off"), it owns radiation mist, advection (sea) fog and the cap-cloud belt, so the aerial path's
+ * WebGL-era terms for them scale by 0; band "off" keeps today's aerial fog (1). */
+export function aerialFogRegimeScale(volBand: string): 0 | 1 {
+  return volBand === "off" ? 1 : 0;
+}
+
 export function aerialRasterLoaded(u: AerialUniforms, key: AerialRasterKey): boolean {
   return !(u[key].value as THREE.Texture).userData.esAerialPlaceholder;
 }
