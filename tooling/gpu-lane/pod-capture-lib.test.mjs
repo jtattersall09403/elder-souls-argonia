@@ -420,7 +420,7 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   dev.createRenderPipeline({ label: "renderPipeline_late" }); dev.createShaderModule({ label: "late.wgsl" });
   const c = win.__drawCensus.stop();
   assert.equal(c.frames, 2);
-  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true });
+  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true, renderObjects: false });
   assert.equal(c.renderCallsPerFrame, 1); assert.ok(c.renderMsPerFrame > c.renderObjectMsPerFrame); assert.deepEqual(Object.keys(c.renderObjectByTarget), ["screen"]);
   assert.equal(c.drawsPerFrame, 5); assert.equal(c.drawsMax, 5);
   assert.deepEqual(c.byCategory, { "veg-gpucull": 2, "settlement-merge": 1, terrain: 1, other: 1 });
@@ -431,9 +431,41 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   assert.deepEqual(c.createdInWindow, { pipelines: 1, shaders: 1, labels: ["pipelines:renderPipeline_late", "shaders:late.wgsl"] });
   assert.equal(c.otherTop[0][0], "Mesh:thing|MeshBasicNodeMaterial:x");
   // the inclusive renderObject figure, not backend.draw alone (diag13 D2: 1.81 printed for 13.08)
-  const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
-  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5; passes main 5\/5 \(objects\/draws per frame\)$/);
+  const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerRenderObjectExcl: 9.5, renderObjectExclMsPerFrame: 6, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
+  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), 9\.5 us excl \(6 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes \(main 4; esStatic 0, dynamic 4\), RenderObject \+0\/-0 per frame, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5; passes main 5\/5 \(objects\/draws per frame\)$/);
   assert.match(drawCensusLine(null), /^not-a-bar; census unread/);
+});
+
+test("draw census (c9): nested render() is excluded from renderObject time; refreshes by pass/static/tag; RenderObject churn", () => {
+  const rafs = [];
+  let target = null, tt = 0;
+  const disposed = [];
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: () => true },
+    _objects: { createRenderObject(o) { const ro = { object: o, onDispose() { disposed.push(o); } }; return ro; } },
+    // the first receiver renders a shadow map nested in itself: 10 ms inside its renderObject call
+    _renderObjectDirect(o, m, s, cam) { tt += 1; if (o.nested) { const prev = target; target = { texture: { name: "shadow" } }; this.render([{ object: { name: "", userData: {} }, camera: { uuid: "c0", isOrthographicCamera: true } }]); target = prev; } this.backend.draw({ object: o, material: m, geometry: {}, camera: cam }); },
+    render(list) { for (const ro of list) { this._nodes.needsRefresh(ro); tt += 4; if (ro.camera) { /* shadow object */ this._renderObjectDirect(ro.object, {}, null, ro.camera); } } },
+    getRenderTarget: () => target };
+  const win = { performance: { now: () => tt }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  win.__drawCensus.start();
+  const recv = { name: "terrain", nested: true, userData: { esStatic: true } };
+  const ro1 = r._objects.createRenderObject(recv); ro1.onDispose();
+  r._objects.createRenderObject(recv);
+  r._nodes.needsRefresh({ object: recv, camera: { isPerspectiveCamera: true } });
+  r.render([{ object: recv, camera: { isPerspectiveCamera: true } }]);
+  rafs.shift()();
+  const c = win.__drawCensus.stop();
+  assert.ok(c.hooked.renderObjects);
+  assert.deepEqual(c.renderObjectChurn, { createdPerFrame: 2, disposedPerFrame: 1 }); assert.deepEqual(disposed, [recv]);
+  // outer renderObject: 1 own + nested render (4 refresh + 1 inner renderObject) = inclusive 6, exclusive 1; inner: 1
+  assert.ok(c.renderObjectMsPerFrame > c.renderObjectExclMsPerFrame);
+  assert.equal(c.renderObjectExclMsPerFrame, 2); assert.equal(c.renderObjectMsPerFrame, 7);
+  assert.ok(c.usPerRenderObject > c.usPerRenderObjectExcl);
+  assert.deepEqual(c.refreshByStatic, { static: 2, dynamic: 1 });
+  assert.deepEqual(c.refreshByPass, { main: { static: 2, dynamic: 0 }, shadow0: { static: 0, dynamic: 1 } });
+  assert.deepEqual(c.refreshByPassTag.main, { terrain: { static: 2, dynamic: 0 } });
+  assert.match(drawCensusLine(c), /3 refreshes \(main 2 shadow0 1; esStatic 2, dynamic 1\), RenderObject \+2\/-1 per frame/);
 });
 
 test("draw census: byTarget draws by category and kept-zero vegetation draws", () => {

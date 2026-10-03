@@ -997,9 +997,9 @@ export function gpuProbeLine(p) {
 export function installDrawCensus(win) {
   const CATS = ["veg-gpucull", "groundcover", "vegetation", "impostor", "settlement-merge", "terrain", "ground-paint", "water", "sky", "fixture", "fire-fx", "air", "character", "other"];
   const N = CATS.length, MAXF = 4096, now = () => win.performance.now();
-  const C = { on: false, frames: 0, draws: new Float64Array(N), refresh: new Float64Array(N), drawMs: 0, roMs: 0, renderMs: 0, renderCalls: 0, renderDepth: 0, byTarget: new Map(), keptZero: 0,
+  const C = { on: false, frames: 0, draws: new Float64Array(N), refresh: new Float64Array(N), drawMs: 0, roMs: 0, renderMs: 0, renderCalls: 0, renderDepth: 0, roExMs: 0, roStack: [], refMatrix: new Map(), refStatic: [0, 0], roCreated: 0, roDisposed: 0, byTarget: new Map(), keptZero: 0,
     kinds: { plain: 0, instanced: 0, indirect: 0, zero: 0 }, perFrame: new Float64Array(MAXF), created: { pipelines: 0, shaders: 0, labels: [] },
-    hooked: { draw: false, renderObjectDirect: false, needsRefresh: false, render: false }, otherNames: new Map() };
+    hooked: { draw: false, renderObjectDirect: false, needsRefresh: false, render: false, renderObjects: false }, otherNames: new Map() };
   const catOf = new WeakMap();
   const classify = (ro) => {
     const o = ro.object ?? {}, m = ro.material ?? {}, g = ro.geometry ?? {}, u = o.userData ?? {};
@@ -1027,7 +1027,7 @@ export function installDrawCensus(win) {
     const rt = typeof r.getRenderTarget === "function" ? r.getRenderTarget() : null;
     const tag = rt ? String(rt.texture?.name || "rt") : "screen";
     let e = C.byTarget.get(tag);
-    if (!e && C.byTarget.size < 16) { e = { ms: 0, n: 0, draws: new Float64Array(N), keptZero: 0 }; C.byTarget.set(tag, e); }
+    if (!e && C.byTarget.size < 16) { e = { ms: 0, exMs: 0, n: 0, draws: new Float64Array(N), keptZero: 0 }; C.byTarget.set(tag, e); }
     return e;
   };
   // per pass (webgpu diag20 E8): main (screen), shadow<k> (an orthographic camera into a target, k by first sight of its
@@ -1086,11 +1086,14 @@ export function installDrawCensus(win) {
       // tagged by the render target bound (its texture name, else "rt", else "screen"; at most 16 tags)
       r._renderObjectDirect = function (...a) {
         if (!C.on) return rod.apply(this, a);
-        const t = now();
+        const t = now(), fr = { nested: 0, rd: 0 };
+        C.roStack.push(fr);
         try { return rod.apply(this, a); } finally {
-          const dt = now() - t; C.roMs += dt;
+          C.roStack.pop();
+          // exclusive = inclusive minus the render() calls nested inside it (CSM shadow maps render inside the first receiver's updateBefore)
+          const dt = now() - t, ex = dt - fr.nested; C.roMs += dt; C.roExMs += ex;
           const e = entry(this);
-          if (e) { e.ms += dt; e.n++; }
+          if (e) { e.ms += dt; e.exMs += ex; e.n++; }
           const pe = pass(this, a[3]); if (pe) pe.objects++;
         }
       };
@@ -1101,26 +1104,64 @@ export function installDrawCensus(win) {
       const rr = r.render;
       r.render = function (...a) {
         if (!C.on) return rr.apply(this, a);
-        C.renderCalls++; const top = C.renderDepth++ === 0, t = top ? now() : 0;
-        try { return rr.apply(this, a); } finally { C.renderDepth--; if (top) C.renderMs += now() - t; }
+        C.renderCalls++; const top = C.renderDepth++ === 0, fr = C.roStack[C.roStack.length - 1], t = now();
+        if (fr) fr.rd++;
+        try { return rr.apply(this, a); } finally {
+          C.renderDepth--; const dt = now() - t;
+          if (top) C.renderMs += dt;
+          if (fr && --fr.rd === 0) fr.nested += dt;
+        }
       };
       C.hooked.render = true;
     }
     const nodes = r._nodes;
     if (nodes && typeof nodes.needsRefresh === "function") {
       const nr = nodes.needsRefresh;
-      nodes.needsRefresh = function (ro, ...a) { const v = nr.call(this, ro, ...a); if (v && C.on) C.refresh[cat(ro)]++; return v; };
+      // per pass x category x esStatic (userData.esStatic === true) as well as per category
+      nodes.needsRefresh = function (ro, ...a) {
+        const v = nr.call(this, ro, ...a);
+        if (v && C.on) {
+          const ci = cat(ro), st = ro.object?.userData?.esStatic === true ? 0 : 1; C.refresh[ci]++; C.refStatic[st]++;
+          const k = `${passOf(win.__RENDERER__, ro.camera)}|${CATS[ci]}`;
+          let e = C.refMatrix.get(k);
+          if (!e && C.refMatrix.size < 200) { e = [0, 0]; C.refMatrix.set(k, e); }
+          if (e) e[st]++;
+        }
+        return v;
+      };
       C.hooked.needsRefresh = true;
+    }
+    // RenderObject churn: creations through renderer._objects.createRenderObject and disposals through the returned object's onDispose (null-safe)
+    const objs = r._objects;
+    if (objs && typeof objs.createRenderObject === "function") {
+      const cro = objs.createRenderObject;
+      objs.createRenderObject = function (...a) {
+        const ro = cro.apply(this, a);
+        if (C.on) C.roCreated++;
+        if (ro && typeof ro.onDispose === "function") { const od = ro.onDispose; ro.onDispose = function (...b) { if (C.on) C.roDisposed++; return od.apply(this, b); }; }
+        return ro;
+      };
+      C.hooked.renderObjects = true;
     }
     return true;
   };
   win.__drawCensus = {
     state: C, categories: CATS,
-    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear(); byPass.clear(); shadowIdx.clear();
+    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.roExMs = 0; C.refMatrix.clear(); C.refStatic = [0, 0]; C.roCreated = 0; C.roDisposed = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear(); byPass.clear(); shadowIdx.clear();
       C.kinds = { plain: 0, instanced: 0, indirect: 0, zero: 0 }; C.created = { pipelines: 0, shaders: 0, labels: [] }; C.on = true; },
     stop() { C.on = false; const f = Math.max(C.frames, 1), r2 = (x) => Math.round(x * 100) / 100;
       return { ...drawCensusResult(C, CATS), byPass: Object.fromEntries([...byPass].sort((a, b) => b[1].objects - a[1].objects).map(([k, v]) => [k, { objectsPerFrame: r2(v.objects / f), drawsPerFrame: r2(v.draws / f) }])) }; },
   };
+  // refreshes per frame by pass, then by category, each [static, dynamic]; and per pass totals
+  function refreshSplit(c, f, r2) {
+    const byPassTag = {}, byPassTotal = {};
+    for (const [k, v] of c.refMatrix) {
+      const [p, t] = k.split("|"); (byPassTag[p] ??= {})[t] = { static: r2(v[0] / f), dynamic: r2(v[1] / f) };
+      const e = (byPassTotal[p] ??= { static: 0, dynamic: 0 }); e.static += v[0] / f; e.dynamic += v[1] / f;
+    }
+    for (const e of Object.values(byPassTotal)) { e.static = r2(e.static); e.dynamic = r2(e.dynamic); }
+    return { refreshByPass: byPassTotal, refreshByPassTag: byPassTag };
+  }
   function drawCensusResult(c, cats) {
     const f = Math.max(c.frames, 1), r2 = (x) => Math.round(x * 100) / 100, total = c.draws.reduce((a, b) => a + b, 0);
     const per = Array.from(c.perFrame.subarray(0, Math.min(c.frames, MAXF))).sort((a, b) => a - b);
@@ -1129,9 +1170,11 @@ export function installDrawCensus(win) {
       byCategory: byCat(c.draws), keptZeroPerFrame: r2(c.keptZero / f),
       byTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].draws.reduce((x, y) => x + y, 0) - a[1].draws.reduce((x, y) => x + y, 0)).map(([k, v]) => [k, { drawsPerFrame: r2(v.draws.reduce((x, y) => x + y, 0) / f), keptZeroPerFrame: r2(v.keptZero / f), ...byCat(v.draws) }])), kindsPerFrame: Object.fromEntries(Object.entries(c.kinds).map(([k, v]) => [k, r2(v / f)])),
       refreshesPerFrame: r2(c.refresh.reduce((a, b) => a + b, 0) / f), refreshByCategory: byCat(c.refresh),
-      drawMsPerFrame: r2(c.drawMs / f), renderObjectMsPerFrame: r2(c.roMs / f), renderMsPerFrame: r2(c.renderMs / f), renderCallsPerFrame: r2(c.renderCalls / f),
-      renderObjectByTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].ms - a[1].ms).map(([k, v]) => [k, { msPerFrame: r2(v.ms / f), us: r2((v.ms * 1000) / v.n) }])),
-      usPerDraw: total ? r2((c.drawMs * 1000) / total) : null, usPerRenderObject: total ? r2((c.roMs * 1000) / total) : null,
+      refreshByStatic: { static: r2(c.refStatic[0] / f), dynamic: r2(c.refStatic[1] / f) }, ...refreshSplit(c, f, r2),
+      renderObjectChurn: { createdPerFrame: r2(c.roCreated / f), disposedPerFrame: r2(c.roDisposed / f) },
+      drawMsPerFrame: r2(c.drawMs / f), renderObjectMsPerFrame: r2(c.roMs / f), renderObjectExclMsPerFrame: r2(c.roExMs / f), renderMsPerFrame: r2(c.renderMs / f), renderCallsPerFrame: r2(c.renderCalls / f),
+      renderObjectByTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].ms - a[1].ms).map(([k, v]) => [k, { msPerFrame: r2(v.ms / f), us: r2((v.ms * 1000) / v.n), exclMsPerFrame: r2(v.exMs / f), exclUs: r2((v.exMs * 1000) / v.n) }])),
+      usPerDraw: total ? r2((c.drawMs * 1000) / total) : null, usPerRenderObject: total ? r2((c.roMs * 1000) / total) : null, usPerRenderObjectExcl: total ? r2((c.roExMs * 1000) / total) : null,
       createdInWindow: { pipelines: c.created.pipelines, shaders: c.created.shaders, labels: c.created.labels.slice() },
       otherTop: [...c.otherNames].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([k, v]) => [k, r2(v / f)]) };
   }
@@ -1147,8 +1190,11 @@ export function drawCensusLine(c, workMs = null) {
   const top = Object.entries(c.byCategory ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v}`).join(", ");
   const cw = c.createdInWindow ?? {};
   const tgt = Object.entries(c.byTarget ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v.drawsPerFrame}`).join(", ");
+  const rp = Object.entries(c.refreshByPass ?? {}).map(([k, v]) => `${k} ${Math.round((v.static + v.dynamic) * 100) / 100}`).join(" ");
+  const rs = c.refreshByStatic, refs = rp || rs ? ` (${rp}${rs ? `${rp ? "; " : ""}esStatic ${rs.static}, dynamic ${rs.dynamic}` : ""})` : "";
+  const churn = c.renderObjectChurn ? `RenderObject +${c.renderObjectChurn.createdPerFrame}/-${c.renderObjectChurn.disposedPerFrame} per frame, ` : "";
   const outside = Number.isFinite(workMs) && Number.isFinite(c.renderMsPerFrame) ? Math.round((workMs - c.renderMsPerFrame) * 100) / 100 : "?";
-  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame), backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes, ${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}; passes ${Object.entries(c.byPass ?? {}).map(([k, v]) => `${k} ${v.objectsPerFrame}/${v.drawsPerFrame}`).join(", ") || "?"} (objects/draws per frame)`;
+  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame)${c.usPerRenderObjectExcl != null ? `, ${c.usPerRenderObjectExcl} us excl (${c.renderObjectExclMsPerFrame} ms/frame)` : ""}, backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes${refs}, ${churn}${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}; passes ${Object.entries(c.byPass ?? {}).map(([k, v]) => `${k} ${v.objectsPerFrame}/${v.drawsPerFrame}`).join(", ") || "?"} (objects/draws per frame)`;
 }
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the
