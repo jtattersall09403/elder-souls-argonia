@@ -132,7 +132,7 @@ def test_a_job_past_its_cap_dies_alone_and_is_logged(tmp_path):
         assert r.stdout.strip().endswith("survived 137") and "oomKills 1 (KILLED AT THE CAP)" in text, text
         assert "killed: memory cap 0.25 GiB exceeded, peak 0.25 GiB, cmd python3 -c" in text
         assert "killed: memory cap 0.25 GiB exceeded" in r.stderr
-    assert not (tmp_path / "locks" / "slot-0.lock").read_text()   # the slot is freed
+    assert not (tmp_path / "locks" / "light-0.lock").read_text()   # the (light, --mem <= 2) slot is freed
 
 
 def test_admission_counts_the_live_slots_measured_memory(tmp_path):
@@ -143,11 +143,11 @@ def test_admission_counts_the_live_slots_measured_memory(tmp_path):
                            stdout=subprocess.PIPE, text=True)
     try:
         hog.stdout.readline()                              # 300 MiB resident
-        held = tmp_path / "locks" / "slot-0.lock"
+        held = tmp_path / "locks" / "light-0.lock"
         held.write_text(f"2026-09-30T00:00:00Z other pid {hog.pid} mem 24576: python3 big.py\n")
         with open(held, "a") as f:
             fcntl.flock(f, fcntl.LOCK_EX)                  # slot 0 is live
-            env = _env(tmp_path, ES_JOB_SLOTS="2", ES_JOB_MEM_TOTAL_GIB="0.3")
+            env = _env(tmp_path, ES_JOB_LIGHT_SLOTS="2", ES_JOB_MEM_TOTAL_GIB="0.3")
             r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "0.1", "--", "echo ran"],
                                env=env, capture_output=True, text=True, timeout=60)
             assert r.returncode == 75 and "memory: live slots hold 0.3 GiB measured" in r.stderr, r.stderr
@@ -163,6 +163,27 @@ def test_admission_counts_the_live_slots_measured_memory(tmp_path):
     r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "x", "--", "echo ran"],
                        env=_env(tmp_path), capture_output=True, text=True, timeout=60)
     assert r.returncode == 2
+
+
+def test_a_light_job_never_waits_for_the_heavy_slots(tmp_path):
+    """A pod-driving job (--mem <= 2) takes a light slot even when every heavy slot is held;
+    a heavy job (default cap) still waits for a heavy slot."""
+    import fcntl
+    (tmp_path / "locks").mkdir()
+    held = tmp_path / "locks" / "slot-0.lock"
+    held.write_text("x")
+    with open(held, "a") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)                      # the one heavy slot is busy
+        env = _env(tmp_path, ES_JOB_SLOTS="1")
+        r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "2", "--", "echo ran"],
+                           env=env, capture_output=True, text=True, timeout=60)
+        assert r.returncode == 0 and "ran" in r.stdout and "light 1/4" in r.stderr, r.stderr
+        r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--", "echo ran"],
+                           env=env, capture_output=True, text=True, timeout=60)
+        assert r.returncode == 75 and "all 1 heavy slot(s) busy" in r.stderr, r.stderr
+        r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "3", "--", "echo ran"],
+                           env=env, capture_output=True, text=True, timeout=60)
+        assert r.returncode == 75, r.stderr                # over 2 GiB is heavy
 
 
 def test_the_job_log_samples_the_load_average(tmp_path):

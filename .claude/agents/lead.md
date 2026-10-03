@@ -155,6 +155,10 @@ Rules of the road:
   (g) one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);
+  a job that drives a remote pod (pod-capture, measure, walk_run, hud-capture)
+  holds little local memory and runs under `job_guard.sh <lane> --mem 2 --`
+  (a light slot, pool of 4), never the heavy pool; only builds, exports,
+  Blender and pytest take heavy slots;
   (h) after any commit that touches a shader or material, a headless
   compile check (the lane's build plus the no-GLSL/TSL validation, or an
   `npm run look` tile) runs on the VM BEFORE any pod capture; a broken

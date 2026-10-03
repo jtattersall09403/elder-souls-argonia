@@ -36,6 +36,9 @@
 #      cores idle at fork time up to 7 with it as the floor), and exits with
 #      the command's code. tooling/repo-standards/cpu_watchdog.sh is the
 #      machine-wide backstop behind it.
+# Light pool: a job with --mem <= 2 (it drives a remote pod: pod-capture,
+# measure, walk_run, hud-capture) takes one of ES_JOB_LIGHT_SLOTS (4)
+# light-<i> slots, never a heavy one, so a heavy queue cannot idle a billed pod.
 # job_guard.sh --stop <lane> stops only that lane's scopes (es-job-<lane>-<pid>) and guards.
 # Lines it prints start "job_guard[<lane>]". Examples:
 #   bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_mounts --jobs 2
@@ -68,7 +71,7 @@ if [[ "${1:-}" == "--stop" ]]; then
   for u in $(systemctl --user list-units --all --plain --no-legend "es-job-${stop_lane}-*.scope" 2>/dev/null | awk '{print $1}'); do
     systemctl --user stop "$u" 2>/dev/null && { echo "job_guard[$stop_lane]: stopped scope $u"; stopped=$((stopped + 1)); }
   done
-  for f in "${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"/slot-*.lock; do
+  for f in "${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"/slot-*.lock "${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"/light-*.lock; do
     [[ -s "$f" ]] || continue
     read -r _ l _ gp _ < "$f"
     if [[ "$l" == "$stop_lane" && "$gp" =~ ^[0-9]+$ ]] && kill -0 "$gp" 2>/dev/null; then
@@ -195,8 +198,8 @@ esac
 # MiB the OTHER live slots' jobs hold now, measured (slot line: "<date> <lane> pid <guard pid> mem <cap MiB>: <cmd>").
 live_mem_mib() {
   local f pids=()
-  for f in "$lock_dir"/slot-*.lock; do
-    [[ -e "$f" && "$f" != "$lock_dir/slot-$1.lock" ]] || continue
+  for f in "$lock_dir"/slot-*.lock "$lock_dir"/light-*.lock; do
+    [[ -e "$f" && "$f" != "$lock_dir/$1.lock" ]] || continue
     pid=$(awk 'NR==1{print $4}' "$f" 2>/dev/null)
     [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null && pids+=("$pid")
   done
@@ -222,24 +225,26 @@ blocked() {
   echo ""
 }
 
+pfx=slot; nslots=$slots
+if (( cap_mib <= 2048 )); then pfx=light; nslots="${ES_JOB_LIGHT_SLOTS:-4}"; fi
 mkdir -p "$lock_dir" 2>/dev/null; chmod 1777 "$lock_dir" 2>/dev/null || true
 start=$(date +%s); last_msg=0
 while :; do
   why=$(blocked)
   if [[ -z "$why" ]]; then
-    for (( i = 0; i < slots; i++ )); do
-      exec {fd}>>"$lock_dir/slot-$i.lock" || continue
+    for (( i = 0; i < nslots; i++ )); do
+      exec {fd}>>"$lock_dir/$pfx-$i.lock" || continue
       if flock -n "$fd"; then
         why=$(blocked)   # headroom may have gone while we waited for the slot
         if [[ -z "$why" ]]; then
           # the caps check and the slot line are one step under admit.lock, so
           # two jobs admitted at once cannot both miss each other's cap
           exec {afd}>>"$lock_dir/admit.lock"; flock "$afd"
-          held=$(live_mem_mib "$i")
+          held=$(live_mem_mib "$pfx-$i")
           if (( held + reserve_mib > total_mib )); then
             why="memory: live slots hold $(awk -v m="$held" 'BEGIN{printf "%.1f", m / 1024}') GiB measured + this job's $(awk -v m="$reserve_mib" 'BEGIN{printf "%.1f", m / 1024}') GiB start reserve > ${ES_JOB_MEM_TOTAL_GIB:-26} GiB"
           else
-            printf '%s %s pid %s mem %s: %s\n' "$(date -u +%FT%TZ)" "$lane" "$$" "$cap_mib" "$*" > "$lock_dir/slot-$i.lock"
+            printf '%s %s pid %s mem %s: %s\n' "$(date -u +%FT%TZ)" "$lane" "$$" "$cap_mib" "$*" > "$lock_dir/$pfx-$i.lock"
           fi
           exec {afd}>&-
         fi
@@ -250,7 +255,7 @@ while :; do
             "$(date -u +%FT%TZ)" "$lane" "$$" "$mem_gib" "$mech" "$((i + 1))" "$PWD" "$*" > "$jlog" 2>/dev/null
           export MEMWATCH_REPORT="$jlog"
           began=$(date +%s)
-          say "slot $((i + 1))/$slots, cores $cpus (share $ES_JOB_CORES), load $(load1), $(( $(free_kib .) / 1024 )) MiB free, mem $(mem_mib)/${ceiling_mib} MiB, cap ${mem_gib} GiB ($mech), log $jlog: $*"
+          say "$pfx $((i + 1))/$nslots, cores $cpus (share $ES_JOB_CORES), load $(load1), $(( $(free_kib .) / 1024 )) MiB free, mem $(mem_mib)/${ceiling_mib} MiB, cap ${mem_gib} GiB ($mech), log $jlog: $*"
           # The slot is held by this script for the job's life; the job gets
           # no copy of the fd ({fd}>&-), so a process it leaves behind never
           # keeps the slot. memwatch logs the run with the lane in the tool line.
@@ -274,7 +279,7 @@ while :; do
             echo "$kline" >> "$jlog" 2>/dev/null
             say "$kline (only this job died; log $jlog; fix its memory or pass a bigger --mem, then resume)"
           elif (( code == 137 )); then say "exit 137 (killed): the machine ceiling or a signal; see $jlog"; fi
-          : > "$lock_dir/slot-$i.lock"
+          : > "$lock_dir/$pfx-$i.lock"
           exit "$code"
         fi
         exec {fd}>&-
@@ -282,7 +287,7 @@ while :; do
       fi
       exec {fd}>&-
     done
-    [[ -z "$why" ]] && why="all $slots slot(s) busy ($(cat "$lock_dir"/slot-*.lock 2>/dev/null | cut -d' ' -f2 | sort | tr '\n' ' '))"
+    [[ -z "$why" ]] && why="all $nslots ${pfx/slot/heavy} slot(s) busy ($(cat "$lock_dir"/$pfx-*.lock 2>/dev/null | cut -d' ' -f2 | sort | tr '\n' ' '))"
   fi
   now=$(date +%s)
   if (( now - start >= wait_s )); then
