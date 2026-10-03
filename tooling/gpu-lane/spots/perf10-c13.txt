@@ -49,12 +49,12 @@ int-riverwalk ?view=character&x=7.2131&z=0.5208&t=12&w=clear&rate=0.5&interior=C
 int-jungle ?view=character&x=3.6957&z=4.5655&t=12&w=clear&rate=0.5&interior=MugsumpHollowInt01 --aim -1.4591,0.0204 diag=jungle
 int-greenspring ?view=character&x=4.7222&z=1.8757&t=12&w=clear&rate=0.5&interior=KeebaHouseSnailMinder --aim -2.8449,0.0416
 cwload ?view=character&x=0.3186&z=3.0316&t=12&w=clear&rate=0.5 cold   # Claywater cold load at place.imperial-fringe.claywater-station (318.55, 3031.62 m)
-cove12 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=12 --aim 0.000,0.3   # Riverwalk marsh cove, camera facing the sun
-cove12w6 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=12&wdbg=6 --aim 0.000,0.3
-cove12w10 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=12&wdbg=10 --aim 0.000,0.3
-cove13 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=13 --aim 0.260,0.3
-cove13w6 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=13&wdbg=6 --aim 0.260,0.3
-coveW2 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=12&wdbg=2 --aim 0.000,0.3   # seam: open water fills the view
-coveW4 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=12&wdbg=4 --aim 0.000,0.3
+cove12 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=06 --aim -1.5708,0.12   # Riverwalk marsh cove, vol10 L5 double-sun pose (t 06:00, yaw -1.5708, pitch 0.12); cove13 rows are the +1 h twin (t 07)
+cove12w6 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=06&wdbg=6 --aim -1.5708,0.12
+cove12w10 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=06&wdbg=10 --aim -1.5708,0.12
+cove13 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=07 --aim -1.5708,0.12
+cove13w6 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=07&wdbg=6 --aim -1.5708,0.12
+coveW2 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=06&wdbg=2 --aim -1.5708,0.12   # seam: open water fills the view
+coveW4 ?view=character&x=7.1971&z=0.584&w=clear&rate=0.5&t=06&wdbg=4 --aim -1.5708,0.12
 cw12shore ?view=character&x=0.33&z=3.008&t=12&w=clear&rate=0.5   # Claywater shallows
 cw12shorew4 ?view=character&x=0.33&z=3.008&t=12&w=clear&wdbg=4&rate=0.5
