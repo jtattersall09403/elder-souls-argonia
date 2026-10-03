@@ -33,7 +33,8 @@ const scene: HarnessScene = {
   expectDark: false,
   async build(ctx: HarnessContext) {
     const s = new THREE.Scene();
-    s.background = new THREE.Color(0xb8c0c8);
+    // darker than the fog colour so a low bank reads against it (diag7 O10)
+    s.background = new THREE.Color(0x5a6878);
     ctx.renderer.toneMappingExposure = 1.2;
     const sunDir = new THREE.Vector3(0.6, 0.08, -0.8).normalize();
     const sun = new THREE.DirectionalLight(new THREE.Color(2.6, 1.6, 0.9), 1);
@@ -74,8 +75,10 @@ const scene: HarnessScene = {
       applyVolumetrics(vol, V.output, V.positionView.z.negate(), V.screenUV))();
     const sunIrr = new THREE.Color(2.6, 1.6, 0.9);
     const update = (t: number) => vol.update({ camera, timeS: t, sunDir, sunIrradiance: sunIrr, skyIrradiance: skyIrr, regimes, lights: [], mistDepthM: 22 });
-    update(0);
-    return { scene: s, camera, frame: (t: number) => { for (let k = 0; k < 12; k++) update(t + 1); } };
+    // each step advances the clock (diag7 O10: twelve steps at one timeS never let the field evolve)
+    let clock = 0;
+    update(clock);
+    return { scene: s, camera, frame: () => { for (let k = 0; k < 12; k++) { clock += 1 / 30; update(clock); } } };
   },
 };
 export default scene;

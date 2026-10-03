@@ -71,3 +71,18 @@ describe("fadePlayerModel (vol10 diag6 C2: armour swapped in mid-fade stayed opa
     expect(body.opacity).toBeCloseTo(0.9, 6);
   });
 });
+
+describe("fadePlayerModel depth write (vol10 diag7 O12: a part-faded head wrote depth and read detached)", () => {
+  it("drops depthWrite while 0 < opacity < 1 and restores each material's own value at 1", () => {
+    const group = new THREE.Group();
+    const body = new THREE.MeshStandardMaterial();
+    const glass = new THREE.MeshStandardMaterial({ transparent: true, depthWrite: false });
+    group.add(new THREE.Mesh(new THREE.BufferGeometry(), body), new THREE.Mesh(new THREE.BufferGeometry(), glass));
+    fadePlayerModel(group, 0.5);
+    expect(body.depthWrite).toBe(false);
+    expect(glass.depthWrite).toBe(false);
+    fadePlayerModel(group, 1);
+    expect(body.depthWrite).toBe(true);
+    expect(glass.depthWrite).toBe(false);
+  });
+});

@@ -19,6 +19,7 @@ import { deferBuildsInto } from "../../render/shaderBuildQueue";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
+import { useClaimFrameRender } from "../../render/renderOwnership";
 import { lightEveryLayer } from "./lightLayers";
 import type { BloomPass } from "../../render/post/BloomPass";
 import type { FireVolumePass } from "../../render/post/FireVolumePass";
@@ -144,6 +145,8 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   fireVolumes?: FireVolumePass | null;
 }) {
   const { gl } = useThree();
+  // this pipeline's priority-1 hook renders the frame: the host stands down while it is mounted
+  useClaimFrameRender();
   // Pass attribution only (decision 0084 round 10): the marks below change
   // no pipeline behaviour.
   const segments = useFrameSegments();

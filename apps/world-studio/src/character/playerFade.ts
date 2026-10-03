@@ -110,6 +110,8 @@ function fadeMaterial(material: THREE.Material, opacity: number): void {
     material.needsUpdate = true;
   }
   material.opacity = base.opacity * opacity;
-  // Keep writing depth: the body hides its own far side, not a ghost.
-  material.depthWrite = base.depthWrite;
+  // No depth write while part-faded (diag7 O12: a fading head or shield that
+  // wrote depth hid the body behind it and read detached); the material's own
+  // value comes back at full opacity.
+  material.depthWrite = opacity > 0 && opacity < 1 ? false : base.depthWrite;
 }

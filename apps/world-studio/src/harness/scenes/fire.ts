@@ -85,7 +85,8 @@ export function addLitGroundAndFireLights(ctx: HarnessContext, scene: THREE.Scen
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(sizeM, sizeM).rotateX(-Math.PI / 2), groundMat);
   ground.name = "fire-ground";
   scene.add(ground);
-  const skyLight = new THREE.DirectionalLight(0xffffff, (Math.PI * 0.6) / look.exposure);
+  // diag7 O9: 0.15 pi (was 0.6 pi, which blew the ground glow out); the fire lights are FIRE_LIGHTS candela as-is
+  const skyLight = new THREE.DirectionalLight(0xffffff, (Math.PI * 0.15) / look.exposure);
   skyLight.position.set(0.3, 1, 0.4);
   scene.add(skyLight);
   const field = fixtureLightFieldOf(scene);

@@ -6,6 +6,7 @@ import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import { BloomPass, type SkyCensus } from "@elder-souls/game-core/render/post/BloomPass";
 import { FireVolumePass } from "@elder-souls/game-core/render/post/FireVolumePass";
+import { createFrameRenderOwner, FrameRenderOwnerContext, renderIfUnowned, type FrameRenderOwner } from "@elder-souls/game-core/render/renderOwnership";
 import type { EcctrlHandle } from "ecctrl";
 import { cameraAnglesOf, POSE_SAVE_INTERVAL_S, saveCameraAngles, useGpuRecovery, type LivePose } from "../gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
@@ -275,6 +276,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // The segmented frame timer (decision 0084 round 10). Made here, bound to
   // the renderer by the first in-canvas hook, provided to every renderer.
   const frameSegments = useMemo(() => new FrameSegments(), []);
+  /** Who renders the frame: the water pipeline claims it while mounted; else FrameRateProbe draws (vol10 diag7 L2). */
+  const frameRenderOwner = useMemo(() => createFrameRenderOwner(), []);
   // Unmounted (a crash boundary, leaving the mode) the canvas may keep
   // drawing: stop the timestamp queries with it (walk 10 pool overflow).
   useEffect(() => () => frameSegments.dispose(), [frameSegments]);
@@ -552,6 +555,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           <CanvasErrorBoundary onError={setCanvasError} onGpuError={recoverFromError}>
           {/* Every renderer marks its segment on this one timer (0084). */}
           <FrameSegmentsContext.Provider value={frameSegments}>
+          <FrameRenderOwnerContext.Provider value={frameRenderOwner}>
           {/* Walking-stutter fix (owner 2026-09-20): the per-crossing rebuilds
               below run as budgeted generator jobs on this queue. */}
           <FrameWorkProvider>
@@ -559,7 +563,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               `?veg=0` (no vegetation renderer mounted) still has one. */}
           {/* The one owner of the camera's aspect (fix17: R3F left it 0 on native WebGPU). */}
           <CameraAspectOwner />
-          <FrameRateProbe ownsRender={!waterPipelineEnabled || hiddenLayers.has("water")} />
+          <FrameRateProbe owner={frameRenderOwner} />
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
@@ -628,9 +632,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </group>}
           {/* Phase 8b water: the compiled province surface + shared pipeline;
               the wading player feeds a churn ring for contact foam. Outside the
-              exterior group: its WaterPipeline is the frame's renderer (priority 1;
-              FrameRateProbe's priority-1000 hook stops r3f's own render), so a
-              deep-linked cell with no exterior mounted still draws (vol10 diag7). */}
+              exterior group, so the water still draws on a deep-linked cell. Its
+              WaterPipeline claims the frame render (render/renderOwnership.ts);
+              FrameRateProbe draws whenever no pipeline is mounted. */}
           {!hiddenLayers.has("water") && waterPipelineEnabled && (
             <group visible={!insideInterior && exteriorNeeded}>
             <StudioWater
@@ -788,6 +792,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Suspense>
           </WorldSky>
           </FrameWorkProvider>
+          </FrameRenderOwnerContext.Provider>
           </FrameSegmentsContext.Provider>
           </CanvasErrorBoundary>
         </Canvas>
@@ -1161,7 +1166,7 @@ function CameraAspectOwner(): null {
   return null;
 }
 
-function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
+function FrameRateProbe({ owner }: { owner: FrameRenderOwner }) {
   const acc = useRef({ sum: 0, count: 0 });
   const gl = useThree((s) => s.gl);
   const scene = useThree((s) => s.scene);
@@ -1327,17 +1332,17 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   // renders at priority 1) has happened, so this closes the main-thread span
   // the -100 callback opened and the last segment of both clocks with it.
   useFrame(() => {
-    if (ownsRender) {
-      // r3f skips its own render whenever any priority > 0 hook exists, so
-      // with `&water=0` (no pipeline) this hook is the frame's render.
-      // Shadow cadence mirrors the pipeline's: cascades every OTHER frame.
+    // r3f skips its own render whenever any priority > 0 hook exists, so
+    // with no water pipeline mounted (it claims the render) this hook draws.
+    // Shadow cadence mirrors the pipeline's: cascades every OTHER frame.
+    renderIfUnowned(owner, () => {
       gl.shadowMap.autoUpdate = false;
       if ((ownFrames.current & 1) === 0) gl.shadowMap.needsUpdate = true;
       ownFrames.current += 1;
       segments?.cpuMark("scene");
       segments?.gpuMark("scene");
       gl.render(scene, camera);
-    }
+    });
     segments?.cpuEnd();
     segments?.gpuEnd();
     segments?.collect();
