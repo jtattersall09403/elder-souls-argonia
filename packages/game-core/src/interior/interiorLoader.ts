@@ -287,7 +287,7 @@ export class InteriorDaylight {
     this.group.updateWorldMatrix(true, false);
     const world = this.group.matrixWorld;
     field.setReserved([
-      ...this.cellLights.map((l) => ({ position: l.position.clone().applyMatrix4(world), radiusM: l.radiusM, decay: l.decay })),
+      ...this.cellLights.map((l, j) => ({ position: l.position.clone().applyMatrix4(world), radiusM: l.radiusM, decay: l.decay, fire: this.flicker?.paired(j) ?? false })),
       ...this.windows.map((w) => ({ position: w.clone().applyMatrix4(world), radiusM: WINDOW_LIGHT_RADIUS_M })),
     ]);
     this.cellLights.forEach((l, j) => field.setReservedIntensity(j, l.colour, l.intensity));

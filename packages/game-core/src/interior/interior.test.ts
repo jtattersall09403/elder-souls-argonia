@@ -731,6 +731,9 @@ describe("interior daylight (walk 9, 0109 addendum)", () => {
       expect(field.radianceOf(field.reservedSlot(1))[0]).toBeCloseTo(4, 5);
     }
     expect(near.size).toBeGreaterThan(3);
+    const fires: boolean[] = [];
+    field.forEachLight((_x, _y, _z, _r, _cr, _cg, _cb, fire) => fires.push(fire));
+    expect(fires).toEqual([true, false]);
   });
   it("window lights sit in the scene's capped field beside the settlement's and never pass the cap", () => {
     const field = new FixtureLightField();
