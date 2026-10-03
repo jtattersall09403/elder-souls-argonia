@@ -16,8 +16,12 @@ start from the published kits.
 
 - The registry ([world/sources/assets/README.md](../../../../world/sources/assets/README.md)):
   `cd tooling/world-generation && python3 -m worldgen.asset_registry query --category <c> --biome <b> [--culture <x>] [--pool <p>] [--contains <s>]`.
-  Biome tags on buildings are sparse; query by `--culture` and `--pool` too,
-  and read the pool's folder names in the vault.
+  For buildings filter by the place's own region classes with
+  `--category architecture --region-class '<class>'` (the `regionClasses`
+  field, grounded in `world/sources/assets/architecture-regions.json`; the
+  sibling_palette command below prints the line); rows with `[]` are sets no
+  plugin or dossier grounds in Black Marsh yet, so query by `--culture` and
+  `--pool` too and read the pool's folder names in the vault.
 - The sets we own and have not packaged:
   [vault-inventory.md](../../../../world/sources/assets/vault-inventory.md) §
   Unpackaged authored sets (regenerate with

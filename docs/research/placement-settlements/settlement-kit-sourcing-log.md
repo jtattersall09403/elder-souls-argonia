@@ -565,6 +565,18 @@ The full snap and scaling rules live where a kit agent will look for them: the
 `trunkColumns` entry in `settlement-root-v1.json`'s `snapLogic`, and the
 `underwater-v1.json` description.
 
+### Region classes of architecture (2026-10-03)
+
+Architecture rows of the asset registry carry `regionClasses` from the rules
+in `world/sources/assets/architecture-regions.json` (460 rows tagged: Argonian
+sets, the Cipactli set, the KotM-placed MW Imperial keep set and Imperial
+sets). The groups below are `[]`, each OPEN with its reason:
+
+| Group | Rows | Status and reason |
+|---|---|---|
+| `skyrim-and-other-provinces` (nordic, reach, dwemer, falmer, breton, redguard, bosmer, dunmer) | 3,993 | OPEN: their plugins place them in Skyrim, Valenwood, Morrowind or High Rock worldspaces; no dossier puts that culture's building in a Black Marsh land. Next step: a per-piece cell miner over KotM's ArgoniaWorld and BM&V's BlackMarsh worldspaces, mapping each placed reference to a region class |
+| `no-culture` | 1,894 | OPEN: the taxonomy names no culture for the set (largest: BM&V `jets`, `seaview`, `stroti/*`; vanilla farmhouse, Sovngarde) and no Black Marsh placement is recorded for it. Same next step |
+
 ## Later rows
 
 ### 2026-09-05 — phitt Aldredanyia marsh house (BM&V), stream A1

@@ -134,7 +134,7 @@ test("closeOrphanPages opens a blank keeper page first, closes every other page 
 test("parseArgs: --smoke defaults to spot a, 40 s gate, 5 s settle, one shot; --census and --diag", async () => {
   const { parseArgs, SPOT_A } = await import("./measure.mjs");
   const s = parseArgs(["--smoke"]);
-  assert.deepEqual(s.url, [`${SPOT_A}&rate=0.5`]);
+  assert.deepEqual(s.url, [`${SPOT_A}&rate=0.5&shadercheck=1`]);
   assert.equal(s.run, "smoke");
   assert.equal(s.clean, "1");
   assert.equal(s.readyTimeout, 40);

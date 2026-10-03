@@ -1,0 +1,25 @@
+{
+ "schemaVersion": 1,
+ "id": "assets.architecture-regions",
+ "purpose": "Which region classes (tooling/world-generation/worldgen/regions.py REGION_CLASSES, the vocabulary of a place's sitingPrefs.regionClasses) each architecture row of the asset registry suits. Applied to registry-*.jsonl as regionClasses + regionClassesSource by worldgen.architecture_regions; the first matching rule wins. A row no rule grounds gets regionClasses [] and is named by an unsourced group, each a row in docs/research/placement-settlements/settlement-kit-sourcing-log.md § Region classes of architecture.",
+ "rules": [
+  {"id": "mwkeep-imperial-firm", "match": {"pool": "mwkeep"},
+   "regionClasses": ["firm lowland", "upland hills", "border mountains"],
+   "source": "plugin cells: King of the Murkmire.esp places 318 exterior mwimparch* refs in its own ArgoniaWorld (sourcing log, KotM row); dossier topics/material-culture.md § Building: Imperial houses built on Murkmire soil sank, so firm ground only"},
+  {"id": "imperial-firm", "match": {"culture": "imperial"},
+   "regionClasses": ["firm lowland", "upland hills", "border mountains"],
+   "source": "dossier topics/material-culture.md § Building (Imperial houses built on Murkmire soil sank) and topics/foreign-powers.md (what the Empire built that survives is forts, prisons, toll-towns): firm ground only"},
+  {"id": "argonian-wetland", "match": {"culture": "argonian"},
+   "regionClasses": ["tidal delta", "coastal lagoon & salt marsh", "deep river corridor", "rootland deep marsh", "interior swamp", "fringe marsh", "seasonal floodplain", "firm lowland", "lake & standing water", "tropical jungle", "mangrove forest"],
+   "source": "dossier topics/material-culture.md § Building (Murkmire reed houses on stilts over water and marsh; Shadowfen mud huts on ground); plugin cells: KotM ArgoniaWorld, Curse of Cipactli Black Marsh cells"},
+  {"id": "htbm-black-marsh", "match": {"pool": "htbm"},
+   "regionClasses": ["tidal delta", "coastal lagoon & salt marsh", "deep river corridor", "rootland deep marsh", "interior swamp", "fringe marsh", "seasonal floodplain", "firm lowland", "lake & standing water", "tropical jungle", "mangrove forest"],
+   "source": "plugin cells: Here There Be Monsters - Curse of Cipactli places its architecture in its Black Marsh cells (sourcing log, rounds 2-5 htbm row: purpose-built Black Marsh content); dossier topics/material-culture.md § Building"}
+ ],
+ "unsourced": [
+  {"id": "skyrim-and-other-provinces", "match": {"culture": ["nordic", "reach", "dwemer", "falmer", "breton", "redguard", "bosmer", "dunmer"]},
+   "reason": "the source plugins place these sets in Skyrim, Valenwood, Morrowind or High Rock worldspaces, and no dossier puts that culture's building in a Black Marsh land"},
+  {"id": "no-culture", "match": {"culture": []},
+   "reason": "the taxonomy names no culture for the set and no plugin cell placement in a Black Marsh worldspace is recorded for it"}
+ ]
+}

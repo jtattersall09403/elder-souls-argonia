@@ -68,6 +68,9 @@ def main(argv=None) -> int:
             print("(none published)")
         for r in res[key]:
             print(r["id"], "|", r["culture"], "|", ",".join(r["regions"]), "|", r["assets"], "|", r["families"])
+    region_args = " ".join(f"--region-class '{c}'" for c in cat[a.place_id]["sitingPrefs"]["regionClasses"])
+    print(f"## same-region architecture (registry regionClasses)\n"
+          f"cd tooling/world-generation && python3 -m worldgen.asset_registry query --category architecture {region_args}")
     return 0
 
 

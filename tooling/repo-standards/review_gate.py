@@ -36,7 +36,7 @@ batch now (committed since the base, plus the working tree). `--run --range <rev
 instead (`--range db8034db` means `db8034db^..db8034db`), so a change that was
 committed before preflight still gets reviewed. A `--range` review never
 touches the working-tree stamp: it writes only
-tooling/.reports/review/review-findings-range.md and leaves the stamp file
+tooling/.reports/review/review-findings-range-<revs>.md and leaves the stamp file
 (and therefore the working-tree exemption) alone.
 
 The stamp is keyed to the BATCH, never the pathspec (walk 5 process review:
@@ -60,7 +60,6 @@ REPORT_DIR = os.path.join(ROOT, "tooling", ".reports", "review")
 STAMP = os.path.join(REPORT_DIR, "stamp.json")
 FINDINGS = os.path.join(REPORT_DIR, "review-findings.md")
 REVIEW_LOG = "reviews.jsonl"  # beside STAMP; append-only, one row per review fired
-FINDINGS_RANGE = os.path.join(REPORT_DIR, "review-findings-range.md")
 # a fix round's whole code diff; the reviewer's window is 1M tokens; 0106 decision 13
 MAX_DIFF_BYTES = 1_200_000
 TIMEOUT_S = 900
@@ -537,7 +536,8 @@ def main():
         return 2
     # the batch, never the pathspec: `paths` only fired the gate
     base = None if rng else batch_base(base_arg)
-    diff = range_diff(rng) if rng else current_diff(base=base)
+    scope = paths if (manual and base_arg and paths) else None   # `--run --base` honours `--paths`; the hook's paths only fire the gate
+    diff = range_diff(rng) if rng else current_diff(scope, base=base)
     if not diff.strip():
         if rng:
             print(f"review gate: empty diff for range {rng}")
@@ -559,13 +559,15 @@ def main():
             print(f"[review gate] this batch was reviewed at HEAD {head[:8]} ({st.get('status')}, "
                   f"{st.get('findings')} findings); `--force` reviews again.")
         return 0
-    what = f"diff {rng}" if rng else f"code diff of the whole batch ({base[:8]}..HEAD plus the working tree)"
+    what = (f"diff {rng}" if rng else
+            f"code diff of {' '.join(scope)} ({base[:8]}..HEAD plus the working tree)" if scope else
+            f"code diff of the whole batch ({base[:8]}..HEAD plus the working tree)")
     if len(diff) > MAX_DIFF_BYTES:
         sys.stderr.write(f"[review gate] the {what} is {len(diff)//1000} KB, too large for one review; "
                          "review the older commits with `--run --range <base>..<rev>`, then this batch with `--run --base <rev>`.\n")
         return 2
     out, rc, err = review(diff, what)
-    rel = "review-findings-range.md" if rng else "review-findings.md"
+    rel = f"review-findings-range-{re.sub(r'[^0-9A-Za-z]+', '-', rng).strip('-')}.md" if rng else "review-findings.md"
     findings_path = os.path.join(os.path.dirname(FINDINGS), rel)
     if rc != 0 or not out:
         if not rng:

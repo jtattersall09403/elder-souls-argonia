@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { shaderCheckEnabled } from "./studioTools";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -335,7 +336,7 @@ export function Fly3D(props: Fly3DProps) {
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera, gl }) => {
         gl.domElement.dataset.renderCanvas = "";
-        gl.debug.checkShaderErrors = !import.meta.env.PROD; // production: no sync shader error check (perf10 diag 22 G-e)
+        gl.debug.checkShaderErrors = shaderCheckEnabled(); // off unless ?shadercheck=1: no sync program info log on link (perf10 diag 22 G-e)
         if (camAim) {
           camera.lookAt(
             camStart[0] + camAim.x * 2000,

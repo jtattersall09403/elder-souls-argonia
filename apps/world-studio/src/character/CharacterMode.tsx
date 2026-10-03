@@ -13,7 +13,7 @@ import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { studioCanvasRenderer, type StudioRendererHost } from "../studioRenderer";
 import type { WebGPURenderer } from "three/webgpu";
 import { SettlementErrorLine } from "../SettlementErrorLine";
-import { STUDIO_TOOLS } from "../studioTools";
+import { STUDIO_TOOLS, shaderCheckEnabled } from "../studioTools";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
@@ -387,7 +387,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       const late = report.linkedAfter();
       st.programsWarmed = report.programsWarmed;
       st.programsLinkedAfterWarm = late.length;
-      if (import.meta.env.DEV) st.programsLinkedAfterWarmKeys = late;
+      if (STUDIO_TOOLS) st.programsLinkedAfterWarmKeys = late;
     };
     if (programWarmTimer.current) clearInterval(programWarmTimer.current);
     write();
@@ -576,7 +576,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // a shadow re-render each frame (WaterPipeline.tsx explains).
           shadows="percentage"
           style={{ width: "100%", height: "100%" }}
-          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.domElement.dataset.renderCanvas = ""; gl.debug.checkShaderErrors = !import.meta.env.PROD; }}
+          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.domElement.dataset.renderCanvas = ""; gl.debug.checkShaderErrors = shaderCheckEnabled(); }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError} onGpuError={recoverFromError}>

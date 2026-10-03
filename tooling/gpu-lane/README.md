@@ -55,6 +55,7 @@ Standing rule (owner 2026-10-03): the first job of any lane that touches RunPod 
 | `withParam` twins built ad hoc per lane | `/tmp/vol10/r10/mk.mjs` | Move twin building (on/off pairs) into `spots/` as one shared helper | vol-lead.md chunk 8 (r10 views) |
 | View lists do not carry `w=clear` | every views file | The webgpu parse pins it; dev `pod-capture.mjs` does not: pin the same way, `w=` only where weather is under test | webgpu-lead.md chunk 8 (E7 weather drift) |
 | A background capture dies at ~30 min wall | run-agent launch of a full views file | Split views.json into invocations of 25 min or less | vol-lead.md chunk 9 (r9 ended 22/29) |
+| Next GPU round, first job: the WebGPU attribution capture (decision 0121) | webgpu branch `froxelGrid.ts`, `precompileSignatures.ts`, `createRenderer.ts` | Capture the views never taken (`msaa=0`, `obuf=8`, `tone=0`, `water=0`, `veg=0`, N-A-day-2 and 3), then fix G1 froxel cost (~5.3 of 9.7 ms), G2 output path and TSL material cost, L1 discarded precompile (~30 s load); the owner decides the end state after it | webgpu-lead.md chunk 11 diag23 |
 
 ## The loop
 

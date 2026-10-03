@@ -24,6 +24,7 @@ import world_schema as ws  # noqa: E402
 from worldgen.promise_gate import layout_sockets as _layout_sockets  # noqa: E402
 from worldgen.promise_gate import promise_gate_errors  # noqa: E402
 from worldgen.travel_services import operator_socket_ids  # noqa: E402
+from worldgen.architecture_regions import errors as architecture_region_errors  # noqa: E402
 
 #: catalogue socket buckets (0104 decision 2: `post` is an NPC's work post)
 SOCKET_BUCKETS = ("scene", "evidence", "post", "marks")
@@ -177,6 +178,9 @@ def integrity_errors(root: Path = ws.REPO_ROOT) -> dict:
         if place_id not in ledgers:
             refs.append(f"{place_id} has a layout and no promise ledger (run "
                         f"`blueprint_promises --id {place_id} --write`)")
+    # every architecture row names its region classes, or the register row excusing it
+    if (root / "world/sources/assets/architecture-regions.json").exists():
+        refs += architecture_region_errors(root / "world/sources/assets")
 
     refs += climate_region_errors(root, docs.get("climate-regions", []))
 

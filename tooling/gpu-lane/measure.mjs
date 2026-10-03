@@ -87,6 +87,7 @@ export function parseArgs(argv) {
     o.spotList = parseSpots(readFileSync(resolve(o.spots), "utf8"));
     o.url = o.spotList.map((s) => s.query); o.shots = true; o.clean ||= "1";
   } else o.spotList = o.url.map((q, i) => ({ name: `url${i}`, query: q, aim: o.aim, steps: o.walk > 0 ? [{ w: o.walk }] : [] }));
+  if (o.smoke) for (const sp of o.spotList) if (!/[?&]shadercheck=/.test(sp.query)) sp.query += "&shadercheck=1"; // smoke reads shader link errors; the studio default is off (perf)
   o.barParsed = parseBar(o.bar);
   if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query> (or --spots <file>)");
   // Global probes (--diag) load on every spot; a spot's own probes (its `diag=` token or query flag) only on it.
