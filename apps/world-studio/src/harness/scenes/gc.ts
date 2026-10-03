@@ -22,6 +22,8 @@
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
 import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
+import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { createWindUniforms, updateWindSway } from "@elder-souls/game-core/fx/windSway";
 import { createLodFadeUniforms, LOD_BAND_ATTRIBUTE } from "@elder-souls/game-core/fx/lodFade";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
@@ -60,7 +62,7 @@ const scene: HarnessScene = {
     const base = import.meta.env.BASE_URL ?? "/";
     const decoders = kitDecodersFor(ctx.renderer, base);
     const [gltf, manifest] = await Promise.all([
-      createKitLoader(decoders).loadAsync(`${base}kits/groundcover-province-v1.glb`),
+      loadKitParts("groundcover-province-v1", "all", { baseUrl: base, kitCache: new KitCache(), loader: createKitLoader(decoders) }),
       fetch(`${base}kits/groundcover-province-v1.kit.json`).then((r) => r.json() as Promise<KitManifest>),
     ]);
     const kit = buildFloraKit(gltf, manifest);

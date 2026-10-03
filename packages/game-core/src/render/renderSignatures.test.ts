@@ -4,8 +4,10 @@ import { join, resolve } from "node:path";
 import { glbJson, kitSignatures, missingSignatures, NON_SETTLEMENT_KITS, RENDER_SIGNATURES_SCHEMA_VERSION, type RenderSignatures } from "./renderSignatures";
 
 const pub = resolve(__dirname, "../../../../apps/world-studio/public");
+/** The JSON head of a kit's first published part GLB (kit parts schema 4, decision 0120). */
 const head = (kit: string): Uint8Array => {
-  const fd = openSync(join(pub, "kits", `${kit}.glb`), "r");
+  const dir = join(pub, "kits", kit, "parts");
+  const fd = openSync(join(dir, readdirSync(dir).filter((f) => f.endsWith(".glb")).sort()[0]), "r");
   try {
     const h = Buffer.alloc(20); readSync(fd, h, 0, 20, 0);
     const b = Buffer.alloc(20 + h.readUInt32LE(12)); readSync(fd, b, 0, b.length, 0);
