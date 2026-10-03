@@ -38,7 +38,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
-import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems, viewProblem } from "./checks.mjs";
+import { BLACK_LUMA, FRAME_PROBES, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems, viewProblem } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
@@ -893,7 +893,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const gpu = await gpuAdapter(page, o.renderer);
   const census = o.census ? await runCensus(page, o).catch((e) => ({ error: String(e) })) : null;
-  const diag = spot.diagList?.length ? await page.evaluate((names) => Object.fromEntries(names.map((n) => [n, window.__DIAG__?.[n]?.() ?? null])), spot.diagList.filter((n) => INPAGE_PROBES.includes(n))).catch((e) => ({ error: String(e) })) : null;
+  const diag = spot.diagList?.length ? await page.evaluate(async (names) => { const r = {}; for (const n of names) r[n] = (await window.__DIAG__?.[n]?.()) ?? null; return r; }, spot.diagList.filter((n) => INPAGE_PROBES.includes(n))).catch((e) => ({ error: String(e) })) : null;
   // `heap` has no in-page probe: one post-GC reading after every stats window has closed (never inside one).
   if (diag && spot.diagList.includes("heap")) diag.heap = await postGcHeap(page, hl).catch((e) => ({ error: String(e) }));
   // Page-time join: relink events within 300 ms of each long frame go on the frame as `links`.
@@ -945,6 +945,7 @@ async function main() {
   const ctx = await browser.newContext({ viewport: { width: o.width, height: o.height }, deviceScaleFactor: o.dpr });
   await ctx.addInitScript(pageProbe);
   if (o.census) await ctx.addInitScript({ content: readFileSync(probePath("census"), "utf8") });
+  if (o.diagList.some((n) => FRAME_PROBES.includes(n))) await ctx.addInitScript({ content: readFileSync(probePath("capture-lib"), "utf8") });
   for (const n of o.diagList.filter((n) => INPAGE_PROBES.includes(n))) await ctx.addInitScript({ content: probeScript(n, readFileSync(probePath(n), "utf8"), o.globalDiag) });
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
   // The sha pod-sync.sh stamped beside the synced data (the pod tree is no git repo); null off the pod.
