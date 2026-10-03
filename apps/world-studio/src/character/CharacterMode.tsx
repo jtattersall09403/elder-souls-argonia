@@ -1643,6 +1643,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
   const poseTimer = useRef(0);
   const cameraDir = useMemo(() => new THREE.Vector3(), []);
   const initialised = useRef(false);
+  const reheadOnRelease = useRef(false);
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
   const frameCount = useRef(0);
@@ -1854,6 +1855,11 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
       visualPos.copy(currPos);
       visualQuat.copy(currQuat);
       adapter.applyVisualPose(visualPos, visualQuat);
+      camera3P.reset(visualPos, bodyHeadingOf(currQuat));
+      reheadOnRelease.current = adapter.facingHeld();
+    } else if (reheadOnRelease.current && !adapter.facingHeld()) {
+      // the door's held facing ended with settle: put the camera behind the body's final heading (vol10 diag4 D1)
+      reheadOnRelease.current = false;
       camera3P.reset(visualPos, bodyHeadingOf(currQuat));
     }
     lastPosition.current.copy(position);

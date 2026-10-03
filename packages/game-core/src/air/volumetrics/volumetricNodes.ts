@@ -92,12 +92,23 @@ export function lampPhase(c: number, g = LAMP_PHASE.g, forward = LAMP_PHASE.forw
   return (1 - forward) / (4 * Math.PI) + forward * hg;
 }
 
+/** Scattering (/m) of the smoke-thick air at a fire (a light with `VolumeLight.fire`), falling to the medium's own
+ * over FIRE_HALO_FALLOFF_M from the emitter: the in-scatter only, the extinction stays the medium's (vol10 diag4 D7:
+ * the cell-wide 0.012 /m showed no halo; a visible 1-2 m glow needs ~0.1-0.15 /m). Packed in the light's col.w. */
+export const FIRE_HALO_SIGMA_PER_M = 0.12;
+export const FIRE_HALO_FALLOFF_M = 2;
+
+/** Scattering coefficient at distance r from a light whose local (fire) scattering is `local`. */
+export function localScatter(sigma: number, local: number, r: number): number {
+  return Math.max(sigma, local * (1 - smooth(0, FIRE_HALO_FALLOFF_M, r)));
+}
+
 /** Single-scatter in-scatter of one point light along a ray [0, L] in a homogeneous medium, marched
  * equiangularly (Kulla and Fajardo 2012): t = t0 + h tan(theta), dt / r^2 = dtheta / h, and the
  * scattering cosine at the sample is sin(theta). t0 is the ray parameter nearest the light, h its
  * distance from the ray. Plain TS twin of the shader loop. */
 export function airlightIntegral(sigma: number, intensity: number, t0: number, h: number, L: number,
-  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward, R = Infinity): number {
+  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward, R = Infinity, local = 0): number {
   const hh = Math.max(h, 0.05);
   const half = Math.sqrt(Math.max(R * R - hh * hh, 0));
   const a = Math.atan((Math.max(t0 - half, 0) - t0) / hh);
@@ -107,9 +118,9 @@ export function airlightIntegral(sigma: number, intensity: number, t0: number, h
     const th = a + (k + 0.5) * dth;
     const t = t0 + hh * Math.tan(th), r = hh / Math.cos(th);
     const fade = Number.isFinite(R) ? 1 - smooth(R * LAMP_REACH_FADE, R, r) : 1;
-    sum += lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-sigma * (t + r)) * fade;
+    sum += localScatter(sigma, local, r) * lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-sigma * (t + r)) * fade;
   }
-  return sigma * intensity * sum * dth / hh;
+  return intensity * sum * dth / hh;
 }
 
 function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode): TslNode {
@@ -141,6 +152,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
       const a = atan(max(t0.sub(half), float(0)).sub(t0).div(h));
       const b = max(atan(min(t0.add(half), segLen).sub(t0).div(h)), a);
       const dth = b.sub(a).div(LAMP_STEPS);
+      const local = L.col.element(i).w;
       const sum = float(0).toVar();
       for (let k = 0; k < LAMP_STEPS; k++) {
         const th = a.add(dth.mul(k + 0.5));
@@ -149,9 +161,10 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
         const r = h.div(cos(th));
         const ph = float((1 - forward) / (4 * Math.PI)).add(float(forward * (1 - g * g) / (4 * Math.PI))
           .div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5))));
-        sum.addAssign(ph.mul(exp(sigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(LAMP_REACH_FADE), R, r))));
+        const scat = max(sigma, local.mul(float(1).sub(smoothstep(float(0), float(FIRE_HALO_FALLOFF_M), r))));
+        sum.addAssign(scat.mul(ph).mul(exp(sigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(LAMP_REACH_FADE), R, r))));
       }
-      acc.addAssign(L.col.element(i).xyz.mul(sigma.mul(sum).mul(dth).div(h).mul(reach)));
+      acc.addAssign(L.col.element(i).xyz.mul(sum.mul(dth).div(h).mul(reach)));
     });
   });
   const extra = v.extra ? v.extra(dir, segLen, sigma) : vec3(0);

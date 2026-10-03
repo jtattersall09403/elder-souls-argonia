@@ -20,7 +20,7 @@ import { makeFireCurl } from "./volumeFire";
 import { FIRE_VOLUME_PRESETS, FIRE_VOLUME_TIER_CONFIG, fireCurlMiB, fireVolumeCost } from "./fireTypes";
 import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior, CellLightFlicker } from "./interiorFires";
 import { FIRE_VOLUME_LAYER } from "../../render/post/FireVolumePass";
-import { FIRE_PRESETS as PRESETS_F8, fireFlicker as flickerF8 } from "./fireTypes";
+import { FIRE_LIGHT_FLICKER_AMOUNT, FIRE_PRESETS as PRESETS_F8, fireFlicker as flickerF8 } from "./fireTypes";
 import { volumeBoxSize } from "./FlameSystem";
 import {
   fallbackFlameAnchorLocal, flameAnchorFailures, manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta,
@@ -595,7 +595,8 @@ describe("vol10 F8 fire look and draw", () => {
   it("a record light at a fire flickers with that fire's own signal; a far light stays steady", () => {
     const e = { position: new THREE.Vector3(1, 0, 0), preset: "hearth" as const, scale: 1, seed: 0.42, owner: 0 };
     const f = new CellLightFlicker([{ position: new THREE.Vector3(1, 0.8, 0) }, { position: new THREE.Vector3(9, 1, 0) }], [e]);
-    const { rateHz, amount } = PRESETS_F8.hearth.flicker;
+    const { rateHz } = PRESETS_F8.hearth.flicker;
+    const amount = FIRE_LIGHT_FLICKER_AMOUNT;
     const seen = new Set<number>();
     for (let t = 0; t < 2; t += 0.1) {
       expect(f.factor(0, t)).toBe(flickerF8(t, 0.42, rateHz, amount));

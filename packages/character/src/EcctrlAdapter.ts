@@ -45,6 +45,7 @@ export class EcctrlAdapter implements PlayerMovementController {
    * body, so {@link swim} keeps standing it (decision 0093).
    */
   private handover = false;
+  private heldFacing = false;
   /** The last stroke's planar velocity, kept through the handover. */
   private readonly lastSwimVelocity = { x: 0, z: 0 };
 
@@ -150,6 +151,7 @@ export class EcctrlAdapter implements PlayerMovementController {
     if (!handle || !body) return;
     handle.setForwardDir(direction);
     handle.setLockForward(lock);
+    this.heldFacing = lock;
     body.setAngvel({ x: 0, y: 0, z: 0 }, true);
     const yaw = Math.atan2(direction.x, direction.z);
     body.setRotation(
@@ -159,12 +161,18 @@ export class EcctrlAdapter implements PlayerMovementController {
   }
 
   releaseFacing(): void {
+    this.heldFacing = false;
     this.handle?.setLockForward(false);
+  }
+
+  facingHeld(): boolean {
+    return this.heldFacing;
   }
 
   steer(direction: THREE.Vector3): void {
     const handle = this.handle;
     if (!handle) return;
+    this.heldFacing = false;
     handle.setLockForward(false);
     handle.setForwardDir(direction);
   }

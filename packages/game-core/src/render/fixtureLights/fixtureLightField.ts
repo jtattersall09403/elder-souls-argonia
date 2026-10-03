@@ -78,6 +78,8 @@ export interface FixtureLightInput {
   radiusM: number;
   /** three's PointLight decay for this lamp (an interior record light's `interiorLightDecay`); default `FIXTURE_LIGHT_DECAY`. */
   decay?: number;
+  /** A fire's light (its slot flickers with a flame): the volumetric air halo thickens around it (froxelGrid `FIRE_HALO_SIGMA_PER_M`). */
+  fire?: boolean;
 }
 
 interface ObjectSlots {
@@ -123,6 +125,8 @@ export class FixtureLightField {
   private used = 0;
   private primary: readonly FixtureLightInput[] = [];
   private reserved: readonly FixtureLightInput[] = [];
+  /** Per slot: 1 for a fire's light (`FixtureLightInput.fire`). */
+  private readonly fireSlot = new Uint8Array(FIXTURE_LIGHTS_MAX);
   private reservedRadiance = new Float32Array(0);
   private dirty = false;
   private readonly slots = new WeakMap<THREE.Object3D, ObjectSlots>();
@@ -194,7 +198,7 @@ export class FixtureLightField {
     const n = this.primary.length + this.reserved.length;
     let changed = n !== this.used;
     for (let i = 0; i < n; i++) {
-      const { position, radiusM, decay } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
+      const { position, radiusM, decay, fire } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
       const o = i * 4;
       const c = (FIXTURE_LIGHTS_MAX + i) * 4 + 3;
       const d = decay ?? FIXTURE_LIGHT_DECAY;
@@ -203,6 +207,7 @@ export class FixtureLightField {
         || this.data[o + 2] !== Math.fround(position.z) || this.data[o + 3] !== Math.fround(radiusM))) changed = true;
       this.data[o] = position.x; this.data[o + 1] = position.y; this.data[o + 2] = position.z;
       this.data[o + 3] = radiusM;
+      this.fireSlot[i] = fire ? 1 : 0;
     }
     for (let j = 0; j < this.reserved.length; j++) {
       const k = j * 3;
@@ -227,12 +232,12 @@ export class FixtureLightField {
     this.dirty = true;
   }
 
-  /** Every slot in use: position, radius and linear colour x intensity (cd), read-only (the volumetric medium's halos, 0112). */
-  forEachLight(visit: (x: number, y: number, z: number, radiusM: number, r: number, g: number, b: number) => void): void {
+  /** Every slot in use: position, radius, linear colour x intensity (cd) and whether it is a fire's light, read-only (the volumetric medium's halos, 0112). */
+  forEachLight(visit: (x: number, y: number, z: number, radiusM: number, r: number, g: number, b: number, fire: boolean) => void): void {
     const d = this.data;
     for (let i = 0; i < this.used; i++) {
       const o = i * 4, c = (FIXTURE_LIGHTS_MAX + i) * 4;
-      visit(d[o], d[o + 1], d[o + 2], d[o + 3], d[c], d[c + 1], d[c + 2]);
+      visit(d[o], d[o + 1], d[o + 2], d[o + 3], d[c], d[c + 1], d[c + 2], this.fireSlot[i] === 1);
     }
   }
   /** Slot `i`'s decay as held (tests). */

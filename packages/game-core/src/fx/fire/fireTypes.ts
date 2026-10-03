@@ -372,6 +372,14 @@ export function flickerNoise(x: number, key: number): number {
 export const FLICKER_GUST_SLOT_S = 1.9;
 
 /**
+ * The cast-light flicker amount of a fire's light (a field slot or a cell's record light), separate from
+ * the flame shader's preset `flicker.amount` (0.06-0.14, the cards' own breath): the light swings about
+ * 1 +- 0.3 so the walls and floor visibly move with the fire, as three.js webgpu_volume_fire's light does
+ * (vol10 diag4 D6: at the preset amounts the device read +-4 %). Same seed and rate as the flame.
+ */
+export const FIRE_LIGHT_FLICKER_AMOUNT = 0.3;
+
+/**
  * Flicker of a fire's brightness at time `t` (s): about 1 +- `amount`,
  * seeded by `seed` (0..1, stable per fixture), never repeating. Three
  * octaves of value noise at `rateHz`, 2.1x and 4.4x it (the steady breath of

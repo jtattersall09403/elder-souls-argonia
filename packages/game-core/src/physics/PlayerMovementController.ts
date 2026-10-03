@@ -34,6 +34,8 @@ export interface PlayerMovementController {
   faceDirection(direction: THREE.Vector3, lock: boolean): void;
   /** Release a held facing so the controller may turn freely again. */
   releaseFacing(): void;
+  /** Whether a facing set by `faceDirection(dir, true)` is still held. */
+  facingHeld(): boolean;
 
   /**
    * Set the desired planar forward for free locomotion: the controller turns

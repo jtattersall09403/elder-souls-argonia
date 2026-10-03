@@ -17,7 +17,7 @@ import {
 } from "./lighting";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import type { SettlementKitAssetMeta } from "./types";
-import { FIRE_LIGHTS, FIRE_PRESETS } from "../fx/fire/fireTypes";
+import { FIRE_LIGHT_FLICKER_AMOUNT, FIRE_LIGHTS, FIRE_PRESETS } from "../fx/fire/fireTypes";
 import { FIXTURE_LIGHTS_MAX } from "../render/fixtureLights";
 
 const hm = (h: number, m = 0) => h * 60 + m;
@@ -347,7 +347,7 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     camera.position.set(0, 1, 5); camera.updateMatrixWorld();
     manager.update(0, camera);
     expect(ALWAYS_LIT_DAY_FACTOR).toBe(0.5);
-    near(intensityOf(manager, "brazier"), FIRE_LIGHTS.brazier.candela * 0.5, FIRE_PRESETS.brazier.flicker.amount);
+    near(intensityOf(manager, "brazier"), FIRE_LIGHTS.brazier.candela * 0.5, FIRE_LIGHT_FLICKER_AMOUNT);
     // a candle that is out holds no light at all
     expect(manager.litIds).toEqual(["brazier"]);
     expect(manager.field.count).toBe(1);
@@ -356,8 +356,8 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     expect(drawn(manager)).toEqual(Array(brazierCards).fill(0.5));
     factor.value = artificialLightFactor(22 * 60);
     manager.update(1, camera);
-    near(intensityOf(manager, "brazier"), FIRE_LIGHTS.brazier.candela, FIRE_PRESETS.brazier.flicker.amount);
-    near(intensityOf(manager, "candle"), FIRE_LIGHTS.candle.candela, FIRE_PRESETS.candle.flicker.amount);
+    near(intensityOf(manager, "brazier"), FIRE_LIGHTS.brazier.candela, FIRE_LIGHT_FLICKER_AMOUNT);
+    near(intensityOf(manager, "candle"), FIRE_LIGHTS.candle.candela, FIRE_LIGHT_FLICKER_AMOUNT);
     expect(drawn(manager)).toEqual(Array(brazierCards + cardsOf("candle")).fill(1));
     manager.dispose();
   });

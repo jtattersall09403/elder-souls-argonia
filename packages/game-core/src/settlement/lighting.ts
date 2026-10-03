@@ -61,7 +61,7 @@ import { FlameSystem } from "../fx/fire/FlameSystem";
 import { FixtureLightField } from "../render/fixtureLights";
 import { BLOOM_SOURCE_LAYER } from "../render/post/BloomPass";
 import { flameCardBedAnchorLocal, pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
-import { FIRE_LIGHTS, FIRE_PRESETS, fireFlicker, firePresetFor, type FirePresetId } from "../fx/fire/fireTypes";
+import { FIRE_LIGHT_FLICKER_AMOUNT, FIRE_LIGHTS, FIRE_PRESETS, fireFlicker, firePresetFor, type FirePresetId } from "../fx/fire/fireTypes";
 import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import { FIXTURE_LIGHT_RGB } from "./fixtureGlow";
@@ -547,8 +547,10 @@ export class SettlementLightFixtures {
       const clock = this.factor.value;
       this.assigned = fixturesInBand(this.fixtures, this.cameraAt, LIGHTS_ACTIVE_M, LIGHTS_CAP,
         (i) => this.fixtures[i].castsLight && fixtureFactor(clock, this.fixtures[i].alwaysLit) > 0);
-      this.field.setLights(this.assigned.map((i) => this.fixtures[i]));
       this.flickers = this.assigned.map((i) => flickerOf(this.fixtures[i]));
+      // a flickering slot is a fire's light: the air halo thickens around it (FIRE_HALO_SIGMA_PER_M)
+      this.field.setLights(this.assigned.map((i, k) => ({ position: this.fixtures[i].position,
+        radiusM: this.fixtures[i].radiusM, fire: this.flickers[k] !== undefined })));
     }
     const factor = this.factor.value;
     // Every frame: the clock, the flicker and the band-edge fade (no count
@@ -656,8 +658,7 @@ interface FixtureFlicker { seed: number; rateHz: number; amount: number }
 function flickerOf(fixture: LightFixture): FixtureFlicker | undefined {
   const flame = fixture.flames.find((f) => !f.glow && f.preset);
   if (!flame?.preset) return undefined;
-  const { rateHz, amount } = FIRE_PRESETS[flame.preset].flicker;
-  return { seed: flame.seed, rateHz, amount };
+  return { seed: flame.seed, rateHz: FIRE_PRESETS[flame.preset].flicker.rateHz, amount: FIRE_LIGHT_FLICKER_AMOUNT };
 }
 
 /** A flame's piece scale: its mined edge over the record's (1 for a fallback). */

@@ -23,7 +23,7 @@
  */
 import * as THREE from "three";
 import type { FireEmitter } from "./FlameSystem";
-import { FIRE_PRESETS, fireFlicker } from "./fireTypes";
+import { FIRE_LIGHT_FLICKER_AMOUNT, FIRE_PRESETS, fireFlicker } from "./fireTypes";
 import {
   FLAME_ANCHOR_SLACK_M, flameCardBedAnchorLocal, isFlameCardMaterial, manifestBoxYUp, pieceFlameAnchorsLocal,
   type FlameAnchorMeta, type LocalFlameAnchor,
@@ -107,7 +107,8 @@ export const LIGHT_FLAME_PAIR_M = 1.5;
 /**
  * The cast-light flicker of an interior cell's record lights (vol10 F8c): each light paired once
  * with its nearest fire emitter within `LIGHT_FLAME_PAIR_M` reads that fire's own flicker signal
- * (`fireFlicker`, the seed and preset rate the flame's shader uses), so light and flame agree;
+ * (`fireFlicker`, the seed and preset rate the flame's shader uses, at the light amount
+ * `FIRE_LIGHT_FLICKER_AMOUNT`), so light and flame agree;
  * an unpaired light (a window, a glowing mushroom) stays steady. `factor` allocates nothing.
  */
 export class CellLightFlicker {
@@ -127,10 +128,13 @@ export class CellLightFlicker {
         if (d2 > best) continue;
         best = d2;
         const f = FIRE_PRESETS[e.preset].flicker;
-        this.seed[j] = e.seed; this.rateHz[j] = f.rateHz; this.amount[j] = f.amount;
+        this.seed[j] = e.seed; this.rateHz[j] = f.rateHz; this.amount[j] = FIRE_LIGHT_FLICKER_AMOUNT;
       }
     });
   }
+
+  /** Whether light `j` is a fire's light (paired with an emitter): its field slot is marked `fire`. */
+  paired(j: number): boolean { return this.seed[j] >= 0; }
 
   /** Light `j`'s intensity factor at `timeS` (real seconds, the flames' clock); 1 when unpaired. */
   factor(j: number, timeS: number): number {

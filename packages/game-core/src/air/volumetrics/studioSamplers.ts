@@ -143,18 +143,18 @@ export function crownOf(x: number, y: number, z: number, scale: number, heightM:
 
 // ---------- fixture lights ----------
 
-/** A read over lights: `(x, y, z, radiusM, r, g, b)` per light (FixtureLightField.forEachLight). */
-export type LightVisitor = (visit: (x: number, y: number, z: number, radiusM: number, r: number, g: number, b: number) => void) => void;
+/** A read over lights: `(x, y, z, radiusM, r, g, b, fire)` per light (FixtureLightField.forEachLight). */
+export type LightVisitor = (visit: (x: number, y: number, z: number, radiusM: number, r: number, g: number, b: number, fire?: boolean) => void) => void;
 
 /**
  * The `max` lights nearest (x, y, z), written into `out` (its entries reused,
  * grown as needed); returns the count. `out.length` is set to the count.
  */
 export function nearestVolumeLights(forEach: LightVisitor, x: number, y: number, z: number, max: number, out: VolumeLight[]): number {
-  const cand: { d: number; x: number; y: number; z: number; r: number; cr: number; cg: number; cb: number }[] = [];
-  forEach((lx, ly, lz, radiusM, r, g, b) => {
+  const cand: { d: number; x: number; y: number; z: number; r: number; cr: number; cg: number; cb: number; fire: boolean }[] = [];
+  forEach((lx, ly, lz, radiusM, r, g, b, fire) => {
     if (r + g + b <= 0) return;
-    cand.push({ d: (lx - x) ** 2 + (ly - y) ** 2 + (lz - z) ** 2, x: lx, y: ly, z: lz, r: radiusM, cr: r, cg: g, cb: b });
+    cand.push({ d: (lx - x) ** 2 + (ly - y) ** 2 + (lz - z) ** 2, x: lx, y: ly, z: lz, r: radiusM, cr: r, cg: g, cb: b, fire: fire === true });
   });
   cand.sort((a, b) => a.d - b.d || a.x - b.x || a.z - b.z);
   const n = Math.min(max, cand.length);
@@ -164,6 +164,7 @@ export function nearestVolumeLights(forEach: LightVisitor, x: number, y: number,
     l.position.set(c.x, c.y, c.z);
     l.radiance.setRGB(c.cr, c.cg, c.cb);
     l.radiusM = c.r;
+    l.fire = c.fire;
   }
   out.length = n;
   return n;

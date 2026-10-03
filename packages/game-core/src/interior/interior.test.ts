@@ -11,6 +11,7 @@ import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/f
 import { LIGHTS_CAP } from "../settlement/lighting";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
 import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, compassDirection, doorAccess } from "./doors";
+import { FollowCamera } from "../camera/followCamera";
 import { InteriorEnvironment } from "./interiorEnvironment";
 import { sunAt, WorldClock } from "@elder-souls/world-time";
 import lightRows from "../air/volumetrics/interiorLight.json";
@@ -355,6 +356,32 @@ describe("DoorTransition", () => {
     plain.t.openDirect("fixture.hut-int", { x: 50, y: 12, z: 60 });
     await run(plain.t, 0.5);
     expect(plain.controller.facing.x).not.toBeCloseTo(want.x);   // the marker's own yaw
+  });
+
+  it("compass 129 survives settle and 30 no-input ecctrl steps; the camera sits behind it (vol10 diag4 D1)", async () => {
+    // ecctrl's step (dist :990-1000): locked, the body faces forwardDir and lastInputDir copies it; unlocked with no
+    // input, the body turns to lastInputDir. Before D1 lastInputDir kept the pre-door heading and spun the body.
+    const resident = { now: false };
+    const asked = rig([], undefined, resident);
+    const ecc = { lock: false, forward: compassDirection(230.5), lastInput: compassDirection(230.5), heading: 0 };
+    const c = asked.controller as unknown as Record<string, unknown>;
+    c.faceDirection = (d: THREE.Vector3, lock: boolean) => {
+      ecc.forward = { x: d.x, z: d.z }; ecc.lock = lock; ecc.heading = Math.atan2(d.x, d.z);
+    };
+    c.releaseFacing = () => { ecc.lock = false; };
+    const step = () => {
+      if (ecc.lock) { ecc.lastInput = ecc.forward; ecc.heading = Math.atan2(ecc.forward.x, ecc.forward.z); }
+      else ecc.heading = Math.atan2(ecc.lastInput.x, ecc.lastInput.z);
+    };
+    asked.t.openDirect("fixture.hut-int", { x: 50, y: 12, z: 60 }, 129);
+    for (let i = 0; i < 20; i++) { await Promise.resolve(); asked.t.update(1 / 60, false); step(); }
+    resident.now = true;
+    for (let i = 0; i < 30; i++) { await Promise.resolve(); asked.t.update(1 / 60, false); step(); }
+    expect(ecc.lock).toBe(false);
+    expect(ecc.heading).toBeCloseTo(0.89, 2);
+    const cam = new FollowCamera();
+    cam.reset(new THREE.Vector3(), ecc.heading);
+    expect(THREE.MathUtils.euclideanModulo(cam.yaw - ecc.heading - Math.PI, 2 * Math.PI)).toBeCloseTo(0, 4);
   });
 
   it("opens a cell directly at its arrival marker (studio ?interior=)", async () => {

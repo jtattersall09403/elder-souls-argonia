@@ -1,3 +1,4 @@
+import { carryCharacterParams } from "./character/characterUrl";
 import { Fragment, Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
@@ -361,10 +362,7 @@ export function App() {
       q.set("x", spawnKm.x.toFixed(2));
       q.set("z", spawnKm.z.toFixed(2));
       q.set("ex", String(exaggeration));
-      const race = urlParams.get("race");
-      const profile = urlParams.get("profile");
-      if (race) q.set("race", race);
-      if (profile) q.set("profile", profile);
+      carryCharacterParams(urlParams, q);
       if (matSet) q.set("mats", matSet);
       if (wetSeason !== "auto") q.set("wet", wetSeason === "wet" ? "1" : "-1");
       if (tintStrength !== 1) q.set("tint", String(tintStrength));

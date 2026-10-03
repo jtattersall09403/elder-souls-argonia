@@ -19,7 +19,7 @@ import { VOLUMETRIC_BANDS, bandSpec, type BandSpec, type VolumetricTier } from "
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
-import { lampHalo, type VolumetricsSampler } from "./volumetricNodes";
+import { FIRE_HALO_SIGMA_PER_M, lampHalo, type VolumetricsSampler } from "./volumetricNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
@@ -112,7 +112,9 @@ export function sliceDepth(s: number, n: number, near: number, far: number): num
   return near * Math.pow(far / near, s / n);
 }
 
-export interface VolumeLight { position: THREE.Vector3; radiance: THREE.Color; radiusM: number }
+/** `fire`: a fire's light; the air within FIRE_HALO_FALLOFF_M of it scatters at FIRE_HALO_SIGMA_PER_M. */
+export interface VolumeLight { position: THREE.Vector3; radiance: THREE.Color; radiusM: number; fire?: boolean }
+
 /** A window: light entering along `direction` through a disc of `radiusM` at `position`. */
 export interface ApertureLight {
   position: THREE.Vector3; direction: THREE.Vector3; radiusM: number; lengthM: number;
@@ -824,7 +826,7 @@ export class Volumetrics implements VolumetricsSampler {
     for (let k = 0; k < n; k++) {
       const l = lights[order[k]];
       this.lightPos[k].set(l.position.x, l.position.y, l.position.z, l.radiusM);
-      this.lightCol[k].set(l.radiance.r, l.radiance.g, l.radiance.b, 0);
+      this.lightCol[k].set(l.radiance.r, l.radiance.g, l.radiance.b, l.fire ? FIRE_HALO_SIGMA_PER_M : 0);
     }
     this.u.lightCount.value = n;
   }

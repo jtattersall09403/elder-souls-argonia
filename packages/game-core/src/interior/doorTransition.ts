@@ -194,6 +194,8 @@ export class DoorTransition {
   private phase: "idle" | "out" | "hold" | "settle" | "in" = "idle";
   private prefetchIn = 0;
   private readonly at = new THREE.Vector3();
+  /** A placed facing is held (ecctrl lock) until the first fade-in frame, so its no-input turn cannot spin the body. */
+  private facingHeld = false;
 
   constructor(private readonly hosts: DoorTransitionHosts) {}
 
@@ -325,6 +327,7 @@ export class DoorTransition {
       this.phase = "in";
       return;
     }
+    if (this.facingHeld) { this.facingHeld = false; this.hosts.controller.releaseFacing(); }
     this.fade = Math.max(0, this.fade - dt / DOOR_FADE_S);
     if (this.fade <= 0) this.phase = "idle";
   }
@@ -377,7 +380,9 @@ export class DoorTransition {
     controller.teleport(position);
     controller.setLinearVelocity({ x: 0, y: 0, z: 0 });
     const d = compassDirection(yawDeg);
-    controller.faceDirection(new THREE.Vector3(d.x, 0, d.z), false);
-    controller.releaseFacing();
+    // Held, not released here: ecctrl's no-input step turns the body toward its last input direction, which only the
+    // lock branch syncs to the forward dir (vol10 diag4 D1). Released on the first fade-in frame, after settle.
+    controller.faceDirection(new THREE.Vector3(d.x, 0, d.z), true);
+    this.facingHeld = true;
   }
 }

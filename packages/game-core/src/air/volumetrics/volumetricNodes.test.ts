@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { airlightIntegral, LAMP_HALO, lampHalo } from "./volumetricNodes";
+import { airlightIntegral, FIRE_HALO_FALLOFF_M, FIRE_HALO_SIGMA_PER_M, LAMP_HALO, lampHalo, localScatter } from "./volumetricNodes";
 
 describe("airlightIntegral", () => {
   it("with an isotropic phase matches a numeric march of the inverse-square in-scatter", () => {
@@ -41,5 +41,19 @@ describe("lamp halo floor", () => {
   it("a mobile renderer draws the mobile row, every desktop tier the high row", () => {
     expect(lampHalo("mobile")).toBe(LAMP_HALO.mobile);
     for (const t of ["low", "medium", "high"] as const) expect(lampHalo(t)).toBe(LAMP_HALO.high);
+  });
+});
+
+describe("fire halo (vol10 diag4 D7)", () => {
+  it("a fire's light scatters ~10x the cell floor within ~2 m and the floor beyond", () => {
+    const sigma = 0.012;
+    expect(localScatter(sigma, FIRE_HALO_SIGMA_PER_M, 0)).toBeCloseTo(0.12, 6);
+    expect(localScatter(sigma, FIRE_HALO_SIGMA_PER_M, FIRE_HALO_FALLOFF_M)).toBe(sigma);
+    expect(localScatter(sigma, 0, 0.5)).toBe(sigma);
+    // a ray passing 0.5 m from the fire gathers over 3x the plain halo; one passing 6 m off gathers the same
+    const near = airlightIntegral(sigma, 1, 3, 0.5, 10, 64, 0.5, 6, FIRE_HALO_SIGMA_PER_M) / airlightIntegral(sigma, 1, 3, 0.5, 10, 64, 0.5, 6);
+    const far = airlightIntegral(sigma, 1, 3, 6, 10, 64, 0.5, 20, FIRE_HALO_SIGMA_PER_M) / airlightIntegral(sigma, 1, 3, 6, 10, 64, 0.5, 20);
+    expect(near).toBeGreaterThan(3);
+    expect(far).toBeCloseTo(1, 6);
   });
 });
