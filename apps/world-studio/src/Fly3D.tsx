@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { STUDIO_TOOLS } from "./studioTools";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -307,7 +308,7 @@ export function Fly3D(props: Fly3DProps) {
       shadows="percentage"
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera, gl }) => {
-        gl.debug.checkShaderErrors = !import.meta.env.PROD; // production: no sync program info log on link (perf10 diag 22 G-e)
+        gl.debug.checkShaderErrors = STUDIO_TOOLS; // production: no sync program info log on link (perf10 diag 22 G-e)
         if (initialAim) {
           camera.lookAt(
             start[0] + initialAim.x * 2000,

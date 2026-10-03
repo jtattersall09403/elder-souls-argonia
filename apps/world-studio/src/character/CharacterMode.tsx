@@ -340,7 +340,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       const late = report.linkedAfter();
       st.programsWarmed = report.programsWarmed;
       st.programsLinkedAfterWarm = late.length;
-      if (import.meta.env.DEV) st.programsLinkedAfterWarmKeys = late;
+      if (STUDIO_TOOLS) st.programsLinkedAfterWarmKeys = late;
     };
     if (programWarmTimer.current) clearInterval(programWarmTimer.current);
     write();
@@ -527,7 +527,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // a shadow re-render each frame (WaterPipeline.tsx explains).
           shadows="percentage"
           style={{ width: "100%", height: "100%" }}
-          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.debug.checkShaderErrors = !import.meta.env.PROD; }}
+          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.debug.checkShaderErrors = STUDIO_TOOLS; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError}>
