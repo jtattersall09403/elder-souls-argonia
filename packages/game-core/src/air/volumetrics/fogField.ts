@@ -43,6 +43,8 @@ export interface FogFieldInput {
   /** Today's sunrise and sunset, minutes since midnight. */
   sunriseMin: number;
   sunsetMin: number;
+  /** 0..1 synoptic cloud cover now (low + mid + half high); feeds the cap cloud on high ground. */
+  cloud?: number;
   /** 0..1: how clear and calm the previous night was (1 = no cloud, no wind). */
   prevNightClearCalm: number;
   /** Hours since rain last stopped (Infinity when none recent); 0 while raining. */
@@ -98,6 +100,8 @@ export interface FogRegimes {
   mistBurn?: number;
   /** Rain-fed wet haze over the ground, 0..4 (4 x rain), at WET_HAZE_SCALE_M scale height. */
   wetHaze?: number;
+  /** 0..1 cap cloud on high ground: synoptic cloud x humidity (vol10 diag7 O8). */
+  capCloud?: number;
 }
 
 /** Scale height (m) of the rain-fed wet haze above the ground (vol10 diag7 O2). */
@@ -213,6 +217,7 @@ export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDe
   out.radiationMist = radiationMist; out.steamFog = clamp01(steamFog); out.marshFog = clamp01(marshFog); out.seaFog = seaFog;
   out.canopyHaze = canopyHaze; out.air = air; out.halo = halo; out.heightScale = p.heightScale;
   out.mistDepthScale = 1 - 0.8 * burnW; out.mistBurn = burnW; out.wetHaze = 4 * clamp01(i.rain);
+  out.capCloud = clamp01(i.cloud ?? 0) * humid;
   out.windXZ[0] = i.windDirXZ[0] * drift; out.windXZ[1] = i.windDirXZ[1] * drift;
   return out;
 }

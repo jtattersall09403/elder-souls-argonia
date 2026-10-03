@@ -150,3 +150,10 @@ describe("vol10 diag7 burn-off, rain and halo floor", () => {
     expect(r.halo).toBeGreaterThanOrEqual(0.4);
   });
 });
+
+describe("cap cloud regime (vol10 diag7 O8)", () => {
+  it("is synoptic cloud x humidity, none under a clear sky", () => {
+    expect(fogRegimes({ ...BASE_NOON, cloud: 0 }).capCloud).toBe(0);
+    expect(fogRegimes({ ...BASE_NOON, cloud: 1, humidity: 0.8 }).capCloud).toBeCloseTo(0.8, 6);
+  });
+});

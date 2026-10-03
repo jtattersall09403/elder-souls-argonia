@@ -291,6 +291,9 @@ export function WorldSky({
   const volLights = useRef<VolumeLight[]>([]);
   const crownVersion = useRef(-1);
   useEffect(() => () => volumetrics.dispose(), [volumetrics]);
+  // the froxel cap cloud's belt in runtime metres (the aerial belt stays off while the band draws)
+  const capBelt = useMemo(() => ({ centreM: WHITEOUT_BELT.centreM * verticalScale,
+    sigmaBelowM: WHITEOUT_BELT.sigmaBelowM * verticalScale, sigmaAboveM: WHITEOUT_BELT.sigmaAboveM * verticalScale }), [verticalScale]);
   const volSun = useRef(new THREE.Color());
   const volSky = useRef(new THREE.Color());
   // onshore component of the wind for the sea-fog regime: climate-weather B's gradient, per camera cell
@@ -956,7 +959,7 @@ export function WorldSky({
       const { sunriseMin, sunsetMin } = sunriseSunsetMin(epochMinutes, latitudeOverrideRad);
       volumetrics.update({
         camera: persp, timeS: waterTransportTimeS(), deltaS: waterTransportDeltaS(), sunDir, sunIrradiance: irr, skyIrradiance: volSky.current,
-        lights: volLights.current,
+        lights: volLights.current, capBelt,
         fog: {
           minuteOfDay: ((epochMinutes % 1440) + 1440) % 1440, sunriseMin, sunsetMin,
           prevNightClearCalm: fogClock.prevNightClearCalm,
@@ -966,6 +969,7 @@ export function WorldSky({
           weatherRadiation: wx.mist.radiation, weatherAdvection: wx.mist.advection,
           onshore: onshoreProbe.at(base, camera.position.x, camera.position.z, extentM, wx.windDirXZ),
           regionHaze: wx.regionHaze,
+          cloud: Math.min(1, wx.profile.cloudLow + wx.profile.cloudMid + 0.5 * wx.profile.cloudHigh),
           dayIndex: Math.floor(epochMinutes / 1440),
           profile: regionFog.current?.at(base, camera.position.x, camera.position.z, extentM),
         },

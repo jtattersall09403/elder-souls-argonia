@@ -149,6 +149,8 @@ export interface VolumetricsFrame {
   lights?: readonly VolumeLight[];
   apertures?: readonly ApertureLight[];
   interior?: InteriorFogProfile | null;
+  /** The cap-cloud belt in runtime metres (world-weather WHITEOUT_BELT x vertical scale); absent: no cap cloud. */
+  capBelt?: { centreM: number; sigmaBelowM: number; sigmaAboveM: number };
   /** Radiation mist depth over the basin floor, 10..60 m. */
   mistDepthM?: number;
 }
@@ -254,7 +256,7 @@ export class Volumetrics implements VolumetricsSampler {
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
     canopyHaze: uniform(0), air: uniform(1), haloSigma: uniform(0), haloViewM: uniform(0),
-    mistDepth: uniform(30), mistHeightScale: uniform(1), mistBurn: uniform(0), wetHaze: uniform(0),
+    mistDepth: uniform(30), mistHeightScale: uniform(1), mistBurn: uniform(0), wetHaze: uniform(0), capCover: uniform(0), capBelt: uniform(new THREE.Vector3(470, 150, 55)),
     // fog drift (FogDrift uploads, 0..1 texture units): per-octave and per-warp offsets, morph, coverage
     off: [0, 1, 2, 3].map(() => uniform(new THREE.Vector3())), warpOff: [0, 1].map(() => uniform(new THREE.Vector3())),
     phiA: uniform(0), phiB: uniform(0), wfade: uniform(0.5), slow: uniform(0.5),
@@ -456,12 +458,20 @@ export class Volumetrics implements VolumetricsSampler {
     const marsh = moist.mul(low).mul(max(marshFall, skirt)).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
       .mul(this.burn(n, u.cover.z, cov)).mul(0.16);
     const sea = farT.b.mul(exp(max(p.y, 0).div(-25))).mul(this.burn(n, u.cover.w, cov)).mul(0.03);
+    // cap cloud: where the ground rises into the belt (high ground; the far grid has no spare channel
+    // for the climate vis raster), a bell on height about the belt centre, torn by the same shape
+    // (no extra noise taps); 0.02 /m at full cover (vol10 diag7 O8)
+    const bc = u.capBelt.x, by = p.y.sub(bc);
+    const bs = mix(u.capBelt.y, u.capBelt.z, step(float(0), by));
+    const bz = by.div(bs);
+    const cap = smoothstep(bc.sub(u.capBelt.y.mul(2)), bc, ground).mul(exp(bz.mul(bz).mul(-0.5)))
+      .mul(this.burn(n, u.capCover, cov)).mul(0.02);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
     // canopy haze: humid air under the crowns, 0.01..0.03 /m at full strength (0112 §5)
     const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(0.025).mul(n.mul(0.5).add(0.5));
     const air = this.airDensity(p).add(exp(max(hAG, float(0)).div(-WET_HAZE_SCALE_M)).mul(u.wetHaze).mul(0.7e-4));
-    const outside = mist.add(steam).add(marsh).add(sea).add(haze).mul(outdoor);
+    const outside = mist.add(steam).add(marsh).add(sea).add(haze).add(cap).mul(outdoor);
     // interior floor mist: 0..top, two octaves swirling in opposite directions, curling top
     const sw = vec3(u.time.mul(0.25), 0, u.time.mul(0.1));
     const f1 = signed(texture3D(this.fogShape, p.add(sw).div(vec3(6, 2.4, 6)).add(vec3(0, u.time.mul(0.01), 0)), 0).z);
@@ -758,6 +768,8 @@ export class Volumetrics implements VolumetricsSampler {
     this.stepFog(f, r);
     u.mistDepth.value = (f.mistDepthM ?? 30) * (r?.mistDepthScale ?? 1);
     u.mistBurn.value = r?.mistBurn ?? 0; u.wetHaze.value = r?.wetHaze ?? 0;
+    u.capCover.value = f.capBelt ? (r?.capCloud ?? 0) : 0;
+    if (f.capBelt) u.capBelt.value.set(f.capBelt.centreM, f.capBelt.sigmaBelowM, f.capBelt.sigmaAboveM);
     // the region's radiation-mist scale height (fogField mistHeightProfile heightScale, G3 climate profile)
     u.mistHeightScale.value = r?.heightScale ?? 1;
     u.floorY.value = interior?.floorY ?? 0; u.floorTop.value = interior ? interior.floorY + interior.floorMistTopM : 0;
