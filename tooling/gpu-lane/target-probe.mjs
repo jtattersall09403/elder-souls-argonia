@@ -185,6 +185,13 @@ export function installTargetProbe(win, recordPass) {
       return out;
     };
     // The scene target on a 64x36 grid (diag16: black = NaN, Inf, black colour, or near depth over the screen?).
+    // WebGPU cannot copy the depth aspect of depth24plus(-stencil8) to a buffer; resolve the GPU format name (GPUTexture, a string format, or three's constants).
+    const depthFormat = (dt) => {
+      const g = r.backend?.get?.(dt)?.texture?.format ?? dt.format;
+      if (typeof g === "string") return g;
+      if (dt.format === 1027) return "depth24plus-stencil8"; // three DepthStencilFormat
+      return dt.type === 1015 ? "depth32float" : dt.type === 1012 ? "depth16unorm" : "depth24plus";
+    };
     const sceneGrid = async (rt) => {
       const W = rt.width, H = rt.height, GX = 64, GY = 36, half = rt.texture?.type === 1016;
       const out = { grid: [GX, GY], nan: 0, inf: 0, black: 0, lit: 0, meanLuma: null, samples: [] };
@@ -207,6 +214,7 @@ export function installTargetProbe(win, recordPass) {
       // Depth: three's readback reads colour attachments only; the depth texture goes through the backend copy (raw values; reversed-z flips near).
       const dt = rt.depthTexture;
       if (!dt) out.depth = { skipped: "target has no depthTexture" };
+      else if (((fmt) => fmt === "depth24plus" || fmt === "depth24plus-stencil8")(depthFormat(dt))) out.depth = { depthReadback: "skipped (depth24plus not copyable)", format: depthFormat(dt), size: [W, H] };
       else if (typeof r.backend?.copyTextureToBuffer !== "function") out.depth = { skipped: "backend has no copyTextureToBuffer" };
       else {
         try {

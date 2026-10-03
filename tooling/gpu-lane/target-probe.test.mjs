@@ -204,3 +204,29 @@ test("target probe: one block throwing records its error and the others still la
   assert.match(out.queue.err, /boom/);
   assert.ok(out.state.drawingBuffer && out.exposure.toneMappingExposure === 1 && out.sceneGrid && out.notReadyPipelines && out.passes);
 });
+
+test("target probe: a depth24plus depth target is never copied (WebGPU forbids it); depth32float still is", async () => {
+  const run = async (format) => {
+    const copies = [];
+    const dt = { format };
+    const scene = { width: 8, height: 4, samples: 0, depthBuffer: true, depthTexture: dt, texture: { type: 1016, name: "" } };
+    const r = { esBuildQueue: { skippedDraws: 0, pending: 0, timedOut: new Set(), frameTargets: new WeakSet([scene]) }, setRenderTarget() {}, getRenderTarget: () => null,
+      backend: { copyTextureToBuffer: async (t) => { copies.push(t); return new Float32Array(64).fill(0.5); } },
+      readRenderTargetPixelsAsync: async () => new Uint16Array(8 * 4 * 4).fill(0x3c00) };
+    const { win } = fakeWindow(r);
+    const gl = new win.WebGL2RenderingContext();
+    const tick = setInterval(() => { r.setRenderTarget(scene); gl.drawArrays(); r.setRenderTarget(null); }, 0);
+    const p = await win.__targetProbe.capture();
+    clearInterval(tick);
+    return { copies, depth: p.sceneGrid.depth };
+  };
+  for (const f of ["depth24plus", "depth24plus-stencil8"]) {
+    const o = await run(f);
+    assert.equal(o.copies.length, 0, `${f}: no copyTextureToBuffer`);
+    assert.equal(o.depth.depthReadback, "skipped (depth24plus not copyable)");
+    assert.deepEqual([o.depth.format, o.depth.size], [f, [8, 4]]);
+  }
+  const ok = await run("depth32float");
+  assert.equal(ok.copies.length, 1);
+  assert.equal(ok.depth.mean, 0.5);
+});
