@@ -1560,6 +1560,75 @@ export async function kitSchemaCheck({ loaderSrc, url, fetchText }) {
   return served === loader ? { ok: true, loader, served, url } : { ok: false, loader, served, url, why: `served schemaVersion ${served} != loader ${loader} (pod data not from the build's tree: pod-sync.sh --data)` };
 }
 
+/** Kits the page loads whatever the view: the vegetation layers (Groundcover, the flora layer) read these by id. */
+export const PAGE_FIXED_KITS = ["flora-province-v1", "groundcover-province-v1"];
+
+/** Every kit the page will load, as the page finds them: `province/settlements/index.json` (places and routes), each
+ * bundle's `kits[id].parts`, plus PAGE_FIXED_KITS. `fetchMany(urls)` resolves a Map url -> body string or an Error.
+ * Returns { kits: Map id -> parts url, problems: [string] } (an index or bundle that is unreadable or HTML). */
+export async function pageKitIndexes({ dataBase, fetchMany }) {
+  const problems = [];
+  const kits = new Map(PAGE_FIXED_KITS.map((id) => [id, `${dataBase}kits/${id}/parts/index.json`]));
+  const readJson = (url, body) => {
+    if (body instanceof Error || body === undefined) { problems.push(`${url}: ${String(body?.message ?? "not fetched").slice(0, 120)}`); return null; }
+    if (/^\s*</.test(body)) { problems.push(`${url}: HTML, not data`); return null; }
+    try { return JSON.parse(body); } catch (e) { problems.push(`${url}: ${String(e.message).slice(0, 80)}`); return null; }
+  };
+  const indexUrl = `${dataBase}province/settlements/index.json`;
+  const index = readJson(indexUrl, (await fetchMany([indexUrl])).get(indexUrl));
+  const bundleUrls = [...(index?.places ?? []), ...(index?.routes ?? [])].map((e) => `${dataBase}province/${e.bundle}`);
+  const bodies = bundleUrls.length ? await fetchMany(bundleUrls) : new Map();
+  for (const url of bundleUrls) {
+    const bundle = readJson(url, bodies.get(url));
+    for (const [id, ref] of Object.entries(bundle?.kits ?? {})) if (typeof ref?.parts === "string") kits.set(id, `${dataBase}${ref.parts}`);
+  }
+  return { kits, problems };
+}
+
+/** The pre-capture kit check over EVERY kit the page loads (pageKitIndexes): each parts index must be JSON at the
+ * loader's KIT_PARTS_SCHEMA_VERSION. Returns { ok, checked, failed: [{kit, url, why}], problems }. smoke2 (c11): five
+ * kits with no parts index placed nothing while the one-sentinel check passed. */
+export async function pageKitCheck({ loaderSrc, dataBase, fetchMany }) {
+  const { kits, problems } = await pageKitIndexes({ dataBase, fetchMany });
+  const bodies = await fetchMany([...kits.values()]);
+  const failed = [];
+  for (const [kit, url] of kits) {
+    const body = bodies.get(url);
+    const c = await kitSchemaCheck({ loaderSrc, url, fetchText: async () => { if (body instanceof Error || body === undefined) throw body ?? new Error("not fetched"); return body; } });
+    if (!c.ok) failed.push({ kit, url, why: c.why });
+  }
+  return { ok: failed.length === 0 && problems.length === 0, checked: kits.size, failed, problems };
+}
+
+/** fetchMany here: every URL in parallel, each with timeoutMs; a non-2xx reply is an Error. */
+export function localFetchMany(timeoutMs = 5000) {
+  return async (urls) => new Map(await Promise.all(urls.map(async (u) => {
+    try { const r = await fetch(u, { signal: AbortSignal.timeout(timeoutMs) }); return [u, r.ok ? await r.text() : new Error(`HTTP ${r.status}`)]; } catch (e) { return [u, e]; }
+  })));
+}
+
+/** fetchMany through one shell command (the pod over ssh): `run(script)` -> stdout. One round trip per list, the
+ * curls in parallel, each body marked with its status and URL (parseShellFetch). */
+export function shellFetchMany(run, timeoutS = 5) {
+  return async (urls) => {
+    const list = urls.map((u) => `'${u.replace(/'/g, "'\\''")}'`).join(" ");
+    const script = `d=$(mktemp -d); i=0; for u in ${list}; do i=$((i+1)); (curl -s -m ${timeoutS} -o "$d/$i" -w '%{http_code}' "$u" > "$d/$i.c") & done; wait; `
+      + `i=0; for u in ${list}; do i=$((i+1)); printf '\\n@@KIT@@ %s %s\\n' "$(cat "$d/$i.c")" "$u"; cat "$d/$i" 2>/dev/null; done; rm -rf "$d"`;
+    return parseShellFetch(await run(script), urls);
+  };
+}
+
+/** shellFetchMany's output as a Map url -> body or Error (a URL with no block is "no reply"). */
+export function parseShellFetch(out, urls) {
+  const m = new Map(urls.map((u) => [u, new Error("no reply")]));
+  for (const p of String(out).split(/\n@@KIT@@ /).slice(1)) {
+    const nl = p.indexOf("\n");
+    const head = (nl < 0 ? p : p.slice(0, nl)).split(" ");
+    m.set(head.slice(1).join(" "), head[0] === "200" ? (nl < 0 ? "" : p.slice(nl + 1)) : new Error(`HTTP ${head[0]}`));
+  }
+  return m;
+}
+
 /** Renderer processes from CDP SystemInfo.getProcessInfo, sampled twice dtS apart: [{pid, cpuPct}] (cpuTime is
  * cumulative seconds). */
 export function rendererCpu(first, second, dtS) {

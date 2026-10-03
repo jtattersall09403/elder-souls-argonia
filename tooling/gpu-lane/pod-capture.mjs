@@ -93,10 +93,10 @@
  * Exit 0 unless the tab could not be opened.
  */
 import { execFileSync, execSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { buildsAfterKits, framesBeforePose, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS, kitSchemaCheck, rendererCpu, startContamination, reapViewRenderers } from "./pod-capture-lib.mjs";
+import { buildsAfterKits, framesBeforePose, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS, pageKitCheck, localFetchMany, shellFetchMany, rendererCpu, startContamination, reapViewRenderers } from "./pod-capture-lib.mjs";
 import { dataBaseOf } from "./serve-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
@@ -173,19 +173,23 @@ if (opt("lane")) {
 }
 /** One command on the pod over the --pod ssh; its stdout. */
 const podExec = (cmd, timeout = 15_000) => { const [b, ...a] = pod.split(/\s+/); return execFileSync(b, [...a.slice(0, -1), "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=5", a.at(-1), cmd], { timeout, encoding: "utf8" }); };
-// diag22 C1: the served kit data must match the dist's loader (iter32: parts indexes at schema 2 to a loader of 3 placed
-// four settlements nowhere). One index per served base, fetched as the pod serves it; a mismatch stops the run (exit 5).
+// diag22 C1 + c11 smoke2: every kit the page will load (the settlements index, each bundle's kits, the vegetation
+// kits; pageKitCheck) must serve a parts index at the dist's loader schema, fetched as the pod serves it, one round trip
+// per stage. Any miss, HTML index or wrong schema stops the run (exit 5) naming the kits.
 {
   const wt = opt("worktree", execFileSync("git", ["-C", new URL(".", import.meta.url).pathname, "rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim());
-  const kitsDir = join(wt, "apps/world-studio/public/kits");
-  const kit = existsSync(kitsDir) ? readdirSync(kitsDir).find((k) => existsSync(join(kitsDir, k, "parts/index.json"))) : null;
   const loaderSrc = (() => { try { return readFileSync(join(wt, "packages/game-core/src/assets/kitParts.ts"), "utf8"); } catch { return null; } })();
-  const bases = [...new Set(views.map((v) => dataBaseOf(v.url)).filter(Boolean))];
-  for (const base of kit ? bases : []) {
-    const url = `${base}kits/${kit}/parts/index.json`;
-    const c = await kitSchemaCheck({ loaderSrc, url, fetchText: pod ? async (u) => podExec(`curl -sf -m 10 '${u}'`) : async (u) => { const r = await fetch(u, { signal: AbortSignal.timeout(10_000) }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); } });
-    if (!c.ok) { console.error(`pod-capture: kit data check failed, no capture: ${c.why} (${url})`); process.exit(5); }
-    console.log(`pod-capture: kit data schema ${c.served} = loader ${c.loader} (${url})`);
+  const fetchMany = pod ? shellFetchMany(async (script) => podExec(script, 30_000)) : localFetchMany();
+  for (const base of new Set(views.map((v) => dataBaseOf(v.url)).filter(Boolean))) {
+    const t0 = Date.now();
+    const c = await pageKitCheck({ loaderSrc, dataBase: base, fetchMany });
+    if (!c.ok) {
+      console.error(`pod-capture: kit data check failed, no capture (${base}):`);
+      for (const p of c.problems) console.error(`  ${p}`);
+      for (const f of c.failed) console.error(`  ${f.kit}: ${f.why}`);
+      process.exit(5);
+    }
+    console.log(`pod-capture: ${c.checked} kit parts indexes at loader schema (${base}) in ${Date.now() - t0} ms`);
   }
 }
 if (pod) {

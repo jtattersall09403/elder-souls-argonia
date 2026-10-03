@@ -1065,3 +1065,37 @@ test("segmentsCell: per-segment avg/max ms; absent timing says so; summariseView
   assert.equal(summariseView({ final: { gpuMs: g } }).gpuSegments, "sky 0.51/1.2; water 3/4.46");
   assert.match(summaryTable([{ name: "v", summary: summariseView({ final: { gpuMs: g } }) }], {}), /gpu segments avg\/max ms/);
 });
+
+test("pageKitCheck: every kit the page loads is checked; one HTML index fails and names its kit (c11 smoke2)", async () => {
+  const { pageKitCheck, PAGE_FIXED_KITS } = await import("./pod-capture-lib.mjs");
+  const B = "http://h/elder-souls-argonia/studio/";
+  const files = {
+    [`${B}province/settlements/index.json`]: JSON.stringify({ places: [{ bundle: "settlements/a.json" }], routes: [{ bundle: "settlements/routes/r.json" }] }),
+    [`${B}province/settlements/a.json`]: JSON.stringify({ kits: { "settlement-mud-v1": { parts: "kits/settlement-mud-v1/parts/index.json" } } }),
+    [`${B}province/settlements/routes/r.json`]: JSON.stringify({ kits: { "docks-v1": { parts: "kits/docks-v1/parts/index.json" } } }),
+    [`${B}kits/settlement-mud-v1/parts/index.json`]: '{"schemaVersion":4}',
+    [`${B}kits/docks-v1/parts/index.json`]: "<!doctype html><html></html>",
+  };
+  for (const k of PAGE_FIXED_KITS) files[`${B}kits/${k}/parts/index.json`] = '{"schemaVersion":4}';
+  const fetchMany = async (urls) => new Map(urls.map((u) => [u, files[u] ?? new Error("HTTP 404")]));
+  const loaderSrc = "KIT_PARTS_SCHEMA_VERSION = 4";
+  const c = await pageKitCheck({ loaderSrc, dataBase: B, fetchMany });
+  assert.equal(c.ok, false);
+  assert.equal(c.checked, 2 + PAGE_FIXED_KITS.length);
+  assert.deepEqual(c.failed.map((f) => f.kit), ["docks-v1"]);
+  assert.match(c.failed[0].why, /HTML/);
+  files[`${B}kits/docks-v1/parts/index.json`] = '{"schemaVersion":4}';
+  assert.equal((await pageKitCheck({ loaderSrc, dataBase: B, fetchMany })).ok, true);
+  delete files[`${B}province/settlements/routes/r.json`];
+  const lost = await pageKitCheck({ loaderSrc, dataBase: B, fetchMany });
+  assert.equal(lost.ok, false);
+  assert.match(lost.problems[0], /routes\/r\.json/);
+});
+
+test("parseShellFetch: status and body per URL; a missing reply is an Error", async () => {
+  const { parseShellFetch } = await import("./pod-capture-lib.mjs");
+  const m = parseShellFetch('\n@@KIT@@ 200 http://a/x\n{"v":1}\n@@KIT@@ 404 http://a/y\nnope', ["http://a/x", "http://a/y", "http://a/z"]);
+  assert.equal(m.get("http://a/x"), '{"v":1}');
+  assert.match(m.get("http://a/y").message, /404/);
+  assert.match(m.get("http://a/z").message, /no reply/);
+});
