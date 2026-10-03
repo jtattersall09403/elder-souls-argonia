@@ -884,6 +884,13 @@
    "uid": "sp-rim3",
    "text": "y 3.138 m set by hand (planner ruling 3, walk 4): the rock seat (lowest three contacts, seat_rules.rock_seat_y) on the padded ground with the sp-pool rim overlay applied; settle reads no pool ground and does not use the rock seat yet"
   },
+  {"op": "place", "uid": "sp-ring1", "asset": "vanilla:landscape/rocks/rocks02", "at": [4721.38, 1868.91], "yaw": 0.0, "settle": true},
+  {"op": "place", "uid": "sp-ring2", "asset": "vanilla:landscape/rocks/rocks02", "at": [4720.56, 1870.39], "yaw": 47.0, "settle": true},
+  {"op": "place", "uid": "sp-ring3", "asset": "vanilla:landscape/rocks/rocks02", "at": [4719.14, 1871.31], "yaw": 113.0, "settle": true},
+  {"op": "place", "uid": "sp-ring4", "asset": "vanilla:landscape/rocks/rocks02", "at": [4717.45, 1871.46], "yaw": 160.0, "settle": true},
+  {"op": "place", "uid": "sp-ring6", "asset": "vanilla:landscape/rocks/rocks02", "at": [4714.83, 1869.48], "yaw": 260.0, "settle": true},
+  {"op": "place", "uid": "sp-ring7", "asset": "vanilla:landscape/rocks/rocks02", "at": [4714.5, 1867.82], "yaw": 310.0, "settle": true},
+  {"op": "place", "uid": "sp-ring8", "asset": "vanilla:landscape/rocks/rocks02", "at": [4715.03, 1866.15], "yaw": 20.0, "settle": true},
   {
    "op": "place",
    "uid": "sp-urn",
@@ -2120,6 +2127,13 @@
    "on": "ground",
    "evidence": "measured"
   },
+  {"op": "bind", "uid": "sp-ring1", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring2", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring3", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring4", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring6", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring7", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring8", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {
    "op": "bind",
    "uid": "sp-rim1",
