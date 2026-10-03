@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fogTermsAt, type FogTermPoint, type FogTerms } from "./froxelGrid";
+import { canopyUnder, fogTermsAt, type FogTermPoint, type FogTerms } from "./froxelGrid";
 
 // marsh-cove-06 at 06:00 clear (/tmp/vol10/r7/compact.txt vol20): cover mist .731 steam .952 marsh .715
 // sea .144, canopy .952, sun 0.29 deg, no burn; camera over coast water 0.84 m deep, floor at the water
@@ -47,5 +47,17 @@ describe("sea fog bank and rain haze (vol10 diag8 F-5/F-6)", () => {
   it("heavy rain gives ~0.4 optical depth over 200 m at the ground", () => {
     const wet = fogTermsAt({ ...base, cover: [0, 0, 0, 0], wetHaze: 1.632, y: -0.84 }, { ...out }).wet;
     expect(200 * wet).toBeGreaterThan(0.35);
+  });
+});
+
+describe("canopy haze needs crowns (vol10 c8 V1)", () => {
+  const air = { ...base, cover: [0, 0, 0, 0] as [number, number, number, number], waterMask: 0, y: 9.28 };
+  it("an empty canopy texel over low ground (-0.72 m) gives no canopy haze", () => {
+    const under = canopyUnder(0, 0, -0.72);
+    expect(fogTermsAt({ ...air, ground: -0.72, under }, { ...out }).canopy).toBe(0);
+  });
+  it("a covered texel (r 1, crown top 15 m, ground 0) gives canopy haze", () => {
+    const under = canopyUnder(1, 15, 0);
+    expect(fogTermsAt({ ...air, ground: 0, y: 10, under }, { ...out }).canopy).toBeGreaterThan(0);
   });
 });

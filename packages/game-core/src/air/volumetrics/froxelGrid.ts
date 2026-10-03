@@ -141,6 +141,8 @@ export interface FogTermPoint {
 export interface FogTerms { mist: number; marsh: number; sea: number; wet: number; canopy: number }
 
 const sm = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+/** Under-the-crowns share at a canopy texel (r cover, b crown top): CPU twin of the `under` node in density(). */
+export const canopyUnder = (cover: number, topM: number, groundM: number) => sm(0, 0.05, cover) * sm(0, 0.3, topM - groundM);
 const burnCpu = (n: number, c: number, rim: number) => Math.max(n - (1 - c) - rim, 0) / Math.max(c, 0.05);
 
 /** CPU twin of density()'s mist, marsh, sea, wet-haze and canopy terms (froxel prefilter width 0, the
@@ -419,7 +421,7 @@ export class Volumetrics implements VolumetricsSampler {
       moist: Math.min(1, Math.max(0, inNear ? Math.max(texel(near, 3, GRID_TEXELS), texel(near, 2, GRID_TEXELS), texel(far, 2, GRID_TEXELS))
         : Math.max(texel(far, 3, GRID_TEXELS), texel(far, 2, GRID_TEXELS)))),
       sea: texel(far, 2, GRID_TEXELS),
-      under: Math.min(1, Math.max(0, ((texel(cmap, 2, CANOPY_TEXELS) || 0) - ground) / 0.3)),
+      under: canopyUnder(texel(cmap, 0, CANOPY_TEXELS) || 0, texel(cmap, 2, CANOPY_TEXELS) || 0, ground),
     } : null;
     const densityAt: { hM: number; total: number; mist: number; marsh: number; sea: number; wet: number; canopy: number }[] = [];
     if (grid) {
@@ -604,7 +606,8 @@ export class Volumetrics implements VolumetricsSampler {
     const cap = smoothstep(bc.sub(u.capBelt.y.mul(2)), bc, ground).mul(exp(bz.mul(bz).mul(-0.5)))
       .mul(this.burn(n, u.capCover, cov)).mul(0.02);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
-    const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
+    const cs = texture(this.canopy.texture, cuv);
+    const under = smoothstep(0, 0.05, cs.r).mul(smoothstep(0, 0.3, cs.b.sub(ground)));
     // canopy haze: humid air under the crowns (0112 §5); once the sun is above ~15 deg the sunlit dust
     // value, so shafts have a medium at midday (vol10 diag8 O-2)
     const canopyK = mix(float(FOG_TERMS.canopyHazePerM), float(FOG_TERMS.canopyDustPerM),
