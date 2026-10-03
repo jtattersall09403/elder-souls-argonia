@@ -38,7 +38,7 @@ describe("FixtureLightField", () => {
       const { fragment, key } = compiled(material);
       seen.add(`${key}\n${fragment}`);
       expect(fragment).toContain("esFxIdx");
-      expect(fragment).toContain("getDistanceAttenuation( esFxD, esFxP.w, esFxC.a )");
+      expect(fragment).toContain("getDistanceAttenuation( max( esFxD, 0.8 ), esFxP.w, esFxC.a )");
     }
     expect(seen.size).toBe(1);
   });

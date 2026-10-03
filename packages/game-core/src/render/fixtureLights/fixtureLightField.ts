@@ -86,7 +86,7 @@ for ( int esFxI = 0; esFxI < ${n}; esFxI ++ ) {
 	IncidentLight esFxLight;
 	esFxLight.direction = esFxV / max( esFxD, 1e-4 );
 	vec4 esFxC = texelFetch( esFxData, ivec2( esFxL, 1 ), 0 );
-	esFxLight.color = esFxC.rgb * getDistanceAttenuation( esFxD, esFxP.w, esFxC.a );
+	esFxLight.color = esFxC.rgb * getDistanceAttenuation( max( esFxD, 0.8 ), esFxP.w, esFxC.a );
 	esFxLight.visible = true;
 	RE_Direct( esFxLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
 }
