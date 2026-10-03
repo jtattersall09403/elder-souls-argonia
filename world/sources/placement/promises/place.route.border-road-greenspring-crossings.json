@@ -32,7 +32,11 @@
    "text": "Nobody lives on the crossings. Greenspring keeps the planks because its trade goes out along this road.",
    "confirmed": {
     "sha": "8d1f6b0f4505",
-    "note": "No dwelling or bed on the crossings; the layout holds plank runs, rocks, cairns, a cold fire ring and a grave only."
+    "note": "No dwelling or bed on the crossings; the layout holds plank runs, rocks, cairns, a cold fire ring and a grave only.",
+    "ids": [
+     "parcel.border-road-greenspring-crossings.river-bridge",
+     "parcel.border-road-greenspring-crossings.inlet-deck"
+    ]
    }
   },
   {
@@ -45,7 +49,11 @@
    "text": "The marsh rots the piles in a few seasons. Greenspring has to keep replacing them.",
    "confirmed": {
     "sha": "9b68bfd34139",
-    "note": "Both runs stand on piles in standing marsh water (17 dock pieces, wet ground under each run)."
+    "note": "Both runs stand on piles in standing marsh water (17 dock pieces, wet ground under each run).",
+    "ids": [
+     "parcel.border-road-greenspring-crossings.river-bridge",
+     "parcel.border-road-greenspring-crossings.inlet-deck"
+    ]
    }
   },
   {
@@ -58,7 +66,11 @@
    "text": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: two reaches of the river marsh, where the water stands up to a metre and a quarter deep.",
    "confirmed": {
     "sha": "667a8a16c818",
-    "note": "Two plank runs (river 9 pieces, inlet 8), dry ground at both ends; the ground under the runs lies 0.05 to 1.22 m below the water surface."
+    "note": "Two plank runs: the river run, 9 pieces at about (4475, 1560-1626) over crossing.major.009, and the inlet run, 8 pieces at about (4659-4713, 1787-1812) over crossing.major.012; the ground under them lies 0.05 to 1.22 m below the water surface, and the road between them keeps to the bank at 1.4 to 8 m.",
+    "ids": [
+     "parcel.border-road-greenspring-crossings.river-bridge",
+     "parcel.border-road-greenspring-crossings.inlet-deck"
+    ]
    }
   },
   {
@@ -71,8 +83,22 @@
    "text": "A stone causeway would replace the planks if anyone paid for one.",
    "confirmed": {
     "sha": "ce221edd861f",
-    "note": "Both crossings are timber plank runs; no stone causeway is placed."
+    "note": "Both crossings are timber plank runs; no stone causeway is placed.",
+    "ids": [
+     "parcel.border-road-greenspring-crossings.river-bridge",
+     "parcel.border-road-greenspring-crossings.inlet-deck"
+    ]
    }
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.thing-plank-crossing",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.occupantsMotive"
+   },
+   "text": "the Border road crossings below Greenspring shows the plank crossing its record names.",
+   "unfilled": null
   }
  ]
 }
