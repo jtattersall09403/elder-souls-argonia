@@ -7,6 +7,7 @@ import { BloomPass, type SkyCensus } from "@elder-souls/game-core/render/post/Bl
 import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { SettlementErrorLine } from "../SettlementErrorLine";
+import { STUDIO_TOOLS } from "../studioTools";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
@@ -15,6 +16,8 @@ import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollisi
 import { rapierCameraObstruction } from "./cameraObstruction";
 import { fadePlayerModel, gatePlayerFirstShow, warmPlayerFadePrograms } from "./playerFade";
 import { DrawTargetLinker } from "@elder-souls/game-core/render/drawTargetLinker";
+import { RenderWarmGate } from "@elder-souls/game-core/render/RenderWarmGate";
+import type { WarmGateState } from "@elder-souls/game-core/render/warmGate";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
@@ -380,9 +383,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
-  // …and until rendering is smooth: during load, shader compiles stall frames
-  // for 100s of ms, and integrating the capsule through those stalls makes its
-  // hover-spring oscillate visibly (the settle "jerking", owner 2026-08-25).
+  // …and until the render path is warm (RenderWarmGate: per-frame work stable,
+  // frames counted): load stalls make the capsule's hover-spring oscillate
+  // (owner 2026-08-25), and V8 tier-up bursts made the first seconds after
+  // ready 13-17 ms frames (perf10 C5). The "Loading" line shows until then.
   const [renderWarm, setRenderWarm] = useState(false);
   const verticalScaleRef = useRef(verticalScale);
   verticalScaleRef.current = verticalScale;
@@ -593,7 +597,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
           {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
             startAt={focusRef.current} shown={shownCell} />}
-          <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
+          <RenderWarmGate armed={collidersReady} onOpen={() => setRenderWarm(true)} onProgress={publishWarm} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
               remounts the whole canvas tree — WorldSky included, leaking one
@@ -749,6 +753,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         color: "#e6ecf5", font: "13px system-ui",
       }}>
         <SettlementErrorLine error={settlementError} style={{ flexBasis: "100%" }} />
+        {manifest && spawn && !renderWarm && <span style={{ flexBasis: "100%" }}>Loading: warming the renderer…</span>}
         <button onClick={onExit} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
         <button onClick={() => {
           const hud = hudChannel.latest;
@@ -1341,12 +1346,16 @@ function GroundcoverHudLine() {
  */
 function TriangleAttributionLine() {
   // useHudPoll snapshots: the published objects are rewritten in place
-  const { gpu, veg } = useHudPoll<{ gpu: FrameGpuStats | null; veg: VegetationStats | null }>(() => {
+  const { gpu, veg, warm } = useHudPoll<{
+    gpu: FrameGpuStats | null; veg: VegetationStats | null; warm: WarmGateState | null;
+  }>(() => {
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
+      __STUDIO_WARM__?: WarmGateState;
     };
-    return { gpu: host.__STUDIO_GPU_MS__ ?? null, veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null };
+    return { gpu: host.__STUDIO_GPU_MS__ ?? null, veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
+      warm: host.__STUDIO_WARM__ ?? null };
   }, []);
   if (!gpu) return null;
   const rung = veg?.trianglesByRung;
@@ -1366,7 +1375,7 @@ function TriangleAttributionLine() {
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
       {`tris ${millions(gpu.tris)} / budget ${millions(FRAME_TRIANGLE_BUDGET)}:`
-        + ` ${parts.join(" · ")}${hidden}`}
+        + ` ${parts.join(" · ")}${hidden}${warm ? ` · warm ${warm.frames} ${warm.reason}` : ""}`}
     </span>
   );
 }
@@ -1394,23 +1403,9 @@ function CharacterHudMinimap({ channel, mapCanvas, meta, bottomPx, overlay }: {
   );
 }
 
-/** Unpauses physics only once frames flow smoothly: `armed` (colliders ready)
- * plus a run of consecutive sub-100 ms frames. A hard 3 s cap guarantees the
- * gate opens even on very slow devices. */
-function RenderWarmup({ armed, onWarm }: { armed: boolean; onWarm: () => void }) {
-  const smooth = useRef(0);
-  const waited = useRef(0);
-  const done = useRef(false);
-  useFrame((_, delta) => {
-    if (done.current || !armed) return;
-    waited.current += delta;
-    smooth.current = delta < 0.1 ? smooth.current + 1 : 0;
-    if (smooth.current >= 5 || waited.current > 3) {
-      done.current = true;
-      onWarm();
-    }
-  });
-  return null;
+/** Dev stats: the warm gate's frame count and why it opened (HUD tris line, `__STUDIO_WARM__`). */
+function publishWarm(state: WarmGateState) {
+  if (STUDIO_TOOLS) (window as unknown as { __STUDIO_WARM__?: WarmGateState }).__STUDIO_WARM__ = { ...state };
 }
 
 /** The per-frame driver: input → locomotion → camera → HUD. Lives inside
