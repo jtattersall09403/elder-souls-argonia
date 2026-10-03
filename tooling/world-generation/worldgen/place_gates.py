@@ -1424,10 +1424,14 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
 
     from . import promise_gate as pg
     t = time.perf_counter()
-    sockets = (settlement or {}).get("sockets")
+    layout_doc = json.loads(layout.read_text(encoding="utf-8"))
+    sockets = ((settlement or {}).get("settlement") or settlement or {}).get("sockets")
     if sockets is None:
-        sockets = pg.layout_sockets(json.loads(layout.read_text(encoding="utf-8")))
-    g.add("promises", time.perf_counter() - t, pg.promise_gate_errors(bp, pg.load_ledger(place_id), sockets))
+        sockets = pg.layout_sockets(layout_doc)
+    g.add("promises", time.perf_counter() - t,
+          pg.promise_gate_errors(bp, pg.load_ledger(place_id), sockets, layout_doc,
+                                 bundle=pg.with_route_ids(settlement, place_id)
+                                 if settlement is not None else None))
 
     g.rows[-1]["blueprint"] = bp_source
     interior_gate(g, bp)

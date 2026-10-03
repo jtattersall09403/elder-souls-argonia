@@ -8,6 +8,7 @@ import { RIG_SOCKET_ROTATION } from "@elder-souls/game-core/anim/animationManife
 import { createGlowMaterial, type GlowMaterial } from "./glowMaterial";
 import { createRiggedBow } from "./riggedBow";
 import type { WeaponSocketTransform, WeaponVisualProfile } from "@elder-souls/game-core/core/types";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 
 /**
  * How far an archer has pulled, and when it let go, for a rigged bow.
@@ -81,12 +82,12 @@ export function OffHandItem({
         // it adds light and casts nothing.
         const glow = createGlowMaterial((object.material as THREE.MeshStandardMaterial).map ?? null);
         object.material = glow.material;
-        object.castShadow = false;
+        setCastShadow(object, false);
         object.receiveShadow = false;
         glows.push(glow);
         return;
       }
-      object.castShadow = true;
+      setCastShadow(object, true);
       object.receiveShadow = true;
       if (profile.alphaTest !== undefined) {
         // Cloned, so the cached scene's shared material is left as exported.

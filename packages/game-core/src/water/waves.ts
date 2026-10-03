@@ -631,3 +631,20 @@ export function vertexBandWeight(wavelengthM: number, gridCellM: number): number
   const t = clamp01((wavelengthM - 2.0 * gridCellM) / (0.5 * gridCellM));
   return t * t * (3 - 2 * t);
 }
+
+/**
+ * The crest-defining bands (perf-diag11 W1): the `count` highest-curvature
+ * bands of the first `bandCount` that stay whole on the vertex path
+ * (`vertexBandWeight` 1), ranked by amp*k^2 (perf-diag12 Q2): the mesh
+ * carries each band as one plane per triangle, and the error of that plane
+ * (pale crest triangles, kinked Gouraud normals) scales with the band's
+ * curvature against the grid, not with its amplitude.
+ */
+export function crestBands(bandCount: number, gridCellM: number, count: number): WaveBand[] {
+  if (count <= 0) return [];
+  return waveBands()
+    .slice(0, bandCount)
+    .filter((b) => vertexBandWeight(b.wavelengthM, gridCellM) === 1)
+    .sort((a, b) => b.amp * b.freq * b.freq - a.amp * a.freq * a.freq)
+    .slice(0, count);
+}

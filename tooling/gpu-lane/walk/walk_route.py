@@ -43,11 +43,17 @@ CLOSE_FILL = 1 / 3  # a close-up subject fills this share of the frame height
 CLOSE_FOV_RAD = math.radians(60)  # vertical field of view the fill is sized for
 CLOSE_MIN_M, CLOSE_MAX_M = 3.0, 10.0
 CLOSE_MAX_UP_RAD = 0.35  # the camera arm hangs behind the body: a steeper look-up puts it under the hill
-FIRE_SIZE_M, SIGN_SIZE_M = 0.6, 1.5
-FLAME_ABOVE_ORIGIN_M = 0.3  # a flame sits this far over its fixture's origin
+FIRE_SIZE_M = 0.6
+FLAME_ABOVE_ORIGIN_M = 0.3  # a fixture with no light, flame or size row: the flame sits this far over its origin
+SIGN_STAND_M = 3.0  # sign close-ups stand this far off the board, on its reading side
+PROMISE_SIZE_M = 2.5  # a promised thing (shed, bones, steps, a seep) is framed at this size
+PROMISE_AIM_M = 0.8  # aimed this far over the filler's origin
+THING_ROW_RE = re.compile(r"\.thing-")  # the physical-promise rows (promise_gate.PHYSICAL_NOUNS)
+END_CLEAR_M = 2.0  # the free-walk end shot: nothing within this of the stand or the camera behind it
+END_BACK_STEP_M = 0.5
 YAW_CHECK_M = 4.0  # the runner's yaw check walks ~1 s (3.5 m) north then east from the first waypoint
 OVERVIEW_PITCH = 0.08
-INTERIOR_PITCH = 0.12
+INTERIOR_PITCH = round(math.radians(5), 4)  # 5 deg down (follow-camera convention), stood at the floor centre
 # A placement burns when its kit's fires map gives it a light or flame cards,
 # or its asset is a burning piece by name (campfire01burning has no fires-map row).
 BURNING_RE = re.compile(r"burning|brazier|candle|lantern|torch|fxfire", re.I)
@@ -75,16 +81,51 @@ def r2(x: float) -> float:
     return round(x, 2)
 
 
-def burning_assets(bundle: dict, public: Path) -> set[str]:
-    out: set[str] = set()
+def burning_assets(bundle: dict, public: Path) -> dict[str, dict]:
+    """Fires-map rows (light, flame cards) of every burning asset in the bundle's kits, by asset id."""
+    out: dict[str, dict] = {}
     for kit_id in sorted(bundle.get("kits", {})):
         idx = public / (bundle["kits"][kit_id]["glb"][:-4] + "/parts/index.json")
         if not idx.exists():
             continue
-        for aid, row in (json.loads(idx.read_text()).get("fires") or {}).items():
+        for aid, row in sorted((json.loads(idx.read_text()).get("fires") or {}).items()):
             if any(k in row for k in ("light", "flames", "flameCardMaterials")):
-                out.add(aid)
+                out.setdefault(aid, row)
     return out
+
+
+def flame_rise_m(row: dict | None) -> float:
+    """Height of the flame over the fixture's origin, from its fires-map row (game frame, y up): the light's
+    offset, else the first flame's, else the middle of a flame-card volume (sizeM z-up over originOffsetM),
+    else FLAME_ABOVE_ORIGIN_M."""
+    row = row or {}
+    for off in ((row.get("light") or {}).get("offsetM"), ((row.get("flames") or [{}])[0] or {}).get("offsetM")):
+        if off and len(off) == 3:
+            return float(off[1])
+    if row.get("sizeM") and row.get("originOffsetM"):
+        return row["sizeM"][2] / 2 - row["originOffsetM"][2]
+    return FLAME_ABOVE_ORIGIN_M
+
+
+def sign_board_y(p: dict) -> float:
+    """World y of a sign board's centre: halfway between the origin and the piece's lowest point (a hanging
+    blade hangs below its hook; groundContactOffsetM is origin-to-bottom), the origin when unknown."""
+    drop = (p.get("anchor") or {}).get("groundContactOffsetM") or 0.0
+    return p["positionM"][1] - drop / 2
+
+
+def sign_shot(x: float, y: float, z: float, yaw_deg: float, centre: Pt, ground: list[tuple],
+              polys: list[Poly], box: tuple) -> tuple[float, float, float, float]:
+    """(stand x, stand z, compass yaw, pitch) for a sign board at (x, y, z) facing compass `yaw_deg`: a blade
+    reads from both faces, so the stand is SIGN_STAND_M off along whichever face points towards the place
+    centre (the street it is hung for), pushed clear; the yaw aims at the board, the pitch from EYE_M over the
+    stand ground to the board centre."""
+    fx, fz = compass(yaw_deg)
+    if fx * (centre[0] - x) + fz * (centre[1] - z) < 0:
+        fx, fz = -fx, -fz
+    sx, sz = clear_stand(x, z, x + fx * SIGN_STAND_M, z + fz * SIGN_STAND_M, polys, box)
+    gy = ground_y(sx, sz, ground, y - 2.0)
+    return sx, sz, bearing(sx, sz, x, z), aim_pitch(sx, sz, x, y, z, gy, EYE_M)
 
 
 def is_burning(p: dict, fire_assets: set[str]) -> bool:
@@ -281,6 +322,36 @@ def free_walk(ways: list[tuple[str, list[Pt]]]) -> dict | None:
             "startM": [r2(pts[0][0]), r2(pts[0][1])], "legs": legs}
 
 
+def fallback_loop(stands: list[Pt], anchor: Pt, polys: list[Poly]) -> list[tuple[str, list[Pt]]]:
+    """A place with no painted way walks a closed loop through its door-base and fixture stands: walkable
+    points only (clear of every footprint by CLEAR_M), sorted by compass angle around the anchor (ties by
+    point), closed back to the first. Empty under two points."""
+    pts = sorted({(r2(x), r2(z)) for x, z in stands if clearance(x, z, polys) >= CLEAR_M},
+                 key=lambda p: (round(math.atan2(p[0] - anchor[0], -(p[1] - anchor[1])) % (2 * math.pi), 6), p))
+    return [("fallback-loop", pts + pts[:1])] if len(pts) >= 2 else []
+
+
+def end_shot(fw: dict | None, polys: list[Poly], box: tuple) -> dict | None:
+    """The free-walk end shot: looks along the last leg at horizon pitch from a stand backed off along that
+    leg until the stand and the camera END_CLEAR_M behind it both clear every footprint by END_CLEAR_M."""
+    if not fw or not fw["legs"]:
+        return None
+    last = fw["legs"][-1]
+    b = last["bearing"]
+    dx, dz = math.sin(b), -math.cos(b)
+    ex, ez = last["toM"]
+    sx, sz = ex, ez
+    back = 0.0
+    while back <= PUSH_MAX_M:
+        x, z = ex - dx * back, ez - dz * back
+        cam = (x - dx * END_CLEAR_M, z - dz * END_CLEAR_M)
+        if in_box(x, z, box) and min(clearance(x, z, polys), clearance(*cam, polys)) >= END_CLEAR_M:
+            sx, sz = x, z
+            break
+        back += END_BACK_STEP_M
+    return {"standM": [r2(sx), r2(sz)], "yaw": b, "pitch": 0.0}
+
+
 # ---- ordering and arrival ----
 
 def leave_point(w: dict) -> Pt:
@@ -371,8 +442,13 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         if claim.get("cellId"):
             cell = claim["cellId"]
             ipath = public / f"province/interiors/{cell}.json"
-            exit_door = json.loads(ipath.read_text()).get("exitDoor", {}) if ipath.exists() else {}
+            cell_doc = json.loads(ipath.read_text()) if ipath.exists() else {}
+            exit_door = cell_doc.get("exitDoor", {})
             exit_yaw = math.radians(exit_door.get("yawDeg", 0.0))
+            # the floor centre: the mean of the cell's sockets (they stand on the floor), else of its placements
+            floor = [s["positionM"] for s in cell_doc.get("sockets") or [] if s.get("positionM")] or \
+                    [p["positionM"] for p in cell_doc.get("placements") or [] if p.get("positionM")]
+            centre_local = [r2(sum(q[0] for q in floor) / len(floor)), 0.0, r2(sum(q[2] for q in floor) / len(floor))] if floor else None
             qx, qz = stand(tx, tz, tx + ox * DOOR_OUT_M, tz + oz * DOOR_OUT_M)
             out_face = bearing(qx, qz, tx, tz)
             actions.append({
@@ -381,36 +457,55 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
                 "faceYaw": bearing(tx + ox * DOOR_APPROACH_M, tz + oz * DOOR_APPROACH_M, tx, tz),
                 "exitDoorLocalM": exit_door.get("positionM"),
                 "interiorStep": INTERIOR_STEP_M,
+                "interiorCentreLocalM": centre_local,
                 "interiorShots": [{"name": f"door{tag}-int{i}", "yaw": wrap(exit_yaw + math.radians(dd)), "pitch": INTERIOR_PITCH}
-                                  for i, dd in enumerate((180, 135, -135))],
+                                  for i, dd in enumerate((180, 60, -60))],
                 "outShot": {"standM": [r2(qx), r2(qz)], "yaw": out_face, "pitch": aim_pitch(qx, qz, tx, gy + 1.2, tz, gy)},
             })
         wp(f"door{tag}", sx, sz, face, actions)
 
     # fires: clusters within 6 m, stood 4 m off on the centre side, clear of colliders, aimed at the flame
     fire_assets = burning_assets(bundle, public)
-    burning = [(p["id"], p["positionM"][0], p["positionM"][2], p["positionM"][1])
+    # each fixture's flame point: its position plus the flame height from its fires-map row
+    burning = [(p["id"], p["positionM"][0], p["positionM"][2], p["positionM"][1] + flame_rise_m(fire_assets.get(p["assetId"])))
                for p in bundle["placements"] if is_burning(p, fire_assets)]
     for i, g in enumerate(clusters(burning, FIRE_CLUSTER_M)):
         cx = sum(p[1] for p in g) / len(g)
         cz = sum(p[2] for p in g) / len(g)
         cy = sum(p[3] for p in g) / len(g)
-        sx, sz, b, pitch = close_up(cx, cy + FLAME_ABOVE_ORIGIN_M, cz, FIRE_SIZE_M, centre, ground,
-                                    min(p[3] for p in g), polys, box)
+        sx, sz, b, pitch = close_up(cx, cy, cz, FIRE_SIZE_M, centre, ground,
+                                    min(p[3] for p in g) - FLAME_ABOVE_ORIGIN_M, polys, box)
         wp(f"fire{i}", sx, sz, b, [{"type": "fire", "name": f"fire{i}", "fixtureIds": [p[0] for p in g],
                                     "centreM": [r2(cx), r2(cy), r2(cz)], "yaw": b,
                                     "pitch": pitch, "n": FIRE_FRAMES, "dtS": FIRE_DT_S}])
 
-    # signs: close-ups, aimed at the highest placement of the cluster (the board, at its world y)
-    signs = sorted((p["id"], p["positionM"][0], p["positionM"][2], p["positionM"][1])
+    # signs: per cluster, the highest board, shot from SIGN_STAND_M off its reading face
+    signs = sorted((p["id"], p["positionM"][0], p["positionM"][2], sign_board_y(p), p.get("yawDeg", 0.0))
                    for p in bundle["placements"] if SIGN_RE.search(p["assetId"]))
     for i, g in enumerate(clusters(signs, SIGN_CLUSTER_M)):
-        x = sum(p[1] for p in g) / len(g)
-        z = sum(p[2] for p in g) / len(g)
-        y = max(p[3] for p in g)
-        sx, sz, b, pitch = close_up(x, y, z, SIGN_SIZE_M, centre, ground, y, polys, box)
+        top = max(g, key=lambda p: (p[3], p[0]))
+        sx, sz, b, pitch = sign_shot(top[1], top[3], top[2], top[4], centre, ground, polys, box)
         wp(f"sign{i}", sx, sz, b, [{"type": "shot", "name": f"sign{i}", "subjects": [p[0] for p in g], "yaw": b,
                                     "pitch": pitch}])
+
+    # promises: one close-up per filled physical promise (`thing-<noun>` rows of
+    # the compile's promiseFills), aimed at the first filler the bundle places,
+    # so a promise built out of every other shot is still seen (audit10)
+    where = {p["id"]: p["positionM"] for p in bundle["placements"] if p.get("positionM")}
+    where.update({s["id"]: s["positionM"] for s in bundle["settlement"].get("sockets") or [] if s.get("positionM")})
+    promised = []
+    for pid, fillers in sorted((bundle["settlement"].get("promiseFills") or {}).items()):
+        if not THING_ROW_RE.search(pid):
+            continue
+        hits = [(f, where[k]) for f in fillers for k in sorted(where) if k == f or k.endswith("." + f)]
+        if not hits:
+            continue
+        f, (tx, ty, tz) = hits[0]
+        sx, sz, b, pitch = close_up(tx, ty + PROMISE_AIM_M, tz, PROMISE_SIZE_M, centre, ground, ty, polys, box)
+        tag = pid.rsplit(".thing-", 1)[-1]
+        promised.append(pid)
+        wp(f"promise-{tag}", sx, sz, b, [{"type": "shot", "name": f"promise-{tag}", "promiseId": pid,
+                                          "subjects": [f], "yaw": b, "pitch": pitch}])
 
     # visiting order: overviews first, then nearest-neighbour from the last overview
     head, rest = wps[:4], wps[4:]
@@ -419,14 +514,20 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         last = ordered[-1]
         k = min(range(len(rest)), key=lambda i: (math.hypot(rest[i]["xM"] - last["xM"], rest[i]["zM"] - last["zM"]), rest[i]["id"]))
         ordered.append(rest.pop(k))
+    if not ways:  # no painted way: loop through every stand (overviews, door bases, fixtures, signs)
+        anchor = tuple((bundle.get("settlement") or {}).get("anchorM") or centre)[:2]
+        ways = fallback_loop([(w["xM"], w["zM"]) for w in wps], anchor, polys)
+    fw = free_walk(ways)
+    if fw:
+        fw["endShot"] = end_shot(fw, polys, box)
     if only:
         ordered = [w for w in ordered if w["id"] in set(only)]
     return {"schemaVersion": SCHEMA, "placeId": place_id, "bearing": "compass radians: 0 north (-z), pi/2 east (+x)",
             "pitch": "follow-camera radians: positive looks down",
             "boundaryM": [[x0, z0], [x1, z1]], "centreM": [r2(centre[0]), r2(centre[1])],
             "fixtures": sorted(p[0] for p in burning), "doors": sorted(d["id"] for d in bundle.get("doors", []) if (d.get("interiorClaim") or {}).get("cellId")),
-            "only": sorted(only) if only else None,
-            "freeWalk": free_walk(ways), "waypoints": set_arrivals(ordered, polys, box)}
+            "promises": promised, "only": sorted(only) if only else None,
+            "freeWalk": fw, "waypoints": set_arrivals(ordered, polys, box)}
 
 
 def main() -> None:

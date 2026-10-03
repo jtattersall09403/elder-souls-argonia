@@ -3,8 +3,8 @@
  "kit": "settlement-root-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 20027232,
-  "sha256": "61e33ae470f9dbbe9448919aeeab28aa88cca196ec1b7d0a5681544ca083c59a"
+  "bytes": 20027212,
+  "sha256": "d5ca6a1fac17d43ebdb1a6043dc7310a675ce042b0fb3f38b09b92e1bcca01cd"
  },
  "totals": {
   "parts": 8,

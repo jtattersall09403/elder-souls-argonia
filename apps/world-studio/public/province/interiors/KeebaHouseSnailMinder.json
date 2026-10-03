@@ -2100,7 +2100,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     106.9222,
-    84.7754,
+    84.7806,
     62.9206
    ],
    "rotationDeg": [
@@ -3657,7 +3657,7 @@
    "kind": "item",
    "positionM": [
     106.9222,
-    84.7754,
+    84.7806,
     62.9206
    ],
    "yawDeg": 22.918,
@@ -4190,7 +4190,7 @@
  "settled": [
   {
    "id": "KeebaHouseSnailMinder.08095FCF",
-   "dropM": 0.068
+   "dropM": 0.062
   }
  ],
  "coplanarFixed": [

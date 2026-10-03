@@ -27,8 +27,14 @@ Load-bearing contracts:
   every ladder the shipped bundle builds. Before 16h this was a two-band
   `architectureLod` (`d0`/`d1` thresholds, level 2 beyond) with no ladder and
   no vanish check; `architectureLod` survives only as a thin read off the
-  ladder. Buckets stay `(asset, LOD, part)` across far transforms are baked into actual merged
-  geometry per material, while nearer repeats remain instanced. Loaded colour
+  ladder. Every placed part is baked into one merged geometry per draw batch
+  (material instance, vertex layout, cell, draw flags: `drawBatchKey`), one
+  plain mesh with its shadow-depth twin per batch, cached by its copies'
+  signature. Kit materials equal in every shaded field and image share one
+  instance per layer (`materialIdentity.ts`; flame cards, lantern shells,
+  transparent, additive and still-water materials keep their own), so pieces
+  of different assets and kits merge (Greenspring LOD0: 267 instanced buckets
+  to 146 draws, `greenspringDraws.test.ts`). Loaded colour
   texture dimensions—not a Boolean manifest claim—must fit the atlas cap;
 - every ground-class reference re-grounds from streamed terrain and sinks by
   its own asset's **designed sink** (`designedSinkM.p50` on the published kit
@@ -95,8 +101,10 @@ Load-bearing contracts:
   go into the scene's `FixtureLightField` (render/fixtureLights), re-chosen
   once a second, and each drawn object is lit by its 8 nearest (one program
   for any count); the rest glow only. The manager is the layer's own or
-  injected (`lightFixtures` prop). Buckets are split per 48 m square
-  (`SETTLEMENT_CHUNK_M`) so off-screen parts are culled; a build is patched
+  injected (`lightFixtures` prop). Batches are split per 48 m square
+  (`SETTLEMENT_CHUNK_M`) inside `SETTLEMENT_LAMP_BAND_M`, so off-screen parts
+  are culled and each batch's bounds pick its own lamps, and per 384 m cell
+  beyond (`drawCellOf`); a build is patched
   (CSM, surface, fixture lights) and its programs linked (`compileAsync`)
   before it swaps in;
 - a failed bundle, manifest, schema, collision-frame or geometry load fails

@@ -16,7 +16,7 @@ function part(vertices: number, withUv = true): THREE.BufferGeometry {
 const flags = { castShadow: true, renderOrder: 0 };
 const at = (x: number) => new THREE.Matrix4().makeTranslation(x, 0, 0);
 
-describe("settlement draw batches (one draw per material per chunk)", () => {
+describe("settlement draw batches (one draw per material per cell)", () => {
   it("puts two parts of one material and layout in one chunk into one draw", () => {
     const material = new THREE.MeshStandardMaterial();
     const a = part(3), b = part(4);

@@ -1370,6 +1370,15 @@ def test_treatment_kind_follows_the_deck_clearance():
                               {"anchorClass": "deck"}, "plinth", inventory) == "deck"
 
 
+# audit10: a rock shell (rockcaveentrance02) got a building floor, a dark bare
+# slab at its foot; a rock or landscape piece is ground and gets no treatment.
+def test_a_rock_or_landscape_shell_gets_no_ground_treatment():
+    rock = {"id": "vanilla:landscape/rocks/rockcaveentrance02", "category": "rock"}
+    assert ex._treatment_kind(rock, {}, "dug-in", {}) is None
+    assert ex._treatment_kind({**rock, "category": "landscape"}, {}, "direct", {}) is None
+    assert ex._treatment_kind({**rock, "category": "architecture"}, {}, "direct", {}) == "floor"
+
+
 def test_every_door_threshold_gets_a_one_and_a_half_metre_apron():
     floor = {"id": "treatment.a", "kind": "floor", "footprintM": [[0, 0], [1, 0], [0, 1]]}
     ex._attach_door_apron({"id": "door.a", "parcelId": "parcel.a"}, 4.2, 5.25,

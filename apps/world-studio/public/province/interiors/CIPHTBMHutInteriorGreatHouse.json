@@ -15,6 +15,21 @@
    "id": "htbm-hut-int",
    "glb": "kits/htbm-hut-int.glb",
    "manifest": "kits/htbm-hut-int.kit.json"
+  },
+  "interior-farmhouse-v1": {
+   "id": "interior-farmhouse-v1",
+   "glb": "kits/interior-farmhouse-v1.glb",
+   "manifest": "kits/interior-farmhouse-v1.kit.json"
+  },
+  "interior-kotm-v1": {
+   "id": "interior-kotm-v1",
+   "glb": "kits/interior-kotm-v1.glb",
+   "manifest": "kits/interior-kotm-v1.kit.json"
+  },
+  "settlement-mud-v1": {
+   "id": "settlement-mud-v1",
+   "glb": "kits/settlement-mud-v1.glb",
+   "manifest": "kits/settlement-mud-v1.kit.json"
   }
  },
  "arrivalMarker": {
@@ -236,7 +251,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     0.9103,
-    0.0285,
+    0.0484,
     2.8448
    ],
    "rotationDeg": [
@@ -255,7 +270,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     2.2758,
-    0.0285,
+    0.0624,
     2.2758
    ],
    "rotationDeg": [
@@ -388,7 +403,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     -2.3896,
-    0.0285,
+    0.1138,
     2.0483
    ],
    "rotationDeg": [
@@ -426,7 +441,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     2.731,
-    0.0285,
+    0.1138,
     -1.0241
    ],
    "rotationDeg": [
@@ -464,7 +479,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     1.7069,
-    0.0285,
+    0.1138,
     -2.5034
    ],
    "rotationDeg": [
@@ -552,6 +567,132 @@
    "category": "container",
    "base": "CIPHTBMNativeBasket",
    "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:hearth-fireplacewood01burning-01",
+   "assetId": "vanilla:clutter/woodfires/fireplacewood01burning",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    0.11,
+    0.03,
+    -0.11
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "hearth"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-01",
+   "assetId": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    3.3,
+    0.04,
+    1.2
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-02",
+   "assetId": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    -1.0,
+    0.04,
+    -3.5
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-03",
+   "assetId": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    -3.0,
+    0.04,
+    2.1
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    2.22,
+    0.936,
+    -1.76
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:table-table03sq-01",
+   "assetId": "kotm:argonia/furniture/table03sq",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    2.22,
+    0.04,
+    -1.76
+   ],
+   "rotationDeg": [
+    0.0,
+    145.4,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
   }
  ],
  "lights": [
@@ -650,6 +791,102 @@
     "recordFade": 1.0,
     "recordFalloffExponent": 5.0
    }
+  },
+  {
+   "refId": "fixture:CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-01",
+   "positionM": [
+    3.47,
+    1.74,
+    1.1
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    142,
+    104,
+    79
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "Alikr_OrangeFlicker",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-02",
+   "positionM": [
+    -0.83,
+    1.74,
+    -3.6
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    142,
+    104,
+    79
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "Alikr_OrangeFlicker",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-03",
+   "positionM": [
+    -2.83,
+    1.74,
+    2.0
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    142,
+    104,
+    79
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "Alikr_OrangeFlicker",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:CIPHTBMHutInteriorGreatHouse:add:table-glazedcandles-01",
+   "positionM": [
+    2.22,
+    1.696,
+    -1.76
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
   }
  ],
  "socketsSchemaVersion": 2,
@@ -701,7 +938,7 @@
    "kind": "idle",
    "positionM": [
     0.9103,
-    0.0285,
+    0.0484,
     2.8448
    ],
    "yawDeg": 350.0,
@@ -714,7 +951,7 @@
    "kind": "idle",
    "positionM": [
     2.2758,
-    0.0285,
+    0.0624,
     2.2758
    ],
    "yawDeg": 320.0,
@@ -740,7 +977,7 @@
    "kind": "idle",
    "positionM": [
     -2.3896,
-    0.0285,
+    0.1138,
     2.0483
    ],
    "yawDeg": 35.0,
@@ -766,7 +1003,7 @@
    "kind": "idle",
    "positionM": [
     2.731,
-    0.0285,
+    0.1138,
     -1.0241
    ],
    "yawDeg": 240.0,
@@ -792,7 +1029,7 @@
    "kind": "idle",
    "positionM": [
     1.7069,
-    0.0285,
+    0.1138,
     -2.5034
    ],
    "yawDeg": 230.0,
@@ -1067,9 +1304,9 @@
  ],
  "substitutions": [],
  "counts": {
-  "placements": 20,
+  "placements": 26,
   "drops": 26,
-  "lights": 4,
+  "lights": 8,
   "substitutions": 0,
   "swingDoors": 0,
   "missingByClass": {},
@@ -1084,24 +1321,21 @@
    "container": 6,
    "idle": 8
   },
-  "settled": 8,
+  "additions": 6,
+  "settled": 5,
   "coplanarFixed": 1
  },
  "settled": [
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E06",
-   "dropM": 0.085
+   "dropM": 0.065
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E07",
-   "dropM": 0.085
+   "dropM": 0.051
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E8D",
-   "dropM": 0.085
-  },
-  {
-   "id": "CIPHTBMHutInteriorGreatHouse.06256E8E",
    "dropM": 0.085
   },
   {
@@ -1109,16 +1343,8 @@
    "dropM": 0.085
   },
   {
-   "id": "CIPHTBMHutInteriorGreatHouse.06256E90",
-   "dropM": 0.085
-  },
-  {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E91",
    "dropM": 0.065
-  },
-  {
-   "id": "CIPHTBMHutInteriorGreatHouse.06256E93",
-   "dropM": 0.085
   }
  ],
  "coplanarFixed": [

@@ -252,15 +252,34 @@ test("parseSteps: w and signed yaw segments; bad tokens refused", async () => {
   assert.deepEqual(parseSpots("m ?x=1 steps=w:2,yaw:-0.5,w:1\n")[0].steps, [{ w: 2 }, { yaw: -0.5 }, { w: 1 }]);
   assert.throws(() => parseSpots("m ?x=1 steps=w:2,turn:1"), /spots line 1: bad step/);
 });
-test("driveSteps: W held across the whole sequence, yaw set absolute from the base", async () => {
-  const { driveSteps } = await import("./measure.mjs");
-  const calls = [];
-  const io = { key: async (d) => calls.push(d ? "down" : "up"), aim: async (y) => calls.push(`aim ${y.toFixed(2)}`), wait: async (ms) => calls.push(`wait ${ms}`) };
-  await driveSteps(io, [{ w: 7 }, { yaw: 1.2 }, { w: 6 }, { yaw: -2 }, { w: 7 }], 0.5);
-  assert.deepEqual(calls, ["aim 0.50", "down", "wait 7000", "aim 1.70", "wait 6000", "aim -0.30", "wait 7000", "up"]);
-  calls.length = 0;
-  await driveSteps(io, [{ w: 20 }]);
-  assert.deepEqual(calls, ["down", "wait 20000", "up"], "a plain walk does not re-aim the camera");
+test("stepsSchedule: W held across the whole sequence, yaw set absolute from the base, times from the steps string", async () => {
+  const { stepsSchedule } = await import("./measure.mjs");
+  const { parseSteps } = await import("./spots.mjs");
+  const f = (s) => s.map((e) => (e.k === "aim" ? `${e.at} aim ${e.yaw.toFixed(2)}` : `${e.at} ${e.down ? "down" : "up"}`));
+  assert.deepEqual(f(stepsSchedule(parseSteps("w:7,yaw:+1.2,w:6,yaw:-2.0,w:7"), 0.5)),
+    ["0 aim 0.50", "0 down", "7000 aim 1.70", "13000 aim -0.30", "20000 up"]);
+  assert.deepEqual(f(stepsSchedule([{ w: 20 }])), ["0 down", "20000 up"], "a plain walk does not re-aim the camera");
+});
+test("sample plays a steps= route in the page: no page.evaluate between window open and close, events at the schedule's times", async () => {
+  const { sample, stepsSchedule } = await import("./measure.mjs");
+  const { parseSteps } = await import("./spots.mjs");
+  const lane = { ts: [], frames: [], wrapMs: 0, on: false };
+  const log = [], seen = [];
+  const t0 = performance.now();
+  globalThis.KeyboardEvent = class { constructor(type, init) { this.type = type; this.code = init.code; } };
+  globalThis.window = { __GPU_LANE__: lane, dispatchEvent: (e) => seen.push([`${e.type} ${e.code}`, performance.now() - t0]),
+    __STUDIO_CHARACTER_DEBUG__: { aimCamera: (y) => seen.push([`aim ${y.toFixed(2)}`, performance.now() - t0]) } };
+  const page = { evaluate: async (fn, arg) => { log.push(["evaluate", lane.on]); return fn(arg); } };
+  // 1 ms per step second keeps the test fast: w:0.04 = 40 ms.
+  const steps = parseSteps("w:0.04,yaw:+1.2,w:0.03");
+  const r = await sample(page, 0.07, null, async (ms) => { log.push(["wait"]); await new Promise((res) => setTimeout(res, ms)); }, undefined, stepsSchedule(steps, 0.5));
+  delete globalThis.window; delete globalThis.KeyboardEvent;
+  assert.deepEqual(log.map((l) => l[0]), ["evaluate", "wait", "evaluate"], "only the window-open and window-read evaluates");
+  assert.equal(log[2][1], false, "the read runs after the page closed the window");
+  assert.deepEqual(seen.map((s) => s[0]), ["aim 0.50", "keydown KeyW", "aim 1.70", "keyup KeyW"]);
+  for (const [i, at] of [0, 0, 40, 70].entries()) assert.ok(Math.abs(seen[i][1] - at) < 25, `${seen[i][0]} at ${seen[i][1]} ms, want ${at}`);
+  assert.equal(r.route.done, true);
+  assert.deepEqual(r.route.fired.map((x) => x[0]), ["aim", "key", "aim", "key"]);
 });
 test("sample: the window closes in the page, and no page.evaluate runs between its start and its end", async () => {
   const { sample } = await import("./measure.mjs");
@@ -275,7 +294,7 @@ test("sample: the window closes in the page, and no page.evaluate runs between i
   assert.equal(log[2][1], false, "the page's own timer had already closed the window before the harness read it");
   assert.ok(Array.isArray(r.ts));
 });
-test("gen-matrix: 13 deterministic lines, coordinates from places.json", async () => {
+test("gen-matrix: 15 deterministic lines, coordinates from places.json", async () => {
   const { matrix, PLACES, PLACES_JSON } = await import("./spots/gen-matrix.mjs");
   const { parseSpots } = await import("./spots.mjs");
   const { readFileSync } = await import("node:fs");
@@ -284,19 +303,24 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
   assert.equal(out, matrix(text));
   assert.equal(out, readFileSync(new URL("./spots/matrix.txt", import.meta.url), "utf8"), "matrix.txt is the generator's output");
   const lines = out.split("\n").filter((l) => l && !l.startsWith("#"));
-  assert.equal(lines.length, 13);
+  assert.equal(lines.length, 15);
   const byId = new Map(JSON.parse(text).places.map((p) => [p.id, p]));
   for (const [id, short] of PLACES) {
     const [x, z] = byId.get(id).positionM;
     assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain&rate=0.5 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
   }
-  assert.equal(parseSpots(out).length, 15);
+  assert.equal(parseSpots(out).length, 17);
 });
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
-  const off = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false, profile: false };
-  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], probes: off }]);
+  const off = { diag: [], trace: false, traceGpu: false, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
+  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], hold: null, probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], hold: null, probes: off }]);
+  const { isDiagnosisSpot } = await import("./spots.mjs");
+  const h = parseSpots("ch ?x=1 hold=180/10\nch5 ?x=1 hold=60\n");
+  assert.deepEqual(h.map((x) => x.hold), [{ s: 180, every: 10 }, { s: 60, every: 10 }]);
+  assert.equal(isDiagnosisSpot(h[0]), true, "a hold row is never a bar row");
+  assert.throws(() => parseSpots("a ?x=1 hold=3m"), /cannot read/);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
   assert.throws(() => parseSpots("a"), /need/);
@@ -317,14 +341,14 @@ test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines thro
 
 test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --bar defaults 83,69", async () => {
   const { parseArgs } = await import("./measure.mjs");
-  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname]);
+  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--no-pod"]);
   assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h"]);
   assert.equal(o.spotList[9].aim, "1.4,0.1");
   assert.deepEqual(o.spotList[4].steps, [{ w: 20 }]);
   assert.equal(o.shots, true);
   assert.equal(o.clean, "1");
   assert.deepEqual(o.barParsed, { fps: 83, p1low: 69 });
-  assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 10, "--leak keeps every spot");
+  assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60", "--no-pod"]).spotList.length, 10, "--leak keeps every spot");
   assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1", "--spots", "x"]), /replaces --url/);
   const u = parseArgs(["--run", "r", "--url", "?a=1", "--walk", "5", "--aim", "1,0"]);
   assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", steps: [{ w: 5 }], diagList: [], diagnosis: false }]);
@@ -333,13 +357,13 @@ test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --ba
 test("perf10-c4: probe tokens make diagnosis rows; they print `diag` and never count toward N of M", async () => {
   const { parseArgs, probeScript } = await import("./measure.mjs");
   const { spotRows, summaryTable } = await import("./spots.mjs");
-  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10-c4.txt", import.meta.url).pathname]);
+  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10-c4.txt", import.meta.url).pathname, "--no-pod"]);
   assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h", "ediag", "cdiag", "adiag", "atrace", "aprof", "apaused"]);
   assert.deepEqual(o.spotList.map((s) => s.diagnosis), [...Array(10).fill(false), true, true, true, true, true, false]);
   const [ed, cd, ad] = o.spotList.slice(10);
-  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: true, heapsample: true, profile: false });
+  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, traceV8: false, memoryInfra: true, heapsample: true, profile: false, profileWalk: false });
   assert.deepEqual(ed.steps, [{ w: 20 }]);
-  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: false, heapsample: false, profile: false });
+  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false });
   assert.match(ad.query, /&diag=relink,heap$/, "the spot's probes ride its query so the guarded probe wakes there only");
   assert.deepEqual(ad.diagList, ["relink", "heap"]);
   assert.deepEqual(o.spotList[0].diagList, []);
@@ -426,14 +450,53 @@ test("hitchContext: nearest harness action within 500 ms and the worker's overla
   assert.deepEqual(frameSeries([{ t: 1.234, dt: 16.667, work: 5.555, gpu: null }]), { t: [1.23], dt: [16.67], work: [5.56], gpu: [null] });
 });
 
+test("groundcover sub-timers: cumulative snapshots become per-frame columns and a >= 12 ms digest (perf10 c8)", async () => {
+  const { gcDeltas, frameSeries, gcFramesDigest, gcFramesText, GC_SNAP, GC_COLUMNS } = await import("./measure.mjs");
+  // Cumulative snapshot in GC_SNAP order; frame 2 is a refill frame (fill started, a 14 ms React render + effect).
+  const snap = (o) => GC_SNAP.map((k) => o[k] ?? 0);
+  const base = { gcUseFrame: 10, gcGen: 5, gcCull: 1, refills: 3, drains: 3 };
+  const frames = gcDeltas([
+    { t: 0, dt: 0, work: 4, gpu: null, gcCum: snap(base) },
+    { t: 16, dt: 16, work: 5, gpu: null, gcCum: snap({ ...base, gcUseFrame: 12, gcGen: 6.5, gcCull: 1.2 }) },
+    { t: 40, dt: 24, work: 20, gpu: null, gcCum: snap({ ...base, gcUseFrame: 13, gcGen: 7, gcCull: 1.4, gcRender: 9, gcEffect: 5, refills: 4 }) },
+    { t: 60, dt: 20, work: 13, gpu: null, gcCum: snap({ ...base, gcUseFrame: 16, gcGen: 7, gcCommit: 3, gcRanges: 2, gcCull: 1.6, gcRender: 9, gcEffect: 5, refills: 4, drains: 4, gcBytes: 4096, gcMeshes: 7 }) },
+  ]);
+  assert.equal(frames[0].gc, null, "the first frame has no previous snapshot");
+  assert.equal(frames[0].gcCum, undefined, "the raw snapshot is dropped");
+  assert.deepEqual([frames[2].gc.gcRender, frames[2].gc.gcEffect, frames[2].gc.gcRefill], [9, 5, 1]);
+  assert.deepEqual([frames[3].gc.gcCommit, frames[3].gc.gcBytes, frames[3].gc.gcRefill, frames[3].gc.gcMeshes], [3, 4096, 2, 7]);
+  const s = frameSeries(frames);
+  for (const k of GC_COLUMNS) assert.equal(s[k].length, 4, k);
+  assert.equal(s.gcGen[0], null);
+  const d = gcFramesDigest(s);
+  assert.deepEqual(d.frames.map((f) => f.t), [40, 60]);
+  assert.equal(d.frames[0].gcMs, 15, "useFrame 1 + render 9 + effect 5 (gen and cull nest inside useFrame)");
+  assert.equal(d.frames[0].otherMs, 5);
+  assert.equal(d.frames[0].gc.gcCommit, undefined, "zero columns are dropped");
+  assert.equal(d.totals.gcRefill, 1, "fills started, not swaps");
+  assert.equal(d.totals.gcBytes, 4096);
+  assert.match(gcFramesText("e walk", d)[0], /e walk: 2 frames >= 12 ms; totals .*gcRender 9/);
+  assert.equal(gcFramesDigest(frameSeries([{ t: 0, dt: 0, work: 30, gpu: null, gc: null }])), null, "no gc columns, no digest");
+});
+
 test("host sampler: a worker-seen gap overlapping a steal spike is a host stall (perf-diag9 S1)", async () => {
   const { hitchContext, hitchContextText } = await import("./measure.mjs");
   const { hostSeries, hostSpikes, samplerCommand } = await import("./host-sampler.mjs");
   // pod epoch rows every 250 ms: steal jumps 6 jiffies (60 ms) in the interval ending at origin+1250, then 2 faults
   const origin = 1_700_000_000_000;
-  const rows = [[origin + 750, 100, 7], [origin + 1000, 100, 7], [origin + 1250, 106, 7], [origin + 1500, 106, 9], [origin + 1750, 107, 30]];
+  // row: epoch, steal, majfaults, load1, runnable, cpuTotal, cpuIdle, mhzMin, mhzMax, top
+  const rows = [[origin + 750, 100, 7, 1, 2, 1000, 900, 2400, 3000, "-"], [origin + 1000, 100, 7, 1.5, 3, 1100, 950, 2400, 3100, "5/node:20,6/ssh:5"],
+    [origin + 1250, 106, 7, 2, 4, 1200, 1000, 2400, 3200, "-"], [origin + 1500, 106, 9, 2, 4, 1200, 1000, 2400, 3200, "-"], [origin + 1750, 107, 30, 2, 4, 1300, 1000, 2400, 3200, "-"]];
+  rows.nproc = 8;
   const s = hostSeries(rows, origin);
-  assert.deepEqual(s, { t: [1000, 1250, 1500, 1750], stealMs: [0, 60, 0, 10], majFaults: [0, 0, 2, 21] });
+  const { core, coreMhz, runMs, waitMs, migr, nvcsw, gpuCore, gpuCoreMhz, gpuWaitMs, throttledMs, rendererPid, rendererThreadsBusy, sibBusyMs, l3BusyPct, coreBusyMs, cpuset, governor, maxMhzDistinct, ...base } = s;
+  assert.deepEqual({ ...base, top: s.top.map((x) => x.length) }, { nproc: 8, t: [1000, 1250, 1500, 1750], stealMs: [0, 60, 0, 10], majFaults: [0, 0, 2, 21],
+    load1: [1.5, 2, 2, 2], runnable: [3, 4, 4, 4], busyPct: [50, 50, null, 100], mhzMin: [2400, 2400, 2400, 2400], mhzMax: [3100, 3200, 3200, 3200], top: [2, 0, 0, 0] });
+  assert.deepEqual(s.top[0], [{ proc: "5/node", ms: 200 }, { proc: "6/ssh", ms: 50 }]);
+  const { hostSummary, parseSamplerLine } = await import("./host-sampler.mjs");
+  assert.equal(hostSummary([s, null]), "nproc 8, max load 2, max busy 100%");
+  assert.deepEqual(parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 -"), [1, 2, 3, 0.5, 4, 100, 90, 2400, 3000, "-"]);
+  assert.equal(parseSamplerLine("nproc 8"), null);
   const spikes = hostSpikes(s);
   assert.deepEqual(spikes, [[1000, 1250], [1500, 1750]]);
   const h = [{ t: 1300, dt: 100, work: 9 }, { t: 3000, dt: 40, work: 8 }, { t: 2600, dt: 50, work: 30 }];
@@ -445,7 +508,9 @@ test("host sampler: a worker-seen gap overlapping a steal spike is a host stall 
   const [cmd, args] = samplerCommand("ssh -i /tmp/k -p 2222 root@1.2.3.4");
   assert.equal(cmd, "ssh");
   assert.deepEqual(args.slice(0, 4), ["-i", "/tmp/k", "-p", "2222"]);
-  assert.match(args.at(-1), /\/proc\/stat.*\/proc\/vmstat/);
+  const script = Buffer.from(/echo (\S+) \| base64/.exec(args.at(-1))[1], "base64").toString();
+  assert.match(script, /\/proc\/stat[\s\S]*\/proc\/vmstat[\s\S]*\/proc\/loadavg[\s\S]*\/proc\/cpuinfo/);
+  assert.match(script, /^echo "nproc/);
   assert.equal(args.at(-2), "root@1.2.3.4");
 });
 
@@ -506,4 +571,52 @@ test("hidden source maps name minified heap and profile frames by source file:li
   assert.equal(heapTopAllocators(heap, 1)[0].name, "qp index-AB.js:1");
   const prof = { nodes: [{ id: 1, callFrame: cf }], samples: [1, 1], timeDeltas: [0, 1000, 1000] };
   assert.equal(profileTopPerFrame(prof, 1, 1, maps)[0].at, "packages/game-core/src/a.ts:5");
+});
+
+test("profile-walk: a diag token; per-spike stacks from the samples inside each >= 12 ms frame", async () => {
+  const { profileSpikes } = await import("./measure.mjs");
+  const { parseSpots, isDiagnosisSpot } = await import("./spots.mjs");
+  const [s] = parseSpots("ewprof ?view=character&rate=30 walk=20 profile-walk\n");
+  assert.equal(s.probes.profileWalk, true);
+  assert.equal(isDiagnosisSpot(s), true);
+  const cf = (functionName, url, lineNumber) => ({ functionName, url, lineNumber, columnNumber: 0 });
+  // profile clock starts at page 1000 ms (startTime 1000000 us, offset 0); one sample per ms
+  const profile = { startTime: 1000000, nodes: [{ id: 1, callFrame: cf("(root)", "", -1) }, { id: 2, callFrame: cf("hot", "http://x/a.js", 4) }, { id: 3, callFrame: cf("cold", "http://x/b.js", 0) }],
+    samples: [3, 3, 2, 2, 2, 3, 2, 2], timeDeltas: [0, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000] };
+  // frames at page 1000 (work 5), 1002 (work 14: samples at 1002..1005), 1006 (work 3)
+  const series = { t: [1000, 1002, 1006], work: [5, 14, 3] };
+  const out = profileSpikes(profile, 0, series, {}, null);
+  assert.equal(out.length, 1, "only the 14 ms frame is a spike");
+  assert.deepEqual(out[0].top, [{ name: "hot", at: "http://x/a.js:5", ms: 3 }, { name: "cold", at: "http://x/b.js:1", ms: 1 }]);
+  assert.equal(out[0].t, 1002);
+  assert.equal(profileSpikes(profile, 0, series, { top: 1 }, null)[0].top.length, 1);
+});
+
+test("perf rounds need --pod: a --spots run with a headline row is refused unless --no-pod", async () => {
+  const { parseArgs } = await import("./measure.mjs");
+  const { mkdtempSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const dir = mkdtempSync(join(tmpdir(), "spots-"));
+  const head = join(dir, "head.txt"), diag = join(dir, "diag.txt");
+  writeFileSync(head, "a ?view=character&rate=0.5\nbprof ?view=character&rate=0.5 profile\n");
+  writeFileSync(diag, "bprof ?view=character&rate=0.5 profile\n");
+  assert.throws(() => parseArgs(["--run", "r", "--spots", head]), /headline rows \(a\).*--no-pod/);
+  assert.equal(parseArgs(["--run", "r", "--spots", head, "--no-pod"]).noPod, true);
+  assert.equal(parseArgs(["--run", "r", "--spots", head, "--pod", "ssh -p 1 root@h"]).pod, "ssh -p 1 root@h");
+  assert.doesNotThrow(() => parseArgs(["--run", "r", "--spots", diag]), "diagnosis-only files need no pod");
+});
+
+test("profileOffset: the anchor loop's first sample maps page ms to profile ms, not startTime (perf10 F36)", async () => {
+  const { profileOffset, profileSpikes, ANCHOR_FN } = await import("./measure.mjs");
+  const nodes = [{ id: 1, callFrame: { functionName: "(root)" } }, { id: 2, callFrame: { functionName: ANCHOR_FN } }, { id: 3, callFrame: { functionName: "hot", url: "a.js", lineNumber: 9 } }];
+  // Profile starts at 1000 ms; the anchor (page 500 ms) is first sampled 185 ms later, at 1185 ms.
+  const profile = { nodes, startTime: 1000_000, samples: [1, 2, 2, 1, 3, 3], timeDeltas: [0, 185_000, 1000, 1000, 98_000, 1000] };
+  const off = profileOffset(profile, 500);
+  assert.equal(off, 685);
+  // `hot` sampled at profile 1285-1286 ms = page 600-601 ms: it lands in the frame at page 600, not 785.
+  const out = profileSpikes(profile, off, { t: [600, 620], work: [15, 15] }, {}, null);
+  assert.equal(out[0].top[0].name, "hot");
+  assert.equal(out[1].top.length, 0);
+  assert.equal(profileOffset({ ...profile, samples: [1, 1, 1, 1, 3, 3] }, 500), 500, "no anchor sample: startTime fallback");
 });

@@ -81,11 +81,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallgate 01",
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallgate 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallgate02",
@@ -171,11 +171,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallgate 02",
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallgate 02"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024arch01",
@@ -245,11 +245,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024arch 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.469,
-   "displayName": "1024arch 01"
+   "pivotAboveBaseM": 10.469
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall01",
@@ -334,11 +334,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wall 01",
    "undersideClosed": true,
    "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wall 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall02",
@@ -416,11 +416,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wall 02",
    "undersideClosed": true,
    "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wall 02"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner2way",
@@ -505,11 +505,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallcorner 2way",
    "undersideClosed": false,
    "undersideCoverage": 0.465,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallcorner 2way"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner3way",
@@ -587,11 +587,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallcorner 3way",
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallcorner 3way"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner4way",
@@ -667,11 +667,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallcorner 4way",
    "undersideClosed": false,
    "undersideCoverage": 0.488,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallcorner 4way"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallround01",
@@ -749,11 +749,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallround 01",
    "undersideClosed": false,
    "undersideCoverage": 0.405,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallround 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01a",
@@ -829,11 +829,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024walltower 01a",
    "undersideClosed": false,
    "undersideCoverage": 0.369,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024walltower 01a"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01b",
@@ -913,11 +913,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024walltower 01b",
    "undersideClosed": true,
    "undersideCoverage": 0.668,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024walltower 01b"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallstair01",
@@ -1006,11 +1006,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallstair 01",
    "undersideClosed": false,
    "undersideCoverage": 0.494,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024wallstair 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall01a",
@@ -1088,11 +1088,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "512wall 01a",
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "512wall 01a"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall02",
@@ -1168,11 +1168,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "512wall 02",
    "undersideClosed": true,
    "undersideCoverage": 0.689,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "512wall 02"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512pillar01",
@@ -1246,11 +1246,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "512pillar 01",
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "512pillar 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall01",
@@ -1326,11 +1326,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "256wall 01",
    "undersideClosed": true,
    "undersideCoverage": 0.725,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "256wall 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall02",
@@ -1406,11 +1406,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "256wall 02",
    "undersideClosed": true,
    "undersideCoverage": 0.729,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "256wall 02"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wallendcap",
@@ -1486,11 +1486,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "256wallendcap",
    "undersideClosed": true,
    "undersideCoverage": 0.745,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "256wallendcap"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledge",
@@ -1559,11 +1559,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024ledge",
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024ledge"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgecorner",
@@ -1637,11 +1637,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024ledgecorner",
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024ledgecorner"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgeconnect",
@@ -1721,11 +1721,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024ledgeconnect",
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "1024ledgeconnect"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/misc/ramp01",
@@ -1803,11 +1803,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ramp 01",
    "undersideClosed": false,
    "undersideCoverage": 0.411,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "displayName": "Ramp 01"
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/slope/1024wallslope256",
@@ -1885,11 +1885,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "1024wallslope 256",
    "undersideClosed": true,
    "undersideCoverage": 0.672,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 13.655,
-   "displayName": "1024wallslope 256"
+   "pivotAboveBaseM": 13.655
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01",
@@ -1946,11 +1946,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence str gate 01",
    "undersideClosed": false,
    "undersideCoverage": 0.161,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "displayName": "WR fence str gate 01"
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01",
@@ -2007,11 +2007,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence str gate 01 door 01",
    "undersideClosed": true,
    "undersideCoverage": 0.979,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.357,
-   "displayName": "WR fence str gate 01 door 01"
+   "pivotAboveBaseM": 0.357
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01",
@@ -2074,11 +2074,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence base str 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "WR fence base str 01"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01",
@@ -2135,11 +2135,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence str 01",
    "undersideClosed": false,
    "undersideCoverage": 0.202,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "displayName": "WR fence str 01"
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
@@ -2202,11 +2202,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence base end 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": 0.935,
-   "displayName": "WR fence base end 01"
+   "pivotAboveBaseM": 0.935
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01",
@@ -2269,11 +2269,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence base cor 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "WR fence base cor 01"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01",
@@ -2330,11 +2330,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence cor 01",
    "undersideClosed": false,
    "undersideCoverage": 0.047,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "displayName": "WR fence cor 01"
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01",
@@ -2397,11 +2397,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence base 4 way 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "WR fence base 4 way 01"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01",
@@ -2463,11 +2463,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence 4 way 01",
    "undersideClosed": false,
    "undersideCoverage": 0.022,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "displayName": "WR fence 4 way 01"
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasesupport01",
@@ -2530,11 +2530,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence base support 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "WR fence base support 01"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -2595,11 +2595,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Redoranwallgate",
    "undersideClosed": false,
    "undersideCoverage": 0.543,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.991,
-   "displayName": "Redoranwallgate"
+   "pivotAboveBaseM": 0.991
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwall",
@@ -2658,11 +2658,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Redoranwall",
    "undersideClosed": false,
    "undersideCoverage": 0.312,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "Redoranwall"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallcorner",
@@ -2721,11 +2721,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Redoranwallcorner",
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "Redoranwallcorner"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwalldivider",
@@ -2784,11 +2784,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Redoranwalldivider",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.969,
-   "displayName": "Redoranwalldivider"
+   "pivotAboveBaseM": 0.969
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01",
@@ -2846,11 +2846,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewallarch 01",
    "undersideClosed": false,
    "undersideCoverage": 0.453,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Stonewallarch 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01",
@@ -2908,11 +2908,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewallcurve 01",
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewallcurve 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02",
@@ -2970,11 +2970,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewallcurve 02",
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewallcurve 02"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01",
@@ -3027,11 +3027,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewallpillar 01",
    "undersideClosed": false,
    "undersideCoverage": 0.302,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewallpillar 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate",
@@ -3104,11 +3104,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Redruingate",
    "undersideClosed": true,
    "undersideCoverage": 0.63,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.138,
-   "displayName": "Redruingate"
+   "pivotAboveBaseM": 0.138
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal",
@@ -3168,11 +3168,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "0mjy aztecportal",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.166,
-   "displayName": "0mjy aztecportal"
+   "pivotAboveBaseM": 2.166
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallstraight01",
@@ -3227,11 +3227,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade wall straight 01",
    "undersideClosed": false,
    "undersideCoverage": 0.16,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.114,
-   "displayName": "Stockade wall straight 01"
+   "pivotAboveBaseM": 2.114
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerin01",
@@ -3286,11 +3286,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade wall corner in 01",
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Stockade wall corner in 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerout01",
@@ -3345,11 +3345,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade wall corner out 01",
    "undersideClosed": false,
    "undersideCoverage": 0.069,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Stockade wall corner out 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallwalkway01",
@@ -3406,11 +3406,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade wall walkway 01",
    "undersideClosed": true,
    "undersideCoverage": 0.899,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.114,
-   "displayName": "Stockade wall walkway 01"
+   "pivotAboveBaseM": 2.114
   },
   {
    "id": "vanilla:clutter/stockade/stockadetower01",
@@ -3467,11 +3467,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade tower 01",
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Stockade tower 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadegate01",
@@ -3545,11 +3545,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade gate 01",
    "undersideClosed": false,
    "undersideCoverage": 0.172,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.499,
-   "displayName": "Stockade gate 01"
+   "pivotAboveBaseM": 0.499
   },
   {
    "id": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
@@ -3612,23 +3612,6 @@
     "slopeTermMPerDeg": 0.00471,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.003,
-    "buryCapM": 0.75,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.361,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3664,7 +3647,24 @@
     ],
     "evidence": "plugin"
    },
-   "displayName": "Stockade barricade 01 activator"
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.003,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "displayName": "Stockade barricade 01 activator",
+   "undersideClosed": false,
+   "undersideCoverage": 0.361,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "vanilla:clutter/stockade/stockadepike01",
@@ -3706,23 +3706,6 @@
     "slopeTermMPerDeg": 0.0076,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.75,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -3757,7 +3740,24 @@
     ],
     "evidence": "plugin"
    },
-   "displayName": "Stockade pike 01"
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "displayName": "Stockade pike 01",
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01",
@@ -3815,11 +3815,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ar arch 01",
    "undersideClosed": false,
    "undersideCoverage": 0.205,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451,
-   "displayName": "Ar arch 01"
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02",
@@ -3877,11 +3877,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ar arch 02",
    "undersideClosed": false,
    "undersideCoverage": 0.069,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451,
-   "displayName": "Ar arch 02"
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03",
@@ -3939,11 +3939,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ar arch 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451,
-   "displayName": "Ar arch 03"
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "composite:farmfence/wr-fence-run-3",
@@ -4026,11 +4026,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR fence base str 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.935,
-   "displayName": "WR fence base str 01"
+   "pivotAboveBaseM": 0.935
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\enclosure-v1.glb",
@@ -4088,11 +4088,11 @@
   "images": 41,
   "imageBytesAfter": 10625125,
   "warnings": [],
-  "sha256": "748fc721e0f3f2c87f8a044c251b1c0b29f379796c7fe0b9cd07af0209683509",
+  "sha256": "620edc747147799061c4555ad44e36bbc7a6640365668a95b10f473ea94141c8",
   "sidecarBytes": {
    "connectors": 33841,
    "footprints": 52090,
-   "interiors": 43104
+   "interiors": 43120
   }
  }
 }

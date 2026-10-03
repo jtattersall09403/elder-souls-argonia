@@ -211,7 +211,7 @@ def op_errors(op: dict, vocab: dict) -> list[str]:
         out.append(f"socket {sid}: a station names its stationClass")
     if kind == "sign" and not (isinstance(op.get("pointsTo"), list) and op["pointsTo"]
                                and all(isinstance(t, str) and t for t in op["pointsTo"])):
-        out.append(f"socket {sid}: a sign's pointsTo lists a route or place id per arm")
+        out.append(f"socket {sid}: a sign's pointsTo lists a route, track or place id per arm")
     if "fills" in op:
         from .blueprint import fills_failures
         out += [f"socket {sid}: {why}" for why in fills_failures(op)]
@@ -667,16 +667,17 @@ def socket_gate_errors(bp: dict, rec: dict | None, sockets: list[dict], placemen
                        f"cell (`interiorCell`, `host`: a placement id of its bundle) or give it "
                        f"`at` outside the door")
     # stations and signs (0104 decision 4): a station class the vocabulary
-    # names, a sign arm per route or place
+    # names, a sign arm per route, minor track (an off-road camp's waymark,
+    # signRule's `_sign_lines`) or place
     for s in sockets:
         if s["kind"] == "station" and s.get("stationClass") not in (vocab.get("stationClasses") or {}):
             out.append(f"sockets.vocabulary: station socket {s['id']} class "
                        f"{s.get('stationClass')!r} is not in the vocabulary")
         if s["kind"] == "sign":
             for ref in s.get("pointsTo") or []:
-                if not str(ref).startswith(("route.", "place.")):
+                if not str(ref).startswith(("route.", "track.", "place.")):
                     out.append(f"sockets.sign: sign socket {s['id']} points to {ref!r}, which "
-                               f"is no route. or place. id")
+                               f"is no route., track. or place. id")
     # item classes
     for s in sockets:
         if s["kind"] == "item" and s.get("itemClass") not in vocab["itemClasses"]:

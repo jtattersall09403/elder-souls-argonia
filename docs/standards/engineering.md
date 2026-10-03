@@ -466,6 +466,18 @@ headless.
   switch a light or its shadow off with `intensity` / `shadow.intensity`
   (`render/lightSwitch`: `setShadowShown`, `LIGHT_HELD_OFF`; test
   `apps/world-studio/src/sky/lightCacheKeys.test.ts`).
+- A shadow caster is set through `render/shadowCasters`: `setCastShadow`
+  (flag and caster layer together) or `setCastShadowCascades` (only the
+  cascades it reaches), never a bare `castShadow = true` or a JSX
+  `castShadow` prop. The sun's cascade cameras see only the caster layers,
+  so three never projects and sorts a non-caster per cascade; a bare flag
+  casts nothing (`window.__CASTERS_MISSING_LAYER__()` in the studio counts
+  them; 0 expected).
+- One whole-scene matrix walk a frame: `WaterPipeline` calls
+  `scene.updateMatrixWorld()` once before the scene pass and holds
+  `matrixWorldAutoUpdate` off for every render of the frame (scene, shadow
+  cascades, water, precipitation, overlay). An object moved after that
+  point in the frame updates its own `matrixWorld`.
 - Decoders (KTX2, meshopt) are owned by the renderer for its life and
   injected; a component never creates or disposes one
   (`assets/kitLoader`: `installKitDecoders` in createRenderer,
@@ -510,8 +522,22 @@ headless.
   20 MB/min, camera still, after settle.
 
 **Before adding a material.**
+- Per-frame shared uniforms live in the one aerial uniform block
+  (`EsAerial`, `sky/aerial.ts`), never as per-material uniforms: three
+  re-compares every material uniform on each material switch.
 - Share it: one material per kit glTF material (or per batch key), never a
   clone per part or per instance.
+- Any term of the water shading normal or crest that can change faster
+  than the vertex spacing (shore direction, shore-swell slope, short or
+  high-curvature bands) is evaluated per pixel at the REST xz
+  (`vEsRestXZ`), never carried in the vertex normal and never at the
+  displaced position; only heights stay per vertex (0047). A value that
+  changes direction or crosses a threshold between vertices (a direction,
+  a phase, a band pick) never enters the fragment as a varying; the vertex
+  stage passes only rest xz and heights (diag15 V4: the surf foam phase).
+  Bands are
+  picked by curvature (amp*k^2) against the mesh grid, never by amplitude
+  (`crestBands`; diag12 Q2, diag14 V1/V2).
 - A patched material has a stable `customProgramCacheKey` that reads only
   its held state; re-applying the same state sets no `needsUpdate`.
 - Patch it before its first draw: streamed builds go through the lit
@@ -543,8 +569,20 @@ headless.
   a step likely to overrun (large while loading, small after); index an
   expensive per-candidate test spatially once. Show changes in a few whole
   steps, never one refill per data arrival.
+- A streamed instance layer gives each tile a stable slot range in its
+  mesh, so a refill copies and uploads only what entered, left or changed;
+  its commit uploads those ranges (`addUpdateRange`) split under a
+  per-frame byte budget; and ALL its main-thread work (generation, fill,
+  commit) shares one per-frame budget, checked inside each unit of work (a
+  resumable generator), never only between units (`groundcoverSchedule.ts`
+  `SlotAllocator`, `takeRanges`, `generationShareMs`, `runSlices`; diag16 W,
+  diag18 G1-G3).
 - Nothing on the per-frame path allocates: vectors, arrays, stats objects
   and closures are hoisted and reused.
+- A per-step sampler in a march returns no boxed value (no `number | null`
+  per step): the march lives inside the sampler and returns the verdict
+  (`TerrainMarcher`, `FrameGroundSampler.occluded`; diag11 O1), and its
+  call site sees one class (an empty state, never a fallback closure).
 - Tier edges fade through the `lodFade` partition with the temporal
   history (one copy per pixel, every frame; coverage never dips), the
   incoming tier resident before the outgoing one steps out; the coverage
@@ -556,6 +594,13 @@ headless.
   `coplanar` rule / `audit-interior` flag any pair within 2 mm / 2 deg over
   > 0.01 m2 unless one is a decal its runtime draws with polygonOffset;
   ~3 s a cell or place, 0.4 GiB (R90, worldgen/coplanar.py).
+
+**Before reading a performance number.**
+- A capture without a running clock is not a performance measurement: check
+  the URL carries `rate=0.5` and the shot shows the intended time of day
+  before reading any fps or 1 % low.
+- A 1 % low judged from one run is checked against a repeat of the same
+  spot before a cause is ruled noise.
 
 ## Memory discipline (tooling, 2026-09-30)
 

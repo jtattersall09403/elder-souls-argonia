@@ -240,9 +240,11 @@ test("target probe: heldDraws names each draw the build queue skips (object, par
   const rock = { name: "rock", type: "Mesh", uuid: "u2", parent: root, geometry: { attributes: { position: {} } } };
   const mainCam = { type: "PerspectiveCamera", name: "main" }, sunCam = { type: "OrthographicCamera", name: "", isOrthographicCamera: true };
   let skipWater = true;
+  const waterMat = { type: "MeshBasicNodeMaterial", name: "water", version: 0, id: 7 };
+  water.geometry.id = 3;
   const r = { esBuildQueue: q, setRenderTarget() {}, getRenderTarget: () => null, readRenderTargetPixelsAsync: async () => new Uint16Array(4),
     _renderObjectDirect(object, material, scene, camera) { if (object === water && skipWater) q.request("k-water", 1, () => {}, ""); else if (camera === sunCam && skipWater) q.request("k-rock-shadow", 1, () => {}, ""); },
-    render(sc, cam) { this._renderObjectDirect(water, { type: "MeshBasicNodeMaterial", name: "water" }, sc, cam); this._renderObjectDirect(rock, { type: "MeshStandardNodeMaterial", name: "rockMat" }, sc, sunCam); } };
+    render(sc, cam) { waterMat.version++; this._renderObjectDirect(water, waterMat, sc, cam); this._renderObjectDirect(rock, { type: "MeshStandardNodeMaterial", name: "rockMat" }, sc, sunCam); } };
   const { win } = fakeWindow(r);
   win.performance = { now: () => (t += 5) };
   const orig = r._renderObjectDirect;
@@ -256,6 +258,10 @@ test("target probe: heldDraws names each draw the build queue skips (object, par
   assert.ok(w.waitedMs > 0 && w.count >= 1);
   const s = p.heldDraws.objects.find((o) => o.object.name === "rock");
   assert.equal(s.pass, "shadow/ortho");
+  // D3: key + material version/ids on both frames; the water's version moves between frames, the rock's draw does not
+  assert.deepEqual([w.frames[0].key, w.frames[1].key, w.frames[0].materialId, w.frames[0].geometryId], ["k-water", "k-water", 7, 3]);
+  assert.ok(w.frames[1].materialVersion > w.frames[0].materialVersion);
+  assert.deepEqual([w.keyChanged, w.keyDiffAt, s.keyChanged, s.frames[0].key], [true, null, false, "k-rock-shadow"]);
   // the request hook stays (one Map lookup per skipped draw); with nothing skipped the list is empty
   skipWater = false;
   const p2 = await win.__targetProbe.capture();

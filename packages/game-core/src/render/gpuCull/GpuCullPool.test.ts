@@ -253,3 +253,27 @@ describe("GpuCullPool kept-none members and per-camera cull (webgpu10 diag19 D2)
     expect(mesh.boundingSphere).toBeNull();
   });
 });
+
+describe("GpuCullPool stand-in matrix (webgpu10 diag20 E3)", () => {
+  it("a released member gets the pool's page-owned stand-in, which its dispose cannot destroy", () => {
+    const f = fakeRenderer();
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const a = member(), b = member();
+    const da = pool.addDraw(a, opts), db = pool.addDraw(b, opts);
+    guardSharedBuffers(f.renderer);
+    (pool as unknown as { store: unknown }).store = f.store;
+    a.castShadow = true;
+    pool.removeDraw(da);
+    pool.removeDraw(db);
+    expect(a.instanceMatrix).toBe(pool.standIn);
+    expect(b.instanceMatrix).toBe(pool.standIn);
+    expect(a.castShadow).toBe(false);
+    expect((pool.standIn as unknown as Record<string, unknown>).esPageOwned).toBe(true);
+    for (const attr of [a.instanceMatrix, ...Object.values(a.geometry.attributes)]) f.store.delete(attr);
+    expect(f.destroyed.has(pool.standIn)).toBe(false);
+    const other = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    expect(other.standIn).not.toBe(pool.standIn);
+    pool.dispose();
+    expect(f.destroyed.has(pool.standIn)).toBe(true);
+  });
+});

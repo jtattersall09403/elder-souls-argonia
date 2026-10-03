@@ -3,15 +3,15 @@
  "kit": "settlement-mud-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 20168020,
-  "sha256": "9c66627fd833d317cecef91586f7164401645dbfbb0e0ade3dff89adf9d5bf02"
+  "bytes": 20165864,
+  "sha256": "38c65b39902b293363f077d68239eda0216097967e39bdf4c0e0e26bf7bd88d6"
  },
  "totals": {
-  "parts": 5,
-  "partBytes": 61796,
-  "textureFiles": 5,
-  "textureBytes": 1116939,
-  "bytes": 1178735
+  "parts": 6,
+  "partBytes": 92492,
+  "textureFiles": 8,
+  "textureBytes": 1808323,
+  "bytes": 1900815
  },
  "assets": {
   "kotm:argonia/mudhuts/door01": {
@@ -46,7 +46,7 @@
   },
   "kotm:argonia/mudhuts/window01": {
    "file": "kotm_argonia_mudhuts_window01-3826ad7f.glb",
-   "bytes": 11792,
+   "bytes": 11844,
    "vertices": 292,
    "triangles": 432,
    "textures": [
@@ -56,12 +56,23 @@
   },
   "kotm:argonia/mudhuts/window02": {
    "file": "kotm_argonia_mudhuts_window02-abd84865.glb",
-   "bytes": 12444,
+   "bytes": 12500,
    "vertices": 330,
    "triangles": 492,
    "textures": [
     "bd557728b5417a4b",
     "f5c46ae922ce5177"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniancandle01": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniancandle01-9ced16a4.glb",
+   "bytes": 30588,
+   "vertices": 1262,
+   "triangles": 1548,
+   "textures": [
+    "514659983becd199",
+    "7f17626834ecc499",
+    "9166ed5cf28c02f1"
    ]
   }
  },
@@ -106,6 +117,68 @@
    ],
    "windowMaterials": [
     "Kugel02:1.Mat"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniancandle01": {
+   "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "formId": "00094e65",
+    "editorId": "Alikr_OrangeFlicker",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     142,
+     104,
+     79
+    ],
+    "flicker": {
+     "frequency": 0.4545,
+     "intensityAmplitude": 0.5,
+     "movementAmplitude": 32
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "offsetM": [
+     0.17,
+     1.7,
+     -0.1
+    ],
+    "fixtureKind": "candle",
+    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): Alikr_OrangeFlicker (Skyrim.esm LIGH 00094e65) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 2 00GV_ArgonianCandle01 (STAT) refs the mod places (none 1); offset is that ref's in the piece's frame, glTF Y-up metres (n 1: the mod's only evidence). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      -0.0015,
+      1.8374,
+      0.3376
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.843,
+    0.609,
+    2.205
+   ],
+   "originOffsetM": [
+    0.44,
+    0.408,
+    0.029
+   ],
+   "emissiveMaterials": [
+    "RieklingCandle:0.Mat"
    ]
   }
  }

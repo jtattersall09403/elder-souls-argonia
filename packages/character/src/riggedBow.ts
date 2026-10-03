@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
 import type { BowRigProfile } from "@elder-souls/game-core/equipment/types";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 
 /**
  * A rigged bow's draw, driven from the archer's draw fraction.
@@ -26,7 +27,7 @@ export function createRiggedBow(
   const object = clone(gltf.scene);
   object.traverse((child) => {
     if (child instanceof THREE.Mesh) {
-      child.castShadow = true;
+      setCastShadow(child, true);
       child.receiveShadow = true;
       // Drawn limbs and string leave the rest bounds; culling on them blinks
       // the bow out at the edge of view.

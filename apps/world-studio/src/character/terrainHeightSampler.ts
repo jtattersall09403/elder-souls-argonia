@@ -18,11 +18,14 @@ const LODS_FINE_FIRST = LOD_BANDS.map((b) => b.lod);
  * the camera and the draw units' bounding boxes.
  *
  * Allocation-free after warm-up (diag9 A3): each chunk's finest raster is
- * looked up once per pass under a numeric key, not per march step through the
- * store's `cx,cy,lod` string keys. The owner calls `reset()` at the start of
- * each occlusion pass so rasters that streamed in since are used.
+ * looked up once under a numeric key, not per march step through the store's
+ * `cx,cy,lod` string keys. The cache is kept across occlusion passes (diag10
+ * C1: emptying it at every pass start made each pass cold, a slow frame pair
+ * every 2 s); a raster that streams in replaces its chunk's cached entry when
+ * it is finer, through the store's `onArrival`. The store never evicts a
+ * raster, so nothing streams out. The owner calls `dispose()` on unmount.
  */
-export type ChunkHeightSampler = ((x: number, z: number) => number) & { reset: () => void };
+export type ChunkHeightSampler = ((x: number, z: number) => number) & { dispose: () => void };
 
 export function makeChunkHeightSampler(
   store: ChunkStore, manifest: ChunksManifest, verticalScale: number,
@@ -45,5 +48,13 @@ export function makeChunkHeightSampler(
     }
     return grid === null ? NaN : sampleChunkHeight(grid, x, z) * verticalScale;
   };
-  return Object.assign(sample, { reset: () => grids.clear() });
+  const dispose = store.onArrival((g) => {
+    const key = g.meta.cx * 65_536 + g.meta.cy;
+    const cached = grids.get(key);
+    if (cached === undefined) return; // never sampled: read on demand
+    const rank = LODS_FINE_FIRST.indexOf(g.lod);
+    if (rank < 0) return;
+    if (cached === null || rank < LODS_FINE_FIRST.indexOf(cached.lod)) grids.set(key, g);
+  });
+  return Object.assign(sample, { dispose });
 }

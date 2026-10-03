@@ -56,6 +56,7 @@ import { QuiverAttachment } from "./QuiverAttachment";
 import { OffHandItem, type BowDrawRefs } from "./OffHandItem";
 import { createRiggedBow } from "./riggedBow";
 import type { HurtboxBone, HurtboxRigRef } from "./SkeletalHurtbox";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 
 /**
  * The rig carries the skeleton and the semantic clips; a race GLB carries only
@@ -206,7 +207,7 @@ function createHealingFlask() {
   collar.position.z = 0.16;
 
   for (const part of [body, shoulder, stopper, collar]) {
-    part.castShadow = true;
+    setCastShadow(part, true);
     part.receiveShadow = true;
     flask.add(part);
   }
@@ -453,7 +454,7 @@ function PosedActor({
     const weapon = clone(weaponGltf.scene);
     weapon.traverse((object) => {
       if (object instanceof THREE.Mesh) {
-        object.castShadow = true;
+        setCastShadow(object, true);
         object.receiveShadow = true;
       }
     });
@@ -675,7 +676,7 @@ function PosedActor({
   useLayoutEffect(() => {
     model.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
-      object.castShadow = true;
+      setCastShadow(object, true);
       object.receiveShadow = true;
       // Animated skin leaves its cached rest bounds, including bow idle sway.
       if (object instanceof THREE.SkinnedMesh) object.frustumCulled = false;

@@ -7,6 +7,8 @@ import { worldClock } from "../sky/timeState";
 import { wetnessUniforms } from "./groundWetness";
 import { applySubmergedCaustics } from "@elder-souls/game-core/water/render/causticReceiver";
 import { studioScaledWaterQuery } from "./studioScaledWaterQuery";
+import type * as THREE from "three";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 
 /**
  * Buoyancy demo: light, laden and sinking crates dropped near the player.
@@ -97,7 +99,7 @@ export function FloatTestCrates({ origin, waterWorld, verticalScale = 1 }: {
           linearDamping={0.2}
           angularDamping={0.9}
         >
-          <mesh castShadow receiveShadow material={materials[i]}>
+          <mesh ref={(m: THREE.Mesh | null) => { if (m) setCastShadow(m, true); }} receiveShadow material={materials[i]}>
             <boxGeometry args={[CRATE, CRATE, CRATE]} />
           </mesh>
         </RigidBody>

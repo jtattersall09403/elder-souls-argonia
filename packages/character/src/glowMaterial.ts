@@ -55,6 +55,7 @@ export function createGlowMaterial(map: THREE.Texture | null): GlowMaterial {
     depthWrite: false,
     toneMapped: false,
     side: THREE.DoubleSide,
+    forceSinglePass: true, // additive: one pass draws the same
     fog: false,
   });
   material.name = "offhand-glow";

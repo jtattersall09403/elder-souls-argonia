@@ -1438,7 +1438,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "fence01.dds"
@@ -1491,6 +1491,19 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.332,
+     0.858,
+     0.216
+    ],
+    "centreOffsetM": [
+     -0.015,
+     0.985,
+     0.016
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
    "displayName": "Argoniantotem 01",
    "undersideClosed": false,
    "undersideCoverage": 0.315,
@@ -3089,7 +3102,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "fabricbrown01.dds",
@@ -3247,7 +3260,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "wicker01.dds"
@@ -3277,6 +3290,19 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.387,
+     0.444,
+     0.347
+    ],
+    "centreOffsetM": [
+     0.006,
+     0.504,
+     0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
    "displayName": "Wickerbasket 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
@@ -6306,16 +6332,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48612024,
-  "bytesAfter": 20212756,
+  "bytesBefore": 48611796,
+  "bytesAfter": 20212988,
   "images": 65,
   "imageBytesAfter": 14592523,
   "warnings": [],
-  "sha256": "a483418ec7b424f91ba6390450b28fa0445201d21ac419eb30b3cd3c4ff45366",
+  "sha256": "720cf7d86016221d46ad5c6f11462b789b12987b408a80cd2af3beebcc6d4b65",
   "sidecarBytes": {
    "connectors": 75609,
-   "footprints": 110609,
-   "interiors": 73770
+   "footprints": 110508,
+   "interiors": 74528
   }
  }
 }

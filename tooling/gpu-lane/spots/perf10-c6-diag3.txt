@@ -1,0 +1,2 @@
+# perf10 chunk 6 diagnosis (pod, WebGL): draws probe (per-frame draws by shader) on the e rain night walk. Diagnosis row only.
+ewdraws ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 diag=draws  # e walk, no x3; per-draw wraps, so no trace or profile tokens

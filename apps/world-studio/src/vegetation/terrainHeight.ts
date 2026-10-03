@@ -1,3 +1,7 @@
+import {
+  OCCLUSION_SKIP_M,
+  type TerrainMarcher,
+} from "@elder-souls/game-core/render/terrainOcclusion";
 import type { ChunkStore, ChunksManifest } from "../character/chunkStore";
 
 /** True-metre ground height from the SAME streamed chunks the terrain draws
@@ -22,6 +26,9 @@ export function groundHeightM(
 
 type Grid = NonNullable<ReturnType<ChunkStore["loaded"]>>;
 
+/** The LODs `groundHeightM` reads, finest first. */
+const SAMPLED_LODS = ["1", "2", "4"];
+
 function heightInGrid(grid: Grid, x: number, z: number): number {
   const lx = (x - grid.meta.originM[0]) / grid.metresPerSample;
   const lz = (z - grid.meta.originM[1]) / grid.metresPerSample;
@@ -38,30 +45,74 @@ function heightInGrid(grid: Grid, x: number, z: number): number {
 }
 
 /**
- * `groundHeightM` with each chunk's best decoded grid looked up once per
- * frame instead of once per sample (perf10 O6): an occlusion ray marches
- * dozens of 12 m steps through one or two chunks, and every step used to
- * build a `cx,cy,lod` key string and probe up to three maps. Bit-identical
- * to `groundHeightM` as long as nothing decodes between `reset()` calls, so
- * the owner calls `reset()` at the start of each frame's use.
- * Allocation-free after warm-up; `sample` is a stable bound function.
+ * `groundHeightM` with each chunk's best decoded grid looked up once
+ * instead of once per sample (perf10 O6): an occlusion ray marches dozens of
+ * 12 m steps through one or two chunks, and every step used to build a
+ * `cx,cy,lod` key string and probe up to three maps. The cache is kept across
+ * frames (diag10 C3: emptying it every frame re-built those key strings for
+ * every chunk on every frame); a grid that decodes later replaces its chunk's
+ * entry when it is finer, through the store's `onArrival`, so the answer stays
+ * bit-identical to `groundHeightM`. The store never evicts a grid. The owner
+ * calls `dispose()` on unmount. Allocation-free after warm-up.
+ *
+ * It is the occlusion sweep's `TerrainMarcher` (perf10 diag11 O1): the ray
+ * march runs inside `occluded`, so no step returns a `number | null` (a boxed
+ * double per step), and with no manifest it is the SAME class in an empty
+ * state (no ground anywhere), so the sweep's call site stays monomorphic.
  */
-export class FrameGroundSampler {
+export class FrameGroundSampler implements TerrainMarcher {
   private readonly grids = new Map<number, Grid | null>();
+  readonly dispose: () => void;
 
   constructor(
     private readonly store: ChunkStore,
-    private readonly manifest: ChunksManifest,
+    private readonly manifest: ChunksManifest | null,
     /** Applied to every height (rendered space); 1 = true metres. */
     private readonly scale = 1,
-  ) {}
-
-  reset(): void {
-    this.grids.clear();
+  ) {
+    this.dispose = (manifest ? store.onArrival?.((g) => {
+      const rank = SAMPLED_LODS.indexOf(g.lod);
+      if (rank < 0) return;
+      const key = g.meta.cx * 65_536 + g.meta.cy;
+      const cached = this.grids.get(key);
+      if (cached === undefined) return; // never sampled: read on demand
+      if (cached === null || rank < SAMPLED_LODS.indexOf(cached.lod)) this.grids.set(key, g);
+    }) : undefined) ?? (() => undefined);
   }
 
-  readonly sample = (x: number, z: number): number | null => {
+  /** Ground height (rendered space), NaN where no grid is decoded. */
+  heightAt(x: number, z: number): number {
+    const grid = this.gridAt(x, z);
+    return grid === null ? NaN : heightInGrid(grid, x, z) * this.scale;
+  }
+
+  /** `occludedByTerrain` with the march inside the sampler: same steps, same
+   * arithmetic, same verdict; nothing per step leaves this frame. */
+  occluded(
+    ex: number, ey: number, ez: number,
+    tx: number, ty: number, tz: number,
+    stepM: number, marginM: number,
+  ): boolean {
+    const dx = tx - ex;
+    const dy = ty - ey;
+    const dz = tz - ez;
+    const distance = Math.hypot(dx, dz);
+    if (!(distance > OCCLUSION_SKIP_M) || !(stepM > 0)) return false;
+    const scale = this.scale;
+    for (let s = OCCLUSION_SKIP_M; s < distance; s += stepM) {
+      const t = s / distance;
+      const x = ex + dx * t;
+      const z = ez + dz * t;
+      const grid = this.gridAt(x, z);
+      if (grid === null) continue; // unknown ground never occludes
+      if (heightInGrid(grid, x, z) * scale + marginM > ey + dy * t) return true;
+    }
+    return false;
+  }
+
+  private gridAt(x: number, z: number): Grid | null {
     const m = this.manifest;
+    if (m === null) return null;
     const cx = Math.max(0, Math.min(m.grid[0] - 1, Math.floor(x / m.chunkMetres)));
     const cy = Math.max(0, Math.min(m.grid[1] - 1, Math.floor(z / m.chunkMetres)));
     const key = cx * 65_536 + cy;
@@ -71,6 +122,6 @@ export class FrameGroundSampler {
         ?? this.store.loaded(cx, cy, "4") ?? null;
       this.grids.set(key, grid);
     }
-    return grid === null ? null : heightInGrid(grid, x, z) * this.scale;
-  };
+    return grid;
+  }
 }

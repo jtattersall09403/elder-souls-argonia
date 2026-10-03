@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { ensureKitVertexColours } from "./WaterfallKitMaterial";
 
 /**
  * The vanilla Skyrim waterfall FX kit (decision 0064): `waterfall-fx-v1.glb`
@@ -218,6 +219,7 @@ export function parseWaterfallKit(gltf: GLTF): WaterfallKit {
         const local = gltf.scene.matrixWorld.clone().invert().multiply(mesh.matrixWorld);
         if (!local.equals(new THREE.Matrix4())) geometry.applyMatrix4(local);
       }
+      ensureKitVertexColours(geometry);
       const index = geometry.index;
       shapes.push({ name, geometry, role,
         triangles: index ? index.count / 3 : geometry.getAttribute("position").count / 3 });

@@ -321,6 +321,19 @@
       "evidence": "measured"
     },
     {
+      "op": "place",
+      "uid": "sp-iron-seep",
+      "asset": "vanilla:dungeons/mines/ore/mineoreiron01",
+      "at": [2040.0, 2592.0],
+      "yaw": 30.0,
+      "settle": true
+    },
+    {
+      "op": "note",
+      "uid": "sp-iron-seep",
+      "text": "The iron seep: Skyrim's iron ore vein (exterior wild 134, camp 12 in its plugin) lying half in the seep's north lobe below the bank head, where the diggers lift the ore cakes out of the mud."
+    },
+    {
       "op": "path",
       "action": "add",
       "id": "route.bog-iron-workings.the-way",

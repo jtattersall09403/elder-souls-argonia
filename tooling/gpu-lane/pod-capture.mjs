@@ -64,7 +64,14 @@
  * WebGPU check: after every browser (re)connect (--chrome-mode webgpu) navigator.gpu.requestAdapter() is polled, after load, on the served origin's page
  *              for up to 20 s (result adapterWaits). A view asking WebGPU (url renderer=webgpu, or expectBackend: "webgpu")
  *              whose page reports another backend is retried once after an adapter re-check, then fails "no-webgpu".
- * --profile    a CPU profile of <s> seconds starting at <t> per view (summary in result.json, raw to profile.cpuprofile)
+ * --profile    <s>@<t>: a CPU profile of <s> seconds starting <t> s after navigation per view; <s>@settle+<t>: starting <t> s after
+ *              the view settled (settledAt, else readyS). Summary in result.json and the summary's "profile self top15 (source)"
+ *              cell (source file:line from the dist's hidden maps: build with ES_GPU_LANE_SOURCEMAP=1; maps read from --maps <dir>,
+ *              else with --lane from /tmp/<lane>/dist-<name>), raw to profile.cpuprofile
+ * --maps       a dist dir holding the build's *.js.map files (default: the --lane dist of each view)
+ * Views: a studio view URL without w= gets w=clear (diag20 E7; WARNING line and the summary's WEATHER UNPINNED line). The first
+ *              frame (and every shot) waits for the view's pose (POSE_READY_JS: character spawned; result poseAt / poseTimedOut).
+ *              Per view, the dev hooks __CASTERS_MISSING_LAYER__() and __STUDIO_WARM__ are read (result devHooks, "dev hooks" cell).
  * steps        per view, {at, label, js, waitMs?}: at `at` s the page evaluates js (its JSON return goes to probe[label]), waits waitMs
  *              (default 2500), then a full read goes into steps[]
  *
@@ -83,7 +90,8 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
+import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -96,7 +104,18 @@ const views = opt("views") ? parseViews(readFileSync(opt("views"), "utf8"))
   : opt("url") ? parseViews(JSON.stringify([{ name: "main", url: opt("url") }, ...(opt("compare") ? [{ name: "compare", url: opt("compare") }] : [])])) : null;
 if (!views || !out) { console.error("usage: pod-capture.mjs --views <json> | --url <url> [--compare <url>]  --out <dir> [flags; see header]"); process.exit(2); }
 const defaultS = Number(opt("seconds", 120)), readsSpec = opt("reads", "15,30,60,120");
-const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Number(opt("window", 10));
+const prof = opt("profile") ? parseProfile(opt("profile")) : null;
+// profile source maps: --maps <dir>, else (with --lane) the view's local dist /tmp/<lane>/dist-<name>; a dist built
+// without ES_GPU_LANE_SOURCEMAP=1 has no .map files and the profile keeps bundle positions only
+const mapsCache = new Map();
+const mapsFor = (url) => {
+  const dir = opt("maps") ?? (opt("lane") && distNameOf(url) ? `/tmp/${opt("lane")}/dist-${distNameOf(url)}` : null);
+  if (!dir) return null;
+  if (!mapsCache.has(dir)) { try { mapsCache.set(dir, loadSourceMaps(dir)); } catch { mapsCache.set(dir, null); } }
+  return mapsCache.get(dir);
+};
+for (const v of views ?? []) if (v.weatherPinAdded) console.log(`pod-capture WARNING ${v.name}: url names no weather; w=clear added (diag20 E7) -> ${v.url}`);
+const windowS = Number(opt("window", 10));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
@@ -436,7 +455,7 @@ async function captureView(view) {
   const readsAt = readsSpec.split(",").map(Number).filter((s) => s < totalS);
   const steps = [...view.steps];
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
-  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, readyS: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null };
+  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, readyS: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null, ...(view.weatherPinAdded ? { weatherPinAdded: true } : {}) };
   const ctl = { page: null };
   const body = viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl);
   let timer;
@@ -462,6 +481,8 @@ async function captureView(view) {
       result.nanProbe = await evaluate(`window.__nanProbe ? JSON.parse(JSON.stringify(window.__nanProbe)) : { err: "no probe on the page" }`, 10_000);
       writeFileSync(join(dir, "nan-probe.json"), JSON.stringify(result.nanProbe, null, 1));
     }
+    // diag20 E8 dev hooks: casters missing their layer (expect 0) and the warm gate's open reason
+    if (ctl.page && !view.plain) result.devHooks = await evaluate(DEV_HOOKS_JS, 10_000).catch(() => null);
     // load timeline (owner 10 s bar): always, also for a failed view (complete stays null and the bar fails)
     if (ctl.page) {
       const page = await evaluate(LOAD_TIMELINE_READ_JS, 10_000).catch(() => null);
@@ -496,7 +517,7 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     // shots wait for the shot settle gate (frame rate and luma steady; pod-capture-lib shotSettle); plain views and settle: false skip it
     const shotGate = view.plain || view.settle === false ? null : shotSettle(view.settle === true ? {} : view.settle);
     if (shotGate) result.shotSettle = { config: shotGate.config, at: null, timedOut: false };
-    let flagPoll = -1, firstShot = false;
+    let flagPoll = -1, firstShot = false, posePoll = -1, profStartS = null;
     result.frameClocks = []; result.clockSource = CLOCK_SOURCE;
     if (view.readyFlag) result.readyFlag = { name: view.readyFlag, at: null, timedOut: false };
     while (sec() < totalS) {
@@ -508,11 +529,19 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         result.lastState = { atS: r1(s), read: last, consoleTail: sink.cons.list().slice(-10), pageErrors: sink.pageErrors.list().slice(-5) };
         return;
       }
-      if (profState === "wait" && s >= prof.at) { await send("Profiler.start"); profState = "on"; }
-      if (profState === "on" && s >= prof.at + prof.seconds) {
+      // --profile N@T from navigation, or N@settle+S from the settle gate (profileStartS; diag20 E8)
+      if (profState === "wait") { const p0 = profileStartS(prof, result.settledAt, result.readyS); if (p0 !== null && s >= p0) { await send("Profiler.start"); profState = "on"; profStartS = r1(s); } }
+      if (profState === "on" && s >= profStartS + prof.seconds) {
         const { profile } = await send("Profiler.stop", {}, 60_000);
         writeFileSync(join(dir, "profile.cpuprofile"), JSON.stringify(profile));
-        result.profile = { at: prof.at, ...summariseProfile(profile) }; profState = "done";
+        result.profile = { at: profStartS, from: prof.from, atSpec: prof.at, ...summariseProfile(profile, 30, mapsFor(view.url)) }; profState = "done";
+      }
+      // diag20 E8: the first frame waits for the view's pose (POSE_READY_JS: the character spawned, so the follow camera is
+      // on it; iter28 first frames showed the open-water boot camera), or --ready-timeout (then poseTimedOut)
+      if (!view.plain && result.poseAt === undefined && Math.floor(s * 2) > posePoll) {
+        posePoll = Math.floor(s * 2);
+        if ((await evaluate(POSE_READY_JS, 5_000)) === true) result.poseAt = r1(sec());
+        else if (s > readyTimeoutS) { result.poseAt = null; result.poseTimedOut = true; }
       }
       // `aim`: the camera is aimed once the studio's debug hook exists, and no frame is taken before it is
       if (view.aim && !result.aimedAt) { if ((await evaluate(aimJs(view.aim), 5_000)) === true) result.aimedAt = r1(sec()); }
@@ -526,8 +555,8 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
       const flagOpen = !view.readyFlag || result.readyFlag.at !== null || result.readyFlag.timedOut;
       // diag19 D5: a first frame at ready, then shot times from navigation (`shotsFrom: "settle"`: from the shot settle gate)
       const shotT = shotTime(view, s, shotGate?.at ?? null);
-      const firstDue = !firstShot && (view.plain || result.readyS !== null);
-      if (flagOpen && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
+      const firstDue = !firstShot && (view.plain || (result.readyS !== null && result.poseAt !== undefined));
+      if (flagOpen && (view.plain || result.poseAt !== undefined) && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
         while (si < shots.length && shots[si] <= shotT) si++;
         firstShot = true;
         try {

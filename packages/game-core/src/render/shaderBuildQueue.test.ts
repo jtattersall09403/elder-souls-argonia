@@ -88,6 +88,29 @@ describe("queueShaderBuilds", () => {
     expect(queue.skippedDraws).toBe(3);
   });
 
+  it("never queues a shadow-pass or override-material draw (three restores the override before pump); a normal draw still queues", () => {
+    const drawn: string[] = [];
+    const fake = {
+      _objects: { get: (object: { id: string }) => ({ key: object.id }), getChainMap: () => ({ get: () => undefined }) },
+      _currentRenderContext: null,
+      _renderTarget: {} as object | null,
+      _renderObjectFunction: () => {},
+      _nodes: { nodeBuilderCache: new Map(), get: () => ({ nodeBuilderState: undefined }), getForRenderCacheKey: (ro: { key: string }) => ro.key, getForRender: () => new Promise(() => {}) },
+      _renderObjectDirect(object: { id: string }) { drawn.push(object.id); },
+    };
+    const queue = queueShaderBuilds(fake as unknown as WebGPURenderer, 1)!;
+    const call = (id: string, material: object, scene: object) => (fake._renderObjectDirect as (...a: unknown[]) => void)({ id }, material, scene, {});
+    const shadowMaterial = { isShadowPassMaterial: true, positionNode: { skinned: true } };
+    call("caster", shadowMaterial, { overrideMaterial: shadowMaterial });
+    shadowMaterial.positionNode = null as unknown as { skinned: boolean }; // three restores the override after the draw
+    call("override", {}, { overrideMaterial: {} });
+    call("shadowPass", { isShadowPassMaterial: true }, { overrideMaterial: null });
+    call("normal", {}, { overrideMaterial: null });
+    expect(drawn).toEqual(["caster", "override", "shadowPass"]);
+    expect(queue.skippedDraws).toBe(1);
+    expect(queue.pending).toBe(1);
+  });
+
   it("draws built objects, queues unbuilt ones off the frame, draws them once built", async () => {
     const built = new Set<string>();
     const drawn: string[] = [];

@@ -127,6 +127,9 @@ export function createKitPieceMaterial(role: KitShapeRole, tex: THREE.Texture | 
   material.transparent = true;
   material.depthWrite = false;
   material.side = THREE.DoubleSide;
+  // one pass: the back/front split re-derives the pipeline state every draw
+  // (render/singlePass.ts); depth-write off makes the single pass identical
+  material.forceSinglePass = true;
   // Named so a shader-compile error in the probe/console identifies this
   // material instead of reporting a blank name (0064 bring-up).
   material.name = `es-waterfall-kit-${role.kind}-${role.match}`;
@@ -156,7 +159,11 @@ export function createKitPieceMaterial(role: KitShapeRole, tex: THREE.Texture | 
     cov = float(1).sub(float(1).sub(cov).mul(float(1).sub(coverage(s2))));
     tone = max(tone, s2.rgb);
   }
-  let alpha = float(role.alpha).mul(cov).mul(inst.w).mul(u.uOpacity);
+  // the vanilla NIF vertex colour, exported as two glTF layers (three names
+  // COLOR_n `color_n`): COLOR_1 the RGB tint, COLOR_2 the vertex alpha in r
+  // that feathers every sheet edge to 0 (ensureKitVertexColours fills 1s)
+  tone = tone.mul(attribute("color_1", "vec4").rgb);
+  let alpha = float(role.alpha).mul(cov).mul(attribute("color_2", "vec4").r).mul(inst.w).mul(u.uOpacity);
   // nothing of the kit is drawn from under the pool: that view is the field
   // water's below variant, not an opaque plane through the surface
   alpha = alpha.mul(float(1).sub(clamp(u.uUnderwater, 0, 1)));
@@ -196,6 +203,21 @@ export function createKitPieceMaterial(role: KitShapeRole, tex: THREE.Texture | 
   }
   material.colorNode = vec4(color, alpha);
   return material;
+}
+
+/**
+ * The two kit colour layers the shader reads, as three's GLTFLoader names
+ * them. A shape without one (the Inner and SlopeMesh bodies carry no
+ * COLOR_2) gets an all-ones layer, so one pipeline serves every shape.
+ */
+export const KIT_VERTEX_COLOUR_ATTRIBUTES = ["color_1", "color_2"] as const;
+
+export function ensureKitVertexColours(geometry: THREE.BufferGeometry): void {
+  const count = geometry.getAttribute("position").count;
+  for (const name of KIT_VERTEX_COLOUR_ATTRIBUTES) {
+    if (geometry.getAttribute(name)) continue;
+    geometry.setAttribute(name, new THREE.BufferAttribute(new Float32Array(count * 4).fill(1), 4));
+  }
 }
 
 /** A texture bound for the kit: repeat both axes (the offset scrolls forever), no colour management. */

@@ -16,7 +16,10 @@
  * `sceneGrid`: the scene target read whole and sampled on a 64x36 grid: NaN, Inf, black (luma < 0.001), lit, mean luma,
  * 8 raw RGBA samples, and the depth texture's raw min/max/mean with counts below 0.001 / above 0.999 when the backend can
  * copy it (else `skipped` with the reason).
- * `heldDraws`: each draw the build queue skipped in the window (object, parents, material, attributes, pass camera, wait).
+ * `heldDraws`: each draw the build queue skipped in the window (object, parents, material, attributes, pass camera, wait);
+ * per object `frames[0|1]` = the cache key the queue's `request` received (its getCacheKey string, 2000 chars) with
+ * material.version, material.id and geometry.id on each of the two window frames, `keyChanged` (null unless both frames
+ * held it) and `keyDiffAt` (first differing key char).
  * The canvas luma is the harness's screenshot screen-middle luma (pod-capture.mjs). Self-contained: stringified.
  */
 
@@ -179,8 +182,8 @@ export function installTargetProbe(win, recordPass) {
     if (typeof renderAsyncFn === "function") r.renderAsync = async function (sc, cam, ...a) { const d0 = P.totalDraws ?? 0; const out = await renderAsyncFn.call(this, sc, cam, ...a); keep(sc, cam, (P.totalDraws ?? 0) - d0); return out; };
     // Held draws: the draw in progress (object, material, camera, target) is kept while the queue's _renderObjectDirect runs
     hookQueue(q);
-    const rod = r._renderObjectDirect, held = new Map();
-    let heldCount = 0;
+    const rod = r._renderObjectDirect, held = new Map(), keysBy = new Map();
+    let heldCount = 0, frameIdx = 0;
     if (q && typeof rod === "function") {
       hold = { cur: null, note(qq, key, c) {
         heldCount++;
@@ -188,6 +191,11 @@ export function installTargetProbe(win, recordPass) {
         let h = held.get(id);
         if (!h && held.size < 20) { h = heldRecord(qq, key, c); held.set(id, h); }
         if (h) { h.count++; h.waitedMs = firstSeen.has(key) ? Math.round(pnow() - firstSeen.get(key)) : null; }
+        // D3: the cache key the queue looked up, with material version and material/geometry ids, per window frame (first draw per frame)
+        const oid = c.object?.uuid ?? "?";
+        let fk = keysBy.get(oid);
+        if (!fk && keysBy.size < 20) keysBy.set(oid, (fk = [null, null]));
+        if (fk && !fk[frameIdx]) fk[frameIdx] = { key: String(key).slice(0, 2000), materialVersion: c.material?.version ?? null, materialId: c.material?.id ?? null, geometryId: c.object?.geometry?.id ?? null };
       } };
       r._renderObjectDirect = function (object, material, scene, camera, ...a) {
         const prev = hold.cur;
@@ -197,7 +205,7 @@ export function installTargetProbe(win, recordPass) {
     }
     await raf();
     const skipped0 = q ? q.skippedDraws : null;
-    P.armed = true; await raf(); await raf(); P.armed = false; P.curRt = null; P.curPass = null;
+    P.armed = true; frameIdx = 0; await raf(); frameIdx = 1; await raf(); P.armed = false; P.curRt = null; P.curPass = null;
     const skipped1 = q ? q.skippedDraws : null;
     r.setRenderTarget = set;
     if (typeof renderFn === "function") r.render = renderFn;
@@ -209,7 +217,12 @@ export function installTargetProbe(win, recordPass) {
       const pass = (cam, h) => (cam && cam === big.camera ? "main" : cam?.isOrthographicCamera || /shadow/i.test(h.target) ? "shadow/ortho" : "other");
       heldDraws = !q ? { err: "no esBuildQueue on the renderer" } : typeof rod !== "function" ? { err: "no renderer._renderObjectDirect" } : {
         perFrame: heldCount / FRAMES, twinsHeld: q.twinsHeld ?? null, hookedAt: q.__targetProbeHooked ?? null,
-        objects: [...held.values()].map((h) => ({ ...h, pass: pass(h.camera, h), camera: h.camera ? { type: h.camera.type ?? null, name: h.camera.name ?? "" } : null })) };
+        objects: [...held.values()].map((h) => {
+          const fk = keysBy.get(h.object.uuid ?? "?") ?? [null, null], [a, b] = fk;
+          const keyChanged = a && b ? a.key !== b.key || a.materialVersion !== b.materialVersion || a.materialId !== b.materialId || a.geometryId !== b.geometryId : null;
+          let keyDiffAt = null; if (keyChanged && a.key !== b.key) { keyDiffAt = 0; while (a.key[keyDiffAt] === b.key[keyDiffAt]) keyDiffAt++; }
+          return { ...h, pass: pass(h.camera, h), camera: h.camera ? { type: h.camera.type ?? null, name: h.camera.name ?? "" } : null, frames: fk, keyChanged, keyDiffAt };
+        }) };
     } catch (e) { heldDraws = { err: String(e.message ?? e).slice(0, 200) }; }
     let notReadyPipelines; try { notReadyPipelines = typeof isReady0 === "function" ? { perFrame: nr.count / FRAMES, names: [...nr.names.values()], fields: [...nr.fields] } : { err: "no renderer._pipelines.isReady" }; } catch (e) { notReadyPipelines = { err: String(e.message ?? e).slice(0, 200) }; }
     const exposure = {};

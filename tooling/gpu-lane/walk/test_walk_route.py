@@ -17,7 +17,8 @@ def fixture(tmp: Path) -> Path:
     (pub / "province/interiors").mkdir(parents=True)
     (pub / "kits/k1/parts").mkdir(parents=True)
     (pub / "kits/k1/parts/index.json").write_text(json.dumps({"fires": {"a:lamp-ish": {"light": {}}, "a:window": {"windowMaterials": []}}}))
-    (pub / "province/interiors/CellA.json").write_text(json.dumps({"exitDoor": {"positionM": [1.0, 0.0, 2.0]}}))
+    (pub / "province/interiors/CellA.json").write_text(json.dumps({"exitDoor": {"positionM": [1.0, 0.0, 2.0]},
+                                                                       "sockets": [{"positionM": [1.0, 0.0, -2.0]}, {"positionM": [3.0, 0.0, 0.0]}]}))
     pl = lambda i, a, x, z, kind="settlement": {"id": i, "assetId": a, "kind": kind, "positionM": [x, 0, z]}
     bundle = {
         "kits": {"k1": {"glb": "kits/k1.glb"}},
@@ -62,9 +63,10 @@ def test_coverage_rules(tmp_path):
     d2 = next(a for a in acts if a.get("doorId") == "d.2")
     assert d2["approach"] == [70.6, 70.0] and math.isclose(d2["faceYaw"], -math.pi / 2, abs_tol=1e-3)
     assert d2["exitDoorLocalM"] == [1.0, 0.0, 2.0] and d2["interiorStep"] == 1.5
-    # interior shots face into the room: exit door yaw (fixture 0) +180, +135, -135 deg, pitched down
-    assert [round(math.degrees(s["yaw"])) for s in d2["interiorShots"]] == [180, 135, -135]
-    assert all(s["pitch"] > 0 for s in d2["interiorShots"])
+    # interior shots from the floor centre (mean of the cell's sockets): exit yaw +180, +60, -60 deg, 5 deg down
+    assert [round(math.degrees(s["yaw"])) for s in d2["interiorShots"]] == [180, 60, -60]
+    assert all(math.isclose(s["pitch"], math.radians(5), abs_tol=1e-3) for s in d2["interiorShots"])
+    assert d2["interiorCentreLocalM"] == [2.0, 0.0, -1.0]
     assert d2["outShot"]["standM"] == [73.0, 70.0]
     # every stand point clears every collider by 0.5 m; the no-collider slab is ignored
     polys = walk_route.colliders(json.loads((tmp_path / f"public/province/settlements/{PID}.json").read_text()))
@@ -134,8 +136,8 @@ def test_judge_groups(tmp_path):
     assert names == ["exterior-day-1.md", "exterior-day-2.md", "exterior-night-1.md", "fires-1.md", "interiors-1.md"]
     sheets = sorted(p.name for p in (rep / "judge/sheets").glob("*.jpg"))
     assert sheets == [f"t{t}-fire{k}-series.jpg" for t in (12, 22) for k in range(2)]
-    for s in sheets:
-        assert Image.open(rep / "judge/sheets" / s).width <= 2400
+    for s in sheets:  # 6 frames as a 2x3 grid of 640 px tiles
+        assert Image.open(rep / "judge/sheets" / s).size == (3 * 640, 2 * 384)
     fires = (rep / "judge/fires-1.md").read_text()
     assert "-f0.jpg" not in fires and "t12-fire0-series.jpg" in fires
     for p in written:
@@ -155,7 +157,7 @@ def test_close_up_pitch_from_eye_to_actual_target():
     sx, sz, _, pitch = walk_route.close_up(0.0, 10.3, 0.0, walk_route.FIRE_SIZE_M, centre, ground, 10.0, [], box)
     assert pitch > 0 and math.isclose(pitch, math.atan2(11.6 - 10.3, math.hypot(sx, sz)), abs_tol=1e-3)
     # a high mount never asks for a look-up steeper than the camera arm allows
-    _, _, _, steep = walk_route.close_up(0.0, 14.0, 0.0, walk_route.SIGN_SIZE_M, centre, ground, 10.0, [], box)
+    _, _, _, steep = walk_route.close_up(0.0, 14.0, 0.0, 1.5, centre, ground, 10.0, [], box)
     assert -walk_route.CLOSE_MAX_UP_RAD - 0.01 <= steep < 0
 
 
@@ -165,3 +167,73 @@ def test_first_overview_has_clear_yaw_check_legs(tmp_path):
     polys = walk_route.colliders(json.loads((pub / f"province/settlements/{PID}.json").read_text()))
     w0 = r["waypoints"][0]
     assert w0["id"] == "overview-nw" and walk_route.yaw_check_clear((w0["xM"], w0["zM"]), polys)
+
+
+def test_sign_shot_faces_board_from_reading_side():
+    ground = [(0.0, 10.0, 0.0)]
+    box = (-50, 50, -50, 50)
+    # board at y 13 facing north (0 deg); the place centre lies north, so stand 3 m north looking south
+    sx, sz, yaw, pitch = walk_route.sign_shot(0.0, 13.0, 0.0, 0.0, (0.0, -20.0), ground, [], box)
+    assert (round(sx, 2), round(sz, 2)) == (0.0, -3.0) and math.isclose(abs(yaw), math.pi, abs_tol=1e-3)
+    assert math.isclose(pitch, math.atan2(11.6 - 13.0, 3.0), abs_tol=1e-3)  # looks up at the board, not the sky
+    # the centre on the far face: the stand flips to the south face (a blade reads from both)
+    sx, sz, yaw, _ = walk_route.sign_shot(0.0, 13.0, 0.0, 0.0, (0.0, 20.0), ground, [], box)
+    assert (round(sx, 2), round(sz, 2)) == (0.0, 3.0) and math.isclose(yaw, 0.0, abs_tol=1e-3)
+    # a hanging board's centre is halfway down from its hook
+    assert walk_route.sign_board_y({"positionM": [0, 5.0, 0], "anchor": {"groundContactOffsetM": 1.2}}) == 4.4
+
+
+def test_flame_rise_from_fires_row():
+    assert walk_route.flame_rise_m({"light": {"offsetM": [0, -0.55, 0]}}) == -0.55  # a hanging lantern
+    assert math.isclose(walk_route.flame_rise_m({"sizeM": [1, 1, 0.936], "originOffsetM": [0.5, 0.5, 0.003]}), 0.465)
+    assert walk_route.flame_rise_m(None) == walk_route.FLAME_ABOVE_ORIGIN_M
+
+
+def test_end_shot_backs_off_along_last_leg():
+    # last leg heads north (bearing 0) and ends 1 m short of a wall: the stand backs off south
+    wall = [(-5.0, -12.0), (5.0, -12.0), (5.0, -11.0), (-5.0, -11.0)]
+    fw = {"legs": [{"bearing": 0.0, "seconds": 3.0, "toM": [0.0, -10.0]}]}
+    es = walk_route.end_shot(fw, [wall], (-50, 50, -50, 50))
+    assert es["yaw"] == 0.0 and es["pitch"] == 0.0 and es["standM"][0] == 0.0
+    x, z = es["standM"]
+    assert walk_route.clearance(x, z, [wall]) >= 2.0 and walk_route.clearance(x, z + 2.0, [wall]) >= 2.0
+    assert z == -9.0  # the first 0.5 m step that clears
+    assert walk_route.end_shot(None, [], (0, 1, 0, 1)) is None
+
+
+def test_fallback_loop_sorted_by_angle_walkable_only():
+    hut = [(9.0, -1.0), (11.0, -1.0), (11.0, 1.0), (9.0, 1.0)]
+    stands = [(-10.0, 0.0), (0.0, 10.0), (10.0, 0.0), (0.0, -10.0), (5.0, 5.0)]  # (10, 0) is inside the hut
+    ways = walk_route.fallback_loop(stands, (0.0, 0.0), [hut])
+    assert ways == [("fallback-loop", [(0.0, -10.0), (5.0, 5.0), (0.0, 10.0), (-10.0, 0.0), (0.0, -10.0)])]
+    assert walk_route.fallback_loop([(0.0, -10.0)], (0.0, 0.0), []) == []
+    fw = walk_route.free_walk(ways)
+    assert fw["routeId"] == "fallback-loop" and fw["startM"] == [0.0, -10.0]
+
+
+def test_no_painted_way_still_gets_a_free_walk(tmp_path):
+    pub = fixture(tmp_path)
+    p = pub / f"province/settlements/{PID}.json"
+    b = json.loads(p.read_text())
+    b["settlement"]["groundPaint"]["entries"] = []
+    p.write_text(json.dumps(b))
+    fw = walk_route.build_route(PID, pub)["freeWalk"]
+    assert fw["routeId"] == "fallback-loop" and fw["seconds"] > 0 and fw["endShot"]["pitch"] == 0.0
+
+
+def test_one_shot_per_filled_physical_promise(tmp_path):
+    """audit10: every filled `thing-<noun>` row gets its own close-up aimed at
+    the placement that fills it (by the layout op id, the compiled id's tail);
+    other rows and fillers the bundle does not place get none."""
+    pub = fixture(tmp_path)
+    p = pub / f"province/settlements/{PID}.json"
+    b = json.loads(p.read_text())
+    b["settlement"]["promiseFills"] = {"promise.walk.thing-sign": ["sign"], "promise.walk.thing-shed": ["p.gone"],
+                                       "promise.walk.service-ferry": ["p.lamp"]}
+    p.write_text(json.dumps(b))
+    r = walk_route.build_route(PID, pub)
+    shots = [a for w in r["waypoints"] for a in w["actions"] if a.get("promiseId")]
+    assert r["promises"] == ["promise.walk.thing-sign"]
+    assert [(a["name"], a["subjects"]) for a in shots] == [("promise-sign", ["sign"])]
+    w = next(w for w in r["waypoints"] if w["id"] == "promise-sign")
+    assert 2.0 <= math.dist((w["xM"], w["zM"]), (60, 60)) <= 12.0

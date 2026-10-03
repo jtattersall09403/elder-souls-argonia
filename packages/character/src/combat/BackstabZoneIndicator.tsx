@@ -59,7 +59,7 @@ export function BackstabZoneIndicator({ runtime, player }: { runtime: EnemyRunti
   });
   return (
     <mesh ref={mesh} geometry={geometry} renderOrder={2}>
-      <meshBasicMaterial transparent depthWrite={false} side={THREE.DoubleSide} />
+      <meshBasicMaterial transparent depthWrite={false} side={THREE.DoubleSide} forceSinglePass />
     </mesh>
   );
 }

@@ -963,30 +963,20 @@
   },
   "vanilla:architecture/riften/rtstables01": {
    "category": "architecture",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.5,
-     "kind": "open-front",
-     "offsetM": [
-      0.03,
-      0.66
-     ],
-     "sideDeg": 247.5
-    }
-   ],
+   "doorStoreyM": 0.91,
    "entrance": {
-    "arcM": 1.56,
-    "centreShiftM": 0.92,
-    "clearM": 2.04,
+    "arcM": 1.86,
+    "centreShiftM": 0.85,
+    "clearM": 2.95,
     "kind": "open-front",
     "offsetM": [
-     1.07,
-     -0.96
+     1.17,
+     -1.23
     ],
     "rayConfirmed": true,
     "sideDeg": 20.0,
     "sillYM": 0.0,
-    "widthM": 3.2
+    "widthM": 3.35
    },
    "floorOffsetM": 0.0,
    "frontFaceFraction": 1.0,

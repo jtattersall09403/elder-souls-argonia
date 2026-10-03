@@ -4,6 +4,7 @@ import { useLayoutEffect, useMemo } from "react";
 import * as THREE from "three";
 
 import { RIG_SOCKET_ROTATION } from "@elder-souls/game-core/anim/animationManifest";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 
 /**
  * The quiver on an archer's back.
@@ -41,7 +42,7 @@ export function QuiverAttachment({
     const instance = gltf.scene.clone(true);
     instance.traverse((object) => {
       if (object instanceof THREE.Mesh) {
-        object.castShadow = true;
+        setCastShadow(object, true);
         object.receiveShadow = true;
       }
     });

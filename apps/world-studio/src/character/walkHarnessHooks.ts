@@ -35,6 +35,8 @@ export interface WalkHarnessDeps {
   player: () => [number, number, number] | null;
   interior: () => InteriorDoorsProbe | null;
   interaction: InteractionArbiter;
+  /** Read each frame by the player fade: true draws the body at opacity 0. */
+  playerHidden: { current: boolean };
 }
 
 /** What the arbiter weighed at its last resolve, and the door transition's state (walk_run's focus record). */
@@ -69,6 +71,8 @@ export function walkHarnessHooks(d: WalkHarnessDeps) {
       if (yawRad !== undefined) d.camera.yaw = yawRad;
       return g !== null;
     },
+    /** Hide (true) or show the drawn player body; physics and the camera are untouched. */
+    hidePlayer: (on: boolean): void => { d.playerHidden.current = on; },
     state: (): WalkHarnessState => {
       const p = d.player();
       const c = d.cameraPos();

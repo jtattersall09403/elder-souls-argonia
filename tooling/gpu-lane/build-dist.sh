@@ -17,7 +17,7 @@ set -euo pipefail
 # leaves it equal (walk 10 vol r1: the whole-worktree key rebuilt and re-synced, prep 17 min)
 srckey() {
   local src=(apps/world-studio packages package.json package-lock.json); [ "$2" = harness ] && src+=(tooling/gpu-lane/vite.harness.mjs)
-  (cd "$1" && { echo "$2"; git ls-tree HEAD -- "${src[@]}"; git diff HEAD -- "${src[@]}"; git ls-files --others --exclude-standard -- "${src[@]}" | git hash-object --stdin-paths; } | sha1sum | cut -c1-40)
+  (cd "$1" && { echo "$2"; echo "sourcemap=${ES_GPU_LANE_SOURCEMAP:-0}"; git ls-tree HEAD -- "${src[@]}"; git diff HEAD -- "${src[@]}"; git ls-files --others --exclude-standard -- "${src[@]}" | git hash-object --stdin-paths; } | sha1sum | cut -c1-40)
 }
 if [ "${1:-}" = --key ]; then srckey "${2:?worktree}" "${3:?dev|webgpu|harness}"; exit 0; fi
 wt=${1:?worktree}; n=${2:?dev|webgpu}; lane=${3:?lane}
@@ -27,6 +27,9 @@ case "$n" in
   harness) envs=(ES_STUDIO_BASE=/elder-souls-argonia/harness/ VITE_ES_DATA_BASE=/elder-souls-argonia/studio/) ;;
   *) echo "build-dist: name must be dev, webgpu or harness" >&2; exit 2 ;;
 esac
+# ES_GPU_LANE_SOURCEMAP=1 in the caller's env: hidden *.js.map beside each chunk (vite.config.ts) for pod-capture --profile's
+# source column; part of the key, so a map build and a plain build never reuse each other's dist
+[ "${ES_GPU_LANE_SOURCEMAP:-0}" = 1 ] && envs+=(ES_GPU_LANE_SOURCEMAP=1)
 here=$(cd "$(dirname "$0")" && pwd)
 cfg=(); [ "$n" = harness ] && cfg=(--config "$here/vite.harness.mjs")
 mkdir -p "/tmp/$lane"; dist=/tmp/$lane/dist-$n; stage=/tmp/$lane/build-$n; log=/tmp/$lane/prep-times.jsonl

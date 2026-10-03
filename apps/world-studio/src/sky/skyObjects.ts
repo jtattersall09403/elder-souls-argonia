@@ -18,6 +18,7 @@ import { cloudFieldNodes, type CloudUniforms } from "./cloudField";
 import type { LightRig } from "./lightRig";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
+import { aimShadowCameraAtCasters } from "@elder-souls/game-core/render/shadowCasters";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
@@ -658,6 +659,8 @@ export function createSunCascades(opts: SunCascadeOptions): { sun: THREE.Directi
   sun.shadow.camera.far = 2000;
   sun.shadow.bias = -6e-5;
   sun.shadow.normalBias = 0.05;
+  // the cascades clone this camera: they see the caster layers only
+  aimShadowCameraAtCasters(sun.shadow.camera);
   const csm = new CSMShadowNode(sun, {
     cascades: opts.cascades,
     maxFar: opts.maxFar,

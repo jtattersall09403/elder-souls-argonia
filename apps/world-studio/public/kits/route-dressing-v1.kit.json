@@ -65,11 +65,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock s 01",
    "undersideClosed": false,
    "undersideCoverage": 0.424,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205,
-   "displayName": "Rock s 01"
+   "pivotAboveBaseM": 0.205
   },
   {
    "id": "vanilla:landscape/rocks/rocks02",
@@ -135,11 +135,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock s 02",
    "undersideClosed": false,
    "undersideCoverage": 0.313,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.09,
-   "displayName": "Rock s 02"
+   "pivotAboveBaseM": 0.09
   },
   {
    "id": "vanilla:landscape/rocks/rocks03",
@@ -205,11 +205,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock s 03",
    "undersideClosed": false,
    "undersideCoverage": 0.372,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.383,
-   "displayName": "Rock s 03"
+   "pivotAboveBaseM": 0.383
   },
   {
    "id": "vanilla:landscape/rocks/rockm01",
@@ -275,11 +275,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock m 01",
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.188,
-   "displayName": "Rock m 01"
+   "pivotAboveBaseM": 0.188
   },
   {
    "id": "vanilla:landscape/rocks/rockm02",
@@ -345,11 +345,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "DB torture victim container 3",
    "undersideClosed": false,
    "undersideCoverage": 0.051,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.336,
-   "displayName": "DB torture victim container 3"
+   "pivotAboveBaseM": 0.336
   },
   {
    "id": "vanilla:landscape/rocks/rockm03",
@@ -415,11 +415,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock m 03",
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.47,
-   "displayName": "Rock m 03"
+   "pivotAboveBaseM": 0.47
   },
   {
    "id": "vanilla:landscape/rocks/rockm04",
@@ -485,11 +485,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock m 04",
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26,
-   "displayName": "Rock m 04"
+   "pivotAboveBaseM": 0.26
   },
   {
    "id": "vanilla:landscape/rocks/rockl01",
@@ -555,11 +555,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "DB torture victim container 1",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848,
-   "displayName": "DB torture victim container 1"
+   "pivotAboveBaseM": 0.848
   },
   {
    "id": "vanilla:landscape/rocks/rockl02",
@@ -627,11 +627,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock l 02",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.573,
-   "displayName": "Rock l 02"
+   "pivotAboveBaseM": 0.573
   },
   {
    "id": "vanilla:landscape/rocks/rockl04",
@@ -697,11 +697,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock l 04",
    "undersideClosed": false,
    "undersideCoverage": 0.429,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.69,
-   "displayName": "Rock l 04"
+   "pivotAboveBaseM": 0.69
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles01",
@@ -769,11 +769,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock pile s 01",
    "undersideClosed": false,
    "undersideCoverage": 0.043,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.247,
-   "displayName": "Rock pile s 01"
+   "pivotAboveBaseM": 0.247
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles02",
@@ -841,11 +841,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock pile s 02",
    "undersideClosed": false,
    "undersideCoverage": 0.055,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.32,
-   "displayName": "Rock pile s 02"
+   "pivotAboveBaseM": 0.32
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles03",
@@ -913,11 +913,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock pile s 03",
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.279,
-   "displayName": "Rock pile s 03"
+   "pivotAboveBaseM": 0.279
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem01",
@@ -993,11 +993,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock pile m 01",
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.584,
-   "displayName": "Rock pile m 01"
+   "pivotAboveBaseM": 0.584
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem02",
@@ -1074,11 +1074,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock pile m 02",
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.49,
-   "displayName": "Rock pile m 02"
+   "pivotAboveBaseM": 0.49
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
@@ -1144,11 +1144,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock m 02 wet",
    "undersideClosed": false,
    "undersideCoverage": 0.051,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.336,
-   "displayName": "Rock m 02 wet"
+   "pivotAboveBaseM": 0.336
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl01wet",
@@ -1214,11 +1214,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock l 01 wet",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848,
-   "displayName": "Rock l 01 wet"
+   "pivotAboveBaseM": 0.848
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem02wet",
@@ -1295,11 +1295,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock pile m 02 wet",
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.49,
-   "displayName": "Rock pile m 02 wet"
+   "pivotAboveBaseM": 0.49
   },
   {
    "id": "vanilla:landscape/rocks/cairns/rockcairn01",
@@ -1365,11 +1365,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock cairn 01",
    "undersideClosed": false,
    "undersideCoverage": 0.561,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.031,
-   "displayName": "Rock cairn 01"
+   "pivotAboveBaseM": 0.031
   },
   {
    "id": "vanilla:landscape/rocks/cairns/rockcairn02",
@@ -1435,11 +1435,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock cairn 02",
    "undersideClosed": true,
    "undersideCoverage": 0.74,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.031,
-   "displayName": "Rock cairn 02"
+   "pivotAboveBaseM": 0.031
   },
   {
    "id": "vanilla:landscape/rocks/cairns/rockcairn03",
@@ -1505,11 +1505,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock cairn 03",
    "undersideClosed": true,
    "undersideCoverage": 0.83,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.078,
-   "displayName": "Rock cairn 03"
+   "pivotAboveBaseM": 0.078
   },
   {
    "id": "vanilla:landscape/rocks/cairns/rockcairn04",
@@ -1575,11 +1575,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Rock cairn 04",
    "undersideClosed": true,
    "undersideCoverage": 0.782,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "displayName": "Rock cairn 04"
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/burialcairn/burialcairn01",
@@ -1667,11 +1667,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Burial cairn 01",
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.479,
-   "displayName": "Burial cairn 01"
+   "pivotAboveBaseM": 0.479
   },
   {
    "id": "vanilla:clutter/burialcairn/burialcairn02",
@@ -1757,11 +1757,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Burial cairn 02",
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.479,
-   "displayName": "Burial cairn 02"
+   "pivotAboveBaseM": 0.479
   },
   {
    "id": "vanilla:clutter/burialcairn/burialcairn03",
@@ -1848,11 +1848,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Burial cairn 03",
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.479,
-   "displayName": "Burial cairn 03"
+   "pivotAboveBaseM": 0.479
   },
   {
    "id": "vanilla:clutter/woodfires/campfire01landoff",
@@ -1914,11 +1914,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Campfire 01 land off",
    "undersideClosed": false,
    "undersideCoverage": 0.06,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.228,
-   "displayName": "Campfire 01 land off"
+   "pivotAboveBaseM": 0.228
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-dressing-v1.glb",

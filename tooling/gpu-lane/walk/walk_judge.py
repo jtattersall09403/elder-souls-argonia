@@ -25,7 +25,7 @@ ROWS = {
     "interiors": [47, 48, 49, 50],
     "fires": [12, 16, 25, 34, 41, 42, 52],
 }
-SHEET_W = 2400
+SHEET_COLS, SHEET_TILE_W = 3, 640  # fire series sheets: a 3-wide grid (6 frames = 2x3), 640 px a tile
 FIRE_FRAME = re.compile(r"^(t\d+-fire\d+)-f(\d+)\.jpg$")
 FIRE_QUESTION = ("Each image is one fixture's time series, frames left to right, each labelled with its index. "
                  "Per sheet say: is a flame visible in each frame; does it change between frames (flicker, motion); "
@@ -55,7 +55,8 @@ def group_of(file: str) -> str:
 
 
 def fire_sheets(report: Path, frames: list[str], out_dir: Path) -> list[str]:
-    """Tile each fire series (t<T>-fire<k>-f<i>.jpg) into one labelled row, at most SHEET_W wide."""
+    """Tile each fire series (t<T>-fire<k>-f<i>.jpg) into a labelled grid SHEET_COLS wide, SHEET_TILE_W px a tile
+    (the source width when smaller), large enough to judge the flame changing between frames."""
     from PIL import Image, ImageDraw
     series: dict[str, list[tuple[int, str]]] = {}
     for f in frames:
@@ -66,14 +67,16 @@ def fire_sheets(report: Path, frames: list[str], out_dir: Path) -> list[str]:
     paths = []
     for key in sorted(series):
         ims = [(i, Image.open(report / f).convert("RGB")) for i, f in sorted(series[key])]
-        w = min(ims[0][1].width, SHEET_W // len(ims))
+        w = min(ims[0][1].width, SHEET_TILE_W)
         h = round(ims[0][1].height * w / ims[0][1].width)
-        sheet = Image.new("RGB", (w * len(ims), h))
+        cols = min(SHEET_COLS, len(ims))
+        sheet = Image.new("RGB", (w * cols, h * -(-len(ims) // cols)))
         d = ImageDraw.Draw(sheet)
         for n, (i, im) in enumerate(ims):
-            sheet.paste(im.resize((w, h)), (n * w, 0))
-            d.rectangle((n * w, 0, n * w + 40, 18), fill=(0, 0, 0))
-            d.text((n * w + 4, 3), f"f{i}", fill=(255, 255, 0))
+            x, y = (n % cols) * w, (n // cols) * h
+            sheet.paste(im.resize((w, h)), (x, y))
+            d.rectangle((x, y, x + 40, y + 18), fill=(0, 0, 0))
+            d.text((x + 4, y + 3), f"f{i}", fill=(255, 255, 0))
         dest = sheet_dir / f"{key}-series.jpg"
         sheet.save(dest, quality=85)
         paths.append(str(dest.relative_to(report)))

@@ -65,6 +65,34 @@ const LINE_STYLE: Record<OverlayLine["mode"], { stroke: string; width: number; d
   channel: { stroke: "#7fe3f0", width: 1.2, dash: [2, 2] },
 };
 
+/** A minimap canvas point, written in place by a `ToView`. */
+export interface ViewPoint { x: number; y: number }
+/** Map-raster pixel to minimap canvas, written into `out` (no allocation per point). */
+export type ToView = (px: number, py: number, out: ViewPoint) => void;
+
+/** Heading bucket (degrees) below which the minimap is not redrawn. */
+export const MINIMAP_HEADING_STEP_DEG = 3;
+
+/**
+ * The minimap's view quantised to what it can show: the centre to whole view
+ * pixels (`metresPerViewPx`), the heading to MINIMAP_HEADING_STEP_DEG. The
+ * panel redraws only when one of these changes (perf10 diag10 C3b: it redrew
+ * every time the position prop moved by a millimetre).
+ */
+export function minimapView(xM: number, zM: number, headingDeg: number, metresPerViewPx: number): { cx: number; cz: number; heading: number } {
+  const buckets = 360 / MINIMAP_HEADING_STEP_DEG;
+  return {
+    cx: Math.round(xM / metresPerViewPx),
+    cz: Math.round(zM / metresPerViewPx),
+    heading: ((Math.round(headingDeg / MINIMAP_HEADING_STEP_DEG) % buckets) + buckets) % buckets,
+  };
+}
+
+const NO_DASH: number[] = [];
+const DEAD_DASH = [2, 1.5];
+// read-only after construction except the point the draw writes and reads at once
+const scratchPoint: ViewPoint = { x: 0, y: 0 };
+
 /**
  * Draw the overlay. `toView` maps map-raster pixels to minimap canvas
  * coordinates (the crop transform); `metresPerViewPx` decides how much
@@ -74,10 +102,11 @@ export function drawMinimapOverlay(
   ctx: CanvasRenderingContext2D,
   overlay: MinimapOverlay,
   meta: MapMeta,
-  toView: (px: number, py: number) => { x: number; y: number },
+  toView: ToView,
   viewPx: number,
   metresPerViewPx: number,
 ): void {
+  const pt = scratchPoint;
   const gridToMap = meta.imageWidth / HYDRO_GRID_PX;
   const zoomed = metresPerViewPx < 20;
   ctx.save();
@@ -88,23 +117,26 @@ export function drawMinimapOverlay(
     const st = LINE_STYLE[line.mode];
     ctx.strokeStyle = st.stroke;
     ctx.lineWidth = zoomed ? st.width : Math.max(0.8, st.width * 0.6);
-    ctx.setLineDash(zoomed ? st.dash : []);
+    ctx.setLineDash(zoomed ? st.dash : NO_DASH);
     ctx.globalAlpha = 0.9;
     ctx.beginPath();
     let started = false;
-    for (const [c, r] of line.px) {
-      const { x, y } = toView((c + 0.5) * gridToMap, (r + 0.5) * gridToMap);
+    for (let i = 0; i < line.px.length; i++) {
+      const cr = line.px[i];
+      toView((cr[0] + 0.5) * gridToMap, (cr[1] + 0.5) * gridToMap, pt);
+      const x = pt.x; const y = pt.y;
       if (x < -4 || y < -4 || x > viewPx + 4 || y > viewPx + 4) { started = false; continue; }
       if (started) ctx.lineTo(x, y); else { ctx.moveTo(x, y); started = true; }
     }
     ctx.stroke();
   }
-  ctx.setLineDash([]);
+  ctx.setLineDash(NO_DASH);
   ctx.globalAlpha = 1;
   const labelled: { x: number; y: number }[] = [];
   for (const d of overlay.dots) {
     if (!zoomed && d.tier > 1) continue;
-    const { x, y } = toView(d.u * meta.imageWidth, d.v * meta.imageHeight);
+    toView(d.u * meta.imageWidth, d.v * meta.imageHeight, pt);
+    const x = pt.x; const y = pt.y;
     if (x < -6 || y < -6 || x > viewPx + 6 || y > viewPx + 6) continue;
     const r = zoomed ? Math.max(2.2, 5 - d.tier * 0.7) : Math.max(1.6, 4 - d.tier);
     ctx.beginPath();
@@ -115,9 +147,9 @@ export function drawMinimapOverlay(
     ctx.globalAlpha = 1;
     ctx.lineWidth = 1;
     ctx.strokeStyle = d.dead ? "#f3f0e6" : "rgba(0,0,0,0.75)";
-    if (d.dead) ctx.setLineDash([2, 1.5]);
+    if (d.dead) ctx.setLineDash(DEAD_DASH);
     ctx.stroke();
-    ctx.setLineDash([]);
+    if (d.dead) ctx.setLineDash(NO_DASH);
     // Labels: zoomed view only, tier ≤ 2, and never on top of another label.
     if (zoomed && d.tier <= 2 && !labelled.some((l) => Math.abs(l.x - x) < 46 && Math.abs(l.y - y) < 11)) {
       labelled.push({ x, y });

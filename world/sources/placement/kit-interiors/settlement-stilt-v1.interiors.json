@@ -355,31 +355,23 @@
   },
   "bmv:architecture/stilthouse/stilthouseext": {
    "category": "architecture",
+   "doorStoreyM": 7.18,
    "doorwaysClosedDropped": [
     {
-     "arcM": 6.1,
-     "kind": "open-front",
+     "arcM": 0.86,
+     "kind": "opening",
      "offsetM": [
-      -0.07,
-      -2.77
+      -0.51,
+      2.93
      ],
-     "sideDeg": 352.76
-    },
-    {
-     "arcM": 5.35,
-     "kind": "open-front",
-     "offsetM": [
-      0.58,
-      -2.82
-     ],
-     "sideDeg": 0.13
+     "sideDeg": 238.1
     }
    ],
-   "doorwaysMeasuredAboveFloorM": 1.25,
+   "doorwaysMeasuredAboveFloorM": 0.05,
    "entrance": {
     "arcM": 1.89,
     "centreShiftM": 0.02,
-    "clearM": 2.3,
+    "clearM": 2.35,
     "kind": "opening",
     "offsetM": [
      1.97,
@@ -387,7 +379,7 @@
     ],
     "rayConfirmed": true,
     "sideDeg": 15.0,
-    "sillYM": -1.22,
+    "sillYM": -1.25,
     "widthM": 1.5
    },
    "floorOffsetM": 6.0,
@@ -636,18 +628,8 @@
   },
   "composite:stilt/stilthouse-with-door": {
    "category": "architecture",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 10.43,
-     "kind": "open-front",
-     "offsetM": [
-      2.43,
-      -2.7
-     ],
-     "sideDeg": 20.58
-    }
-   ],
-   "doorwaysMeasuredAboveFloorM": 1.25,
+   "doorStoreyM": 7.18,
+   "doorwaysMeasuredAboveFloorM": 0.05,
    "entrance": {
     "count": 1,
     "doorAsset": "bmv:architecture/stilthouse/stilthousedooranim",
@@ -675,7 +657,7 @@
     {
      "arcM": 1.89,
      "centreShiftM": 0.02,
-     "clearM": 2.3,
+     "clearM": 2.35,
      "kind": "opening",
      "offsetM": [
       1.97,
@@ -683,7 +665,7 @@
      ],
      "rayConfirmed": true,
      "sideDeg": 15.0,
-     "sillYM": -1.22,
+     "sillYM": -1.25,
      "widthM": 1.5
     }
    ],
@@ -699,19 +681,56 @@
   },
   "composite:stilt/swamp-house-with-landing": {
    "category": "architecture",
+   "doorStoreyM": 6.55,
    "doorwayProbeCentreM": [
-    3.54,
-    3.76
+    1.48,
+    -4.01
    ],
    "doorwaysClosedDropped": [
     {
-     "arcM": 1.97,
+     "arcM": 2.46,
      "kind": "opening",
      "offsetM": [
-      3.51,
-      3.72
+      2.7,
+      -3.36
      ],
-     "sideDeg": 169.41
+     "sideDeg": 15.0
+    },
+    {
+     "arcM": 1.18,
+     "kind": "opening",
+     "offsetM": [
+      -4.11,
+      -0.48
+     ],
+     "sideDeg": 255.0
+    },
+    {
+     "arcM": 3.1,
+     "kind": "open-front",
+     "offsetM": [
+      1.93,
+      -3.52
+     ],
+     "sideDeg": 340.1
+    },
+    {
+     "arcM": 1.41,
+     "kind": "opening",
+     "offsetM": [
+      -1.27,
+      3.56
+     ],
+     "sideDeg": 212.39
+    },
+    {
+     "arcM": 1.01,
+     "kind": "opening",
+     "offsetM": [
+      -4.11,
+      -2.51
+     ],
+     "sideDeg": 272.51
     }
    ],
    "entrance": {
@@ -745,32 +764,18 @@
    "promiseReason": "Blackmarsh and Valenwood places the swamp house 47 times with no load door in any plugin, furnishing its own floor as an open house; Phase 12 builds its interior",
    "provenance": [
     {
-     "arcM": 3.04,
-     "centreShiftM": -0.0,
-     "clearM": 2.35,
-     "kind": "open-front",
+     "arcM": 1.13,
+     "centreShiftM": -0.15,
+     "clearM": 2.0,
+     "kind": "opening",
      "offsetM": [
-      7.63,
-      5.25
+      -4.11,
+      -0.78
      ],
      "rayConfirmed": true,
-     "sideDeg": 145.01,
-     "sillYM": 2.73,
-     "widthM": 5.05
-    },
-    {
-     "arcM": 1.52,
-     "centreShiftM": -0.0,
-     "clearM": 2.35,
-     "kind": "open-front",
-     "offsetM": [
-      6.03,
-      7.32
-     ],
-     "rayConfirmed": true,
-     "sideDeg": 159.17,
-     "sillYM": 2.73,
-     "widthM": 5.05
+     "sideDeg": 257.49,
+     "sillYM": 2.83,
+     "widthM": 1.15
     }
    ],
    "ringFraction": 0.889,
@@ -1740,7 +1745,7 @@
     "deg": 41.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 41\u00b0 in the piece's own frame carries 2.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 41\u00b0 in the piece's own frame carries 2.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 7.24,
@@ -1771,15 +1776,6 @@
      "sideDeg": 97.5
     },
     {
-     "arcM": 1.0,
-     "kind": "opening",
-     "offsetM": [
-      1.13,
-      3.34
-     ],
-     "sideDeg": 267.5
-    },
-    {
      "arcM": 1.9,
      "kind": "opening",
      "offsetM": [
@@ -1802,7 +1798,7 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 163.7,
+    "deg": 163.6,
     "evidence": "asymmetry",
     "outside": true,
     "why": "the band at 164\u00b0 in the piece's own frame carries 2.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
@@ -1866,7 +1862,12 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": null,
+   "front": {
+    "deg": 223.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 223\u00b0 in the piece's own frame carries 5.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "frontFaceFraction": 1.0,
    "headroomM": 6.16,
    "heightM": 7.11,
@@ -2019,19 +2020,59 @@
   },
   "mudmother:gv_meshes/argoniannest/histtree": {
    "category": "misc",
+   "doorStoreyM": 7.21,
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 4.25,
+     "kind": "opening",
+     "offsetM": [
+      0.19,
+      0.43
+     ],
+     "sideDeg": 5.0
+    },
+    {
+     "arcM": 3.37,
+     "kind": "opening",
+     "offsetM": [
+      -0.58,
+      1.34
+     ],
+     "sideDeg": 268.29
+    },
+    {
+     "arcM": 2.37,
+     "kind": "opening",
+     "offsetM": [
+      -5.16,
+      1.61
+     ],
+     "sideDeg": 266.84
+    },
+    {
+     "arcM": 1.84,
+     "kind": "opening",
+     "offsetM": [
+      -9.79,
+      8.96
+     ],
+     "sideDeg": 232.34
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": -0.0,
    "entrance": {
-    "arcM": 0.93,
-    "centreShiftM": -0.88,
-    "clearM": 2.95,
+    "arcM": 1.73,
+    "centreShiftM": -0.6,
+    "clearM": 1.9,
     "kind": "opening",
     "offsetM": [
-     5.27,
-     2.7
+     3.77,
+     2.84
     ],
     "rayConfirmed": true,
-    "sideDeg": 105.0,
-    "sillYM": -0.82,
-    "widthM": 3.3
+    "sideDeg": 112.5,
+    "sillYM": -1.62,
+    "widthM": 3.85
    },
    "floorOffsetM": 8.0,
    "frontFaceFraction": 0.733,

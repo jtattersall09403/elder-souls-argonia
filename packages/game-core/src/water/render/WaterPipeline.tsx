@@ -367,6 +367,13 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       h.uniforms.uSceneDepth.value = h.uniforms.placeholders.depth;
     }
     deferBuildsInto(renderer, drawTarget); // the frame's scene pass: its builds queue like the canvas's
+    // ONE whole-scene matrix walk a frame (decision 0108 §7a): every render
+    // below (the scene pass, each shadow cascade it renders inside it, the
+    // water, precipitation and overlay passes) reuses these world matrices,
+    // since nothing moves between them (webgpu10 diag20 E5b: 4+ walks).
+    scene.updateMatrixWorld();
+    const prevMatrixAuto = scene.matrixWorldAutoUpdate;
+    scene.matrixWorldAutoUpdate = false;
     renderer.setRenderTarget(drawTarget);
     renderer.clear();
     segments?.cpuMark("scene"); segments?.gpuMark("scene");
@@ -424,11 +431,6 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       // walk 4). No background exists while the on-screen passes run.
       const prevBackground = scene.background;
       scene.background = null;
-      // Pass 1 already brought every world matrix up to date this frame and
-      // nothing moves between passes, so the on-screen passes skip three's
-      // whole-scene updateMatrixWorld walk (three of them a frame; 16k walk 8).
-      const prevMatrixAuto = scene.matrixWorldAutoUpdate;
-      scene.matrixWorldAutoUpdate = false;
       renderer.autoClear = false;
       if (!underwater && h) {
         cam.layers.mask = 1 << WATER_LAYER;
@@ -467,10 +469,10 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       }
       segments?.cpuMark("post"); segments?.gpuMark("post");
       scene.background = prevBackground;
-      scene.matrixWorldAutoUpdate = prevMatrixAuto;
       renderer.autoClear = prevAuto;
     }
     cam.layers.mask = prevLayers;
+    scene.matrixWorldAutoUpdate = prevMatrixAuto;
     renderer.setRenderTarget(prevTarget);
 
     frames.current += 1;

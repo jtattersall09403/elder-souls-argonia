@@ -4,12 +4,14 @@
  * wipe reaches the GPU.
  */
 import { describe, expect, it } from "vitest";
+import { FunctionTerrainMarcher } from "../render/terrainOcclusionReference.testkit";
 import { OcclusionMask } from "./occlusionMask";
 
 const CELL = 32;
 
 /** A ridge along x = 400: anything east of it is hidden from an eye west. */
-const ground = (x: number, _z: number) => (Math.abs(x - 400) < 40 ? 200 : 0);
+const ridge = (x: number, _z: number) => (Math.abs(x - 400) < 40 ? 200 : 0);
+const ground = new FunctionTerrainMarcher(ridge);
 
 function list(pairs: [number, number][]): Int32Array {
   const out = new Int32Array(pairs.length * 2);
@@ -29,7 +31,7 @@ describe("OcclusionMask", () => {
     const mask = new OcclusionMask(64, CELL);
     mask.anchor(0, 0);
     let sampled = 0;
-    const counted = (x: number, z: number) => { sampled++; return ground(x, z); };
+    const counted = new FunctionTerrainMarcher((x, z) => { sampled++; return ridge(x, z); });
     const occupied = list([[25, 5], [26, 5]]);
     const out = mask.sweep(
       24, { x: 0, y: 2, z: 160 }, counted, 10, 16, occupied);

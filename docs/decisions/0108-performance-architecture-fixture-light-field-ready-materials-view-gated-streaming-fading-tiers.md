@@ -66,6 +66,15 @@ frames.
   relinks nothing; the cache key is stable.
 - **Flame gain is a uniform** (`esSettlementFlameGain`), not part of the
   program key (it was one program per distinct gain).
+- **The scene is precompiled at boot and the loading overlay waits for
+  the build queue**: once the spawn ring is resident, `RenderWarmGate`
+  runs `precompileScene` (`compileAsync` from six headings around the
+  spawn, against the render target the frame's scene pass draws into),
+  then real frames run behind the overlay; it opens when per-frame work is
+  stable AND the shader build queue's `pending` is 0, or at the frame cap
+  (webgpu10 diag20 E2). Shadow-pass and override-material draws never
+  defer in the queue (three swaps the shared override material per
+  caster; a deferred build never fills its key).
 - **Water is on its layer at creation** (`layers={waterLayers}` on the
   mesh), never set in an effect after paint.
 
@@ -211,12 +220,15 @@ baseline.
 
 ## 7a. Walk-8 rows (owner: Greenspring night rain, 35–42 fps on the M2)
 
-- **On-screen passes reuse pass 1's world matrices**: WaterPipeline sets
-  `scene.matrixWorldAutoUpdate = false` for the water, precipitation and
-  overlay renders, so three's whole-scene `updateMatrixWorld` walk runs once
-  a frame, not four times. Node bench over three r184: one walk is 0.39 ms
-  at 4k objects and 1.45 ms at 12k on the VM, so the three walks removed
-  were 1.2–4.3 ms of VM CPU (a ratio; the M2 runs JS ~2–3x faster).
+- **One scene matrix walk per frame, shadow casters on layers**: WaterPipeline
+  holds `scene.matrixWorldAutoUpdate` off across the scene, cascade, water,
+  precipitation and overlay passes after one `scene.updateMatrixWorld()`, so
+  three's whole-scene walk runs once a frame, not once per pass. Node bench
+  over three r184: one walk is 0.39 ms at 4k objects and 1.45 ms at 12k on
+  the VM (a ratio; the M2 runs JS ~2-3x faster). Shadow casters are set only
+  through `setCastShadow` (`packages/game-core/src/render/shadowCasters.ts`),
+  which puts them on the caster layer (30 = all cascades, 26-29 = one
+  cascade); cascade cameras see only those layers.
 - **Settlement draws are static** (audit row 16): every InstancedMesh and
   far merge sits at identity with `matrixAutoUpdate = false`. Settlement
   pieces were already one InstancedMesh per kit part per chunk bucket, so
@@ -309,6 +321,17 @@ Agent-caused defects and the tool that changed (decision 0106 d11):
 | The q1 probe counted materials per owner name and caused two wrong diagnoses (O2, O3) | `measure.mjs --census` counts by material uuid; README rule: census, profile and walk hitches before the first fix batch |
 | Profiler start frames counted as hitches | census window opens 2 s after `Profiler.start`; a856f2f4 |
 | Hand-patched `/tmp` probes | probes live in `tooling/gpu-lane/probes/`, run with `--diag`; d7f95f70 |
+
+## 7e. Rules from perf10 chunks 4-5
+
+- **A capture without a running clock is not a performance measurement.** Every gpu-lane capture runs the game clock at game speed (`rate=0.5` in `rate=` units, from `GAME_TIME_SCALE`); paused-clock rows are diagnosis rows, never bar rows.
+- **Data rasters are never decoded through ImageBitmap or canvas at runtime** (`decodePng`).
+- **Warm-up compiles run after the material preparer;** probes never wrap per-draw functions.
+- **No per-texel, per-star, per-cell or per-call allocation in clock- or frame-driven paths:** scratch lives on the instance or in caller-owned out-params.
+- **`scene.environment` keeps one persistent texture:** copy into it, never replace it.
+- **Periodic background passes** (occlusion sweeps, gate passes) run under a per-frame time budget, keep their caches across passes, and apply only changed results with a per-frame cap; two cadences never start on the same frame.
+- **Water inputs that vary non-linearly** (depth, shore distance, exposure, crest) are computed per pixel, never interpolated from mesh vertices; Gerstner bands shorter than 2.2x the grid cell go to the fragment normal.
+- **React state set from timers changes only when the value changed;** HUD timers stop while their panel is hidden.
 
 ## 8. How performance is measured
 

@@ -61,16 +61,19 @@ How you work:
   your own lane proves bigger than briefed, split it, write the split and
   the hand-off note (what is green, next step, files) and return; never
   push on. The planner continues from the note.
-- Launch each wave as foreground Agent calls, all of the wave in ONE
-  message (decision 0118 rule 8): never `run_in_background` from a lead,
-  never a Workflow for agents that spawn agents. A foreground call blocks
-  until the child returns its result inline, several in one message run
-  concurrently, and your turn resumes with every child's result. Every
-  child's brief still names the report file it writes last, under
-  `tooling/.reports/<lane>/<child>.md`. `lane_wait.py` only polls a long
-  job's done-marker file; it never waits for agents. Integrate the
-  results, then call SubagentHandback once, at the end, with the lane's
-  report.
+- Launch each wave as Agent calls, every child in ONE message (decision
+  0118 rule 8), each brief naming the report file the child writes last,
+  `tooling/.reports/<lane>/<child>.md`; never a Workflow for agents that
+  spawn agents. In this harness an Agent call made by a subagent returns
+  "Async agent launched successfully" at once; it does NOT block. Then
+  wait in the FOREGROUND: `python3 tooling/repo-standards/lane_wait.py
+  --files <those report files> --timeout 540`, re-calling it on each
+  `timeout` until it prints `all done`. Never end your turn and never call
+  SubagentHandback while a child runs (a placeholder hand-back ended two
+  leads' runs). The completion notices that arrive are read when the wait
+  returns. An Agent result that says "launched in background" means: wait with lane_wait.py on that child's report file; SubagentHandback is only ever the final report. lane_wait is the only wait: no sleep, echo or `true` turns, no
+  polling loops. Integrate the reports, then call SubagentHandback once,
+  at the end, with the lane's real report, never a placeholder.
 - Decide inside the lane. Record a contract or architecture change as one
   decision record (next free number), a place ruling as a row in
   `.claude/skills/place-build/references/rulings.md`. Anything that crosses
@@ -112,13 +115,21 @@ Rules of the road:
   (a) one measure job per round, owned by one `run` agent, measuring EVERY
   spot/view with screenshots and all numbers in ONE harness invocation (one
   page, no parallel tabs, no tool edits between captures of a round);
+  every view set that includes a night view also includes the same pose at
+  t=12 clear (a dim reference makes a dark candidate ambiguous); the ready
+  gate waits for the build-queue counter at 0 and streaming quiet (both in
+  the capture summary), and one capture per round runs 180 s after ready
+  with a frame every 10 s, so "too soon" is ruled out;
   (b) one diagnosis report per round (`<lane>-diag<N>.md`) listing EVERY
   cause with its evidence row from that measure (every hitch over 33 ms with
   its source, every spot under the bar with its pass/stage, every error,
   every luma ratio, heap slope), produced by one or more `find`/`research`
   agents in parallel over disjoint questions and signed off by you BEFORE any
   fix brief; a fix brief that names no cause from the diagnosis is not
-  launched;
+  launched; before any probe-only conclusion, an `image-reader` looks at
+  every capture round's frames (reference vs candidate at the same pose, a
+  brightened copy, first and last frame, HUD text transcribed into the
+  diagnosis); a brightness number alone never decides a cause;
   (c) all fixes of a round launch as ONE parallel foreground wave with
   disjoint files; fix agents only edit and run the unit tests beside the
   change and NEVER measure, probe or touch the pod;
@@ -140,6 +151,12 @@ Rules of the road:
   (g) one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);
+  (h) after any commit that touches a shader or material, a headless
+  compile check (the lane's build plus the no-GLSL/TSL validation, or an
+  `npm run look` tile) runs on the VM BEFORE any pod capture; a broken
+  shader voided a 10-minute pod capture;
+  (i) a pod is usable only after one SSH check of its public port mapping;
+  a pod with no public SSH is deleted at once and another created;
   every pod-driving run under
   `job_guard.sh <lane> --`, and a capture harness without per-view timeouts
   and parent-death exit is never used.

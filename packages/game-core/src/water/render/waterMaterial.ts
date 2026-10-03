@@ -21,7 +21,7 @@ import { esShoreFroth } from "./shoreFroth";
 import {
   esAlongPhase, esDetailGrad, esFbm, esFetchAt, esFetchExp, esFlowWave, esHash21, esOutside, esSeaRms,
   esShoreAt, esShoreSwell, esStandingRatio, esSurfEnergy, esSurfFoam, esSwash, esTideResponse, esWaveExposure,
-  esWaveFrag, esWaveSampleEx, esColourAt, makeSurfaceAt, placeholderTexture, sel,
+  esWaveCrestH, esWaveFrag, esWaveSampleEx, esColourAt, makeSurfaceAt, placeholderTexture, sel,
 } from "./waterNodes";
 import * as TSLNS from "three/tsl";
 import { sharedUniform } from "../../render/nodes/sharedUniform";
@@ -78,6 +78,9 @@ export interface WaterTier {
    * from: bands under ~2x this leave the vertex path for the fragment
    * (perf-diag9 V1, `vertexBandWeight`). */
   gridCellM: number;
+  /** Crest-defining bands (`crestBands`) whose height the crest reads per
+   * pixel instead of from the mesh (perf-diag11 W1); 0 = mesh crest. */
+  crestBands: number;
   rtScale: number;
   samples: number;
 }
@@ -85,8 +88,8 @@ export interface WaterTier {
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
   // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
   // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
-  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, rtScale: 0.9, samples: 0 },
-  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, rtScale: 0.75, samples: 0 },
+  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, crestBands: 2, rtScale: 0.9, samples: 0 },
+  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, crestBands: 2, rtScale: 0.75, samples: 0 },
 };
 
 export const WATER_LAYER = 3;
@@ -481,7 +484,10 @@ function makeSsr(u: WaterUniforms): (...args: TslNode[]) => TslNode {
       const t = sel(prevDiff.lessThan(0.0), float(1.0), prevDiff.negate().div(sel(abs(den).lessThan(1e-12), float(1e-12), den)));
       const hitUV = n(mix(prevUV, uv, clamp(t, 0.0, 1.0)));
       const edge = n(smoothstep(0.0, 0.12, hitUV)).mul(smoothstep(0.0, 0.12, float(1.0).sub(hitUV)));
-      const conf = edge.x.mul(edge.y).mul(float(1.0).sub(float(i).div(18.0).mul(0.4)));
+      // the hit window's far side fades instead of cutting (f33: a hit/miss
+      // step at diff = 8 m drew straight-edged reflection seams)
+      const conf = edge.x.mul(edge.y).mul(float(1.0).sub(float(i).div(18.0).mul(0.4)))
+        .mul(float(1.0).sub(smoothstep(4.0, 8.0, diff)));
       result.assign(vec4(n(n(u.uSceneColor).sample(hitUV)).rgb, conf));
       Break();
     });
@@ -671,13 +677,21 @@ export function createWaterMaterial(
   const shoreDir = n(n(sel(shore.lessThan(90.0).and(n(gL).greaterThan(0.05)), gradD.negate().div(max(gL, 1e-6)), vec2(0.0))).toVar());
   const surfE = esSurfEnergy(u.uWindMS, fetchM);
   const alongPh = esAlongPhase(restW.xz, shoreDir, u.uWaveTime);
-  let swellDHdd: TslNode = float(0.0);
+  // swash + shore swell height at this vertex; the fragment swaps it for its
+  // per-pixel value in the lift (f33). The swell's tilt stays OUT of the
+  // vertex normal: the fragment adds it per pixel at the rest xz (diag14 V1).
+  let surfH: TslNode = float(0.0);
   if (!strip) {
-    still = still.add(esSwash(shore, fetch, u.uWaveTime, surfE, alongPh));
-    const sw = esShoreSwell(shore, max(surf.y, 0.0), fetch, u.uWaveTime, surfE, alongPh);
-    still = still.add(sw.h);
-    swellDHdd = sw.dHdd;
+    surfH = n(n(esSwash(shore, fetch, u.uWaveTime, surfE, alongPh))
+      .add(esShoreSwell(shore, max(surf.y, 0.0), fetch, u.uWaveTime, surfE, alongPh).h).toVar());
+    still = still.add(surfH);
   }
+  const vEsSurfH = n(varying(surfH, "vEsSurfH"));
+  // rest world xz: the per-pixel shore frame, wave normal and crest phase (diag14 V1, V2)
+  const vEsRestXZ = n(varying(restW.xz, "vEsRestXZ"));
+  /** The field crest reads the tier's crest bands per pixel (diag11 W1); a
+   * strip draws its own whitewater and has no crest. */
+  const crestPx = tier.crestBands > 0 && !strip;
   const vDepth = surf.y.add(still.sub(surf.x));
   const exposure = strip ? float(0.05) : n(esWaveExposure(shore, vDepth, turbV));
   const camDist = distance(n(cameraPosition).xz, restW.xz);
@@ -686,22 +700,28 @@ export function createWaterMaterial(
   const wave = esWaveSampleEx(restW.xz, waveAmp, fetchM, standW, u.uWaveTime, tier.waveBands, tier.gridCellM);
   // below 0.0005 amplitude the GLSL skipped the spectrum (flat, up)
   const live = waveAmp.greaterThan(0.0005);
-  // wave amp, fetch, standing: the fragment's short bands (perf-diag9 V1)
-  const vEsWaveIn = n(varying(vec3(sel(live, waveAmp, float(0.0)), fetchM, sel(live, standW, float(0.0))), "vEsWaveIn"));
+  // vertex wave amp (the crest height swap), fetch, standing; the standing
+  // ratio on every vertex, so the fragment's per-pixel normal never
+  // interpolates it toward a dry vertex's zero (perf10 c9 V8)
+  const vEsWaveIn = n(varying(vec3(sel(live, waveAmp, float(0.0)), fetchM, standW), "vEsWaveIn"));
+  // the crest bands' vertex height (diag11 W1, diag12 Q2)
+  const vEsCrestV = crestPx
+    ? n(varying(sel(live, n(esWaveCrestH(restW.xz, waveAmp, fetchM, standW, u.uWaveTime,
+      tier.waveBands, tier.gridCellM, tier.crestBands)).z, float(0.0)), "vEsCrestV"))
+    : null;
   const wDisp = n(n(sel(live, wave.disp, vec3(0.0))).toVar());
-  let wNormal = n(n(sel(live, wave.normal, vec3(0.0, 1.0, 0.0))).toVar());
-  wNormal = n(normalize(vec3(wNormal.x.add(shoreDir.x.mul(swellDHdd)), wNormal.y, wNormal.z.add(shoreDir.y.mul(swellDHdd)))));
+  // the vertex wave normal: debug/far only, the fragment's is per pixel inside 400 m (V8)
+  const wNormal = n(n(sel(live, wave.normal, vec3(0.0, 1.0, 0.0))).toVar());
   const flowV = n(n(strip ? aFlow : fl.xy.sub(0.5).mul(2.0).mul(u.uFlowMax)).toVar());
   const flowSp = n(n(length(flowV)).toVar());
   let flowH: TslNode = float(0.0);
   if (!strip) {
     const flowing = flowSp.greaterThan(FLOW_MIN);
     const flowFade = float(1.0).sub(smoothstep(150.0, 400.0, camDist));
+    // height only: its 1.6 m wavelength is shorter than the grid, so its slope
+    // is added per pixel in the fragment (f33), never to the vertex normal
     const fw = esFlowWave(restW.xz, flowV.div(max(flowSp, 1e-6)), flowSp, u.uWaveTime);
     flowH = sel(flowing, n(fw.h).mul(flowFade), float(0.0));
-    const fN = n(fw.normal);
-    const slope = wNormal.xz.div(max(wNormal.y, 1e-3)).add(fN.xz.div(max(fN.y, 1e-3)).mul(flowFade));
-    wNormal = n(sel(flowing, normalize(vec3(slope.x, 1.0, slope.y)), wNormal));
   }
   let dropSlope: TslNode = float(0.0);
   if (strip) dropSlope = clamp(aDrop, 0.0, 1.0);
@@ -709,12 +729,14 @@ export function createWaterMaterial(
     const downAt = n(surfaceAt(restW.xz.add(flowV.div(max(flowSp, 1e-6)).mul(7.0))));
     dropSlope = sel(flowSp.greaterThan(FLOW_MIN), clamp(surf.x.sub(downAt.x).div(7.0), 0.0, 1.0), float(0.0));
   }
-  const vEsSurf = n(varying(vec4(fetch, shoreDir, surfE), "vEsSurf"));
+  // fetch exposure, surf energy (the shore frame is per pixel, diag15 V4)
+  const vEsSurf = n(varying(vec2(fetch, surfE), "vEsSurf"));
   // the vertex still level (m): lift and crest base; depth, shore and
   // exposure are per pixel (perf-diag4 V2)
   const vEsStill = n(varying(still, "vEsStill"));
+  // turbidity, salinity, tannin, class index; the field reads only the class
+  // (its colour constituents are per pixel, perf10 c9 V8)
   const vEsKlass = n(varying(vec4(kl.g, kl.b, ss.z, kl.r.mul(255.0)), "vEsKlass"));
-  const vEsColour = n(varying(esColourAt(u, restW.xz), "vEsColour"));
   const vEsFlow = n(varying(vec3(flowV, dropSlope), "vEsFlow"));
   const vEsNormalW = n(varying(wNormal, "vEsNormalW"));
   const vEsSide = n(varying(attribute("aSide", "float"), "vEsSide"));
@@ -735,20 +757,59 @@ export function createWaterMaterial(
   let depthPx: TslNode = strip ? varying(vDepth, "vEsDepth") : float(0.0);
   let shorePx: TslNode = strip ? varying(shore, "vEsShore") : float(0.0);
   let expoPx: TslNode = float(0.05);
+  // the colour constituents: a strip's ride its own vertices (it is one
+  // station wide); the field's are per pixel (below)
+  let turbPx: TslNode = vEsKlass.x, salPx: TslNode = vEsKlass.y, tanPx: TslNode = vEsKlass.z;
+  let colPx: TslNode = strip ? varying(esColourAt(u, restW.xz), "vEsColour") : vec2(0.0);
+  // the per-pixel shore frame at the rest xz and the swell's dH/d(shore
+  // distance), shared by the normal tilt and the surf foam phase
+  let shoreDirR: TslNode = vec2(0.0);
+  let swellD: TslNode = float(0.0);
   if (!strip) {
     // Decision 0047: the raster only guards against BURIED surface; the
     // visible edge is the terrain under the hardware depth test. Coverage
     // terms folded into esCover, never a hard cut (audit mechanisms 1-4).
     const fs = n(surfaceAtF(wpXZ));
-    const lift = vEsStill.sub(fs.x);   // tide + season + surf at this pixel
+    // The shore frame, swash and shore swell PER PIXEL at the rest xz (diag14
+    // V1, diag15 V4, f33): the swell changes faster than the grid, so its
+    // interpolated vertex height made the lift, hence depth, exposure and the
+    // buried guard, one plane per triangle. The vertex height still moves the
+    // surface (0047); only the fragment's lift swaps it for the exact value.
+    let sR = n(n(esShoreAt(u, vEsRestXZ)).toVar());
+    const beyondR = n(u.uHasApron).greaterThan(0.5).and(esOutside(u, vEsRestXZ))
+      .and(n(esTideResponse(classes, vEsKlass.w)).lessThan(0.5));
+    sR = n(sel(beyondR, vec3(u.uSurfShoreMax, 0.0, 0.0), sR));
+    const eGR = n(u.uSurfMpp).mul(2.0);
+    const gradR = n(vec2(
+      n(esShoreAt(u, vEsRestXZ.add(vec2(eGR, 0.0)))).x.sub(sR.x),
+      n(esShoreAt(u, vEsRestXZ.add(vec2(0.0, eGR)))).x.sub(sR.x))).div(eGR);
+    const gLR = n(length(gradR));
+    shoreDirR = n(n(gradR.negate().div(max(gLR, 1e-4)).mul(smoothstep(0.02, 0.08, gLR))).toVar("esShoreDirR"));
+    const alongR = esAlongPhase(vEsRestXZ, shoreDirR, u.uWaveTime);
+    const swR = esShoreSwell(sR.x, max(n(surfaceAtF(vEsRestXZ)).y, 0.0), vEsSurf.x, u.uWaveTime, vEsSurf.y, alongR);
+    swellD = n(n(swR.dHdd).toVar("esSwellD"));
+    const surfHPx = n(esSwash(sR.x, vEsSurf.x, u.uWaveTime, vEsSurf.y, alongR)).add(swR.h);
+    const lift = vEsStill.sub(vEsSurfH).add(surfHPx).sub(fs.x);   // tide + season + surf at this pixel
     depthPx = n(n(fs.y.add(lift)).toVar());
     let sPx = n(n(esShoreAt(u, wpXZ)).toVar());
+    // The colour constituents PER PIXEL (perf10 c9 V8): turbidity and salinity
+    // from the class raster, tannin from the shore raster, algae and dark from
+    // their alpha bytes. As vertex varyings they were one plane per triangle
+    // in the Beer-Lambert absorption and printed straight-edged
+    // transmitted-colour steps along the mesh grid.
+    let klPx = n(n(n(u.uKlassTex).sample(clamp(wpXZ.div(u.uFlowExtentM), vec2(0.0), vec2(1.0)))).toVar());
+    colPx = n(n(esColourAt(u, wpXZ)).toVar("esColPx"));
     // past the border on a land / inland edge texel: the vertex stage's apron rule
     const beyondPx = n(u.uHasApron).greaterThan(0.5).and(esOutside(u, wpXZ))
       .and(n(esTideResponse(classes, vEsKlass.w)).lessThan(0.5));
     sPx = n(sel(beyondPx, vec3(u.uSurfShoreMax, 0.0, 0.0), sPx));
+    const coastPx = n(u.uApronCoast);
+    klPx = n(sel(beyondPx, vec4(coastPx.x.div(255.0), coastPx.y, coastPx.z, 1.0), klPx));
+    turbPx = n(klPx.g.toVar("esTurbPx"));
+    salPx = n(klPx.b.toVar("esSalPx"));
+    tanPx = n(sPx.z.toVar("esTanPx"));
     shorePx = n(sPx.x.toVar());
-    expoPx = n(n(esWaveExposure(shorePx, depthPx, max(vEsKlass.x, sPx.z))).toVar());
+    expoPx = n(n(esWaveExposure(shorePx, depthPx, max(turbPx, tanPx))).toVar());
     const guardDist = distance(cameraPosition, wp);
     const floorM = max(n(guardDist).mul(-fx(BURIED_GUARD.perMetre, 4)).add(fx(BURIED_GUARD.nearM, 2)), fx(BURIED_GUARD.floorM, 2));
     guard = n(smoothstep(n(floorM).sub(fx(BURIED_GUARD.fadeM, 2)), floorM, depthPx));
@@ -772,10 +833,26 @@ export function createWaterMaterial(
   const sceneEye = n(n(esEyeDepth(u, screenUv)).toVar());
 
   // ---- normal ----
-  const nBase = normalize(vEsNormalW);
   const speed = n(n(length(vEsFlow.xy)).toVar());
   const cascade = n(n(smoothstep(0.04, 0.30, vEsFlow.z)).toVar());
   const dist = n(n(distance(cameraPosition, wp)).toVar());
+  // The wave normal PER PIXEL inside 400 m (perf10 c9 V8): every vertex band
+  // at the rest xz, its amplitude from this pixel's exposure. The
+  // interpolated vertex normal kinked at each grid edge; the refraction
+  // offset and the fresnel turned the kinks into straight-edged pale facets.
+  // Past 120-400 m it hands over to the vertex normal (the far grid's filter).
+  const ampPx = n(n(n(expoPx).mul(esSeaRms(u.uWindMS, vEsWaveIn.y))).toVar("esAmpPx"));
+  const nPxW = n(n(float(1.0).sub(smoothstep(120.0, 400.0, dist))).toVar("esNPxW"));
+  const nBase = n(Fn(() => {
+    const o = n(normalize(vEsNormalW)).toVar();
+    If(nPxW.greaterThan(0.0).and(ampPx.greaterThan(0.0005)), () => {
+      const npx = esWaveSampleEx(vEsRestXZ, ampPx, vEsWaveIn.y, vEsWaveIn.z, u.uWaveTime, tier.waveBands, tier.gridCellM).normal;
+      o.assign(normalize(mix(o, npx, nPxW)));
+    }).ElseIf(nPxW.greaterThan(0.0), () => {
+      o.assign(normalize(mix(o, vec3(0.0, 1.0, 0.0), nPxW)));
+    });
+    return o;
+  })().toVar("esNBase"));
   const detFade = n(n(exp(dist.mul(-0.010))).toVar());
   const farFade = n(n(exp(dist.mul(-0.0025))).toVar());
   const detStrength = n(expoPx).mul(0.10).add(0.10).add(n(min(speed, 1.0)).mul(0.05))
@@ -842,13 +919,45 @@ export function createWaterMaterial(
   // height, which makes the foam crest non-planar inside a triangle
   const waveF = n(Fn(() => {
     const o = vec3(0.0).toVar();
-    If(vEsWaveIn.x.greaterThan(0.0005).and(dist.lessThan(400.0)), () => {
-      o.assign(n(esWaveFrag(wpXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, u.uWaveTime, tier.waveBands, tier.gridCellM))
-        .mul(float(1.0).sub(smoothstep(120.0, 400.0, dist))));
+    If(ampPx.greaterThan(0.0005).and(nPxW.greaterThan(0.0)), () => {
+      o.assign(n(esWaveFrag(vEsRestXZ, ampPx, vEsWaveIn.y, vEsWaveIn.z, u.uWaveTime, tier.waveBands, tier.gridCellM))
+        .mul(nPxW));
     });
     return o;
   })().toVar("esWaveF"));
+  // the tier's crest bands (its sharpest, by curvature): exact minus
+  // interpolated vertex HEIGHT per pixel for the crest, under the same fade;
+  // the vertex sum is unchanged (0047). Their slope is already in the
+  // per-pixel normal above (diag12 Q2).
+  let crestD: TslNode = float(0.0);
+  if (vEsCrestV) {
+    const crestV = vEsCrestV;
+    crestD = n(Fn(() => {
+      const o = float(0.0).toVar();
+      If(vEsWaveIn.x.greaterThan(0.0005).and(nPxW.greaterThan(0.0)), () => {
+        o.assign(n(n(esWaveCrestH(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, u.uWaveTime,
+          tier.waveBands, tier.gridCellM, tier.crestBands)).z.sub(crestV)).mul(nPxW));
+      });
+      return o;
+    })().toVar("esCrestD"));
+  }
   rip = n(rip).add(waveF.xy);
+  if (!strip) {
+    // the along-flow undulation's slope per pixel (f33; the CPU twin sums the
+    // same two small-slope fields)
+    const flowG = n(Fn(() => {
+      const o = vec2(0.0).toVar();
+      If(flowing, () => {
+        const fN = n(esFlowWave(vEsRestXZ, fDirN, speed, u.uWaveTime).normal);
+        o.assign(fN.xz.div(max(fN.y, 1e-3)).mul(float(1.0).sub(smoothstep(150.0, 400.0, dist))));
+      });
+      return o;
+    })().toVar("esFlowG"));
+    // the shore swell: height slope = dH/dd * grad(d) = -shoreDir * dH/dd
+    // (diag14 V1; no hard shore < 90 m gate: a hard cut on a raster value is
+    // itself a straight edge, and the swell is zero there anyway)
+    rip = n(rip).sub(flowG).sub(n(shoreDirR).mul(swellD));
+  }
   const nb = n(nBase);
   let nw = n(normalize(vec3(
     nb.x.sub(n(g).x.add(gF.x).mul(detStrength)).sub(n(rip).x).sub(n(rainG).x),
@@ -868,7 +977,7 @@ export function createWaterMaterial(
   // ---- albedo, roughness, foam ----
   let composite: Composite;
   if (variant === "above" && strip) {
-    const sal = vEsKlass.y, tan = vEsKlass.z;
+    const sal = salPx, tan = tanPx;
     const blend = esStripBlend(vEsFlow.z, speed);
     const aer = n(esStripAeration(vEsFlow.z, speed));
     const stripU = clamp(n(vEsSide).div(max(vEsStrip.w, 1.0)).mul(0.5).add(0.5), 0.0, 1.0);
@@ -895,10 +1004,10 @@ export function createWaterMaterial(
       return mix(scene, n(outgoing).add(transmit), bank);
     };
   } else if (variant === "above") {
-    const algae = vEsColour.x;
-    const turb = n(n(clamp(vEsKlass.x.add(algae.mul(0.25)), 0.0, 1.0)).toVar());
-    const sal = vEsKlass.y;
-    const tan = n(n(clamp(vEsKlass.z.add(vEsColour.y.mul(0.7)), 0.0, 1.0)).toVar());
+    const algae = n(colPx).x;
+    const turb = n(n(clamp(n(turbPx).add(algae.mul(0.25)), 0.0, 1.0)).toVar());
+    const sal = salPx;
+    const tan = n(n(clamp(n(tanPx).add(n(colPx).y.mul(0.7)), 0.0, 1.0)).toVar());
     const murk = n(n(clamp(turb.mul(0.7).add(tan.mul(0.8)), 0.0, 1.0)).toVar());
     // vertical thickness over the unrefracted scene point (decision 0047 root cause 8)
     const ray = n(normalize(wp.sub(cameraPosition)));
@@ -929,12 +1038,16 @@ export function createWaterMaterial(
       .mul(n(clamp(max(expo.mul(2.0), vEsSurf.x), 0.0, 1.0)).mul(0.5).add(0.18));
     // 2. surf bore + backwash
     const bn = n(n(esFbm(wpXZ.mul(0.16), 3)).toVar());
-    foamE = foamE.add(n(esSurfFoam(shoreD.add(bn.mul(4.0)), vEsSurf.x, u.uWaveTime, vEsSurf.w,
-      esAlongPhase(wpXZ, vEsSurf.yz, u.uWaveTime))).mul(0.85));
+    // the vertex stage's energy (vEsSurf.y) and the per-pixel shore frame at
+    // the rest xz (diag15 V4: a vertex direction, interpolated, kinked the
+    // phase at every triangle edge and the thresholds cut pale wedges)
+    foamE = foamE.add(n(esSurfFoam(shoreD.add(bn.mul(4.0)), vEsSurf.x, u.uWaveTime, vEsSurf.y,
+      esAlongPhase(vEsRestXZ, shoreDirR, u.uWaveTime))).mul(0.85));
     // 3. whitecaps
     // the mesh crest is one plane per triangle; the short bands' own height
-    // rides on top of it (perf-diag4 V2)
-    const crestMesh = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsStill).add(waveF.z);
+    // rides on top of it (perf-diag4 V2), and the crest bands' per-pixel
+    // height swap (crestD, diag11 W1 / diag12 Q2)
+    const crestMesh = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsStill).add(waveF.z).add(crestD);
     const crestFade = float(1.0).sub(smoothstep(1200.0, 2400.0, dist));
     const cp = n(n(wpXZ.sub(n(u.uWindDir).mul(fx(whitecapDriftMS(), 2)).mul(u.uTransportTime)).mul(0.085)).toVar());
     const cn = n(n(esFbm(cp, 3)).mul(0.5).add(n(esFbm(cp.mul(2.7).add(11.0), 2)).mul(0.5)).toVar());
@@ -1028,9 +1141,9 @@ export function createWaterMaterial(
       return out;
     };
   } else {
-    const turb = clamp(vEsKlass.x.add(vEsKlass.z).add(vEsColour.y.mul(0.7)), 0.0, 1.0);
+    const turb = clamp(n(turbPx).add(tanPx).add(n(colPx).y.mul(0.7)), 0.0, 1.0);
     let albU = n(mix(vec3(0.05, 0.14, 0.15), vec3(0.06, 0.08, 0.03), turb));
-    albU = n(mix(albU, vec3(0.16, 0.30, 0.10), vEsColour.x.mul(0.55)));
+    albU = n(mix(albU, vec3(0.16, 0.30, 0.10), n(colPx).x.mul(0.55)));
     material.colorNode = vec4(albU, 1.0);
     material.roughnessNode = float(0.4);
     composite = (_outgoing, reflected, envSample) => {

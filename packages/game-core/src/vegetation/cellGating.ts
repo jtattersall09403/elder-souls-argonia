@@ -228,6 +228,26 @@ export function casterReachesCascade(
   return nearestM <= reach;
 }
 
+/**
+ * The cascades a casting batch reaches (diag20 E5c): bit i set when the batch
+ * can shadow inside cascade i, whose view depth ends at `cascadeFarsM[i]`
+ * (ascending; `count` of them). The far cascades take the batch the near
+ * ones cannot, so a batch past the first cascade's reach is drawn into the
+ * later cascades only. 0: it casts into none.
+ */
+export function casterCascadeMask(
+  nearestM: number,
+  cascadeFarsM: ArrayLike<number>,
+  count: number,
+  shadow: { perM: number } | null,
+): number {
+  let mask = 0;
+  for (let i = 0; i < count; i++) {
+    if (casterReachesCascade(nearestM, cascadeFarsM[i], shadow)) mask |= 1 << i;
+  }
+  return mask;
+}
+
 /** What `viewPlanesFor` reads: a THREE.PerspectiveCamera fits it. */
 export interface GateCamera {
   position: { x: number; y: number; z: number };
@@ -253,30 +273,31 @@ function sidePlanes(
   const cap = Math.PI / 2;
   const a = Math.min(cap, halfH + marginRad);
   const b = Math.min(cap, halfV + marginRad);
-  // Inward normals: forward·sin(half) ∓ axis·cos(half).
-  const planes: Array<[number, number, number]> = [];
-  for (const [ax, ay, az, al, half] of [
-    [rx, ry, rz, rl, a], [ux, uy, uz, ul, b],
-  ] as const) {
-    const s = Math.sin(half);
-    const c = Math.cos(half);
-    for (const sign of [-1, 1]) {
-      planes.push([
-        (fx / fl) * s + sign * (ax / al) * c,
-        (fy / fl) * s + sign * (ay / al) * c,
-        (fz / fl) * s + sign * (az / al) * c,
-      ]);
-    }
-  }
+  // Inward normals: forward·sin(half) ∓ axis·cos(half). Written straight into
+  // `out` (diag10 C3: no arrays per call; it runs every frame).
   const p = cam.position;
-  for (let i = 0; i < 4; i++) {
-    const [nx, ny, nz] = planes[i];
-    out[i * 4] = nx;
-    out[i * 4 + 1] = ny;
-    out[i * 4 + 2] = nz;
-    out[i * 4 + 3] = -(nx * p.x + ny * p.y + nz * p.z);
-  }
+  writePlane(out, 0, fx / fl, fy / fl, fz / fl, -rx / rl, -ry / rl, -rz / rl, a, p);
+  writePlane(out, 1, fx / fl, fy / fl, fz / fl, rx / rl, ry / rl, rz / rl, a, p);
+  writePlane(out, 2, fx / fl, fy / fl, fz / fl, -ux / ul, -uy / ul, -uz / ul, b, p);
+  writePlane(out, 3, fx / fl, fy / fl, fz / fl, ux / ul, uy / ul, uz / ul, b, p);
   return out;
+}
+
+function writePlane(
+  out: Float64Array, i: number,
+  fx: number, fy: number, fz: number,
+  ax: number, ay: number, az: number,
+  half: number, p: { x: number; y: number; z: number },
+): void {
+  const s = Math.sin(half);
+  const c = Math.cos(half);
+  const nx = fx * s + ax * c;
+  const ny = fy * s + ay * c;
+  const nz = fz * s + az * c;
+  out[i * 4] = nx;
+  out[i * 4 + 1] = ny;
+  out[i * 4 + 2] = nz;
+  out[i * 4 + 3] = -(nx * p.x + ny * p.y + nz * p.z);
 }
 
 /** The widened side planes of a perspective camera, for `gateSpecies`. Call
@@ -309,7 +330,16 @@ export function boxInPlanes(
 const BEHIND_OFF = -0.5;
 const BEHIND_ON = -0.2;
 
-const scratchBox: GateBox = { minX: 0, minZ: 0, maxX: 0, maxZ: 0 };
+/** `rangeDistances` as plain numbers (diag10 C3/D: no scratch object, no
+ * module state): nearest and farthest XZ distance from the eye to a box. */
+function rangeMin(minX: number, minZ: number, maxX: number, maxZ: number, ex: number, ez: number): number {
+  return Math.hypot(Math.max(minX - ex, 0, ex - maxX), Math.max(minZ - ez, 0, ez - maxZ));
+}
+function rangeMax(minX: number, minZ: number, maxX: number, maxZ: number, ex: number, ez: number): number {
+  return Math.hypot(
+    Math.max(Math.abs(ex - minX), Math.abs(ex - maxX)),
+    Math.max(Math.abs(ez - minZ), Math.abs(ez - maxZ)));
+}
 
 /**
  * Resolve every tile's visibility, cheapest level first: a cell whose whole
@@ -334,21 +364,104 @@ export function gateSpecies(
   order?: (rung: GateRung, tile: number, d: number) => void,
   view?: GateView,
 ): void {
+  resetGateStats(stats);
+  for (let e = 0; e < list.length; e++) {
+    gateEntry(list[e], eye, forward, apply, stats, marginM, order, view);
+  }
+}
+
+function resetGateStats(stats: GateStats): void {
   stats.visibleCopies = 0;
   stats.visibleTriangles = 0;
   stats.checksCell = 0;
   stats.checksTile = 0;
-  // Two per pass, not one per cell and tile (diag9 A4).
-  const raw: RangeDistances = { dMin: 0, dMax: 0 };
-  const d: RangeDistances = { dMin: 0, dMax: 0 };
-  for (const entry of list) {
+}
+
+/** Entries one `GatePass.step` resolves at most (perf10 c9 F38b). */
+export const GATE_ENTRIES_PER_STEP_MIN = 256;
+
+/**
+ * One `gateSpecies` pass spread over several frames (perf10 c9 F38b: the
+ * whole pass in one frame cost 10 ms self on the walk). `start` snapshots the
+ * eye, the forward and the view; each `step` resolves the next `budget`
+ * entries against that snapshot. Every entry's answer depends only on the
+ * snapshot and its own latches, so a pass split over N steps gives the same
+ * answers as one; a tile's flip is queued as its entry resolves, exactly as
+ * the one-frame pass queued it. The stats accumulate privately and are copied
+ * to the caller's on the step that completes the pass.
+ */
+export class GatePass {
+  private readonly eye = { x: 0, y: 0, z: 0 };
+  private readonly forward = { x: 0, z: 0 };
+  private view: GateView | undefined;
+  private marginM = GATE_MARGIN_M;
+  private next = 0;
+  private active = false;
+  private readonly acc: GateStats = { visibleCopies: 0, visibleTriangles: 0, checksCell: 0, checksTile: 0 };
+
+  get running(): boolean { return this.active; }
+
+  /** Begin a pass. `view` is read on every step: keep it unchanged until the pass completes. */
+  start(
+    eye: { x: number; y: number; z: number },
+    forward: { x: number; z: number },
+    view?: GateView,
+    marginM: number = GATE_MARGIN_M,
+  ): void {
+    this.eye.x = eye.x; this.eye.y = eye.y; this.eye.z = eye.z;
+    this.forward.x = forward.x; this.forward.z = forward.z;
+    this.view = view;
+    this.marginM = marginM;
+    this.next = 0;
+    this.active = true;
+    resetGateStats(this.acc);
+  }
+
+  /** Resolve up to `budget` entries; true when the pass is complete. */
+  step(
+    list: readonly GateSpecies[],
+    apply: (rung: GateRung, tile: number, visible: boolean) => void,
+    stats: GateStats,
+    budget: number,
+    order?: (rung: GateRung, tile: number, d: number) => void,
+  ): boolean {
+    if (!this.active) return true;
+    const end = Math.min(list.length, this.next + Math.max(1, budget));
+    for (let e = this.next; e < end; e++) {
+      gateEntry(list[e], this.eye, this.forward, apply, this.acc, this.marginM, order, this.view);
+    }
+    this.next = end;
+    if (end < list.length) return false;
+    this.active = false;
+    stats.visibleCopies = this.acc.visibleCopies;
+    stats.visibleTriangles = this.acc.visibleTriangles;
+    stats.checksCell = this.acc.checksCell;
+    stats.checksTile = this.acc.checksTile;
+    return true;
+  }
+}
+
+function gateEntry(
+  entry: GateSpecies,
+  eye: { x: number; y: number; z: number },
+  forward: { x: number; z: number },
+  apply: (rung: GateRung, tile: number, visible: boolean) => void,
+  stats: GateStats,
+  marginM: number,
+  order: ((rung: GateRung, tile: number, d: number) => void) | undefined,
+  view: GateView | undefined,
+): void {
+  // Distances are plain numbers: the pass allocates nothing (diag10 C3).
+  const ex = eye.x, ez = eye.z;
+  {
     stats.checksCell++;
-    rangeDistances(entry.cellBox, eye.x, eye.z, raw);
-    const dMin = Math.max(0, raw.dMin - marginM);
-    const dMax = raw.dMax + marginM;
+    const cb = entry.cellBox;
+    const rawMax = rangeMax(cb.minX, cb.minZ, cb.maxX, cb.maxZ, ex, ez);
+    const dMin = Math.max(0, rangeMin(cb.minX, cb.minZ, cb.maxX, cb.maxZ, ex, ez) - marginM);
+    const dMax = rawMax + marginM;
     // Legacy rule: no tile of a cell wholly inside the behind radius can be
     // behind. With a view every tile is tested (the test is a few multiplies).
-    const mayBeBehind = view ? true : raw.dMax > BEHIND_MIN_M;
+    const mayBeBehind = view ? true : rawMax > BEHIND_MIN_M;
     for (const rung of entry.rungs) {
       const dIn = rung.castsFromZero ? 0 : rung.band[0] - rung.band[2];
       const dOut = rung.band[1];
@@ -393,11 +506,10 @@ export function gateSpecies(
             // kept the full-mesh rung of a whole tile of trees up to ~50 m
             // past its edge, submitted and collapsed (walk 5, 3.5x the
             // in-band triangles). The reach only matters to the view test.
-            rangeDistances(
-              tileBox(rung.tileBounds, t, 0, scratchBox),
-              eye.x, eye.z, d);
-            tileD = Math.max(0, d.dMin - marginM);
-            on = rungVisible(rung.band, tileD, d.dMax + marginM, rung.castsFromZero);
+            const tb = rung.tileBounds, b = t * TILE_BOUNDS_STRIDE;
+            const bx0 = tb[b], bz0 = tb[b + 2], bx1 = tb[b + 3], bz1 = tb[b + 5];
+            tileD = Math.max(0, rangeMin(bx0, bz0, bx1, bz1, ex, ez) - marginM);
+            on = rungVisible(rung.band, tileD, rangeMax(bx0, bz0, bx1, bz1, ex, ez) + marginM, rung.castsFromZero);
           }
           if (on && mayBeBehind) {
             on = view
@@ -419,8 +531,6 @@ export function gateSpecies(
   }
 }
 
-const viewBox: GateBox = { minX: 0, minZ: 0, maxX: 0, maxZ: 0 };
-
 /** The frustum test for one tile, with its latch in bit 1 of the state byte
  * (set = out of view). A casting rung's box is swept along the shadow. */
 function inView(
@@ -429,23 +539,26 @@ function inView(
   reachM: number,
   view: GateView,
 ): boolean {
-  const box = tileBox(rung.tileBounds, tile, reachM, viewBox);
+  // The tile's XZ box as locals, `tileBox` inlined (diag10 D: no module scratch).
+  const tb = rung.tileBounds;
   const b = tile * TILE_BOUNDS_STRIDE;
-  const scale = rung.tileBounds[b + 6];
+  const scale = tb[b + 6];
+  const m = reachM * scale;
+  let minX = tb[b] - m, minZ = tb[b + 2] - m, maxX = tb[b + 3] + m, maxZ = tb[b + 5] + m;
   const up = (rung.heightM ?? reachM) * scale;
   const shadow = rung.casts ? view.shadow : null;
   if (shadow) {
     const len = Math.min(SHADOW_REACH_MAX_M, up * shadow.perM);
     const sx = shadow.x * len;
     const sz = shadow.z * len;
-    if (sx < 0) box.minX += sx; else box.maxX += sx;
-    if (sz < 0) box.minZ += sz; else box.maxZ += sz;
+    if (sx < 0) minX += sx; else maxX += sx;
+    if (sz < 0) minZ += sz; else maxZ += sz;
   }
   const minY = rung.tileBounds[b + 1] - reachM * scale;
   const maxY = rung.tileBounds[b + 4] + up;
   const latched = (rung.state[tile] & 2) !== 0;
   const planes = latched ? view.on : view.off;
-  const visible = boxInPlanes(planes, box.minX, minY, box.minZ, box.maxX, maxY, box.maxZ);
+  const visible = boxInPlanes(planes, minX, minY, minZ, maxX, maxY, maxZ);
   if (visible) rung.state[tile] &= ~2;
   else rung.state[tile] |= 2;
   return visible;

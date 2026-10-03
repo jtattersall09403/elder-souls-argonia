@@ -85,7 +85,10 @@ import {
   type CellSpeciesSource,
 } from "@elder-souls/game-core/vegetation/cellBuild";
 import {
+  casterCascadeMask,
   casterReachesCascade,
+  GATE_ENTRIES_PER_STEP_MIN,
+  GatePass,
   gateSpecies,
   GATE_TILE_COUNT,
   rangeDistances,
@@ -117,6 +120,7 @@ import {
   type ShadowRung,
 } from "./shadowRule";
 import { lastWeatherSample } from "../weather/weatherState";
+import { setCastShadow, setCastShadowCascades, MAX_CASCADE_LAYERS } from "@elder-souls/game-core/render/shadowCasters";
 import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
@@ -595,12 +599,18 @@ export function Vegetation({
   const { csm } = useContext(SkyContext);
   const cascadeFarM = useRef(Infinity);
   cascadeFarM.current = csm?.maxFar ?? Infinity;
+  /** Each cascade's far view depth (CSM breaks × its far), refreshed per gate
+   * pass once the node has initialised: a casting batch enters only the
+   * cascades it can shadow (diag20 E5c). */
+  const cascadeFars = useRef(new Float64Array(MAX_CASCADE_LAYERS));
   /** Camera state at the last gate pass, and whether a build or drop has
    * invalidated it. */
   const lastGate = useRef({ x: NaN, z: NaN, fx: 0, fy: 0, fz: -1, frame: -1e9 });
   /** The view planes of the last gate pass (null before the first), which a
    * cell arriving between passes is gated with too. */
   const gateView = useRef<GateView | null>(null);
+  /** The regate in progress, resumed each frame until complete (F38b). */
+  const gatePass = useRef(new GatePass());
   /** The shadow-casting sun light, looked up every `SUN_SCAN_FRAMES`. */
   const sunLight = useRef<THREE.DirectionalLight | null>(null);
   const gateDirty = useRef(true);
@@ -701,12 +711,14 @@ export function Vegetation({
       ? (x: number, z: number) => groundHeightM(store, chunksManifest, x, z)
       : () => null
   ), [store, chunksManifest]);
-  /** The occlusion-mask sweep's ground, in rendered space (O6). */
-  const maskGround = useMemo(() => (
-    chunksManifest
-      ? new FrameGroundSampler(store, chunksManifest, verticalScale)
-      : { reset: () => {}, sample: () => null }
-  ), [store, chunksManifest, verticalScale]);
+  /** The occlusion-mask sweep's ground, in rendered space (O6). One class
+   * always (empty with no manifest), so the sweep's call site is monomorphic
+   * (diag11 O1). */
+  const maskGround = useMemo(
+    () => new FrameGroundSampler(store, chunksManifest ?? null, verticalScale),
+    [store, chunksManifest, verticalScale],
+  );
+  useEffect(() => () => maskGround.dispose(), [maskGround]);
 
   // Per-species build parameters, recomputed only when the kit, the quality
   // tier or the chunk ring changes — never per frame and never per cell.
@@ -906,7 +918,7 @@ export function Vegetation({
     // Shadows come from the casting rung only — see `batchKeyFor`'s shadow
     // rule. Before it the near (full-mesh) rung cast, and the shadow cascades
     // drew nearly as many triangles as the whole main pass.
-    mesh.castShadow = batch.casts;
+    setCastShadow(mesh, batch.casts);
     mesh.receiveShadow = !batch.isCard;
     mesh.userData.perfTag = "veg";
     mesh.renderOrder = batch.renderOrder;
@@ -1202,10 +1214,10 @@ export function Vegetation({
         Math.floor(((cz + 0.5) * size) / OCCLUSION_CELL_M) - MASK_SIZE / 2,
       );
     }
-    // Rendered space, like the camera; one grid lookup per chunk per frame.
-    maskGround.reset();
+    // Rendered space, like the camera; one grid lookup per chunk, kept across
+    // frames (diag10 C3).
     const sweep = mask.sweep(
-      MASK_CELLS_PER_FRAME, eye, maskGround.sample,
+      MASK_CELLS_PER_FRAME, eye, maskGround,
       tallestM, OCCLUSION_MIN_DISTANCE_M,
       occupiedList.current,
     );
@@ -1238,10 +1250,13 @@ export function Vegetation({
       if (sun !== sunLight.current) gateDirty.current = true;
       sunLight.current = sun;
     }
-    const runGate = gateDirty.current
+    // A pass runs to completion before the next one starts: a trigger seen
+    // mid-pass (a dirty flag stays set) starts the next pass after it.
+    const pass = gatePass.current;
+    const runGate = !pass.running && (gateDirty.current
       || !(moved < GATE_STEP_M)
       || !(turned > Math.cos(GATE_TURN_RAD))
-      || counters.current.frame - g.frame >= GATE_MAX_FRAMES;
+      || counters.current.frame - g.frame >= GATE_MAX_FRAMES);
     if (runGate) {
       gateDirty.current = false;
       g.x = eye.x; g.z = eye.z;
@@ -1258,25 +1273,48 @@ export function Vegetation({
       // The distances are the ones this pass already computes, and the two
       // loops below are over the ~120 batches, not over their copies.
       for (const batch of batches.current.values()) batch.orderMin = Infinity;
-      gateSpecies(allSpecies.current, eye, fwd, gpuCull ? noFlip : enqueueTile,
-        gateStats.current, undefined, markOrder, view ?? undefined);
+      pass.start(eye, fwd, view ?? undefined);
+    }
+    // The pass is spread over frames (perf10 c9 F38b): about a quarter of
+    // the entries per frame, so a full regate costs a quarter of a frame's
+    // worth of gating at most and completes within four frames.
+    if (pass.running) {
+      const list = allSpecies.current;
+      const budget = Math.max(GATE_ENTRIES_PER_STEP_MIN, Math.ceil(list.length / 4));
+      if (pass.step(list, gpuCull ? noFlip : enqueueTile, gateStats.current, budget, markOrder)) {
+      const view = gateView.current;
       // The same nearest distance decides whether a casting batch draws into
       // the sun shadow map at all (diag9 C1): every casting batch is one
       // shadow draw whatever its copies' distance (the meshes are never
       // frustum-culled), so a batch whose nearest copy cannot cast into the
       // cascade is dropped from the shadow pass.
       const shadow = view ? view.shadow ?? null : undefined;
+      const fars = cascadeFars.current;
+      const csmCam = csm?.camera as THREE.PerspectiveCamera | null | undefined;
+      const nCascades = csm && csmCam && shadow !== undefined
+        ? Math.min(csm.breaks.length, MAX_CASCADE_LAYERS) : 0;
+      if (csm && csmCam && nCascades > 0) {
+        const far = Math.min(csmCam.far, csm.maxFar);
+        for (let i = 0; i < nCascades; i++) fars[i] = csm.breaks[i] * far;
+      }
       for (const batch of batches.current.values()) {
         if (batch.casts) {
-          const cast = VEG_CAST_SHADOW && (shadow === undefined
-            || casterReachesCascade(batch.orderMin, cascadeFarM.current, shadow));
-          for (const geo of batch.geoList) geo.mesh.castShadow = cast;
+          if (nCascades > 0) {
+            const mask = VEG_CAST_SHADOW
+              ? casterCascadeMask(batch.orderMin, fars, nCascades, shadow ?? null) : 0;
+            for (const geo of batch.geoList) setCastShadowCascades(geo.mesh, mask);
+          } else {
+            const cast = VEG_CAST_SHADOW && (shadow === undefined
+              || casterReachesCascade(batch.orderMin, cascadeFarM.current, shadow));
+            for (const geo of batch.geoList) setCastShadow(geo.mesh, cast);
+          }
         }
         if (!VEG_ORDER_ENABLED || batch.orderMin === Infinity) continue;
         const next = Math.round(batch.orderMin);
         if (batch.renderOrder === next) continue;
         batch.renderOrder = next;
         for (const geo of batch.geoList) geo.mesh.renderOrder = next;
+      }
       }
     }
     const gatingMs = performance.now() - gateStart;

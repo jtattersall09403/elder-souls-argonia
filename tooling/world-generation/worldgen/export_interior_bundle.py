@@ -155,9 +155,16 @@ LISTED_DROP_CLASSES = frozenset({"effect", "wearable"})
 HEARTH_FIRE_STAND_INS = {
     "FXfireWithEmbersLogs01": "vanilla:clutter/woodfires/fireplacewood01burning",
     "FXfireWithEmbersLight": "vanilla:clutter/woodfires/fireplacewood01burning",
+    # Skyrim.esm MSTT 0003BD2E, model FXfireWithEmbers03.nif, 42 units tall: a low
+    # burning fire (the HTBM huts' brazier fire), not a dead one
+    "FXfireWithEmbersOut": "vanilla:clutter/woodfires/fireplacewood01burning",
 }
 HEARTH_FIRE_WHY = "A log fire burns in the hearth here."
 HEARTH_FIRE_M = 1.0
+#: an effect model under this prefix is a fire; one left as a drop with no
+#: stood-in fire within HEARTH_FIRE_M fails the gate (audit10: the HTBM huts'
+#: FXfireWithEmbersOut fell to listed-drop and the brazier burned nothing)
+FIRE_EFFECT_MODEL_PREFIX = "effects/fxfire"
 
 
 def is_hearth_fire(sub: dict) -> bool:
@@ -1403,7 +1410,14 @@ def check(bundle: dict) -> list[str]:
         elif s.get("standInCategory") != s.get("class") and not hearth_fire:
             problems.append(f"{bundle['cellId']}: stand-in {s.get('standInAsset')} is "
                             f"{s.get('standInCategory')!r}, the missing piece is {s.get('class')!r}")
-    ids = [p["id"] for p in bundle["placements"]] + [s["id"] for s in subs]
+    lit = [s["positionM"] for s in subs if is_hearth_fire(s) and s.get("positionM")]
+    for d in bundle["drops"]:
+        model = (d.get("model") or "").lower().replace("\\", "/")
+        if (d.get("class") == "effect" and d.get("positionM") and model.startswith(FIRE_EFFECT_MODEL_PREFIX)
+                and not any(math.dist(d["positionM"], f) <= HEARTH_FIRE_M for f in lit)):
+            problems.append(f"{bundle['cellId']}: fire effect {d.get('base')} ({d['refId']}) is a drop "
+                            f"with no fire drawn; add its base to HEARTH_FIRE_STAND_INS")
+    ids =[p["id"] for p in bundle["placements"]] + [s["id"] for s in subs]
     if len(ids) != len(set(ids)):
         problems.append(f"{bundle['cellId']}: duplicate placement ids")
     return problems

@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   BEHIND_MIN_M,
+  casterCascadeMask,
   casterReachesCascade,
   GATE_MARGIN_M,
   GATE_TILE_COUNT,
+  GatePass,
   gateSpecies,
   rangeDistances,
   rungVisible,
@@ -278,4 +280,61 @@ describe("gateSpecies", () => {
     }
   // 1.4 s alone; ~6 s under four concurrent preflight gates (2026-09-26/27).
   }, 30_000);
+});
+
+describe("GatePass (perf10 c9 F38b: one regate spread over frames)", () => {
+  const bands: [number, number, number, number][] = [
+    [0, 60, 0, 8], [40, 200, 8, 8], [0, LOD_OPEN_M, 0, 0], [100, 400, 8, 8], [0, 30, 0, 4],
+  ];
+  const build = () => Array.from({ length: 11 }, (_, i) =>
+    cellEntry([rung(bands[i % bands.length], i % 2 === 0, ALL_TILES), rung(bands[(i + 2) % bands.length], false, ALL_TILES)]));
+  const eyes = [{ x: 0, y: 0, z: 0 }, { x: 150, y: 0, z: 90 }, { x: -300, y: 0, z: 40 }];
+
+  it("a pass split over N steps gives the same latches, applies and stats as one pass", () => {
+    const one = build();
+    const split = build();
+    const oneApplied: string[] = [];
+    const splitApplied: string[] = [];
+    const s1 = stats();
+    const s2 = stats();
+    const pass = new GatePass();
+    for (const eye of eyes) {
+      gateSpecies(one, eye, NORTH, (r, t, v) => oneApplied.push(`${one.findIndex((e) => e.rungs.includes(r))}:${t}:${v}`), s1, GATE_MARGIN_M);
+      pass.start(eye, NORTH);
+      let steps = 0;
+      while (!pass.step(split, (r, t, v) => splitApplied.push(`${split.findIndex((e) => e.rungs.includes(r))}:${t}:${v}`), s2, 3)) steps++;
+      expect(steps).toBe(3);   // 11 entries at 3 per step: the fourth step completes
+      expect(pass.running).toBe(false);
+      expect(s2).toEqual(s1);
+    }
+    expect(splitApplied).toEqual(oneApplied);
+    expect(oneApplied.length).toBeGreaterThan(0);
+    for (let e = 0; e < one.length; e++) {
+      for (let r = 0; r < one[e].rungs.length; r++) {
+        expect(Array.from(split[e].rungs[r].state)).toEqual(Array.from(one[e].rungs[r].state));
+        expect(split[e].rungs[r].onTiles).toBe(one[e].rungs[r].onTiles);
+      }
+    }
+  });
+
+  it("leaves the caller's stats alone until the pass completes", () => {
+    const s = stats();
+    s.visibleCopies = -7;
+    const pass = new GatePass();
+    pass.start({ x: 0, y: 0, z: 0 }, NORTH);
+    expect(pass.step(build(), () => undefined, s, 2)).toBe(false);
+    expect(s.visibleCopies).toBe(-7);
+  });
+});
+
+describe("casterCascadeMask (diag20 E5c)", () => {
+  it("a batch enters only the cascades its nearest copy can shadow", () => {
+    const noon = { perM: 0.1 };
+    const fars = [40, 400, 6000];
+    expect(casterCascadeMask(6, fars, 3, noon)).toBe(0b111);
+    expect(casterCascadeMask(300, fars, 3, noon)).toBe(0b110);
+    expect(casterCascadeMask(2000, fars, 3, noon)).toBe(0b100);
+    expect(casterCascadeMask(20000, fars, 3, noon)).toBe(0);
+    expect(casterCascadeMask(6, fars, 3, null)).toBe(0);
+  });
 });

@@ -221,6 +221,19 @@ def test_the_plugin_hearth_fire_effect_stands_in_as_the_kit_fire_bed_and_no_othe
     assert any("only clutter or furniture" in p for p in ex.check(_gate_bundle(substitutions=[steam])))
 
 
+def test_a_fire_effect_left_as_a_drop_fails_the_gate():
+    """audit10: the HTBM huts' FXfireWithEmbersOut was a listed drop, the brazier burned nothing."""
+    fire = {"refId": "2", "reason": "listed-drop", "base": "FXfireWithEmbersOut", "class": "effect",
+            "model": "effects/fxfirewithembers03.nif", "positionM": [0.0, 0.3, 0.0]}
+    assert any("fire effect FXfireWithEmbersOut" in p for p in ex.check(_gate_bundle(drops=[fire])))
+    bed = {"id": "X.3", "refId": "3", "class": "effect", "standInCategory": "clutter",
+           "standInAsset": ex.HEARTH_FIRE_STAND_INS["FXfireWithEmbersOut"], "why": ex.HEARTH_FIRE_WHY,
+           "positionM": [0.5, 0.3, 0.0]}
+    assert ex.check(_gate_bundle(drops=[fire], substitutions=[bed], refCount=3)) == []  # a second fire stays a drop
+    dust = dict(fire, base="FXAmbBeamDust02", model="effects/fxambbeamdust02.nif")
+    assert ex.check(_gate_bundle(drops=[dust])) == []
+
+
 def test_piece_class_reads_the_base_record_then_the_sourced_absent_master_row():
     absent = {"cc.esm:00000001": {"class": "clutter", "source": "UESP"}}
     assert ex.piece_class(None, "cc.esm:00000001", None, absent) == ("clutter", "UESP")

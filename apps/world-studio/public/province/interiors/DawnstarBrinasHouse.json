@@ -1896,7 +1896,7 @@
    "kit": "interior-farmhouse-v1",
    "positionM": [
     -19.1179,
-    0.4831,
+    0.5587,
     7.0686
    ],
    "rotationDeg": [
@@ -3692,7 +3692,7 @@
    "kind": "item",
    "positionM": [
     -19.1179,
-    0.4831,
+    0.5587,
     7.0686
    ],
    "yawDeg": 220.529,
@@ -4221,7 +4221,7 @@
   },
   {
    "id": "DawnstarBrinasHouse.000E044E",
-   "dropM": 0.077
+   "dropM": 0.002
   }
  ],
  "coplanarFixed": []
