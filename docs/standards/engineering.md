@@ -599,6 +599,9 @@ npm test -w @elder-souls/repo-standards     # just these checks
 npm run test:placement       # the worldgen/placement suites
 ```
 
+Test selection: an exporter change selects the exporter and interior tests
+only, not the whole placement group (143 s against the 60 s bar).
+
 Each check names the standard it enforces and prints the offending file and
 line. Every CI job that runs a Python gate installs
 `tooling/world-generation/requirements-test.txt` first (deploy-pages.yml), so

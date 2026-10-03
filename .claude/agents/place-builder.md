@@ -26,7 +26,11 @@ Before touching a layout:
   ran 520k-830k context, 99.7 of 106.4 units on turns over 200k); your
   brief names which one you are. If it proves bigger, stop at a green step, write the hand-off note (what
   is green, next step, files) and return; a fresh builder continues from
-  the note. A fix round is timed: run `wb.py round ... --walk N` (and
+  the note. A place-builder child is briefed ONE place per child (three
+  multi-place builders passed 200k context). Every gates, publish or export
+  job runs under `tooling/repo-standards/job_guard.sh <lane> --mem 6 --`;
+  place pytest runs with `-n 2` (six 2 GiB xdist workers queued the GPU slots).
+  A fix round is timed: run `wb.py round ... --walk N` (and
   `--end-walk` on its last round), so the build ledger sees it.
 
 While building:

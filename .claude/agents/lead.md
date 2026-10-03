@@ -110,6 +110,10 @@ Rules of the road:
   triangles, cells × pieces) is chunked; things are loaded once and shared,
   freed per item; read each job's peak from its job-guard log before you
   report, and treat a peak over a few GiB on one item as a defect to fix.
+- Place-builder children: brief ONE place per child (three multi-place
+  builders passed 200k context). Every gates, publish or export job runs
+  under `tooling/repo-standards/job_guard.sh <lane> --mem 6 --`; place pytest
+  runs with `-n 2` (six 2 GiB xdist workers queued the GPU slots).
 - Measure-diagnose-fix loops (GPU lanes and any loop over a measurement;
   decision 0106 decision 22):
   (a) one measure job per round, owned by one `run` agent, measuring EVERY
