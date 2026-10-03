@@ -132,4 +132,26 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     await linking;
     expect(atCompile).toEqual([""]);
   });
+
+  // perf10 diag 22 G-e: first-use work runs in the pre-swap wait, once per program
+  it("runs getUniforms and getAttributes once per program when it reports ready, not before", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    const material = new THREE.MeshBasicMaterial();
+    let ready = false, uniforms = 0, attributes = 0;
+    const program = { isReady: () => ready, getUniforms: () => { uniforms++; }, getAttributes: () => { attributes++; } };
+    const gl = {
+      getRenderTarget: () => null, setRenderTarget: () => undefined,
+      compile: () => new Set([material]),
+      properties: { get: () => ({ currentProgram: program }) },
+      extensions: { has: () => true },
+    } as unknown as THREE.WebGLRenderer;
+    const linker = new DrawTargetLinker(gl, scene, 4000, 10_000);
+    const link = linker.link({ object: new THREE.Mesh() }, camera);
+    await new Promise((r) => setTimeout(r, 40));
+    expect([uniforms, attributes]).toEqual([0, 0]);
+    ready = true;
+    await link;
+    expect([uniforms, attributes]).toEqual([1, 1]);
+  });
 });

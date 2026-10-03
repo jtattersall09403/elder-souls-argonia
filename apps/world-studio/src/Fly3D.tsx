@@ -306,7 +306,8 @@ export function Fly3D(props: Fly3DProps) {
       // re-render each frame and mis-typed shadow samplers (WaterPipeline.tsx).
       shadows="percentage"
       style={{ width: "100%", height: "100%" }}
-      onCreated={({ camera }) => {
+      onCreated={({ camera, gl }) => {
+        gl.debug.checkShaderErrors = !import.meta.env.PROD; // production: no sync program info log on link (perf10 diag 22 G-e)
         if (initialAim) {
           camera.lookAt(
             start[0] + initialAim.x * 2000,

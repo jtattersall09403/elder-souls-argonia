@@ -507,7 +507,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // a shadow re-render each frame (WaterPipeline.tsx explains).
           shadows="percentage"
           style={{ width: "100%", height: "100%" }}
-          onCreated={({ gl }) => { glRef.current = gl.domElement; }}
+          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.debug.checkShaderErrors = !import.meta.env.PROD; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError}>

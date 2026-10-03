@@ -11,6 +11,25 @@ import { litPreparerOf, prepareLit, whenLitPreparer } from "./fixtureLights/fixt
  */
 export const LINK_SETTLE_MS = 2000;
 
+/** The slice of three's WebGLProgram the poll reads. */
+interface LinkedProgram {
+  isReady(): boolean;
+  getUniforms?(): unknown;
+  getAttributes?(): unknown;
+}
+
+/**
+ * `compileAsync` only polls COMPLETION_STATUS; three's `getUniforms` and
+ * `getAttributes` run the program info log and the uniform and attribute
+ * reflection (5-36 ms) on the first draw frame, the hitch of perf10 diag 22
+ * row G-e. Called once per program once it reports ready, so the first draw
+ * finds both cached.
+ */
+export function runFirstUse(program: LinkedProgram): void {
+  program.getUniforms?.();
+  program.getAttributes?.();
+}
+
 /**
  * One object to link ahead of its first draw. `pass` names the target its
  * draw binds: "scene" the kind the layer-0 pass was seen to use, "screen" the
@@ -127,8 +146,10 @@ export class DrawTargetLinker {
    * (synchronous) then a 10 ms readiness poll, as three 0.184 does, except a
    * material disposed while pending ('dispose' event) or left without a
    * current program (a regrown rung) leaves the wait instead of throwing
-   * "reading 'isReady'" inside a timer (perf-diag9 E2). Resolves when every
-   * material is ready or gone, or after `settleMs`.
+   * "reading 'isReady'" inside a timer (perf-diag9 E2). A program that reports
+   * ready also runs three's first-use work (`runFirstUse`) here, inside the
+   * pre-swap wait. Resolves when every material is ready or gone, or after
+   * `settleMs`.
    */
   private compileGuarded(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene): Promise<unknown> {
     const gl = this.gl;
@@ -140,8 +161,9 @@ export class DrawTargetLinker {
     return new Promise((resolve) => {
       const check = () => {
         for (const m of waiting) {
-          const program = (gl.properties.get(m) as { currentProgram?: { isReady(): boolean } }).currentProgram;
-          if (!program || program.isReady()) waiting.delete(m);
+          const program = (gl.properties.get(m) as { currentProgram?: LinkedProgram }).currentProgram;
+          if (!program) waiting.delete(m);
+          else if (program.isReady()) { runFirstUse(program); waiting.delete(m); }
         }
         if (waiting.size === 0 || performance.now() >= deadline) {
           for (const m of all) m.removeEventListener("dispose", gone);
