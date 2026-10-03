@@ -69,11 +69,77 @@ function cellOwned(o: THREE.Object3D): boolean {
 export function castersMissingLayer(root: THREE.Object3D): CasterMissingLayer[] {
   const out: CasterMissingLayer[] = [];
   root.traverse((o) => {
-    if (!o.castShadow || !(o as THREE.Mesh).isMesh || (o.layers.mask & CASTER_BITS) !== 0 || cellOwned(o)) return;
+    // an object carrying a `.shadow` is a light or three's CSMShadowNode cascade proxy (LwLight):
+    // never drawn, so never a caster that needs a layer
+    if (!o.castShadow || !(o as THREE.Mesh).isMesh || (o as THREE.Light).isLight || "shadow" in o || (o.layers.mask & CASTER_BITS) !== 0 || cellOwned(o)) return;
     let owner = o.parent;
     while (owner && !owner.name) owner = owner.parent;
     const flags = Object.keys(o.userData).filter((k) => k.startsWith("es") && o.userData[k]);
     out.push({ name: o.name || "<unnamed>", owner: owner?.name ?? "<scene>", kind: [o.type, ...flags].join(" ") });
   });
   return out;
+}
+
+const STABLE_ALPHA_TEST = Symbol("esStableAlphaTest");
+const SHADOW_PASS_MATERIALS = Symbol("esShadowPassMaterials");
+
+/** Make a shadow-pass material's `alphaTest` a plain value (webgpu10 c9 H1).
+ * three's Renderer.renderObject copies each caster's alphaTest onto the
+ * light's ONE shared shadow-pass material; the stock setter bumps `version`
+ * whenever the value crosses 0, so alternating cutout and solid casters
+ * re-keyed every shadow render object every frame (getMaterialCacheKey,
+ * ~46 MB/s garbage). Storing without the bump is correct: each render object
+ * belongs to one caster whose alphaTest is fixed, its pipeline key and its
+ * `alphaTest > 0` discard branch are built from that caster's value, and the
+ * alpha-test uniform reads the current value at draw time. Idempotent. */
+export function stabiliseShadowAlphaTest(material: THREE.Material): void {
+  const m = material as THREE.Material & { [STABLE_ALPHA_TEST]?: true };
+  if (m[STABLE_ALPHA_TEST]) return;
+  let value = m.alphaTest;
+  Object.defineProperty(m, "alphaTest", {
+    configurable: true,
+    enumerable: true,
+    get: () => value,
+    set: (v: number) => { value = v; },
+  });
+  m[STABLE_ALPHA_TEST] = true;
+}
+
+/** Every shadow-pass material three sets as `scene.overrideMaterial` (one
+ * per light, made at its first shadow render, before any caster draws) gets
+ * `stabiliseShadowAlphaTest`, and is recorded for `shadowPassMaterialsOf`
+ * (the shadow-variant precompile). Per-scene accessor, no module state.
+ * Installed on every scene the renderer draws (`stabiliseRenderedScenes`). */
+export function stabiliseShadowPassMaterials(scene: THREE.Scene): void {
+  const s = scene as THREE.Scene & { [STABLE_ALPHA_TEST]?: true; [SHADOW_PASS_MATERIALS]?: Set<THREE.Material> };
+  if (s[STABLE_ALPHA_TEST]) return;
+  const seen = new Set<THREE.Material>();
+  Object.defineProperty(s, SHADOW_PASS_MATERIALS, { value: seen });
+  let current = scene.overrideMaterial;
+  Object.defineProperty(scene, "overrideMaterial", {
+    configurable: true,
+    enumerable: true,
+    get: () => current,
+    set: (mat: THREE.Material | null) => {
+      if (mat && (mat as { isShadowPassMaterial?: boolean }).isShadowPassMaterial) { stabiliseShadowAlphaTest(mat); seen.add(mat); }
+      current = mat;
+    },
+  });
+  s[STABLE_ALPHA_TEST] = true;
+}
+
+/** The shadow-pass materials three has set on `scene` so far (one per shadow light; empty before the first shadow render). */
+export function shadowPassMaterialsOf(scene: THREE.Scene): THREE.Material[] {
+  const seen = (scene as { [SHADOW_PASS_MATERIALS]?: Set<THREE.Material> })[SHADOW_PASS_MATERIALS];
+  return seen ? [...seen] : [];
+}
+
+/** Every scene `renderer.render` draws gets `stabiliseShadowPassMaterials` before its first frame
+ * (createRenderer installs it, so every app using the package renderer has it). */
+export function stabiliseRenderedScenes(renderer: { render(scene: THREE.Object3D, camera: THREE.Camera): unknown }): void {
+  const render = renderer.render;
+  renderer.render = function (this: unknown, scene: THREE.Object3D, camera: THREE.Camera) {
+    if ((scene as THREE.Scene).isScene) stabiliseShadowPassMaterials(scene as THREE.Scene);
+    return render.call(this, scene, camera);
+  };
 }

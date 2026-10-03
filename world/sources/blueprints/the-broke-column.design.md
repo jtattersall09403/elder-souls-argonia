@@ -121,8 +121,9 @@ Station is 930 m west on the same Blackwood Road, a different type.
 ### Built nearby and what not to repeat
 
 Claywater Station (type 1, 930 m W): Imperial farmhouses, well, hay, stable,
-road signs. This camp uses no farmhouse, no well and no signpost; its
-Imperial look is canvas, banners and poles, not timber and plaster.
+road signs. This camp uses no farmhouse and no well. Its one signpost
+stands at the track fork, not at the camp. Its Imperial look is canvas,
+banners and poles, not timber and plaster.
 
 ## § Brief
 
@@ -236,14 +237,23 @@ Lights: the brazier, the camp's one fixture (`lights.density`).
 Off the road: the Gideon road is 165 m east and out of sight. The camp path
 joins `track.imperial-fringe.mile-house-of-the-eagle` at a network terminal
 below the bench; the levy barricade stands on that track's verge west of
-its junction with the Swampmoth Town track. No board: a hostile camp posts
-none (R96 lists no service here).
+its junction with the Swampmoth Town track. No shop board: a hostile camp
+posts none (R96 lists no service here). The fork itself carries the
+track signpost `s-post` (1223.25, 3068.25), on its verge between the Mile
+House leg and the Swampmoth Town track's leg south-east to the Gideon road (scan `walk-10/scan-sign.json`, padded, no road
+paint): the low arm `s-board1` (medium 01l on the post's mined 1.922 m
+mount) points 225 degrees down the Mile House track, the high arm
+`s-board2` (medium 01r on the mined 2.51 m mount) points 36 degrees up the
+Swampmoth Town track; socket `sign-track-way` names both destinations.
+Walk 10 moved it here from the camp path's terminal, where both arms lay
+on one straight track 180 degrees apart; they read as two parallel planks.
 
 ### § Approach (openworld-approach §5, the answers that matter)
 
 Seen first from the Mile House track: the banners on the skyline, then the
-tent line, then the barricade across half the track ahead. No way-sign;
-the only way up is the camp path, which leaves the track along its own
+tent line, then the barricade across half the track ahead. The post
+at the fork carries the only boards on the approach. They are blank and point
+to the Mile House and Swampmoth Town. Nothing signs the camp. The way up is the camp path, which leaves the track along its own
 line (97 C-stitch: the first 15 m of a way stay within 20 degrees of the
 route it continues) just short of the barricade and climbs through the gap
 in the stakes. The barricade stands on the one level stretch of the track

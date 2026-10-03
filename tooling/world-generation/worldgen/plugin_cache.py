@@ -49,10 +49,18 @@ class PluginCache:
         """`plugin.base_objects()` (default types), walked once per file."""
         return self._memo(plugin, "base_objects", plugin.base_objects)
 
-    def interior_cells(self, plugin: Plugin) -> list:
-        """`plugin.interior_cells(with_refs=True)` as a list, walked once per file."""
-        return self._memo(plugin, "interior_cells",
-                          lambda: list(plugin.interior_cells(with_refs=True)))
+    def interior_cells(self, plugin: Plugin, named: bool) -> tuple[frozenset, dict]:
+        """`(form ids of every interior ref, {editor id: refs} or {})`, walked once
+        per file. A master is asked with `named=False` and keeps only the ids:
+        holding every Skyrim.esm cell's refs cost ~200 MiB per export."""
+        def build():
+            ids, cells = set(), {}
+            for cell in plugin.interior_cells(with_refs=True):
+                ids.update(ref.form_id for ref in cell.refs)
+                if named and cell.editor_id:
+                    cells[cell.editor_id] = cell.refs
+            return frozenset(ids), cells
+        return self._memo(plugin, f"interior_cells:{named}", build)
 
     @staticmethod
     def _set_key(main: Path, masters: list[str], resolve) -> tuple:

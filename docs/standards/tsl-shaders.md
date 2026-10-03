@@ -125,6 +125,23 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - A named storage node must be ONE node per buffer, reused by every mesh and pass (the shadow pass
   builds the mesh twice; a second node of the same name is renamed into invalid WGSL). Unnamed, each
   mesh gets `NodeBuffer_<id>` and its own shader module: see `render/gpuCull/stableInstanceNames.ts`.
+- Dispose streamed GPU geometry through `deferDispose(renderer, d)` (`render/deferDispose.ts`), never
+  directly: a dispose inside an `onBeforeRender` or between two render calls of one frame destroys
+  buffers an encoded pass still draws ("used in submit while destroyed"). Name owned buffers with
+  `tagGeometryBuffers(geometry, tag)`: three passes `attribute.name` as the GPUBuffer label, so a
+  validation error names the owner (webgpu10 c10).
+- The GPU-cull pool is WebGPU-backend only (`GpuCullSystem.supported` reads `backend.isWebGPUBackend`
+  and the `indirect-first-instance` feature): on WebGL2 its storage reads become vertex attributes
+  (`nodeAttribute*`, one location each, a mat4 taking four) and WebGL2 has 16 attribute slots. Never
+  enable it on WebGL2; the CPU-culled instanced path draws there.
+- Pipelines precompile from `public/render-signatures.json` at boot (`render/precompileSignatures.ts`,
+  mounted by the sky as `RenderSignaturePrecompile`): one dummy per kit vertex layout and material
+  flag set, through the kit loader's conversion and the settlement material path, into the frame
+  targets and every shadow map. A new material class or attribute layout must appear there: re-run
+  `node packages/game-core/scripts/bake-render-signatures.mjs` (the dist build runs it;
+  `renderSignatures.test.ts` fails when a published kit has a signature the file lacks). The dummies
+  share the GPU programs and pipelines (keyed on WGSL text and render state), not three's JS node
+  build (keyed on node ids) (webgpu10 c10).
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 
@@ -213,6 +230,15 @@ albedo x (sky + sun x wrap-lambert on a domed billboard normal) / pi. The
 PRECIP_LAYER pass camera sees no light objects, so a light-driven material
 cannot do this; `smokeColumn.ts` (`setLighting`) is the example. `sceneRadiance`
 is for things that emit (flames, glows, motes).
+
+Never share one shadow or override material across casters whose
+`alphaTest` differs without stabilising it: the stock setter bumps
+`version` each time the value crosses 0, and three copies every caster's
+`alphaTest` onto the light's one shadow-pass material, so alternating cutout
+and solid casters re-key every shadow render object every frame
+(webgpu10 c9 H1: 135 of 135 re-keyed, ~46 MB/s garbage, a 71 ms GC every
+9-10 s). The sky calls `stabiliseShadowPassMaterials(scene)`
+(render/shadowCasters.ts); any new scene that renders shadows calls it too.
 
 ## 7. Tests
 

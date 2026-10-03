@@ -27,6 +27,9 @@ export interface GroundOverlayPiece {
   /** Polygon in world metres, [x, z] pairs. */
   readonly polygonM: readonly (readonly [number, number])[];
   readonly datumM: number;
+  /** A partly-wet run end's dry bank: the piece only lowers the ground to
+   * `datumM`, never raises it (so no wet sample is filled). */
+  readonly cutOnly?: boolean;
 }
 
 export interface GroundOverlay {
@@ -126,11 +129,12 @@ export function overlayOne(
   let hardTarget = -Infinity;
   let pull = 0;
   for (const piece of o.pieces) {
+    const target = piece.cutOnly ? Math.min(piece.datumM, base) : piece.datumM;
     const d = polygonDistance(x, z, piece.polygonM);
-    if (d <= o.hardM) hardTarget = Math.max(hardTarget, piece.datumM);
+    if (d <= o.hardM) hardTarget = Math.max(hardTarget, target);
     const t = Math.min(1, Math.max(0, (d - o.hardM) / Math.max(o.blendM, 1e-6)));
     const w = 1 - t * t * (3 - 2 * t);
-    const step = (piece.datumM - base) * w;
+    const step = (target - base) * w;
     if (Math.abs(step) > Math.abs(pull)) pull = step;
   }
   return Number.isFinite(hardTarget) ? hardTarget : base + pull;

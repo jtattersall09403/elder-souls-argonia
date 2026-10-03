@@ -361,6 +361,10 @@ export interface SettlementFrameEvidence {
   swaps: number;
   /** Finished builds that resolved exactly what was live and were dropped. */
   skippedSwaps: number;
+  /** Bucket/signature/batch passes run (perf-diag22 G-a): a walk with no new piece adds none. */
+  fullPasses: number;
+  /** Reach-only passes (fixtures, smoke, colliders) run on a walk that changed what is in reach. */
+  reachPasses: number;
   liveChildren: number;
 }
 
@@ -397,6 +401,8 @@ export interface SettlementLayerProps {
   onDoors?: (doors: SettlementDoor[]) => void;
   /** The scene's shared kit cache (`kitCache.ts`); absent, the layer keeps its own. */
   kitCache?: import("./kitCache").KitCache;
+  /** Spawn-ring pieces not yet drawn (decision 0120 rule 5), written by the layer and read by the warm gate; 1 until the first ring is known, 0 once it is in. */
+  ringPendingRef?: React.MutableRefObject<number>;
   /** The scene's light fixtures (`lighting.ts`); absent, the layer makes its own. */
   lightFixtures?: import("./lighting").SettlementLightFixtures;
   /** Injected error channel (decision 0052 addendum 2026-09-28): the host shows

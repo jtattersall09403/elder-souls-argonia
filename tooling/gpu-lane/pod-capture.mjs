@@ -11,7 +11,7 @@
  *     [--heap-profile]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
- * --views      JSON list of {name, url, steps?, shots?, shotsFrom?, seconds?, plain?, clean?, aim?, settle?, readyFlag?} (url any http(s) URL; plain: a non-studio
+ * --views      JSON list of {name, url, steps?, shots?, shotsFrom?, long?, seconds?, plain?, clean?, aim?, settle?, readyFlag?} (url any http(s) URL; plain: a non-studio
  *              page, no settle gate, runs its seconds; clean: HUD, minimap and scrollbar hidden around frames and final.jpg; frames: one at ready, then
  *              on `shots` from navigation (a view with seconds and no shots: every 10 s), shotsFrom: "settle" counts them from the shot
  *              settle gate (fps and luma steady, pod-capture-lib shotSettle; settle false = off); per frame the HUD HH:MM clock
@@ -75,7 +75,9 @@
  *              else with --lane from /tmp/<lane>/dist-<name>), raw to profile.cpuprofile
  * --maps       a dist dir holding the build's *.js.map files (default: the --lane dist of each view)
  * Views: a studio view URL without w= gets w=clear (diag20 E7; WARNING line and the summary's WEATHER UNPINNED line). The first
- *              frame (and every shot) waits for the view's pose (POSE_READY_JS: character spawned; result poseAt / poseTimedOut).
+ *              frame (and every shot) waits for the pose gate (poseTarget/installPoseProbe: camera focus within 1 m of URL x/z, yaw
+ *              within 1 deg of aim, 3 consecutive frames; result poseAt, pose.residual, poseTimedOut). long: <s> = frames every 10 s for
+ *              <s> s after the first. URLs with scenario/visualScenario/validation are refused. WebGL2 program failures -> result errors[].
  *              Per view, the dev hooks __STUDIO_SKY_DEBUG__.castersMissingLayer() and __STUDIO_WARM__ are read (result devHooks, "dev hooks" cell).
  * steps        per view, {at, label, js, waitMs?}: at `at` s the page evaluates js (its JSON return goes to probe[label]), waits waitMs
  *              (default 2500), then a full read goes into steps[]
@@ -95,7 +97,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame, buildsAfterKits, framesBeforePose, captureFrame, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS } from "./pod-capture-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit, heapTopAllocators } from "./checks.mjs";
@@ -276,7 +278,9 @@ const INIT = `(() => {
   };
 })();
 try { (${pageProbe})(); } catch {}
-try { (${installLoadTimeline})(window); } catch {}${probeGpuErrors ? `
+try { (${installLoadTimeline})(window); } catch {}
+try { (${installPoseProbe})(window, ${poseResidual}, ${POSE_FRAMES}); } catch {}
+try { (${installProgramErrorProbe})(window); } catch {}${probeGpuErrors ? `
 try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeNan ? `
 try { (${installNanProbe})(window); } catch {}` : ""}${probeTargets ? `
 try { (${installTargetProbe})(window, ${recordPassDescriptor}); } catch {}` : ""}${drawCensus ? `
@@ -380,12 +384,7 @@ const middleOf = (b64) => evaluate(`(async () => {
 })()`, 20_000);
 const shoot = async (quality = 60) => (await send("Page.captureScreenshot", { format: "jpeg", quality }, 20_000)).data;
 /** A frame for the record: with the view's `clean`, the HUD is hidden around the screenshot only. */
-const frameShot = async (view, quality) => {
-  if (!view.clean) return shoot(quality);
-  const hide = await evaluate(HUD_HIDE_JS);
-  if (!hide?.ok) { await evaluate(HUD_SHOW_JS); throw new Error(`clean: ${JSON.stringify(hide)}`); }
-  try { return await shoot(quality); } finally { await evaluate(HUD_SHOW_JS); }
-};
+const frameShot = (view, quality) => captureFrame({ evaluate, shoot }, view.clean, quality);
 // A full read: stalled flag, 1 %-low fps of the last ~300 rAF durations (raw durations dropped), screen-middle luma
 const fullRead = async () => {
   const r = await evaluate(READ);
@@ -468,7 +467,9 @@ async function captureView(view) {
   const ctl = { page: null };
   const body = viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl);
   let timer;
-  const limit = new Promise((r) => { timer = setTimeout(() => r("timeout"), viewDeadlineS(totalS, { readyS: readyTimeoutS, windowS, profileS: prof ? prof.seconds : 0, floorS: captureTimeoutS }) * 1000); });
+  // per-view limit: viewDeadlineS, widened for a `long` view to its ready time plus `long` plus the window
+  const viewTimeoutS = Math.max(viewDeadlineS(totalS, { readyS: readyTimeoutS, windowS, profileS: prof ? prof.seconds : 0, floorS: captureTimeoutS }), view.long ? readyTimeoutS + view.long + windowS + 60 : 0);
+  const limit = new Promise((r) => { timer = setTimeout(() => r("timeout"), viewTimeoutS * 1000); });
   try {
     if (await Promise.race([body.then(() => "done"), limit]) === "timeout") {
       result.failed = "capture-timeout";
@@ -490,6 +491,8 @@ async function captureView(view) {
       result.nanProbe = await evaluate(`window.__nanProbe ? JSON.parse(JSON.stringify(window.__nanProbe)) : { err: "no probe on the page" }`, 10_000);
       writeFileSync(join(dir, "nan-probe.json"), JSON.stringify(result.nanProbe, null, 1));
     }
+    // c10: WebGL2 program failures with the failing program's attributes and the object/material that linked it
+    if (ctl.page) { const e = await evaluate(`window.__programErrors ?? []`, 10_000); result.errors = Array.isArray(e) ? e : [{ kind: "read", message: JSON.stringify(e).slice(0, 200) }]; }
     // diag20 E8 dev hooks: casters missing their layer (expect 0) and the warm gate's open reason
     if (ctl.page && !view.plain) result.devHooks = await evaluate(DEV_HOOKS_JS, 10_000).catch(() => null);
     // load timeline (owner 10 s bar): always, also for a failed view (complete stays null and the bar fails)
@@ -502,6 +505,9 @@ async function captureView(view) {
       const atReady = result.resources?.atReadyEntries ?? null;
       result.resources = { atReady: atReady ? resourceSummary(atReady) : null, atComplete: Array.isArray(done) ? resourceSummary(done) : null };
       writeFileSync(join(dir, "resources.json"), JSON.stringify({ ...result.resources, entriesAtReady: atReady, entriesAtComplete: Array.isArray(done) ? done : null }, null, 1));
+      // c10 harness2: kits arrived -> last pipeline build (n/a on a page with no build queue)
+      const la = buildsAfterKits(Array.isArray(done) ? done : [], result.loadTimeline, result.final?.buildQueue != null);
+      result.loadAfterKits = la; result.kitsArrivedS = la.kitsArrivedS; result.lastBuildS = la.lastBuildS; result.buildsAfterKitsS = la.buildsAfterKitsS;
     }
     result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
     sink = null;
@@ -536,7 +542,9 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     let flagPoll = -1, firstShot = false, posePoll = -1, profStartS = null;
     result.frameClocks = []; result.clockSource = CLOCK_SOURCE;
     if (view.readyFlag) result.readyFlag = { name: view.readyFlag, at: null, timedOut: false };
-    while (sec() < totalS) {
+    const poseT = view.plain ? null : poseTarget(view.url, view.aim ?? null);
+    let firstAt = null;
+    while (sec() < viewEndS(view, totalS, firstAt)) {
       if (aborted) return;
       const s = sec();
       if (!view.plain && result.readyS === null && s > readyTimeoutS) {
@@ -562,11 +570,14 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         writeFileSync(join(dir, "heapsample.json"), JSON.stringify({ at: hsStartS, seconds: hs.seconds, from: hs.from, topAllocated: top }, null, 1));
         result.heapSample = { at: hsStartS, seconds: hs.seconds, topAllocated: top };
       }
-      // diag20 E8: the first frame waits for the view's pose (POSE_READY_JS: the character spawned, so the follow camera is
-      // on it; iter28 first frames showed the open-water boot camera), or --ready-timeout (then poseTimedOut)
+      // c10 (E8): the first frame waits for the camera at the view's pose (poseTarget: focus within 1 m of the URL x/z,
+      // yaw within 1 deg of the aim) for POSE_FRAMES consecutive frames (page-side installPoseProbe; iter30/31 first
+      // frames showed open water at an 8-9 s "pose" that only meant spawned), or --ready-timeout (then poseTimedOut)
       if (!view.plain && result.poseAt === undefined && Math.floor(s * 2) > posePoll) {
         posePoll = Math.floor(s * 2);
-        if ((await evaluate(POSE_READY_JS, 5_000)) === true) result.poseAt = r1(sec());
+        const pr = poseT ? await evaluate(poseReadyJs(poseT), 5_000) : { ready: true };
+        if (poseT) result.pose = { target: poseT, ...(pr && !pr.err ? { frames: pr.frames, residual: pr.residual, last: pr.last } : { err: pr?.err ?? "no read" }) };
+        if (pr?.ready === true) result.poseAt = r1(sec());
         else if (s > readyTimeoutS) { result.poseAt = null; result.poseTimedOut = true; }
       }
       // `aim`: the camera is aimed once the studio's debug hook exists, and no frame is taken before it is
@@ -580,16 +591,23 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
       }
       const flagOpen = !view.readyFlag || result.readyFlag.at !== null || result.readyFlag.timedOut;
       // diag19 D5: a first frame at ready, then shot times from navigation (`shotsFrom: "settle"`: from the shot settle gate)
-      const shotT = shotTime(view, s, shotGate?.at ?? null);
-      const firstDue = !firstShot && (view.plain || (result.readyS !== null && result.poseAt !== undefined));
+      const shotT = shotTime(view, s, shotGate?.at ?? null, firstAt, result.poseAt ?? null);
+      const firstDue = !firstShot && (view.plain || (result.readyS !== null && result.poseAt !== undefined && (result.poseAt === null || s >= result.poseAt)));
       if (flagOpen && (view.plain || result.poseAt !== undefined) && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
         while (si < shots.length && shots[si] <= shotT) si++;
+        if (!firstShot) firstAt = s;
         firstShot = true;
+        if (framesBeforePose(view, result.poseAt)) result.framesBeforePose = true;
+        const clock = hudClock(await evaluate(HUD_TEXT_JS, 5_000));
         try {
-          const clock = hudClock(await evaluate(HUD_TEXT_JS, 5_000));
           writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++;
           result.frameClocks.push({ s: r1(s), clock });
-        } catch (e) { recordSkippedFrame(result, s, e); }
+        } catch (e) {
+          recordSkippedFrame(result, s, e);
+          // a skipped frame is recorded, never silent (iter30/31 dev twins: every frame threw "clean: no canvas" unseen)
+          (result.shotErrors ??= []).length < 5 && result.shotErrors.push(`${r1(s)} s: ${String(e.message).slice(0, 120)}`);
+          result.frameClocks.push({ s: r1(s), clock, shotFailed: true });
+        }
       }
       if (ri < readsAt.length && s >= readsAt[ri]) { ri++; result.reads[readsAt[ri - 1]] = { t: r1(sec()), ...(await fullRead()) }; }
       if (steps.length && s >= steps[0].at) {

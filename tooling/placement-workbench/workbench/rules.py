@@ -1804,6 +1804,31 @@ def _sign_target(p) -> bool:
             and not _has(p.asset, ROAD_SIGN_TOKENS))
 
 
+def _arm_route(cat, scene, p, parent) -> tuple[float, float, str] | None:
+    """(bearing, 0, way id) of the route toward the destination this arm is
+    matched to: of the post's sign socket `pointsTo`, the one whose route
+    leaves the post nearest the arm's tip bearing (its axis for a tipless
+    board). None when the post has no socket destinations or none resolves
+    (the board half then reads the nearest way). At a fork the nearest way
+    is the other track for one arm (The Broke Column, audit10 c5: s-board2
+    read 17 deg off the Mile House track while pointing up the Swampmoth leg)."""
+    if parent is None:
+        return None
+    sock = next((s for s in _layout_sockets(scene)
+                 if s.get("kind") == "sign" and s.get("host") == parent.uid), None)
+    want = [w for w in (destination_bearing(parent.x, parent.z, d)
+                        for d in (sock or {}).get("pointsTo") or []) if w is not None]
+    if not want:
+        return None
+    tip = board_tip_bearing(cat, p)
+    if tip is not None:
+        best = min(want, key=lambda w: _angle_off(tip, w[0]))
+    else:
+        axis = (p.yaw + 90.0) % 180.0
+        best = min(want, key=lambda w: _angle_off(axis * 2, w[0] * 2))
+    return best[0], 0.0, best[1]
+
+
 def sign_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     """signRule for one board: ({uid: row}, failures)."""
     g = ctx["g"]
@@ -1818,7 +1843,7 @@ def sign_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     wx, wz = float(cx), float(-cy)
     up = float(cz) - float(g.chunk_height(wx, wz))
     arm = (p.yaw + 90.0) % 180.0
-    road = _road_bearing(scene, wx, wz)
+    road = _arm_route(cat, scene, p, parent) or _road_bearing(scene, wx, wz)
     r.update(armBearingDeg=round(arm, 1), centreOverGroundM=round(up, 2))
     if road is not None:
         off = _angle_off(arm * 2, road[0] * 2) / 2.0     # mod-180 difference
@@ -1836,7 +1861,20 @@ SIGN_ARM_RISE_M = 0.25        # signRule (walk 4): arms on one post differ in he
 SIGN_ROUTE_REACH_M = 150.0    # ... a destination's route is read within this of the post
 SIGN_LEG_M = 5.0              # ... its bearing: the route this far on from the post (its next leg;
                               # 25 m reads a bend: Claywater 345 deg against the 315 deg leg)
+SIGN_SOCKET_TOL_M = 0.05      # ... an arm's origin within this of one of the post's mined arm heights
+SIGN_LEAN_MAX_DEG = 1.0       # ... a post or arm tilted past this leans off its mounted axis
 SIGN_TIP_RATIO = 0.5          # a board's tip end is under this share of its other end's height
+
+
+@lru_cache(maxsize=None)
+def post_arm_heights(post_asset: str) -> tuple[float, ...]:
+    """The post's mined arm sockets (audit10 P1): the heights over the post's
+    base at which the source plugins hang road boards (SIGN_BOARD_TOKENS) on
+    this very post asset (`kit-mounts-mined.json` pairs), sorted."""
+    rec = json.loads((paths.PLACEMENT_RECORDS / "kit-mounts-mined.json").read_text())
+    return tuple(sorted({round(float(pt["offsetM"][2]), 3) for p in rec.get("pairs", [])
+                   if p["parent"] == post_asset and _has(p["child"], SIGN_BOARD_TOKENS)
+                   for pt in p.get("points") or [p]}))
 
 
 def board_tip_bearing(cat, p) -> float | None:
@@ -1934,15 +1972,35 @@ def _post_arms(cat, scene, g, post: str, boards: list, sock: dict | None) -> tup
         up = float(cz) - float(g.chunk_height(float(cx), float(-cy)))
         arms.append((uid, up, board_tip_bearing(cat, p)))
     host = scene.piece(post)
+    sockets = post_arm_heights(host.asset)
     row = {"arms": [{"uid": u, "centreOverGroundM": round(h, 2),
-                     "pointsDeg": None if b is None else round(b, 1)} for u, h, b in arms]}
+                     "pointsDeg": None if b is None else round(b, 1)} for u, h, b in arms],
+           "armSocketsM": [round(z, 3) for z in sockets]}
     fails = []
+    if abs(host.pitch) > SIGN_LEAN_MAX_DEG or abs(host.roll) > SIGN_LEAN_MAX_DEG:
+        fails.append(f"{post}: the post leans (pitch {host.pitch:.1f}, roll {host.roll:.1f} deg; "
+                     f"> {SIGN_LEAN_MAX_DEG}): its arms lean with it")
+    for (u, _h, _b), a in zip(arms, (scene.piece(u) for u in boards)):
+        rise = (a.y - host.y) / (host.scale or 1.0)
+        row["arms"][boards.index(u)]["onPostM"] = round(rise, 3)
+        if abs(a.pitch) > SIGN_LEAN_MAX_DEG or abs(a.roll) > SIGN_LEAN_MAX_DEG:
+            fails.append(f"{post}: arm {u} leans off its mounted axis (pitch {a.pitch:.1f}, "
+                         f"roll {a.roll:.1f} deg; > {SIGN_LEAN_MAX_DEG})")
+        near = min(sockets, key=lambda z: abs(z - rise)) if sockets else None
+        if near is None or abs(near - rise) > SIGN_SOCKET_TOL_M:
+            fails.append(f"{post}: arm {u} hangs {rise:.2f} m up the post, off its mined arm sockets "
+                         f"{[round(z, 2) for z in sockets]} (> {SIGN_SOCKET_TOL_M} m)")
     for (u1, h1, b1), (u2, h2, b2) in itertools.combinations(arms, 2):
+        y1, y2 = scene.piece(u1).yaw, scene.piece(u2).yaw
         if abs(h1 - h2) < SIGN_ARM_RISE_M:
             fails.append(f"{post}: arms {u1} and {u2} stand {abs(h1 - h2):.2f} m apart in height "
                          f"(want at least {SIGN_ARM_RISE_M} m)")
         if b1 is not None and b2 is not None and _angle_off(b1, b2) <= SIGN_BEARING_MAX_DEG:
             fails.append(f"{post}: arms {u1} and {u2} point the same way ({b1:.0f} and {b2:.0f} deg)")
+        elif (b1 is None or b2 is None) and _angle_off(y1, y2) <= SIGN_BEARING_MAX_DEG:
+            fails.append(f"{post}: arms {u1} and {u2} share one yaw ({y1:.0f} and {y2:.0f} deg)")
+    if len(arms) > 1 and not (sock or {}).get("pointsTo"):
+        fails.append(f"{post}: {len(arms)} arms and no destination for any (sign socket pointsTo)")
     dests = list((sock or {}).get("pointsTo") or [])
     if dests and len(dests) == len(arms):
         want = [destination_bearing(host.x, host.z, d) for d in dests]
@@ -2154,8 +2212,26 @@ PAD_CLEAR_NEAR_M = 0.5          # ... when it stands within this of the graded g
 
 
 def pad_clear_targets(cat, scene) -> list[str]:
-    """Every seated piece that owns a building pad."""
-    return [p.uid for p in scene.pieces if p.pad is not None and p.y is not None]
+    """Every seated piece that owns a building pad. A pad-owning prop seats
+    ON the graded surface (`measure.seat`, `measure.is_prop`, since
+    a37072f3), so its floor shares the ground's plane by design: not judged
+    (audit10 c5: camp y-fire, Greenspring b-fam2-fire)."""
+    return [p.uid for p in scene.pieces
+            if p.pad is not None and p.y is not None and not measure.is_prop(cat, p)]
+
+
+def climb_uids(scene) -> set[str]:
+    """The uids of every member of a CLIMB run (`settlement_run_pads.climb_runs`:
+    adjacent members rising more than CLIMB_STEP_M): footFloat and the fit
+    slope rule do not judge them; walkwayRule and landingRule do."""
+    paths.bridge()
+    from worldgen.settlement_run_pads import climb_runs
+    rows = [{"id": p.uid, "run": {"id": p.role["id"], "index": int(p.role.get("index", 0)),
+                                  "riseM": float(p.y)}}
+            for p in scene.pieces if (p.role or {}).get("kind") == "run" and p.role.get("id")
+            and p.y is not None]
+    climbs = climb_runs(rows)
+    return {r["id"] for r in rows if r["run"]["id"] in climbs}
 
 
 def pad_clear_piece(cat, scene, ctx, p) -> tuple[dict, list]:

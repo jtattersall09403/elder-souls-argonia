@@ -34,4 +34,13 @@ describe("WarmGate", () => {
     expect(c.step(8, 1)).toBe(true);
     expect(c.state.reason).toBe("cap");
   });
+
+  it("holds while spawn-ring pieces are pending, then needs a fresh stable run (decision 0120)", () => {
+    const g = new WarmGate({ minFrames: 5, stableFrames: 5, maxFrames: 900 });
+    for (let i = 0; i < 100; i++) expect(g.step(8, 0, 3)).toBe(false);   // flat work, ring still streaming
+    expect(g.state.reason).toBe("ring");
+    for (let i = 0; i < 4; i++) expect(g.step(8, 0, 0)).toBe(false);    // ring in: a new run of stable frames
+    expect(g.step(8, 0, 0)).toBe(true);
+    expect(g.state.reason).toBe("stable");
+  });
 });

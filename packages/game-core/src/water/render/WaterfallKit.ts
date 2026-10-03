@@ -95,12 +95,19 @@ export interface KitShapeRole {
  * Bethesda's shader numbers per shape (audit §4). Order matters only where
  * two matches overlap (`Foam` before `Inner` is irrelevant; `Top06` etc. are
  * distinct). A shape with no role is dropped.
+ *
+ * Vanilla's "two layers" on the sheets and bodies are two SHAPES (thin:
+ * fallsMesh + Object02/fallsCrossMesh at −0.857; body: Foam −0.313 +
+ * CrossStream −0.333; waterfall-assets-vault-audit.md table). A `scroll2` on
+ * those shapes stacked a third layer whose coverage union flattened the
+ * streak texture into a uniform cream sheet (perf10 D9(2)); `scroll2` stays
+ * only on a shape with no sibling layer.
  */
 export const KIT_SHAPE_ROLES: Readonly<Record<KitPieceId, readonly KitShapeRole[]>> = Object.freeze({
   body16: [
     { match: "Inner", kind: "lit", texture: "fxwatertile01", normal: "fxwatertile01_n", scroll: [0, -0.12],
       emissive: 1, alpha: 0.92, softDepthM: 0.07, upness: 0 },
-    { match: "Foam", kind: "whitewater", texture: "fxwhitewater01", scroll: [0, -0.313], scroll2: [0.01, -0.333],
+    { match: "Foam", kind: "whitewater", texture: "fxwhitewater01", scroll: [0, -0.313],
       emissive: 0.9, alpha: 0.8, softDepthM: 0.14, upness: 0 },
     { match: "CrossStream", kind: "whitewater", texture: "fxfluidtile01", scroll: [0, -0.333],
       emissive: 1.0, alpha: 0.8, softDepthM: 0.14, upness: 0 },
@@ -108,7 +115,7 @@ export const KIT_SHAPE_ROLES: Readonly<Record<KitPieceId, readonly KitShapeRole[
   body34: [
     { match: "Inner", kind: "lit", texture: "fxwatertile01", normal: "fxwatertile01_n", scroll: [0, -0.12],
       emissive: 1, alpha: 0.92, softDepthM: 0.07, upness: 0 },
-    { match: "Foam", kind: "whitewater", texture: "fxwhitewater01", scroll: [0, -0.313], scroll2: [0.01, -0.333],
+    { match: "Foam", kind: "whitewater", texture: "fxwhitewater01", scroll: [0, -0.313],
       emissive: 0.9, alpha: 0.8, softDepthM: 0.14, upness: 0 },
     { match: "CrossStream", kind: "whitewater", texture: "fxfluidtile01", scroll: [0, -0.333],
       emissive: 1.0, alpha: 0.8, softDepthM: 0.14, upness: 0 },
@@ -116,13 +123,13 @@ export const KIT_SHAPE_ROLES: Readonly<Record<KitPieceId, readonly KitShapeRole[
       emissive: 0.7 * 0.75, alpha: 0.55, softDepthM: 1.07, upness: 0.3 },
   ],
   thin7: [
-    { match: "fallsMesh", kind: "whitewater", texture: "fxfluidtile01", scroll: [0.03, -0.857], scroll2: [0.03, -0.79], breathe: true,
+    { match: "fallsMesh", kind: "whitewater", texture: "fxfluidtile01", scroll: [0.03, -0.857], breathe: true,
       emissive: 0.7 * 0.75, alpha: 1, softDepthM: 0.57, upness: 0 },
     { match: "Object02", kind: "whitewater", texture: "fxfluidtile01", scroll: [0.03, -0.857], breathe: true,
       emissive: 0.7 * 0.75, alpha: 1, softDepthM: 0.57, upness: 0 },
   ],
   thin29: [
-    { match: "fallsMesh", kind: "whitewater", texture: "fxfluidtile01", scroll: [0.03, -0.857], scroll2: [0.03, -0.79], breathe: true,
+    { match: "fallsMesh", kind: "whitewater", texture: "fxfluidtile01", scroll: [0.03, -0.857], breathe: true,
       emissive: 0.7 * 0.75, alpha: 1, softDepthM: 0.57, upness: 0 },
     { match: "fallsCrossMesh", kind: "whitewater", texture: "fxfluidtile01", scroll: [0.03, -0.857], breathe: true,
       emissive: 0.7 * 0.75, alpha: 1, softDepthM: 0.57, upness: 0 },

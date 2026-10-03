@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { meshHiddenBy, setMeshHidden } from "@elder-souls/game-core/actors/meshVisibility";
 
 interface FadeBase { transparent: boolean; opacity: number; depthWrite: boolean }
 
@@ -15,17 +16,33 @@ interface FadeBase { transparent: boolean; opacity: number; depthWrite: boolean 
  * whose compile step is synchronous). Returns how many materials it warmed
  * and a promise that settles when every compile it ran has (the caller holds
  * the player hidden until then before its first show; perf10 diag 6 C3).
+ *
+ * A mesh owning a fresh material is hidden under the "programLink" reason
+ * (actors/meshVisibility.ts, so armour and first-person hides are kept)
+ * until that promise settles, then released:
+ * equipment attached after the player's first show (a shield) otherwise
+ * drew before its warm and linked its program in the frame (perf10 c12 R2
+ * item 2). Call it every frame: with no fresh material it is one traverse of
+ * the player. three's compile walks every object for materials and
+ * DrawTargetLinker forces the root visible, so a hidden mesh still compiles.
  */
 export function warmPlayerFadePrograms(group: THREE.Object3D,
   compile: (object: THREE.Object3D) => unknown): { warmed: number; linked: Promise<unknown> } {
   const fresh: THREE.Material[] = [];
+  const hidden: THREE.Mesh[] = [];
   group.traverse((object) => {
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh) return;
     const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    let owns = false;
     for (const material of materials) if (!material.userData.esPlayerFadeWarm) {
       material.userData.esPlayerFadeWarm = true;
       fresh.push(material);
+      owns = true;
+    }
+    if (owns && !meshHiddenBy(mesh).has("programLink")) {
+      setMeshHidden(mesh, "programLink", true);
+      hidden.push(mesh);
     }
   });
   if (!fresh.length) return { warmed: 0, linked: Promise.resolve() };
@@ -34,7 +51,11 @@ export function warmPlayerFadePrograms(group: THREE.Object3D,
     for (const material of fresh) { material.transparent = !material.transparent; material.needsUpdate = true; }
     links.push(compile(group));
   }
-  return { warmed: fresh.length, linked: Promise.allSettled(links) };
+  const linked = Promise.allSettled(links).then((settled) => {
+    for (const mesh of hidden) setMeshHidden(mesh, "programLink", false);
+    return settled;
+  });
+  return { warmed: fresh.length, linked };
 }
 
 /**

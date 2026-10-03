@@ -172,12 +172,12 @@ def test_first_overview_has_clear_yaw_check_legs(tmp_path):
 def test_sign_shot_faces_board_from_reading_side():
     ground = [(0.0, 10.0, 0.0)]
     box = (-50, 50, -50, 50)
-    # board at y 13 facing north (0 deg); the place centre lies north, so stand 3 m north looking south
-    sx, sz, yaw, pitch = walk_route.sign_shot(0.0, 13.0, 0.0, 0.0, (0.0, -20.0), ground, [], box)
+    # board at y 11.9 facing north (0 deg); the place centre lies north, so stand 3 m north looking south
+    sx, sz, yaw, pitch = walk_route.sign_shot(0.0, 11.9, 0.0, 0.0, (0.0, -20.0), ground, [], box)
     assert (round(sx, 2), round(sz, 2)) == (0.0, -3.0) and math.isclose(abs(yaw), math.pi, abs_tol=1e-3)
-    assert math.isclose(pitch, math.atan2(11.6 - 13.0, 3.0), abs_tol=1e-3)  # looks up at the board, not the sky
+    assert math.isclose(pitch, math.atan2(11.6 - 11.9, 3.0), abs_tol=1e-3)
     # the centre on the far face: the stand flips to the south face (a blade reads from both)
-    sx, sz, yaw, _ = walk_route.sign_shot(0.0, 13.0, 0.0, 0.0, (0.0, 20.0), ground, [], box)
+    sx, sz, yaw, _ = walk_route.sign_shot(0.0, 11.9, 0.0, 0.0, (0.0, 20.0), ground, [], box)
     assert (round(sx, 2), round(sz, 2)) == (0.0, 3.0) and math.isclose(yaw, 0.0, abs_tol=1e-3)
     # a hanging board's centre is halfway down from its hook
     assert walk_route.sign_board_y({"positionM": [0, 5.0, 0], "anchor": {"groundContactOffsetM": 1.2}}) == 4.4
@@ -237,3 +237,68 @@ def test_one_shot_per_filled_physical_promise(tmp_path):
     assert [(a["name"], a["subjects"]) for a in shots] == [("promise-sign", ["sign"])]
     w = next(w for w in r["waypoints"] if w["id"] == "promise-sign")
     assert 2.0 <= math.dist((w["xM"], w["zM"]), (60, 60)) <= 12.0
+
+
+def _flat(x, z, y):
+    return [(x + i, y, z + j) for i in range(-16, 17, 2) for j in range(-16, 17, 2)]
+
+
+# audit10-r2 close-ups that framed only sky: (target x, y, z), sign yaw (None: a close_up), ground y, r2 stand
+R2_SKY = [
+    ("camp sign0", (3958.0, 21.81, 1421.0), 279.0, 18.0, (3955.04, 1420.53)),
+    ("riverwalk sign0", (7211.723, 3.244, 515.575), 23.311, 0.4, (7210.54, 518.33)),
+    ("greenspring sign0", (4767.786, 9.818, 1851.766), 249.802, 7.0, (4764.97, 1852.8)),
+    ("camp fire0", (3945.98, 20.56, 1421.51), None, 17.8, (3944.81, 1418.41)),
+    ("riverwalk fire0", (7215.16, 2.89, 515.47), None, 0.4, (7214.81, 518.45)),
+]
+
+
+def test_r2_sky_close_ups_frame_their_target():
+    """audit10 H9: each round-2 sky-only close-up now stands where its target sits inside the frame's
+    centre region at a pitch no steeper up than CLOSE_MAX_UP_RAD."""
+    for name, (tx, ty, tz), yaw_deg, gy, stand in R2_SKY:
+        ground = _flat(tx, tz, gy)
+        box = (tx - 60, tx + 60, tz - 60, tz + 60)
+        if yaw_deg is None:
+            sx, sz, _, pitch = walk_route.close_up(tx, ty, tz, walk_route.FIRE_SIZE_M, stand, ground, gy, [], box)
+        else:
+            sx, sz, _, pitch = walk_route.sign_shot(tx, ty, tz, yaw_deg, stand, ground, [], box)
+        true = math.atan2(gy + walk_route.EYE_M - ty, math.hypot(tx - sx, tz - sz))
+        assert pitch >= -walk_route.CLOSE_MAX_UP_RAD - 1e-9, (name, pitch)
+        assert abs(true - pitch) <= walk_route.CENTRE_REGION_RAD, (name, true, pitch)
+
+
+def test_hanging_target_aims_at_its_own_centre():
+    """camp promise-lantern (r2 aimed 0.8 m over the hook of a lantern hanging 2.15 m below it)."""
+    lamp = {"positionM": [3946.56, 20.806, 1421.3], "anchor": {"groundContactOffsetM": 2.149}}
+    assert math.isclose(walk_route.target_y(lamp), 20.806 - 2.149 / 2)
+    assert math.isclose(walk_route.target_y({"positionM": [0, 5.0, 0]}), 5.0 + walk_route.PROMISE_AIM_M)
+
+
+def test_close_up_sight_line_avoids_other_roofs():
+    """A roof between the target and its first-choice stand is never shot through; the target's own
+    footprint (a lantern's shed) never blocks."""
+    box = (-50, 50, -50, 50)
+    roof = [(-2.0, 3.0), (2.0, 3.0), (2.0, 6.0), (-2.0, 6.0)]
+    own = [(-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)]
+    sx, sz = walk_route.clear_stand(0.0, 0.0, 0.0, 8.0, [roof, own], box, los=True)
+    assert not walk_route.blocking((sx, sz), (0.0, 0.0), [roof])
+    assert (sx, sz) != (0.0, 8.0)
+
+
+def test_every_unframed_parcel_gets_a_feature_shot(tmp_path):
+    """audit10 H9: a stable or a stair no door or promised building frames gets its own close-up; a parcel
+    by a door does not."""
+    pub = fixture(tmp_path)
+    p = pub / f"province/settlements/{PID}.json"
+    b = json.loads(p.read_text())
+    part = lambda i, x, z: {"id": f"place.walk.parcel.walk.{i}", "assetId": "k:x", "kind": "settlement",
+                            "positionM": [x, 0, z], "footprintM": [[x - 1, z - 1], [x + 1, z - 1], [x + 1, z + 1], [x - 1, z + 1]]}
+    b["placements"] += [part("stable.building", 20, 60), part("stable.assembly.post", 24, 60),
+                        part("stair.piece.1", 80, 80), part("porch.piece.1", 30, 31)]
+    p.write_text(json.dumps(b))
+    r = walk_route.build_route(PID, pub)
+    assert r["features"] == ["stable", "stair"]
+    w = next(w for w in r["waypoints"] if w["id"] == "feature-stable")
+    a = w["actions"][0]
+    assert a["aimM"][0] == 22.0 and a["aimM"][2] == 60.0 and a["pitch"] >= -walk_route.CLOSE_MAX_UP_RAD

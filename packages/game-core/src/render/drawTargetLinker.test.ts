@@ -49,6 +49,18 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     expect(scene.onBeforeRender).toBe(THREE.Scene.prototype.onBeforeRender);
   });
 
+  it("links a screen-pass draw (settlement flames) against the screen even when the scene pass draws into the water target (perf10 c12 R2 3a)", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    const { gl, seen, bound } = fakeGl();
+    const linker = new DrawTargetLinker(gl, scene).attach();
+    pass(scene, new THREE.WebGLRenderTarget(4, 4, { type: THREE.HalfFloatType }));
+    await linker.link({ object: new THREE.Group(), pass: "screen" }, camera);
+    expect(seen).toEqual([null]);
+    expect(bound()).toBeNull();
+    linker.detach();
+  });
+
   it("links late-drawn meshes once, only after the scene pass is seen (16k walk 10)", () => {
     const scene = new THREE.Scene();
     setLitPreparer(scene, () => undefined);

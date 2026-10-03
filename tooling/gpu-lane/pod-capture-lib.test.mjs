@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { viewDeadlineS, onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, POSE_READY_JS, recordSkippedFrame } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile, settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, recordSkippedFrame } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -206,7 +206,10 @@ test("HUD hide keeps the marked render canvas, not the largest; hides the rest; 
   run(HUD_SHOW_JS);
   // no marked render canvas: not ok, nothing hidden
   main.marked = false;
-  assert.deepEqual(run(HUD_HIDE_JS), { ok: false, hidden: 0, err: "no canvas[data-render-canvas]" });
+  assert.deepEqual(run(HUD_HIDE_JS), { ok: false, hidden: 0, err: "no canvas[data-render-canvas] and no __RENDERER__.domElement" });
+  // c10: a classic WebGLRenderer dev page marks no canvas; the renderer's own canvas is the render canvas
+  window.__RENDERER__ = { domElement: main };
+  const dev = run(HUD_HIDE_JS); assert.equal(dev.ok, true); assert.equal(dev.hidden, 4); run(HUD_SHOW_JS);
 });
 
 test("ancestorPids: walks /proc stat parents up to (not including) PID 1", async () => {
@@ -427,7 +430,7 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   dev.createRenderPipeline({ label: "renderPipeline_late" }); dev.createShaderModule({ label: "late.wgsl" });
   const c = win.__drawCensus.stop();
   assert.equal(c.frames, 2);
-  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true, renderObjects: false });
+  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true, renderObjects: false, renderBufferDirect: false });
   assert.equal(c.renderCallsPerFrame, 1); assert.ok(c.renderMsPerFrame > c.renderObjectMsPerFrame); assert.deepEqual(Object.keys(c.renderObjectByTarget), ["screen"]);
   assert.equal(c.drawsPerFrame, 5); assert.equal(c.drawsMax, 5);
   assert.deepEqual(c.byCategory, { "veg-gpucull": 2, "settlement-merge": 1, terrain: 1, other: 1 });
@@ -559,7 +562,6 @@ test("dev hooks line (diag20 E8): casters missing a layer and the warm gate's op
   assert.match(devHooksLine({ castersMissingLayer: many, warm: null }), /m7 \[o, Mesh\] \+2 more; warm \?$/);
   assert.equal(devHooksLine({ castersMissingLayer: null, warm: null }), "casters ?; warm ?");
   assert.equal(devHooksLine(null), null);
-  assert.match(POSE_READY_JS, /__STUDIO_CHARACTER_DEBUG__/);
 });
 
 test("loadTimeline: complete = max of streaming-quiet, queue empty, last build; over 10 s is BAR FAIL", async () => {
@@ -826,4 +828,203 @@ test("recordSkippedFrame keeps every failed frame shot with its time and reason 
   assert.equal(summariseView(r).skippedFrames, 2);
   assert.equal(summariseView({}).skippedFrames, 0);
   assert.deepEqual(r.skippedFrames, [{ s: 12.3, reason: "Page.captureScreenshot timed out" }, { s: 13, reason: "unknown" }]);
+});
+
+// ---- webgpu10 chunk 10 fix B: classic WebGLRenderer pages, the pose gate, per-pass triangles, program errors ----
+// A fake classic WebGLRenderer page: renderBufferDirect per draw, info.render.triangles counted by three, no backend.
+function fakeClassicPage() {
+  const rafs = [], log = [];
+  let target = null;
+  const canvas = { tagName: "CANVAS", isConnected: true, style: { visibility: "" }, dataset: {}, width: 1280, height: 720, clientWidth: 1280, clientHeight: 720, contains: () => false };
+  const r = { domElement: canvas, info: { render: { calls: 0, triangles: 0, frame: 0 }, memory: { geometries: 3, textures: 2 }, programs: [{}, {}] },
+    getRenderTarget: () => target, setRenderTarget: (t) => { target = t; },
+    renderBufferDirect(camera, scene, geometry, material, object) { this.info.render.calls++; this.info.render.triangles += geometry.tris * (object.count ?? 1); log.push(object.name); },
+    render(scene, camera) { for (const o of scene) this.renderBufferDirect(camera, scene, o.geometry, o.material, o); } };
+  const win = { performance: { now: () => 0 }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r, __RAFN: 0 };
+  return { r, win, rafs, log, canvas, setTarget: (t) => { target = t; } };
+}
+
+test("c10 frame capture on a classic WebGLRenderer page: clean frames are written (no data-render-canvas mark)", async () => {
+  const { captureFrame } = await import("./pod-capture-lib.mjs");
+  const { mkdtempSync, writeFileSync, readdirSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os"); const { join } = await import("node:path");
+  const { win, canvas } = fakeClassicPage();
+  const hud = { style: { visibility: "" }, dataset: {}, contains: () => false }, html = { style: { overflow: "" } }, body = { style: { overflow: "" } };
+  const document = { documentElement: html, body, querySelector: () => null, querySelectorAll: () => [hud, canvas] };
+  const evaluate = async (js) => new Function("window", "document", `return ${js}`)(win, document);
+  let hiddenAtShot = null;
+  const shoot = async () => { hiddenAtShot = hud.style.visibility; return Buffer.from("jpeg-bytes").toString("base64"); };
+  const dir = mkdtempSync(join(tmpdir(), "c10-frames-"));
+  for (const s of [12.5, 22.5]) writeFileSync(join(dir, `${String(s * 1000).padStart(6, "0")}.jpg`), Buffer.from(await captureFrame({ evaluate, shoot }, true), "base64"));
+  assert.deepEqual(readdirSync(dir).sort(), ["012500.jpg", "022500.jpg"]);
+  assert.equal(hiddenAtShot, "hidden"); assert.equal(hud.style.visibility, ""); // HUD hidden for the shot only
+  // no renderer canvas at all: the frame throws (pod-capture records it in result.shotErrors), never a silent skip
+  win.__RENDERER__ = null;
+  await assert.rejects(captureFrame({ evaluate, shoot }, true), /clean: .*no canvas/);
+});
+
+test("c10 draw census on a classic WebGLRenderer: draws and triangles per pass and perfTag, esIndirect apart, renderer info", () => {
+  const { r, win, rafs } = fakeClassicPage();
+  installDrawCensus(win);
+  const main = { uuid: "m", isPerspectiveCamera: true }, sun = { uuid: "s", isOrthographicCamera: true };
+  const mk = (name, tris, ud = {}, count) => ({ name, geometry: { tris }, material: { name: "", type: "MeshStandardMaterial" }, userData: ud, count, isInstancedMesh: count !== undefined });
+  const terrain = mk("chunk", 1000, { perfTag: "terrain" }), veg = mk("veg-near", 200, { perfTag: "veg" }, 10), cull = mk("cull", 50, { perfTag: "veg", esIndirect: true }, 100);
+  win.__drawCensus.start();
+  for (let f = 0; f < 2; f++) {
+    r.info.render.triangles = 0;
+    r.setRenderTarget({ texture: { name: "ShadowMap" } }); r.render([terrain, veg], sun);
+    r.setRenderTarget(null); r.render([terrain, veg, cull], main);
+    rafs.shift()();
+  }
+  const c = win.__drawCensus.stop();
+  assert.equal(c.hooked.renderBufferDirect, true); assert.equal(c.hooked.render, true); assert.equal(c.hooked.draw, false);
+  assert.equal(c.drawsPerFrame, 5); assert.equal(c.renderCallsPerFrame, 2);
+  assert.deepEqual(c.trisByPass.main, { drawsPerFrame: 2, trisPerFrame: 3000, indirectDrawsPerFrame: 1, indirectTrisPerFrame: 5000 });
+  assert.deepEqual(c.trisByPass.shadow0, { drawsPerFrame: 2, trisPerFrame: 3000, indirectDrawsPerFrame: 0, indirectTrisPerFrame: 0 });
+  assert.deepEqual(c.trisByTag.veg, { drawsPerFrame: 2, trisPerFrame: 4000, indirectDrawsPerFrame: 1, indirectTrisPerFrame: 5000 });
+  assert.equal(c.trisByTag.terrain.trisPerFrame, 2000);
+  assert.deepEqual(c.rendererInfo, { renderer: "WebGLRenderer", calls: 10, triangles: 11000, frame: 0, geometries: 3, textures: 2, programs: 2 });
+});
+
+test("c10 per-pass table in summary.md, ready-gate cell, program-error cell", async () => {
+  const { trisPassTable, readyGateLine } = await import("./pod-capture-lib.mjs");
+  const census = { trisByPass: { main: { drawsPerFrame: 2, trisPerFrame: 3e6, indirectDrawsPerFrame: 1, indirectTrisPerFrame: 2.9e6 } }, trisByTag: { veg: { drawsPerFrame: 1, trisPerFrame: 1e6, indirectDrawsPerFrame: 1, indirectTrisPerFrame: 2.9e6 } },
+    rendererInfo: { renderer: "WebGPURenderer/webgpu", calls: 440, triangles: 9.5e6, programs: null } };
+  const t = trisPassTable("canopy-08", census);
+  assert.match(t[1], /^### canopy-08: triangles per frame by pass and perfTag \(WebGPURenderer\/webgpu, info\.render calls 440 tris 9\.50 M/);
+  assert.equal(t[4], "| pass main | 2 | 3.00 | 1 | 2.90 |"); assert.equal(t[5], "| tag veg | 1 | 1.00 | 1 | 2.90 |");
+  assert.deepEqual(trisPassTable("x", null), []);
+  const r = { poseAt: 14.5, pose: { residual: { posM: 0.4, yawDeg: 0.3, pitchDeg: 6.1 } }, readyS: 4.2, final: { buildQueue: { pending: 3 } }, loadHarness: { queueEmpty: null, streamQuiet: 41 } };
+  assert.equal(readyGateLine(r), "pose 14.5 s (0.4 m, yaw 0.3 deg, pitch 6.1 deg); ready 4.2 s; queue pending 3; streaming quiet 41 s");
+  assert.match(readyGateLine({ poseAt: null, poseTimedOut: true, pose: { last: { posM: 812, yawDeg: null } } }), /^pose TIMED OUT \(last 812 m, yaw - deg\); ready - s; queue pending n\/a/);
+  const s = summariseView({ url: "http://x/?rate=0.5", errors: [{ by: { perfTag: "veg", name: "veg-near", materialType: "MeshStandardNodeMaterial" }, attributes: ["0:position", "11:nodeAttribute"] }], shotErrors: ["4.2 s: clean: x"], window: { drawCensus: census } });
+  assert.equal(s.programErrors, "1: veg/veg-near/MeshStandardNodeMaterial [2 attrs]"); assert.equal(s.shotErrors, "4.2 s: clean: x");
+  const md = summaryTable([{ name: "canopy-08", summary: s, window: { drawCensus: census } }], null);
+  assert.match(md, /\| ready gate \| program errors \| shot error \| clock \|/); assert.match(md, /### canopy-08: triangles per frame/);
+});
+
+test("c10 pose gate: poseTarget from the URL and aim; residuals in m and degrees", async () => {
+  const { poseTarget, poseResidual } = await import("./pod-capture-lib.mjs");
+  const t = poseTarget("http://h/s/?view=character&x=4.02&z=4.61&rate=0.5", [-Math.PI / 2, -0.26]);
+  assert.equal(t.character, true); assert.equal(t.x, 4020); assert.equal(t.z, 4610); assert.ok(Math.abs(t.yaw + 90) < 1e-9);
+  assert.equal(poseTarget("http://h/s/?view=character&rate=0.5"), null);
+  assert.equal(poseTarget("http://h/s/?x=1&z=2"), null); // fly view without yaw/pitch: nothing to gate
+  assert.deepEqual(poseTarget("http://h/s/?x=1&z=2&yaw=90&pitch=-10"), { character: false, x: 1000, z: 2000, yaw: 90, pitch: -10 });
+  // follow camera at yaw -90 (forward = (-sin, -cos) = (+1, 0)): 5 m behind the pivot on x, level
+  const at = poseResidual({ p: [4015, 51, 4610], f: [1, 0, 0] }, t, 5, 50);
+  assert.equal(at.ok, true); assert.equal(at.posM, 0); assert.equal(at.yawDeg, 0);
+  const water = poseResidual({ p: [0, 30, 0], f: [0, 0, -1] }, t, 5, null);
+  assert.equal(water.ok, false); assert.ok(water.posM > 6000); assert.equal(water.yawDeg, 90);
+  const turned = poseResidual({ p: [4015, 51, 4610], f: [Math.cos(0.05), 0, Math.sin(0.05)] }, t, 5, 50);
+  assert.equal(turned.ok, false); assert.ok(turned.yawDeg > 2); // focus still within 1 m, yaw 2.9 deg off
+  // fly: compass yaw from north (-z) clockwise, pitch up positive
+  const fly = poseResidual({ p: [1000, 300, 2000], f: [Math.sin(Math.PI / 2) * Math.cos(-0.1745), Math.sin(-0.1745), -Math.cos(Math.PI / 2)] }, { character: false, x: 1000, z: 2000, yaw: 90, pitch: -10 });
+  assert.equal(fly.ok, true);
+});
+
+test("c10 pose gate: a camera that arrives late opens the gate only after 3 consecutive frames at the pose", async () => {
+  const { installPoseProbe, poseResidual, poseReadyJs, poseTarget } = await import("./pod-capture-lib.mjs");
+  const { r, win } = fakeClassicPage();
+  let t = 0; win.performance.now = () => t;
+  win.__STUDIO_CHARACTER_DEBUG__ = { cameraArm: () => 5, playerY: () => 50 };
+  const intervals = []; win.setInterval = (f) => intervals.push(f); win.clearInterval = () => {};
+  const renderer = r; win.__RENDERER__ = null;
+  installPoseProbe(win, poseResidual, 3);
+  win.__RENDERER__ = renderer; intervals[0](); // the renderer appears after the init script
+  const target = poseTarget("http://h/s/?view=character&x=4.02&z=4.61&rate=0.5", [-Math.PI / 2]);
+  const read = () => new Function("window", `return ${poseReadyJs(target)}`)(win);
+  const cam = (x, z, fx, fz) => ({ isPerspectiveCamera: true, matrixWorld: { elements: [1, 0, 0, 0, 0, 1, 0, 0, -fx, 0, -fz, 0, x, 51, z, 1] } });
+  assert.equal(read().ready, false); // target set
+  const frame = (c) => { win.__RAFN++; t += 16; renderer.render([], c); };
+  frame(cam(0, 0, 0, -1)); frame(cam(0, 0, 0, -1)); // the boot camera over open water
+  frame(cam(4015, 4610, 1, 0)); frame(cam(4015, 4610, 1, 0)); // at the pose two frames
+  frame(cam(4015, 4612.5, 1, 0)); // one frame 2.5 m off resets the count
+  frame(cam(4015, 4610, 1, 0)); frame(cam(4015, 4610, 1, 0));
+  // frame 8: a water reflection camera (off the pose, into a target) and the scene camera into a composer target
+  win.__RAFN++; t += 16;
+  renderer.setRenderTarget({ texture: { name: "reflection" } }); renderer.render([], cam(4015, 4590, 1, 0));
+  renderer.setRenderTarget({ texture: { name: "ShadowMap" } }); renderer.render([], cam(0, 0, 0, -1)); // shadow targets never scored
+  renderer.setRenderTarget({ texture: { name: "composer" } }); renderer.render([], cam(4015, 4610, 1, 0));
+  renderer.setRenderTarget(null);
+  assert.equal(read().ready, false, JSON.stringify(read())); // frame 8 closes on the next frame's first render
+  frame(cam(4015, 4610, 1, 0));
+  const p = read();
+  assert.equal(p.ready, true, JSON.stringify(p)); assert.equal(p.residual.posM, 0); assert.equal(p.residual.yawDeg, 0); assert.equal(p.frames, 8);
+  assert.ok(Math.abs(p.at - 0.144) < 1e-9);
+});
+
+test("c10 program-error probe: VALIDATE_STATUS failures name the program's attributes and the object that linked it", async () => {
+  const { installProgramErrorProbe } = await import("./pod-capture-lib.mjs");
+  const src = "#version 300 es\nlayout(location = 0) in vec3 position;\nlayout(location = 11) in vec4 nodeAttribute11;\nin vec2 uv;\nvoid main() {}";
+  class WebGL2RenderingContext {
+    linkProgram() {} getProgramParameter(p, n) { return n === 0x8b83 ? false : true; } getProgramInfoLog() { return ""; }
+    getAttachedShaders(p) { return p.shaders; } getShaderParameter(sh, n) { return n === 0x8b4f ? sh.type : null; } getShaderSource(sh) { return sh.src; }
+  }
+  const logged = [];
+  const win = { WebGL2RenderingContext, console: { error: (...a) => logged.push(a.join(" ")) }, __RENDERER__: null, setInterval: () => 1, clearInterval: () => {} };
+  const backend = { createRenderPipeline(ro) { gl.linkProgram(ro.prog); }, draw() {} };
+  win.__RENDERER__ = { backend };
+  installProgramErrorProbe(win);
+  const gl = new WebGL2RenderingContext();
+  const prog = { shaders: [{ type: 0x8b30, src: "frag" }, { type: 0x8b31, src }] };
+  backend.createRenderPipeline({ prog, object: { name: "veg-gpucull", type: "InstancedMesh", isInstancedMesh: true, userData: { perfTag: "veg" } }, material: { name: "bark", type: "MeshStandardNodeMaterial" } });
+  win.console.error(`THREE.WebGLProgram: Shader Error 0 - VALIDATE_STATUS ${gl.getProgramParameter(prog, 0x8b83)}\n\nProgram Info Log: ERROR 0:349 Attribute location out of range`);
+  win.console.error("unrelated");
+  assert.equal(logged.length, 2); // the page's own log still prints
+  assert.equal(win.__programErrors.length, 1);
+  const e = win.__programErrors[0];
+  assert.deepEqual(e.attributes, ["0:position", "11:nodeAttribute11", "uv"]);
+  assert.deepEqual(e.by, { perfTag: "veg", name: "veg-gpucull", type: "InstancedMesh", instanced: true, material: "bark", materialType: "MeshStandardNodeMaterial" });
+  assert.match(e.message, /VALIDATE_STATUS false/);
+});
+
+test("c10 view set: a URL with scenario/visualScenario/validation fails loudly; long views shoot every 10 s from the first frame", async () => {
+  const { viewShots, shotTime, viewEndS } = await import("./pod-capture-lib.mjs");
+  for (const k of ["scenario=portrait", "visualScenario=1", "validation=1"]) {
+    assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: `http://x/?view=character&rate=0.5&${k}` }])), /never in a capture/);
+  }
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/?rate=0.5", long: -1 }])), /"long"/);
+  const v = parseViews(JSON.stringify([{ name: "LONG", url: "http://x/?view=character&rate=0.5&w=clear", long: 180 }]))[0];
+  const shots = viewShots(v, undefined, 60);
+  assert.equal(shots[0], 0); assert.equal(shots.at(-1), 180); assert.equal(shots.length, 19);
+  assert.equal(shotTime(v, 40, null, null), -1); assert.equal(shotTime(v, 40, null, 15), 25);
+  assert.equal(viewEndS(v, 60, null), Infinity); assert.equal(viewEndS(v, 60, 15), 195); assert.equal(viewEndS({}, 60, 15), 60);
+});
+
+test("c10 harness2: frames count from the pose gate, never page start", async () => {
+  const { shotTime, viewShots, framesBeforePose } = await import("./pod-capture-lib.mjs");
+  const view = { name: "v", url: "/x" }, shots = viewShots(view, "500@60,2000", 120);
+  // fake page: the pose gate passes at 9.0 s; a frame is due when shotTime >= next shot
+  let si = 0; const taken = [];
+  for (let s = 0; s <= 12; s += 0.1) {
+    const poseAt = s >= 9 ? 9 : undefined;
+    if (poseAt === undefined) continue;
+    const t = shotTime(view, s, null, null, poseAt);
+    if (si < shots.length && t >= shots[si]) { taken.push(s); while (si < shots.length && shots[si] <= t) si++; }
+  }
+  assert.ok(taken.length > 0 && Math.min(...taken) >= 9 - 1e-9, `first frame ${taken[0]}`);
+  assert.equal(shotTime(view, 5, null, null, 9) < 0, true);
+  assert.equal(shotTime(view, 5, null, null, null), 5, "pose never passed: counts from page start");
+  assert.equal(framesBeforePose(view, null), true);
+  assert.equal(framesBeforePose(view, 9.1), false);
+  assert.equal(framesBeforePose({ plain: true }, undefined), false);
+});
+
+test("c10 harness2: kits arrived -> last pipeline build", async () => {
+  const { kitsArrivedS, buildsAfterKits, readyGateLine } = await import("./pod-capture-lib.mjs");
+  const entries = [
+    { name: "https://h/webgpu/kits/a/a.glb", responseEnd: 4200 }, { name: "https://h/kits/b.glb?v=1", responseEnd: 6840 },
+    { name: "https://h/webgpu/kits/a/a.ktx2", responseEnd: 9000 }, { name: "https://h/terrain/t.glb", responseEnd: 9500 },
+  ];
+  assert.equal(kitsArrivedS(entries), 6.8);
+  assert.equal(kitsArrivedS([]), null);
+  const lt = { builds: { count: 40, ms: 900, last: 11.3 } };
+  const m = buildsAfterKits(entries, lt, true);
+  assert.deepEqual([m.kitsArrivedS, m.lastBuildS, m.buildsAfterKitsS, m.buildsAfterKits], [6.8, 11.3, 4.5, null]);
+  const dev = buildsAfterKits(entries, lt, false);
+  assert.equal(dev.na, true); assert.equal(dev.buildsAfterKitsS, null);
+  const line = readyGateLine({ poseAt: 9.1, readyS: 4, final: { buildQueue: { pending: 0 } }, kitsArrivedS: m.kitsArrivedS, lastBuildS: m.lastBuildS, buildsAfterKitsS: m.buildsAfterKitsS, loadAfterKits: m });
+  assert.match(line, /kits arrived 6.8 s, last build 11.3 s, builds after kits 4.5 s/);
+  assert.match(readyGateLine({ poseAt: 9.1, kitsArrivedS: 6.8, loadAfterKits: dev }), /builds after kits n\/a/);
+  assert.match(readyGateLine({ poseAt: null, poseTimedOut: true, framesBeforePose: true }), /FRAMES BEFORE POSE/);
 });

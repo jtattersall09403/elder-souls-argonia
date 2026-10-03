@@ -10,6 +10,23 @@ export function legTo(a, b) {
   return { bearing: Math.atan2(dx, -dz), distM: Math.hypot(dx, dz) };
 }
 
+/** Follow camera: the view ray passes through this look target over the feet (walk_route.LOOK_ABOVE_FEET_M);
+ * a close-up's pitch stays in [-MAX_UP_RAD, MAX_DOWN_RAD] (walk_route.CLOSE_MAX_UP_RAD, MAX_DOWN_RAD). */
+export const LOOK_ABOVE_FEET_M = 1.45, MAX_UP_RAD = 0.12, MAX_DOWN_RAD = 0.6;
+/** Stop distance of an indoor walk (audit10 H8: 0.4 m missed on a 0.5 m end and fell to the exterior teleport). */
+export const INDOOR_STOP_M = 1.0;
+
+/** Compass bearing and follow-camera pitch (positive down, clamped) from feet at [x, groundY, z] to aimM [x, y, z]. */
+export function aimFrom(feet, aimM) {
+  const { bearing, distM } = legTo([feet[0], feet[2]], [aimM[0], aimM[2]]);
+  const p = Math.atan2(feet[1] + LOOK_ABOVE_FEET_M - aimM[1], Math.max(0.5, distM));
+  return { bearing, pitch: Math.max(-MAX_UP_RAD, Math.min(MAX_DOWN_RAD, p)) };
+}
+
+/** Door-entry wait predicate (audit10 H8): inside, settled, and in a cell other than the one the body was in
+ * when E was pressed, so a stale interior state left by a failed exit never reads as an entry. */
+export const enteredCell = (cellBefore) => (s) => s.insideInterior && !s.transitioning && !!s.cellId && s.cellId !== cellBefore;
+
 /** A walk is given 1.5x its expected time (distance / speed) and at least 2 s before the teleport fallback. */
 export const walkBudgetS = (distM, speedMps) => Math.max(2, (1.5 * distM) / speedMps);
 

@@ -10,7 +10,7 @@ import { chromium } from "playwright";
 import { closeOrphanPages, frameStats, isReady, pageProbe, sample } from "../measure.mjs";
 import { parseHud } from "../hud-parse.mjs";
 import { ensureTunnel } from "../tunnels.mjs";
-import { camYaw, cdpLost, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
+import { aimFrom, camYaw, cdpLost, coverage, enteredCell, INDOOR_STOP_M, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -80,9 +80,11 @@ async function main() {
   };
   const pos2 = (s) => (s?.pos ? [s.pos[0], s.pos[2]] : null);
 
-  /** Real W walk towards [x, z]; falls back to a teleport after 1.5x the expected time. Records the outcome
-   * at arrival and at fallback alike (walk10 Q2): body trail every 0.5 s, end position, closest distance. */
-  async function walkTo(target, budgetS, stopM = 0.8) {
+  /** Real W walk towards [x, z]; outdoors it falls back to a teleport after 1.5x the expected time. Records
+   * the outcome at arrival and at fallback alike (walk10 Q2): body trail every 0.5 s, end position, closest
+   * distance. `indoor` (audit10 H8): inside a cell the teleport hook would ground the body on the EXTERIOR
+   * terrain ~4 km under the cell, so an indoor walk never teleports; a miss is only recorded. */
+  async function walkTo(target, budgetS, stopM = 0.8, { indoor = false } = {}) {
     const t0w = Date.now();
     const rec = { targetM: target.map(r2), fallback: false, startM: null, trail: [], endM: null, distEndM: null, closestM: null, walkS: null };
     let lastTrail = -Infinity;
@@ -95,7 +97,7 @@ async function main() {
     };
     const s0 = await state();
     const from = pos2(s0);
-    if (!from) { await dbg("teleport", [target[0], target[1]]); return { ...rec, fallback: true, reason: "no position" }; }
+    if (!from) { if (!indoor) await dbg("teleport", [target[0], target[1]]); return { ...rec, fallback: !indoor, reason: "no position" }; }
     rec.startM = s0.pos.map(r2);
     note(s0);
     const end = Date.now() + walkBudgetS(legTo(from, target).distM, o.speed) * 1000 * (budgetS ?? 1);
@@ -116,8 +118,9 @@ async function main() {
     note(sEnd);
     if (sEnd?.pos) { rec.endM = sEnd.pos.map(r2); rec.distEndM = r2(legTo(pos2(sEnd), target).distM); rec.trail.push([r2((Date.now() - t0w) / 1000), ...rec.endM]); }
     rec.walkS = r2((Date.now() - t0w) / 1000);
-    if (!arrived) { await dbg("teleport", [target[0], target[1]]); await wait(1500); }
-    rec.fallback = !arrived;
+    if (!arrived && !indoor) { await dbg("teleport", [target[0], target[1]]); await wait(1500); }
+    rec.fallback = !arrived && !indoor;
+    rec.arrived = arrived;
     return rec;
   }
 
@@ -173,9 +176,10 @@ async function main() {
     let s = await state();
     r.focusBefore = s?.focus?.id ?? null;
     if (s?.focus?.id !== a.doorId) findings.push({ pass, where: a.doorId, finding: `door not focusable from its approach (focus ${s?.focus?.id ?? "none"}, ${r.focusReads.length - 1} steps)` });
+    const cellBefore = s?.cellId ?? null;
     await press("e");
     const tIn = Date.now();
-    s = await waitFor((x) => x.insideInterior && !x.transitioning, 30000);
+    s = await waitFor(enteredCell(cellBefore), 30000);
     if (!s) { findings.push({ pass, where: a.doorId, finding: "E did not enter the interior within 30 s" }); return r; }
     r.entered = true; r.enterS = r2((Date.now() - tIn) / 1000); r.cellShown = s.cellId;
     if (s.cellId !== a.cellId) findings.push({ pass, where: a.doorId, finding: `entered cell ${s.cellId}, route expects ${a.cellId}` });
@@ -185,7 +189,7 @@ async function main() {
     const sIn = s;
     const probeIn = await dbg("interior");
     if (a.interiorCentreLocalM && probeIn?.originM) {
-      r.interiorWalk = await walkTo([probeIn.originM[0] + a.interiorCentreLocalM[0], probeIn.originM[2] + a.interiorCentreLocalM[2]], 1, 0.4);
+      r.interiorWalk = await walkTo([probeIn.originM[0] + a.interiorCentreLocalM[0], probeIn.originM[2] + a.interiorCentreLocalM[2]], 1, INDOOR_STOP_M, { indoor: true });
     } else { await key("w", true); await wait((stepM / o.speed) * 1000); await key("w", false); await wait(400); }
     const sStep = await state();
     r.interiorStep = { stepM, movedM: sIn?.pos && sStep?.pos ? r2(legTo(pos2(sIn), pos2(sStep)).distM) : null, posM: sStep?.pos?.map(r2) ?? null };
@@ -198,7 +202,7 @@ async function main() {
       const loc = a.exitDoorLocalM;
       if (probe?.originM && loc) {
         const target = [probe.originM[0] + loc[0], probe.originM[2] + loc[2]];
-        await walkTo(target, 1);
+        r.exitWalk = await walkTo(target, 1, INDOOR_STOP_M, { indoor: true });
         s = await state();
       }
     }
@@ -206,7 +210,13 @@ async function main() {
     r.exitFocus = s.focus?.id ?? null;
     await press("e");
     s = await waitFor((x) => !x.insideInterior && !x.transitioning, 30000);
-    if (!s) { findings.push({ pass, where: a.cellId, finding: "E did not leave the interior within 30 s" }); return r; }
+    if (!s) {
+      findings.push({ pass, where: a.cellId, finding: "E did not leave the interior within 30 s" });
+      // audit10 H8: one failed exit never cascades: the studio has no leave-interior hook, so the pass
+      // reloads its URL (back outdoors at the first waypoint) before the next door
+      r.forcedLeave = await reload();
+      return r;
+    }
     r.exited = true;
     r.exitPosM = s.pos;
     await wait(1500);
@@ -218,6 +228,42 @@ async function main() {
     await wait(700);
     r.shots.push(await shot(`${pass}-${a.doorId.split(".").pop()}-out.jpg`));
     return r;
+  }
+
+  /** Load the pass URL, wait for the ready gate, put the body at the first waypoint. */
+  let current = null;
+  async function load(url, w0) {
+    current = { url, w0 };
+    await page.goto("about:blank").catch(() => {});
+    await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" });
+    const tr = Date.now(), samples = [];
+    let ready = false;
+    while (Date.now() - tr < o.readyTimeout * 1000) {
+      const s = await page.evaluate(() => {
+        const text = document.body.innerText; const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
+        return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text };
+      }).catch(() => ({ fps: 0, tris: 0, loading: true, text: "" }));
+      const { text, ...rest } = s; const st = parseHud(text).cpuByStage;
+      samples.push({ t: Date.now(), ...rest, pre: st ? (st.pre?.avg ?? 0) : null, gc: st ? (st.gc?.avg ?? 0) : null });
+      if (isReady(samples, { startT: tr })) { ready = true; break; }
+      await wait(500);
+    }
+    await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
+    await dbg("teleport", [w0.xM, w0.zM, camYaw(w0.yawRad)]);
+    await wait(3000);
+    return { ready, readyS: r2((Date.now() - tr) / 1000) };
+  }
+  const reload = async () => { const l = await load(current.url, current.w0); const s = await state(); return { ...l, insideInterior: s?.insideInterior ?? null }; };
+
+  /** A judged close-up with a route `aimM` is re-aimed from where the body actually stands (audit10 H9):
+   * the yaw at the target, the pitch from the follow camera's look target over the live ground. */
+  async function aimShot(a) {
+    if (!a.aimM) return aim(a.yaw, a.pitch);
+    const s = await state();
+    const g = s?.pos ? await page.evaluate(([x, z]) => window.__STUDIO_CHARACTER_DEBUG__?.groundAt?.(x, z) ?? null, [s.pos[0], s.pos[2]]) : null;
+    if (!s?.pos || g === null) return aim(a.yaw, a.pitch);
+    const p = aimFrom([s.pos[0], g, s.pos[2]], a.aimM);
+    return aim(p.bearing, p.pitch);
   }
 
   const passes = [];
@@ -236,25 +282,9 @@ async function main() {
       const w0 = route.waypoints[0];
       const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w[ti]}&rate=${o.rate}&markers=0`;
       P.url = url;
-      await page.goto("about:blank").catch(() => {});
-      await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" });
-      const tr = Date.now(), samples = [];
-      let ready = false;
-      while (Date.now() - tr < o.readyTimeout * 1000) {
-        const s = await page.evaluate(() => {
-          const text = document.body.innerText; const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
-          return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text };
-        }).catch(() => ({ fps: 0, tris: 0, loading: true, text: "" }));
-        const { text, ...rest } = s; const st = parseHud(text).cpuByStage;
-        samples.push({ t: Date.now(), ...rest, pre: st ? (st.pre?.avg ?? 0) : null, gc: st ? (st.gc?.avg ?? 0) : null });
-        if (isReady(samples, { startT: tr })) { ready = true; break; }
-        await wait(500);
-      }
-      P.ready = ready; P.readyS = r2((Date.now() - tr) / 1000);
-      if (!ready) findings.push({ pass, where: "load", finding: `ready gate not passed in ${o.readyTimeout} s` });
-      await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
-      await dbg("teleport", [w0.xM, w0.zM, camYaw(w0.yawRad)]);
-      await wait(3000);
+      const ld = await load(url, w0);
+      P.ready = ld.ready; P.readyS = ld.readyS;
+      if (!ld.ready) findings.push({ pass, where: "load", finding: `ready gate not passed in ${o.readyTimeout} s` });
       if (attempt === 0) {
       const settle = await sample(page, o.settle);
       P.settle = { ...frameStats(settle.ts), ...settle.work };
@@ -289,6 +319,8 @@ async function main() {
         // the end shot: the route's backed-off stand along the last leg, horizon pitch (same pose every pass)
         const es = fw.endShot;
         if (es) { await dbg("teleport", [es.standM[0], es.standM[1], camYaw(es.yaw)]); await wait(2500); await aim(es.yaw, es.pitch); await wait(800); }
+        // a night end shot waits for the eye adaptation like an interior does (audit10 H9: near-black frames)
+        if (!day) P.endExposure = await exposureSettle();
         await shot(`${pass}-freewalk-end.jpg`);
       }
       }
@@ -308,9 +340,9 @@ async function main() {
           }
           for (const a of w.actions) {
             try {
-              if (a.type === "shot") { await aim(a.yaw, a.pitch); await wait(800); R.actions.push({ type: "shot", name: a.name, file: await shot(`${pass}-${a.name}.jpg`) }); }
+              if (a.type === "shot") { await aimShot(a); await wait(800); R.actions.push({ type: "shot", name: a.name, file: await shot(`${pass}-${a.name}.jpg`) }); }
               else if (a.type === "fire") {
-                await aim(a.yaw, a.pitch); await wait(800);
+                await aimShot(a); await wait(800);
                 const shots = [];
                 for (let k = 0; k < a.n; k++) { shots.push(await shot(`${pass}-${a.name}-f${k}.jpg`)); await wait(a.dtS * 1000); }
                 R.actions.push({ type: "fire", name: a.name, fixtureIds: a.fixtureIds, shots });

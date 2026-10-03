@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import {
   SHADOW_CASTER_LAYER, CELL_SHADOW_OWNER, aimShadowCameraAtCasters, castersMissingLayer,
-  setCastShadow, setCastShadowCascades,
+  setCastShadow, setCastShadowCascades, stabiliseShadowPassMaterials, shadowPassMaterialsOf, stabiliseRenderedScenes,
 } from "./shadowCasters";
 
 describe("shadow caster layer (webgpu10 diag20 E5)", () => {
@@ -53,5 +53,73 @@ describe("shadow caster layer (webgpu10 diag20 E5)", () => {
     cell.add(new THREE.Group().add(prop));
     root.add(empty, cell, stray);
     expect(castersMissingLayer(root).map((c) => c.name)).toEqual(["stray"]);
+  });
+});
+
+describe("shadow-pass material never re-keys per caster (webgpu10 c9 H1)", () => {
+  // Renderer.renderObject's shadow branch: overrideMaterial.alphaTest = material.alphaTest.
+  const casters = [0.5, 0, 0.3, 0, 0, 0.5].map((a) => { const m = new THREE.MeshStandardMaterial(); m.alphaTest = a; return m; });
+  const frame = (scene: THREE.Scene, seen: number[]) => {
+    const o = scene.overrideMaterial!;
+    for (const c of casters) { o.alphaTest = c.alphaTest; seen.push(o.alphaTest); }
+  };
+  const shadowMat = () => Object.assign(new THREE.MeshBasicMaterial(), { isShadowPassMaterial: true });
+
+  it("stock material bumps version on every cutout/solid flip (the defect)", () => {
+    const scene = new THREE.Scene();
+    scene.overrideMaterial = shadowMat();
+    const v0 = scene.overrideMaterial.version;
+    frame(scene, []);
+    expect(scene.overrideMaterial.version).toBeGreaterThan(v0);
+  });
+
+  it("stabilised: version constant across frames, each caster sees its own alphaTest", () => {
+    const scene = new THREE.Scene();
+    stabiliseShadowPassMaterials(scene);
+    scene.overrideMaterial = shadowMat();
+    const seen: number[] = [];
+    frame(scene, seen);
+    const v = scene.overrideMaterial!.version;
+    for (let i = 0; i < 3; i++) frame(scene, seen);
+    expect(scene.overrideMaterial!.version).toBe(v);
+    expect(seen.slice(0, casters.length)).toEqual(casters.map((c) => c.alphaTest));
+    scene.overrideMaterial = null;
+    expect(scene.overrideMaterial).toBeNull();
+  });
+
+  it("leaves non-shadow override materials stock", () => {
+    const scene = new THREE.Scene();
+    stabiliseShadowPassMaterials(scene);
+    scene.overrideMaterial = new THREE.MeshBasicMaterial();
+    const v0 = scene.overrideMaterial!.version;
+    frame(scene, []);
+    expect(scene.overrideMaterial!.version).toBeGreaterThan(v0);
+  });
+});
+
+describe("castersMissingLayer skips three's CSM cascade light proxies (webgpu10 c10)", () => {
+  it("an object carrying a .shadow (CSMShadowNode LwLight) is never reported", () => {
+    const g = new THREE.Group(); g.name = "sky";
+    const proxy = Object.assign(new THREE.Object3D(), { shadow: {} });
+    proxy.castShadow = true;
+    const stray = new THREE.Mesh(); stray.castShadow = true;
+    g.add(proxy, stray);
+    expect(castersMissingLayer(g)).toEqual([{ name: "<unnamed>", owner: "sky", kind: "Mesh" }]);
+  });
+});
+
+describe("shadow-pass materials recorded per scene, stabilised on every rendered scene", () => {
+  it("records each shadow-pass material once and installs on render", () => {
+    const scene = new THREE.Scene();
+    const renderer = { render: (_s: THREE.Object3D, _c: THREE.Camera) => { scene.overrideMaterial = pass; } };
+    const pass = Object.assign(new THREE.MeshBasicMaterial(), { isShadowPassMaterial: true });
+    stabiliseRenderedScenes(renderer);
+    expect(shadowPassMaterialsOf(scene)).toEqual([]);
+    renderer.render(scene, new THREE.Camera());
+    scene.overrideMaterial = null; scene.overrideMaterial = pass;
+    scene.overrideMaterial = new THREE.MeshBasicMaterial(); // not a shadow pass: not recorded
+    expect(shadowPassMaterialsOf(scene)).toEqual([pass]);
+    const v = pass.version; pass.alphaTest = 0.5; pass.alphaTest = 0;
+    expect(pass.version).toBe(v); // stabilised
   });
 });

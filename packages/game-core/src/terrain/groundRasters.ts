@@ -74,9 +74,18 @@ export async function decodePng(bytes: Uint8Array): Promise<{ width: number; hei
   return { width, height, data: out };
 }
 
+/** A ground PNG request not settled by now fails, so a hung request reaches
+ * the caller's error path instead of holding the spawn forever. */
+export const GROUND_PNG_TIMEOUT_MS = 60000;
+
 /** Fetch and decode a PNG exactly (see `decodePng`). */
-export async function fetchPng(url: string): Promise<{ width: number; height: number; data: Uint8Array }> {
-  const res = await fetch(url);
+export async function fetchPng(
+  url: string,
+  signal?: AbortSignal,
+  timeoutMs: number = GROUND_PNG_TIMEOUT_MS,
+): Promise<{ width: number; height: number; data: Uint8Array }> {
+  const timeout = AbortSignal.timeout(timeoutMs);
+  const res = await fetch(url, { signal: signal ? AbortSignal.any([signal, timeout]) : timeout });
   if (!res.ok) throw new Error(`${url}: ${res.status}`);
   return decodePng(new Uint8Array(await res.arrayBuffer()));
 }

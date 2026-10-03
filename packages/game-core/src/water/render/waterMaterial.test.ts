@@ -150,12 +150,15 @@ describe("water fragment per pixel throughout (f28-f33, perf10 c9 V8)", () => {
         expect(field.fragment).toContain("vEsRestXZ");
         expect(field.fragment).toContain("vEsCrestV");
         expect(field.fragment).toContain("vEsSurfH");
+        // the along-flow undulation height reaches the fragment for the per-pixel crest swap (perf10 D11)
+        expect(field.fragment).toContain("vEsFlowH");
         // the field's colour constituents are per pixel, never a vertex varying
         expect(field.vertex).not.toContain("vEsColour");
       }
       // the strip below reads its colour (the strip above draws whitewater from sal/tan only)
       const strip = build("below", "strip", forceWebGL);
       expect(strip.vertex).not.toContain("vEsCrestV");
+      expect(strip.vertex).not.toContain("vEsFlowH");
       expect(strip.fragment).toContain("vEsColour");
     }
   }, 60000);

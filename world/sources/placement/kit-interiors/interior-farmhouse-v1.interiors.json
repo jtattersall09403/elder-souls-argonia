@@ -908,12 +908,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 317.2,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 317\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.15,
    "interior": "none",
    "planAreaM2": 0.22,
@@ -4023,12 +4018,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 136.8,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 137\u00b0 in the piece's own frame carries 5.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.07,
    "interior": "none",
    "planAreaM2": 0.03,
@@ -4064,12 +4054,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 109.9,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 110\u00b0 in the piece's own frame carries 2.22x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.17,
    "interior": "none",
    "planAreaM2": 0.11,
@@ -4081,12 +4066,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 50.0,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 50\u00b0 in the piece's own frame carries 2.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.05,
    "interior": "none",
    "planAreaM2": 0.31,
@@ -4122,12 +4102,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 138.7,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 139\u00b0 in the piece's own frame carries 2.04x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.15,
    "interior": "none",
    "planAreaM2": 0.15,

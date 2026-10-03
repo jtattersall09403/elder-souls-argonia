@@ -2712,13 +2712,19 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 })
             # each piece is judged on its own measured outline, not the run's
             piece_polys = fp_mod.laid_polygons_m(parcel, laid) or [foot_m] * len(laid)
+            # a climb (a stair flight) stands on the slope it climbs: its fit slope
+            # is not judged; walkwayRule and landingRule are (audit10 c5)
+            from .settlement_run_pads import climb_runs
+            climb = bool(climb_runs([{"id": str(i), "run": {"id": pid, "index": i,
+                                                            "riseM": float(r.get("riseM", 0.0))}}
+                                     for i, r in enumerate(laid)]))
             for i, row in enumerate(laid):
                 slope = footprint_max_slope_deg(piece_polys[i], survey)
                 asset = shelf.find(culture, row["asset"], kind_of.get(pid, "structure"))
                 if asset is None:
                     errors.append(f"{pid}: pieces[{i}] {row['asset']} is not in kit set {culture!r}")
                     continue
-                slope_why = fit_slope_failure(asset, slope)
+                slope_why = None if climb else fit_slope_failure(asset, slope)
                 if slope_why:
                     errors.append(f"{pid}: 97 B3 — {asset['id']}: {slope_why}")
                 laid_y, final = y_final(row, base_y + row["riseM"] + asset["sizeM"][2] / 2)

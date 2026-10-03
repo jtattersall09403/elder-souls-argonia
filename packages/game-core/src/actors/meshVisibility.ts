@@ -8,6 +8,8 @@ import type * as THREE from "three";
  *
  *   - **armour** hides the body meshes a worn piece covers;
  *   - **first person** hides the head, so the camera can sit on the eye;
+ *   - **program link** hides a newly attached mesh until its programs have
+ *     linked off-frame (world-studio playerFade.ts);
  *   - future ones will exist (invisibility, dismemberment, LOD swaps).
  *
  * They overlap. The head is a body mesh in the race roster (`MaleHeadIMF` is
@@ -22,7 +24,7 @@ import type * as THREE from "three";
  */
 
 /** Systems that may hide part of an actor. Extend as new ones appear. */
-export type HideReason = "armour" | "firstPerson";
+export type HideReason = "armour" | "firstPerson" | "programLink";
 
 type Hideable = THREE.Object3D & { userData: { hiddenBy?: Set<HideReason> } };
 

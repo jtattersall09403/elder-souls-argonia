@@ -308,7 +308,7 @@
               0.0,
               0.0
             ],
-            "yaw": 279.0,
+            "yaw": 281.0,
             "on": "parent",
             "layer": "clutter",
             "evidence": "measured",
@@ -317,7 +317,7 @@
               "mountedOn": "r-post",
               "n": 2
             },
-            "upM": 2.1407,
+            "upM": 2.5097,
             "host": "r-post"
           },
           {
@@ -336,21 +336,21 @@
               "mountedOn": "r-post",
               "n": 1
             },
-            "upM": 1.7849,
+            "upM": 2.033,
             "host": "r-post"
           },
           {
             "id": "r-post",
             "asset": "vanilla:clutter/signage/roadsigns/roadsignpost",
             "atM": [
-              7.5263,
-              -8.9641
+              9.9038,
+              -12.6462
             ],
             "yaw": 330.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 19.7371
+            "yMeasured": 19.7861
           }
         ],
         "footprint": [
@@ -978,7 +978,7 @@
             "on": "ground",
             "layer": "light",
             "evidence": "measured",
-            "yMeasured": 14.879
+            "yMeasured": 14.849
           },
           {
             "id": "y-pot",
@@ -2080,15 +2080,15 @@
       "kits": {
         "dungeon-root-v1": "66a7812fa7024674c8e0a1b446ab4b5857498388f9b7bc9f72bd2247f2dc40dc",
         "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
-        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
-        "settlement-mud-v1": "62dc047d1ac7a7f5329635ae06edca66c410489b2f7f2418c818b9b57182bc12",
-        "settlement-root-v1": "68a8291b5596f9e60e803b55fff88cb9ba39fc58b650e9f8b59daeaaf8c37b74",
-        "settlement-stilt-v1": "f7e92cc345844d0efeda7843caf1e0742176ca07dfac5065fbf30271eaa71f3e",
-        "works-v1": "6067e40071c5a2dcba94d0420411ae0cd400ce480ebe42ab6f55ef063fbfda09"
+        "settlement-imperial-v1": "9144866ffc6959ca92347c9eda44923bc516f98add601b49781101ac7d5a5972",
+        "settlement-mud-v1": "cb681afe4a6def2ebb571a52282dd3d20fa22a9f1e20bb3de83c8817fcf53279",
+        "settlement-root-v1": "967048d24c8b6bc0f81f738618cdd4295e699c231a220878c00a5f28e1c3dbc6",
+        "settlement-stilt-v1": "b2866702d31adda16621028bdd474e08936b79170179dd2e32a6a8518ac7dae5",
+        "works-v1": "5a6ad51eec8c4279a7f8924f32315c0969ef59b2657b19d6ed6258c38fbe996d"
       },
       "layout": {
         "path": "world/sources/blueprints/opening-work-camp.layout.json",
-        "sha256": "21030c34bcb41302528cf6befc4826fad8ab606a5d1bfb04ff5c2c881d48ed5d"
+        "sha256": "39b5c2fd87be234467472baeaa2539f1b0c71a68b63e420c732216cbdf2ee0ed"
       }
     },
     "walkRoutes": {

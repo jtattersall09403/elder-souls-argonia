@@ -16,6 +16,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { SettlementBundle } from "./types";
 import { assertPoolsSchema } from "./pools";
 import { fetchJsonWithRetry } from "./fetchRetry";
+import { PLACE_DATA_PRIORITY } from "./pieceRequestOrder";
 
 export const SETTLEMENT_INDEX_SCHEMA_VERSION = 1;
 /** A bundle loads when its centre is within this range plus its radius. */
@@ -156,7 +157,8 @@ export function assembleSettlementBundle(
 
 export type FetchJson = (url: string) => Promise<unknown>;
 
-const defaultFetchJson: FetchJson = (url) => fetchJsonWithRetry(url);
+/** The place index and place parts go ahead of bulk kit fetches (perf-diag22 L2). */
+const defaultFetchJson: FetchJson = (url) => fetchJsonWithRetry(url, { priority: PLACE_DATA_PRIORITY });
 
 type Listener = (bundle: AssembledSettlementBundle) => void;
 

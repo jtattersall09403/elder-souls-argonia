@@ -30,8 +30,8 @@ function loaderFor(raw: unknown) {
       const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
       if (!kit) return structuredClone(raw);
       kitsLoaded.push(kit);
-      return { schemaVersion: 2, kit, source: { bytes: 0, sha256: "" }, fires: {},
-        assets: Object.fromEntries(ids.map((id) => [id, { file: "x.glb", bytes: 0, vertices: 0, triangles: 0, textures: [] }])) };
+      return { schemaVersion: 3, kit, exterior: false, source: { bytes: 0, sha256: "" }, fires: {},
+        assets: Object.fromEntries(ids.map((id) => [id, { file: "x.glb", bytes: 0, vertices: 0, triangles: 0, lods: [{ lod: 0, vertices: 0, triangles: 0 }], textures: [] }])) };
     },
     loadPart: async (_kit, assetId) => new Map([[assetId, box(assetId)] as const]),
   });

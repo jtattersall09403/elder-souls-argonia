@@ -36,8 +36,8 @@ export interface LinkWarm {
  * water variants). `scene.onBeforeRender` records which kind the pass that
  * draws layer 0 used; `link` binds a 1x1 target of the named kind while it
  * links (the key reads the target's colour space and the tone mapping it
- * implies, never its size). Same contract as apps/world-studio InteriorDoors
- * `InteriorLinker`.
+ * implies, never its size). Every pre-link goes through this class (the
+ * player fade, the settlement build, the interior cells).
  */
 /** The renderer calls the linker makes (WebGPURenderer on either backend). */
 export interface LinkingRenderer {

@@ -165,6 +165,45 @@
             "yMeasured": 10.1163
           },
           {
+            "id": "s-bones-arm",
+            "asset": "vanilla:clutter/bones/humanarmleft",
+            "atM": [
+              1.4,
+              -1.62
+            ],
+            "yaw": 275.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.222
+          },
+          {
+            "id": "s-bones-rib1",
+            "asset": "vanilla:clutter/bones/humanribcage",
+            "atM": [
+              2.7,
+              -0.4
+            ],
+            "yaw": 180.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.306
+          },
+          {
+            "id": "s-bones-rib2",
+            "asset": "vanilla:clutter/bones/humanribcage",
+            "atM": [
+              1.4,
+              -2.05
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.306
+          },
+          {
             "id": "s-bones-skull1",
             "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
             "atM": [
@@ -185,6 +224,19 @@
               1.05
             ],
             "yaw": 205.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.274
+          },
+          {
+            "id": "s-bones-skull3",
+            "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+            "atM": [
+              2.05,
+              -2.05
+            ],
+            "yaw": 280.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -1259,15 +1311,15 @@
         "dungeon-root-v1": "66a7812fa7024674c8e0a1b446ab4b5857498388f9b7bc9f72bd2247f2dc40dc",
         "htbm-hut-int": "409bfa969e465a361d68dce3673eee1634f442eb97bde201a68ebf03896961c6",
         "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
-        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
-        "settlement-mud-v1": "62dc047d1ac7a7f5329635ae06edca66c410489b2f7f2418c818b9b57182bc12",
-        "settlement-root-v1": "68a8291b5596f9e60e803b55fff88cb9ba39fc58b650e9f8b59daeaaf8c37b74",
-        "settlement-stilt-v1": "f7e92cc345844d0efeda7843caf1e0742176ca07dfac5065fbf30271eaa71f3e",
-        "works-v1": "6067e40071c5a2dcba94d0420411ae0cd400ce480ebe42ab6f55ef063fbfda09"
+        "settlement-imperial-v1": "9144866ffc6959ca92347c9eda44923bc516f98add601b49781101ac7d5a5972",
+        "settlement-mud-v1": "cb681afe4a6def2ebb571a52282dd3d20fa22a9f1e20bb3de83c8817fcf53279",
+        "settlement-root-v1": "967048d24c8b6bc0f81f738618cdd4295e699c231a220878c00a5f28e1c3dbc6",
+        "settlement-stilt-v1": "b2866702d31adda16621028bdd474e08936b79170179dd2e32a6a8518ac7dae5",
+        "works-v1": "5a6ad51eec8c4279a7f8924f32315c0969ef59b2657b19d6ed6258c38fbe996d"
       },
       "layout": {
         "path": "world/sources/blueprints/rose-bone-waystation.layout.json",
-        "sha256": "fd5a4cbd46ac8ce91389bbd415bfbea53e886d9d4d26c4b5b2535dbb5eac9362"
+        "sha256": "49bf3053f7d7e3c654c3f422305d7bebcddfb02e2f0a4e22d1b979d7833db667"
       }
     },
     "walkRoutes": {

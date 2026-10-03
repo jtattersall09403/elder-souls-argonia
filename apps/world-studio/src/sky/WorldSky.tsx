@@ -1,3 +1,4 @@
+import { RenderSignaturePrecompile } from "@elder-souls/game-core/render/RenderSignaturePrecompile";
 import { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -1025,8 +1026,8 @@ export function WorldSky({
     // Exposure: eye adaptation in log space on REAL seconds (adaptExposure);
     // snap when paused or scrubbed so fixed-instant probes are deterministic.
     // The adapted value lives here, not in gl.toneMappingExposure: inside a
-    // cell InteriorEnvironment overwrites the renderer's value with 1 every
-    // frame, and reading it back made the exit start from 1 (walk 6 white-out).
+    // cell InteriorEnvironment overwrites the renderer's value every frame with
+    // an auto-exposure from the cell's ambient (1..INTERIOR_EXPOSURE_MAX), so reading it back would start the exit from that.
     const jumped =
       !Number.isFinite(state.current.lastEpoch) ||
       Math.abs(epochMinutes - state.current.lastEpoch) > worldClock.rate * 0.5 + 1;
@@ -1119,6 +1120,8 @@ export function WorldSky({
     <SkyContext.Provider value={{ csm, volumetrics, sunLighting }}>
       <group visible={!hidden}>
       <primitive object={sky} renderOrder={-10} frustumCulled={false} />
+      {/* kit pipelines precompile from the baked signatures once this rig has cast its first shadows (decision 0108 §2) */}
+      <RenderSignaturePrecompile dataBase={DATA_BASE} />
       {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer
           radius — so star fragments behind a disc fail the depth test and
           never shine through the moon's body. */}

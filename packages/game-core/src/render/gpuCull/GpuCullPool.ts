@@ -259,6 +259,8 @@ export class GpuCullPool {
       rule: rule ?? (() => pooled.submit),
     };
     emptyBounds(pooled.bounds);
+    // census flag: renderer.info counts this draw at `mesh.count` (the last kept read-back), not the GPU's live count
+    mesh.userData.esIndirect = true;
     // three culls the member per camera on its candidates' bounds, so each
     // sun cascade draws only the casters inside its own box (a near batch is
     // not rendered into the far cascades, nor a far one into the near):
@@ -327,6 +329,7 @@ export class GpuCullPool {
     const geometry = d.mesh.geometry;
     if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) detachSharedAttribute(geometry, "esSlot");
     geometry.setIndirect(null);
+    delete d.mesh.userData.esIndirect;
     d.mesh.instanceMatrix = this.standIn;
     setCastShadow(d.mesh, false);
     d.mesh.frustumCulled = false;

@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "interior-farmhouse-v1",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 16552320,
@@ -8,17 +9,34 @@
  },
  "totals": {
   "parts": 61,
-  "partBytes": 973308,
+  "partBytes": 1483492,
   "textureFiles": 55,
   "textureBytes": 2954379,
-  "bytes": 3927687
+  "bytes": 4437871
  },
  "assets": {
   "vanilla:architecture/farmhouse/farmhouseldoor01": {
    "file": "vanilla_architecture_farmhouse_farmhouseldoor01-43cc4330.glb",
-   "bytes": 8160,
+   "bytes": 9668,
    "vertices": 152,
    "triangles": 214,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 152,
+     "triangles": 214
+    },
+    {
+     "lod": 1,
+     "vertices": 152,
+     "triangles": 214
+    },
+    {
+     "lod": 2,
+     "vertices": 152,
+     "triangles": 214
+    }
+   ],
    "textures": [
     "aab9a96f4bdbae2a",
     "bf36fb70a1b239c2"
@@ -26,9 +44,26 @@
   },
   "vanilla:architecture/farmhouse/interior/farmintdoorway01": {
    "file": "vanilla_architecture_farmhouse_interior_farmintdoorway01-22406df1.glb",
-   "bytes": 39348,
+   "bytes": 65120,
    "vertices": 1526,
    "triangles": 1862,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1526,
+     "triangles": 1862
+    },
+    {
+     "lod": 1,
+     "vertices": 904,
+     "triangles": 925
+    },
+    {
+     "lod": 2,
+     "vertices": 856,
+     "triangles": 870
+    }
+   ],
    "textures": [
     "054f1d193868cca5",
     "6cfd0815dc34da9a",
@@ -40,9 +75,26 @@
   },
   "vanilla:architecture/farmhouse/interior/farmintend01": {
    "file": "vanilla_architecture_farmhouse_interior_farmintend01-a07cce4b.glb",
-   "bytes": 61128,
+   "bytes": 98784,
    "vertices": 2303,
    "triangles": 2780,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2303,
+     "triangles": 2780
+    },
+    {
+     "lod": 1,
+     "vertices": 1388,
+     "triangles": 1376
+    },
+    {
+     "lod": 2,
+     "vertices": 1261,
+     "triangles": 1223
+    }
+   ],
    "textures": [
     "054f1d193868cca5",
     "09c76aa22bd91bdc",
@@ -58,9 +110,26 @@
   },
   "vanilla:architecture/farmhouse/interior/farmintend02": {
    "file": "vanilla_architecture_farmhouse_interior_farmintend02-57924e2a.glb",
-   "bytes": 63500,
+   "bytes": 103080,
    "vertices": 2458,
    "triangles": 3020,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2458,
+     "triangles": 3020
+    },
+    {
+     "lod": 1,
+     "vertices": 1458,
+     "triangles": 1460
+    },
+    {
+     "lod": 2,
+     "vertices": 1254,
+     "triangles": 1223
+    }
+   ],
    "textures": [
     "054f1d193868cca5",
     "09c76aa22bd91bdc",
@@ -76,9 +145,26 @@
   },
   "vanilla:architecture/farmhouse/interior/farmintwallhearth01": {
    "file": "vanilla_architecture_farmhouse_interior_farmintwallhearth01-0e2f64aa.glb",
-   "bytes": 51640,
+   "bytes": 87788,
    "vertices": 2172,
    "triangles": 2884,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2172,
+     "triangles": 2884
+    },
+    {
+     "lod": 1,
+     "vertices": 1176,
+     "triangles": 1293
+    },
+    {
+     "lod": 2,
+     "vertices": 1135,
+     "triangles": 1251
+    }
+   ],
    "textures": [
     "054f1d193868cca5",
     "1015c13fe1d18674",
@@ -91,36 +177,104 @@
   },
   "vanilla:clutter/basket02": {
    "file": "vanilla_clutter_basket02-79d437fb.glb",
-   "bytes": 8452,
+   "bytes": 14700,
    "vertices": 321,
    "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 321,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "2718a8e21a49f4e9"
    ]
   },
   "vanilla:clutter/basket04": {
    "file": "vanilla_clutter_basket04-c0a1c2fd.glb",
-   "bytes": 8244,
+   "bytes": 14436,
    "vertices": 283,
    "triangles": 428,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 283,
+     "triangles": 428
+    },
+    {
+     "lod": 1,
+     "vertices": 213,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 213,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "2718a8e21a49f4e9"
    ]
   },
   "vanilla:clutter/bones/deerskullhornsstatic": {
    "file": "vanilla_clutter_bones_deerskullhornsstatic-9da814dc.glb",
-   "bytes": 10840,
+   "bytes": 16952,
    "vertices": 437,
    "triangles": 712,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 437,
+     "triangles": 712
+    },
+    {
+     "lod": 1,
+     "vertices": 212,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 212,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "fdc016bbad37bfad"
    ]
   },
   "vanilla:clutter/books/basicbook03a": {
    "file": "vanilla_clutter_books_basicbook03a-7a82b867.glb",
-   "bytes": 19932,
+   "bytes": 22360,
    "vertices": 687,
    "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 687,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 687,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 687,
+     "triangles": 538
+    }
+   ],
    "textures": [
     "7a482ec28ce30f59",
     "9f2e0fca2754ba45"
@@ -128,162 +282,468 @@
   },
   "vanilla:clutter/candles/candlehornchandelier01": {
    "file": "vanilla_clutter_candles_candlehornchandelier01-cffe6ecd.glb",
-   "bytes": 46764,
+   "bytes": 72452,
    "vertices": 2956,
    "triangles": 2520,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2956,
+     "triangles": 2520
+    },
+    {
+     "lod": 1,
+     "vertices": 1707,
+     "triangles": 1041
+    },
+    {
+     "lod": 2,
+     "vertices": 1054,
+     "triangles": 546
+    }
+   ],
    "textures": [
     "92021889840d7cb6"
    ]
   },
   "vanilla:clutter/candles/candlehornfloor01": {
    "file": "vanilla_clutter_candles_candlehornfloor01-6bece2ca.glb",
-   "bytes": 27528,
+   "bytes": 49652,
    "vertices": 1906,
    "triangles": 1782,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1906,
+     "triangles": 1782
+    },
+    {
+     "lod": 1,
+     "vertices": 890,
+     "triangles": 623
+    },
+    {
+     "lod": 2,
+     "vertices": 468,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "92021889840d7cb6"
    ]
   },
   "vanilla:clutter/candles/candlehorntable01": {
    "file": "vanilla_clutter_candles_candlehorntable01-af57f537.glb",
-   "bytes": 11236,
+   "bytes": 18848,
    "vertices": 578,
    "triangles": 560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 578,
+     "triangles": 560
+    },
+    {
+     "lod": 1,
+     "vertices": 386,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 386,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "92021889840d7cb6"
    ]
   },
   "vanilla:clutter/candles/candlehornwall01": {
    "file": "vanilla_clutter_candles_candlehornwall01-31a2ed60.glb",
-   "bytes": 7716,
+   "bytes": 14028,
    "vertices": 321,
    "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 321,
+     "triangles": 336
+    },
+    {
+     "lod": 1,
+     "vertices": 294,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 294,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "92021889840d7cb6"
    ]
   },
   "vanilla:clutter/common/broom": {
    "file": "vanilla_clutter_common_broom-fa335bf0.glb",
-   "bytes": 13756,
+   "bytes": 23000,
    "vertices": 626,
    "triangles": 557,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 626,
+     "triangles": 557
+    },
+    {
+     "lod": 1,
+     "vertices": 419,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 419,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "ef3a115cb2e7cd78"
    ]
   },
   "vanilla:clutter/common/commonshelf01": {
    "file": "vanilla_clutter_common_commonshelf01-f5a10a2e.glb",
-   "bytes": 13780,
+   "bytes": 22836,
    "vertices": 740,
    "triangles": 669,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 740,
+     "triangles": 669
+    },
+    {
+     "lod": 1,
+     "vertices": 451,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 451,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "05a13042d7563362"
    ]
   },
   "vanilla:clutter/common/commontableround01": {
    "file": "vanilla_clutter_common_commontableround01-80b4eda9.glb",
-   "bytes": 12748,
+   "bytes": 20392,
    "vertices": 650,
    "triangles": 728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 650,
+     "triangles": 728
+    },
+    {
+     "lod": 1,
+     "vertices": 356,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 356,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "05a13042d7563362"
    ]
   },
   "vanilla:clutter/common/cupboard01": {
    "file": "vanilla_clutter_common_cupboard01-5aed270f.glb",
-   "bytes": 27136,
+   "bytes": 48604,
    "vertices": 1701,
    "triangles": 1640,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1701,
+     "triangles": 1640
+    },
+    {
+     "lod": 1,
+     "vertices": 948,
+     "triangles": 696
+    },
+    {
+     "lod": 2,
+     "vertices": 727,
+     "triangles": 488
+    }
+   ],
    "textures": [
     "05a13042d7563362"
    ]
   },
   "vanilla:clutter/common/endtable01": {
    "file": "vanilla_clutter_common_endtable01-fdc50d1b.glb",
-   "bytes": 17140,
+   "bytes": 26000,
    "vertices": 854,
    "triangles": 810,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 854,
+     "triangles": 810
+    },
+    {
+     "lod": 1,
+     "vertices": 566,
+     "triangles": 420
+    },
+    {
+     "lod": 2,
+     "vertices": 566,
+     "triangles": 420
+    }
+   ],
    "textures": [
     "05a13042d7563362"
    ]
   },
   "vanilla:clutter/common/wardrobe01": {
    "file": "vanilla_clutter_common_wardrobe01-ff0f44ef.glb",
-   "bytes": 37976,
+   "bytes": 61764,
    "vertices": 2637,
    "triangles": 2372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2637,
+     "triangles": 2372
+    },
+    {
+     "lod": 1,
+     "vertices": 1595,
+     "triangles": 1209
+    },
+    {
+     "lod": 2,
+     "vertices": 1228,
+     "triangles": 884
+    }
+   ],
    "textures": [
     "05a13042d7563362"
    ]
   },
   "vanilla:clutter/containers/chest01/chest01": {
    "file": "vanilla_clutter_containers_chest01_chest01-ae6601bc.glb",
-   "bytes": 13428,
+   "bytes": 15632,
    "vertices": 408,
    "triangles": 242,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 408,
+     "triangles": 242
+    },
+    {
+     "lod": 1,
+     "vertices": 408,
+     "triangles": 242
+    },
+    {
+     "lod": 2,
+     "vertices": 408,
+     "triangles": 242
+    }
+   ],
    "textures": [
     "6cd81b458d9cb29e"
    ]
   },
   "vanilla:clutter/cookingspitfarmhouse01": {
    "file": "vanilla_clutter_cookingspitfarmhouse01-fd15877e.glb",
-   "bytes": 6484,
+   "bytes": 7252,
    "vertices": 256,
    "triangles": 214,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 256,
+     "triangles": 214
+    },
+    {
+     "lod": 1,
+     "vertices": 256,
+     "triangles": 214
+    },
+    {
+     "lod": 2,
+     "vertices": 256,
+     "triangles": 214
+    }
+   ],
    "textures": [
     "77a79c8f3f2b5a74"
    ]
   },
   "vanilla:clutter/deadanimals/hanginganimalsring01": {
    "file": "vanilla_clutter_deadanimals_hanginganimalsring01-b389c168.glb",
-   "bytes": 8852,
+   "bytes": 16012,
    "vertices": 428,
    "triangles": 372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 428,
+     "triangles": 372
+    },
+    {
+     "lod": 1,
+     "vertices": 363,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 363,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "63463239a4c225f7"
    ]
   },
   "vanilla:clutter/deadanimals/hangingpheasant01": {
    "file": "vanilla_clutter_deadanimals_hangingpheasant01-20bbacab.glb",
-   "bytes": 7824,
+   "bytes": 13988,
    "vertices": 241,
    "triangles": 346,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 241,
+     "triangles": 346
+    },
+    {
+     "lod": 1,
+     "vertices": 214,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 214,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "fb43efde2f650a06"
    ]
   },
   "vanilla:clutter/deadanimals/hangingpheasant02": {
    "file": "vanilla_clutter_deadanimals_hangingpheasant02-a0f78406.glb",
-   "bytes": 7796,
+   "bytes": 13940,
    "vertices": 241,
    "triangles": 346,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 241,
+     "triangles": 346
+    },
+    {
+     "lod": 1,
+     "vertices": 212,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 212,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "fb43efde2f650a06"
    ]
   },
   "vanilla:clutter/deadanimals/hangingrabbit01": {
    "file": "vanilla_clutter_deadanimals_hangingrabbit01-b4e4ab6f.glb",
-   "bytes": 11608,
+   "bytes": 18412,
    "vertices": 475,
    "triangles": 716,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 475,
+     "triangles": 716
+    },
+    {
+     "lod": 1,
+     "vertices": 243,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 243,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "5a9895da034d8d2c"
    ]
   },
   "vanilla:clutter/deadanimals/hangingrabbit02": {
    "file": "vanilla_clutter_deadanimals_hangingrabbit02-b596ef80.glb",
-   "bytes": 10972,
+   "bytes": 17320,
    "vertices": 475,
    "triangles": 716,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 475,
+     "triangles": 716
+    },
+    {
+     "lod": 1,
+     "vertices": 240,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 240,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "5a9895da034d8d2c"
    ]
   },
   "vanilla:clutter/deadanimals/wallmountedbear01": {
    "file": "vanilla_clutter_deadanimals_wallmountedbear01-f5612da0.glb",
-   "bytes": 29168,
+   "bytes": 47440,
    "vertices": 1484,
    "triangles": 2036,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1484,
+     "triangles": 2036
+    },
+    {
+     "lod": 1,
+     "vertices": 768,
+     "triangles": 855
+    },
+    {
+     "lod": 2,
+     "vertices": 487,
+     "triangles": 520
+    }
+   ],
    "textures": [
     "8a4a1773b937ebe8",
     "ec8da253f210f595"
@@ -291,9 +751,26 @@
   },
   "vanilla:clutter/deadanimals/wallmountedhorker01": {
    "file": "vanilla_clutter_deadanimals_wallmountedhorker01-0233fb56.glb",
-   "bytes": 31536,
+   "bytes": 46996,
    "vertices": 1407,
    "triangles": 1950,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1407,
+     "triangles": 1950
+    },
+    {
+     "lod": 1,
+     "vertices": 913,
+     "triangles": 999
+    },
+    {
+     "lod": 2,
+     "vertices": 779,
+     "triangles": 788
+    }
+   ],
    "textures": [
     "c84a0a893755c4cc",
     "ec8da253f210f595",
@@ -302,9 +779,26 @@
   },
   "vanilla:clutter/deadanimals/wallmountedsabrecat02": {
    "file": "vanilla_clutter_deadanimals_wallmountedsabrecat02-e0bdc525.glb",
-   "bytes": 43020,
+   "bytes": 72680,
    "vertices": 2196,
    "triangles": 3198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2196,
+     "triangles": 3198
+    },
+    {
+     "lod": 1,
+     "vertices": 1122,
+     "triangles": 1261
+    },
+    {
+     "lod": 2,
+     "vertices": 612,
+     "triangles": 577
+    }
+   ],
    "textures": [
     "645942d159d59090",
     "ec8da253f210f595"
@@ -312,72 +806,208 @@
   },
   "vanilla:clutter/dining set/basicfork01": {
    "file": "vanilla_clutter_dining_set_basicfork01-bcefbf78.glb",
-   "bytes": 5048,
+   "bytes": 5808,
    "vertices": 106,
    "triangles": 88,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 106,
+     "triangles": 88
+    },
+    {
+     "lod": 1,
+     "vertices": 106,
+     "triangles": 88
+    },
+    {
+     "lod": 2,
+     "vertices": 106,
+     "triangles": 88
+    }
+   ],
    "textures": [
     "f0a4968543a45b2d"
    ]
   },
   "vanilla:clutter/dining set/basicknife01": {
    "file": "vanilla_clutter_dining_set_basicknife01-9e0dc14a.glb",
-   "bytes": 4944,
+   "bytes": 5708,
    "vertices": 84,
    "triangles": 74,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 84,
+     "triangles": 74
+    },
+    {
+     "lod": 1,
+     "vertices": 84,
+     "triangles": 74
+    },
+    {
+     "lod": 2,
+     "vertices": 84,
+     "triangles": 74
+    }
+   ],
    "textures": [
     "f0a4968543a45b2d"
    ]
   },
   "vanilla:clutter/dining set/basictankard01": {
    "file": "vanilla_clutter_dining_set_basictankard01-e9d6ae49.glb",
-   "bytes": 6248,
+   "bytes": 7024,
    "vertices": 214,
    "triangles": 192,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 214,
+     "triangles": 192
+    },
+    {
+     "lod": 1,
+     "vertices": 214,
+     "triangles": 192
+    },
+    {
+     "lod": 2,
+     "vertices": 214,
+     "triangles": 192
+    }
+   ],
    "textures": [
     "f0a4968543a45b2d"
    ]
   },
   "vanilla:clutter/food/bread01a": {
    "file": "vanilla_clutter_food_bread01a-27793053.glb",
-   "bytes": 4636,
+   "bytes": 5328,
    "vertices": 83,
    "triangles": 130,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 83,
+     "triangles": 130
+    },
+    {
+     "lod": 1,
+     "vertices": 83,
+     "triangles": 130
+    },
+    {
+     "lod": 2,
+     "vertices": 83,
+     "triangles": 130
+    }
+   ],
    "textures": [
     "46e76fc7010ea8ac"
    ]
   },
   "vanilla:clutter/food/bread01b": {
    "file": "vanilla_clutter_food_bread01b-a1872c3d.glb",
-   "bytes": 4204,
+   "bytes": 4900,
    "vertices": 64,
    "triangles": 74,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 64,
+     "triangles": 74
+    },
+    {
+     "lod": 1,
+     "vertices": 64,
+     "triangles": 74
+    },
+    {
+     "lod": 2,
+     "vertices": 64,
+     "triangles": 74
+    }
+   ],
    "textures": [
     "46e76fc7010ea8ac"
    ]
   },
   "vanilla:clutter/hay/hayscatter01": {
    "file": "vanilla_clutter_hay_hayscatter01-f958d00c.glb",
-   "bytes": 3860,
+   "bytes": 4608,
    "vertices": 9,
    "triangles": 8,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 9,
+     "triangles": 8
+    },
+    {
+     "lod": 1,
+     "vertices": 9,
+     "triangles": 8
+    },
+    {
+     "lod": 2,
+     "vertices": 9,
+     "triangles": 8
+    }
+   ],
    "textures": [
     "f547bc6470506aa2"
    ]
   },
   "vanilla:clutter/hay/hayscatter02": {
    "file": "vanilla_clutter_hay_hayscatter02-f1ada4ea.glb",
-   "bytes": 3864,
+   "bytes": 4616,
    "vertices": 9,
    "triangles": 8,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 9,
+     "triangles": 8
+    },
+    {
+     "lod": 1,
+     "vertices": 9,
+     "triangles": 8
+    },
+    {
+     "lod": 2,
+     "vertices": 9,
+     "triangles": 8
+    }
+   ],
    "textures": [
     "f547bc6470506aa2"
    ]
   },
   "vanilla:clutter/ingredients/mead01": {
    "file": "vanilla_clutter_ingredients_mead01-6528315d.glb",
-   "bytes": 13596,
+   "bytes": 21568,
    "vertices": 391,
    "triangles": 438,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 391,
+     "triangles": 438
+    },
+    {
+     "lod": 1,
+     "vertices": 337,
+     "triangles": 339
+    },
+    {
+     "lod": 2,
+     "vertices": 337,
+     "triangles": 339
+    }
+   ],
    "textures": [
     "a6fb72402f619129",
     "b6ee256be9c8e60f"
@@ -385,108 +1015,312 @@
   },
   "vanilla:clutter/ingredients/slaughterfishscale": {
    "file": "vanilla_clutter_ingredients_slaughterfishscale-510cb903.glb",
-   "bytes": 5668,
+   "bytes": 6468,
    "vertices": 113,
    "triangles": 120,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 113,
+     "triangles": 120
+    },
+    {
+     "lod": 1,
+     "vertices": 113,
+     "triangles": 120
+    },
+    {
+     "lod": 2,
+     "vertices": 113,
+     "triangles": 120
+    }
+   ],
    "textures": [
     "9df568fd9f06b584"
    ]
   },
   "vanilla:clutter/kettle01": {
    "file": "vanilla_clutter_kettle01-d989af2c.glb",
-   "bytes": 15960,
+   "bytes": 30592,
    "vertices": 763,
    "triangles": 1106,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 763,
+     "triangles": 1106
+    },
+    {
+     "lod": 1,
+     "vertices": 335,
+     "triangles": 386
+    },
+    {
+     "lod": 2,
+     "vertices": 265,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "965012d39e3f5a8d"
    ]
   },
   "vanilla:clutter/kitchen/castironpotsmall01": {
    "file": "vanilla_clutter_kitchen_castironpotsmall01-16431d56.glb",
-   "bytes": 6328,
+   "bytes": 7120,
    "vertices": 219,
    "triangles": 218,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 219,
+     "triangles": 218
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 218
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 218
+    }
+   ],
    "textures": [
     "ad5dfe49da0e33c9"
    ]
   },
   "vanilla:clutter/kitchen/woodenladle01": {
    "file": "vanilla_clutter_kitchen_woodenladle01-db37efdb.glb",
-   "bytes": 6604,
+   "bytes": 7368,
    "vertices": 209,
    "triangles": 296,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 209,
+     "triangles": 296
+    },
+    {
+     "lod": 1,
+     "vertices": 209,
+     "triangles": 296
+    },
+    {
+     "lod": 2,
+     "vertices": 209,
+     "triangles": 296
+    }
+   ],
    "textures": [
     "cc8525bb2c27a8d3"
    ]
   },
   "vanilla:clutter/meadery/meadbarrel01": {
    "file": "vanilla_clutter_meadery_meadbarrel01-5e8a7eb2.glb",
-   "bytes": 17548,
+   "bytes": 26000,
    "vertices": 461,
    "triangles": 508,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 461,
+     "triangles": 508
+    },
+    {
+     "lod": 1,
+     "vertices": 436,
+     "triangles": 460
+    },
+    {
+     "lod": 2,
+     "vertices": 436,
+     "triangles": 460
+    }
+   ],
    "textures": [
     "64be3b1d2af73dcf"
    ]
   },
   "vanilla:clutter/pelts/peltfarmwall01": {
    "file": "vanilla_clutter_pelts_peltfarmwall01-8f423abd.glb",
-   "bytes": 4536,
+   "bytes": 5300,
    "vertices": 72,
    "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 72,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 72,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 72,
+     "triangles": 86
+    }
+   ],
    "textures": [
     "bb2a646533f8db88"
    ]
   },
   "vanilla:clutter/pelts/peltfarmwall02": {
    "file": "vanilla_clutter_pelts_peltfarmwall02-fd29e8c1.glb",
-   "bytes": 4428,
+   "bytes": 5192,
    "vertices": 68,
    "triangles": 82,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 68,
+     "triangles": 82
+    },
+    {
+     "lod": 1,
+     "vertices": 68,
+     "triangles": 82
+    },
+    {
+     "lod": 2,
+     "vertices": 68,
+     "triangles": 82
+    }
+   ],
    "textures": [
     "6b3ba27070caf9a3"
    ]
   },
   "vanilla:clutter/pelts/peltfarmwall03": {
    "file": "vanilla_clutter_pelts_peltfarmwall03-c155738f.glb",
-   "bytes": 4768,
+   "bytes": 5536,
    "vertices": 90,
    "triangles": 104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 90,
+     "triangles": 104
+    },
+    {
+     "lod": 1,
+     "vertices": 90,
+     "triangles": 104
+    },
+    {
+     "lod": 2,
+     "vertices": 90,
+     "triangles": 104
+    }
+   ],
    "textures": [
     "aa625ff8711151e5"
    ]
   },
   "vanilla:clutter/pelts/peltfloor01": {
    "file": "vanilla_clutter_pelts_peltfloor01-e81fee9f.glb",
-   "bytes": 3716,
+   "bytes": 4464,
    "vertices": 36,
    "triangles": 43,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 43
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 43
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 43
+    }
+   ],
    "textures": [
     "bb2a646533f8db88"
    ]
   },
   "vanilla:clutter/pelts/peltfloor02": {
    "file": "vanilla_clutter_pelts_peltfloor02-b950f910.glb",
-   "bytes": 3688,
+   "bytes": 4436,
    "vertices": 34,
    "triangles": 41,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 34,
+     "triangles": 41
+    },
+    {
+     "lod": 1,
+     "vertices": 34,
+     "triangles": 41
+    },
+    {
+     "lod": 2,
+     "vertices": 34,
+     "triangles": 41
+    }
+   ],
    "textures": [
     "6b3ba27070caf9a3"
    ]
   },
   "vanilla:clutter/pelts/peltfloor03": {
    "file": "vanilla_clutter_pelts_peltfloor03-408f6a0a.glb",
-   "bytes": 3792,
+   "bytes": 4540,
    "vertices": 45,
    "triangles": 52,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 45,
+     "triangles": 52
+    },
+    {
+     "lod": 1,
+     "vertices": 45,
+     "triangles": 52
+    },
+    {
+     "lod": 2,
+     "vertices": 45,
+     "triangles": 52
+    }
+   ],
    "textures": [
     "aa625ff8711151e5"
    ]
   },
   "vanilla:clutter/quest/firebrandwine01": {
    "file": "vanilla_clutter_quest_firebrandwine01-d87de7cb.glb",
-   "bytes": 14492,
+   "bytes": 21168,
    "vertices": 338,
    "triangles": 482,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 338,
+     "triangles": 482
+    },
+    {
+     "lod": 1,
+     "vertices": 319,
+     "triangles": 445
+    },
+    {
+     "lod": 2,
+     "vertices": 319,
+     "triangles": 445
+    }
+   ],
    "textures": [
     "358063da31615888",
     "ecf358945997e6f2"
@@ -494,36 +1328,104 @@
   },
   "vanilla:clutter/wine/winebottle01a": {
    "file": "vanilla_clutter_wine_winebottle01a-443e9df4.glb",
-   "bytes": 10392,
+   "bytes": 16672,
    "vertices": 265,
    "triangles": 370,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 265,
+     "triangles": 370
+    },
+    {
+     "lod": 1,
+     "vertices": 247,
+     "triangles": 334
+    },
+    {
+     "lod": 2,
+     "vertices": 247,
+     "triangles": 334
+    }
+   ],
    "textures": [
     "ecf358945997e6f2"
    ]
   },
   "vanilla:clutter/wine/winebottle01b": {
    "file": "vanilla_clutter_wine_winebottle01b-a907b75c.glb",
-   "bytes": 14576,
+   "bytes": 16840,
    "vertices": 361,
    "triangles": 450,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 361,
+     "triangles": 450
+    },
+    {
+     "lod": 1,
+     "vertices": 361,
+     "triangles": 450
+    },
+    {
+     "lod": 2,
+     "vertices": 361,
+     "triangles": 450
+    }
+   ],
    "textures": [
     "ecf358945997e6f2"
    ]
   },
   "vanilla:clutter/wine/winebottle02b": {
    "file": "vanilla_clutter_wine_winebottle02b-4f15ffb1.glb",
-   "bytes": 14968,
+   "bytes": 17232,
    "vertices": 371,
    "triangles": 490,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 371,
+     "triangles": 490
+    },
+    {
+     "lod": 1,
+     "vertices": 371,
+     "triangles": 490
+    },
+    {
+     "lod": 2,
+     "vertices": 371,
+     "triangles": 490
+    }
+   ],
    "textures": [
     "ecf358945997e6f2"
    ]
   },
   "vanilla:clutter/woodfires/fireplacewood01burning": {
    "file": "vanilla_clutter_woodfires_fireplacewood01burning-6cd10783.glb",
-   "bytes": 21512,
+   "bytes": 25360,
    "vertices": 351,
    "triangles": 298,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 351,
+     "triangles": 298
+    },
+    {
+     "lod": 1,
+     "vertices": 351,
+     "triangles": 298
+    },
+    {
+     "lod": 2,
+     "vertices": 351,
+     "triangles": 298
+    }
+   ],
    "textures": [
     "467ad373f19428e8",
     "6a5907947a1c24ed",
@@ -533,9 +1435,26 @@
   },
   "vanilla:furniture/common/commonbed01": {
    "file": "vanilla_furniture_common_commonbed01-f2002452.glb",
-   "bytes": 31252,
+   "bytes": 43640,
    "vertices": 1112,
    "triangles": 853,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1112,
+     "triangles": 853
+    },
+    {
+     "lod": 1,
+     "vertices": 1026,
+     "triangles": 809
+    },
+    {
+     "lod": 2,
+     "vertices": 1026,
+     "triangles": 809
+    }
+   ],
    "textures": [
     "05a13042d7563362",
     "6b3ba27070caf9a3",
@@ -546,63 +1465,132 @@
   },
   "vanilla:furniture/commontableonebench": {
    "file": "vanilla_furniture_commontableonebench-08d3461f.glb",
-   "bytes": 22552,
+   "bytes": 44164,
    "vertices": 1399,
    "triangles": 1212,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1399,
+     "triangles": 1212
+    },
+    {
+     "lod": 1,
+     "vertices": 748,
+     "triangles": 424
+    },
+    {
+     "lod": 2,
+     "vertices": 519,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "05a13042d7563362"
    ]
   },
   "vanilla:plants/dragonstongue01": {
    "file": "vanilla_plants_dragonstongue01-46071954.glb",
-   "bytes": 5516,
+   "bytes": 5520,
    "vertices": 129,
    "triangles": 103,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 129,
+     "triangles": 103
+    }
+   ],
    "textures": [
     "dbfa9f058d356c86"
    ]
   },
   "vanilla:plants/hangingelvesear01": {
    "file": "vanilla_plants_hangingelvesear01-2ab727ba.glb",
-   "bytes": 3964,
+   "bytes": 3972,
    "vertices": 33,
    "triangles": 28,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 33,
+     "triangles": 28
+    }
+   ],
    "textures": [
     "d04e6bbefff2e4b0"
    ]
   },
   "vanilla:plants/hangingfrostmirriam01": {
    "file": "vanilla_plants_hangingfrostmirriam01-b03f8c81.glb",
-   "bytes": 4156,
+   "bytes": 4164,
    "vertices": 46,
    "triangles": 39,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 46,
+     "triangles": 39
+    }
+   ],
    "textures": [
     "d04e6bbefff2e4b0"
    ]
   },
   "vanilla:plants/hanginggarlicbraid01": {
    "file": "vanilla_plants_hanginggarlicbraid01-fb28b9c0.glb",
-   "bytes": 22068,
+   "bytes": 22076,
    "vertices": 1004,
    "triangles": 1544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1004,
+     "triangles": 1544
+    }
+   ],
    "textures": [
     "b75ec8707a4bb6b1"
    ]
   },
   "vanilla:plants/leek01": {
    "file": "vanilla_plants_leek01-bbab52d0.glb",
-   "bytes": 5676,
+   "bytes": 5680,
    "vertices": 147,
    "triangles": 140,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 147,
+     "triangles": 140
+    }
+   ],
    "textures": [
     "9c89e0126139d642"
    ]
   },
   "vanilla:weapons/steel/steelmace": {
    "file": "vanilla_weapons_steel_steelmace-70e2f24c.glb",
-   "bytes": 21036,
+   "bytes": 30292,
    "vertices": 1024,
    "triangles": 1032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1024,
+     "triangles": 1032
+    },
+    {
+     "lod": 1,
+     "vertices": 609,
+     "triangles": 507
+    },
+    {
+     "lod": 2,
+     "vertices": 609,
+     "triangles": 507
+    }
+   ],
    "textures": [
     "6032996b0b784083",
     "657eec74ff4f5595"
@@ -1073,7 +2061,7 @@
       2
      ],
      "fps": 2.5,
-     "sizeM": 0.4619,
+     "sizeM": 0.5543,
      "source": "FlamesSmall01"
     }
    ],

@@ -2534,7 +2534,8 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
                                            or pf.derive_front(source, None, coplacements)))
         if record.get("entrance") is None:
             source = parts_of.get(asset_id, [asset_id])[0]
-            record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
+            record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements,
+                                              record.get("category"))
                                or pf.derive_front(source, None, coplacements))
 
     return {

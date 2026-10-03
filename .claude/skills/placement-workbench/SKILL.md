@@ -124,7 +124,7 @@ for trying a pose by hand:
   fit is a `modular-runs` question, not a nudge.
 - Mounted children (sconce on a wall, sign on a post):
   `$W mount <child> <parent> [--along M]`, which uses the mined band/points.
-  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D` (world yaw toward the road). With no mined pair, a child whose longest PLAN side is under 0.6 m and
+  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D`, D the bearing of the route leg toward that board's own `pointsTo` destination (`check` `sign.posts[].destinations[].bearingDeg`; a board's tip points yaw + 90 for the bmv medium/large boards), so two arms on one post never share a yaw. Put each arm on a mined socket with `mount <board> <post> --yaw D --socket H` (H from `sign.posts[].armSocketsM`, heights over the post base; roadsignpost 1.922, 2.033, 2.51, 2.787, 2.885; any other H is refused); never `--height` for a sign arm. A second arm takes a different socket of that post (a board of another size, whose own mined pair sits there, e.g. medium 1.92 m with large 2.51 m), never a hand height. With no mined pair, a child whose longest PLAN side is under 0.6 m and
   whose height is under 1.0 m (0102 decision 5 as amended 2026-09-26) may
   stand on its parent's top where it is placed when the op names the render
   round that approved it: `--unmined "reader-approved r2"` (layout
@@ -204,7 +204,11 @@ Bars (the proving-ground gates): a run joint `gapM <= 0.03` and
 0.3` for ground pieces (docks exempt); `slopeRule` null for every
 building; `padRule` null for every padded building (0101 R1);
 `yOffRuntimeM` 0 after `settle` (the workbench seat IS the
-runtime's `anchorPlacement`); doors within 4 m of a path.
+runtime's `anchorPlacement`); doors within 4 m of a path. A rock (seat_rules
+`ROCK_POLICY` tokens) is judged by `rockSeatRule` only: slope, delta, yard
+sill and foot float are skipped for it. A row with `runtimeY: null` and a
+`seatError` (a piled run member wholly on dry ground) has no runtime seat:
+move it onto its water or give it a ground fit.
 
 The walk-packet rules (0102 decision 2, `workbench/rules.py`), all on the
 PADDED ground, each listed by `apply` as `<rule>: ...` when it fails:
@@ -330,14 +334,25 @@ failed on the defect the owner walked, `tests/test_walk4_wb.py`):
   folder takes). Greenspring at HEAD: b-fam1, b-fam2 (kotm mudhut01:
   `kotm:argonia/mudhuts/door01` by family, 5 linked placements). Where the
   opening really is: `blender/examples/doorway_rays.py` (`ring` mode).
-- `signRule` (walk 4 half): the boards on one post differ in centre height
+- `signRule` (walk 4 half; audit10 P1): every board hangs within 0.05 m of
+  one of its post's mined arm sockets (`post_arm_heights`: the heights over the
+  post base at which the plugins hang road boards on that post asset), the
+  post and each arm lean under 1 deg, a post with two or more arms has a
+  `pointsTo` destination per arm, and two arms never share a yaw within
+  15 deg; the boards on one post differ in centre height
   by >= 0.25 m, never point within 15 deg of each other (a board points
   along its longest axis toward its tip, the end under half its other end's
   height), and each points within 15 deg of the route leg toward one of the
   post socket's `pointsTo` (best one-to-one match): a route id along that
   route toward its `to` end, a place id along the nearest route ending
   there toward that end, read 5 m on from the post in the published
-  `routes.json`. `check` lists them under `sign.posts`.
+  `routes.json`. `check` lists them under `sign.posts`. The board half
+  judges each arm against the route of the destination it points at
+  (`rules._arm_route`), the nearest way only when the post has no
+  `pointsTo` (at a fork the nearest way is the other track).
+- `padClearRule` judges pad-owning buildings only: a pad-owning prop
+  (`measure.is_prop`) seats on the graded surface by design
+  (`rules.pad_clear_targets`).
 
 ## 5b. Any other placement question: headless Blender (`wb.py bpy`)
 
@@ -358,7 +373,12 @@ frame: x east, y NORTH, z up; `ground_height` takes province x, z):
 `objects_by_uid()`, `ground_height(x, z)`, `ray_cast(origin, dir,
 filter=None|uid|'ground'|{...})`, `bounds(uid)`, `lowest_point(uid)`,
 `contacts(uid, other)` (gap and crossing triangle pairs), `forget()` after
-the script moves anything. Cost (kit cache warm): Claywater 109 pieces,
+the script moves anything. A render needs `scene.render.engine = "CYCLES"`
+and a light (the bpy scene has none; EEVEE needs a display and fails).
+`blender/examples/studio_shot.py X Z YAW PITCH OUT.png [hideUids]` renders
+the place from a walk frame's camera (route.json stand, compass yaw, pitch;
+5.8 m follow arm, vfov 48): the piece behind a judge's finding, or none
+(world vegetation), ~40 s. Cost (kit cache warm): Claywater 109 pieces,
 6.6 s (5.0 s building the job, 0.8 s scene build, 0.5 s script);
 Greenspring 120 pieces, 3.5 s. A kit's first launch builds its .blend
 cache (Greenspring cold: 8.9 s scene build). The example

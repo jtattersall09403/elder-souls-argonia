@@ -56,6 +56,7 @@ import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import type { WebGPURenderer } from "three/webgpu";
 import { GpuCullPool, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
 import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
+import { deferDispose } from "@elder-souls/game-core/render/deferDispose";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { configureKitLoader } from "@elder-souls/game-core/assets/kitLoader";
@@ -1497,12 +1498,12 @@ export function Groundcover({
         const gc = gcDraws.current.get(mesh);
         if (gc && gcCull) releaseGcDraw(gcCull, mesh, gc);
         gcDraws.current.delete(mesh);
-        mesh.dispose();
+        deferDispose(gl, mesh);
         // a GPU-path predecessor already left its page: drop it so the next fill regrows
         if (previous && gcCull && !gcDraws.current.has(previous)) {
           meshPool.current.delete(meshKey);
           previous.removeFromParent();
-          previous.dispose();
+          deferDispose(gl, previous);
           meshList.current = [...meshPool.current.values()];
         }
       }
@@ -1843,7 +1844,7 @@ export function Groundcover({
       for (const [meshKey, { mesh, previous }] of grownMeshes) {
         group.add(mesh);
         meshPool.current.set(meshKey, mesh);
-        if (previous) { group.remove(previous); previous.dispose(); }
+        if (previous) { group.remove(previous); deferDispose(gl, previous); }
       }
       grownMeshes.clear();
       const list = meshList.current;
@@ -2346,7 +2347,7 @@ export function Groundcover({
       const gc = gcDraws.current.get(mesh);
       if (gc) releaseGcDraw(gcCull, mesh, gc);
       mesh.removeFromParent();
-      mesh.dispose();
+      deferDispose(gl, mesh);
     }
     meshPool.current.clear();
   }, []);

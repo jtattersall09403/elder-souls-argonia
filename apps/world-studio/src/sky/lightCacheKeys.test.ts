@@ -27,7 +27,7 @@ describe("light cache keys across day, weather and doors", () => {
     const rig = (i: number, s: boolean) => ({ sunColor: [1, 1, 1], sunIntensity: i, sunCastsShadows: s }) as unknown as LightRig;
     const at = (i: number, s: boolean) => aimSun(sun, new THREE.Vector3(0, 1, 0), new THREE.Vector3(), rig(i, s));
     const renderer = { toneMappingExposure: 1, getClearColor: (c: THREE.Color) => c, getClearAlpha: () => 1, setClearColor: () => {} };
-    const interior = { group: new THREE.Group(), fog: new THREE.Fog(0, 1, 30), background: new THREE.Color(0) } as unknown as LoadedInterior;
+    const interior = { bundle: { ambient: { intensity: 1, colorRGB: [0.2, 0.2, 0.2] } }, group: new THREE.Group(), fog: new THREE.Fog(0, 1, 30), background: new THREE.Color(0) } as unknown as LoadedInterior;
 
     at(3, true); expect(sun.shadow.intensity).toBe(1); expect(cascade.shadow.autoUpdate).toBe(true);
     at(2, false); expect(sun.shadow.intensity).toBe(0); expect(cascade.shadow.intensity).toBe(0); expect(cascade.shadow.autoUpdate).toBe(false);

@@ -12,6 +12,7 @@ import { syncCanvasDepth } from "./canvasDepthSync";
 import { queueShaderBuilds, SHADER_BUILDS_IN_FLIGHT } from "./shaderBuildQueue";
 import { trimTextureWrites } from "./writeTextureSpan";
 import { skipStaticRefresh } from "./staticRefresh";
+import { stabiliseRenderedScenes } from "./shadowCasters";
 import { installKitDecoders } from "../assets/kitLoader";
 
 export type RendererBackend = "webgpu" | "webgl";
@@ -64,6 +65,8 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
   skipStaticRefresh(renderer);
   trimTextureWrites(renderer);
   queueShaderBuilds(renderer, options.shaderBuildsInFlight ?? SHADER_BUILDS_IN_FLIGHT);
+  // shadow-pass materials never re-key per caster (shadowCasters.ts), on every scene drawn
+  stabiliseRenderedScenes(renderer as unknown as Parameters<typeof stabiliseRenderedScenes>[0]);
   if (options.shaderBuildsInFlight !== 0) compilePipelinesAsync(renderer);
   const base = options.assetBaseUrl ?? (import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? "/";
   // A transcoder that fails to load must not take the renderer down: each KTX2 load then rejects on its own.

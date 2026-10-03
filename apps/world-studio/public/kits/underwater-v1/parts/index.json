@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "underwater-v1",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 13504996,
@@ -8,26 +9,60 @@
  },
  "totals": {
   "parts": 2,
-  "partBytes": 49944,
+  "partBytes": 82324,
   "textureFiles": 1,
   "textureBytes": 214952,
-  "bytes": 264896
+  "bytes": 297276
  },
  "assets": {
   "vanilla:clutter/bones/humanribcagefull": {
    "file": "vanilla_clutter_bones_humanribcagefull-2574cdfe.glb",
-   "bytes": 39388,
+   "bytes": 66164,
    "vertices": 2200,
    "triangles": 3238,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2200,
+     "triangles": 3238
+    },
+    {
+     "lod": 1,
+     "vertices": 932,
+     "triangles": 1132
+    },
+    {
+     "lod": 2,
+     "vertices": 383,
+     "triangles": 388
+    }
+   ],
    "textures": [
     "63d644afaac283a8"
    ]
   },
   "vanilla:clutter/bones/humanskull": {
    "file": "vanilla_clutter_bones_humanskull-b05c5f26.glb",
-   "bytes": 10556,
+   "bytes": 16160,
    "vertices": 464,
    "triangles": 750,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 464,
+     "triangles": 750
+    },
+    {
+     "lod": 1,
+     "vertices": 210,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 210,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "63d644afaac283a8"
    ]

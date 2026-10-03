@@ -1,0 +1,13 @@
+# perf10 chunk 10 diagnosis 1 (pod, WebGL, 1280x720): gsw reference plus its profile and V8 trace rows, then the quality
+# views (Greenspring pose Q, door1 base, fire1; Claywater door2 base) at t=22 and the t=12 clear twin. perf-diag21-quality.md.
+gsw ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92
+gswprof ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92 profile-walk
+gswtrace ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92 trace-v8
+q12 ?view=character&x=4.7014&z=1.8526&t=12&w=clear&rate=0.5
+q22 ?view=character&x=4.7014&z=1.8526&t=22&w=clear&rate=0.5
+door22 ?view=character&x=4.7619&z=1.8541&t=22&w=clear&rate=0.5
+door12 ?view=character&x=4.7619&z=1.8541&t=12&w=clear&rate=0.5
+cwdoor22 ?view=character&x=0.3136&z=3.0125&t=22&w=clear&rate=0.5
+cwdoor12 ?view=character&x=0.3136&z=3.0125&t=12&w=clear&rate=0.5
+fire22 ?view=character&x=4.7334&z=1.8379&t=22&w=clear&rate=0.5 hold=6/1
+fire12 ?view=character&x=4.7334&z=1.8379&t=12&w=clear&rate=0.5 hold=6/1

@@ -6,7 +6,7 @@
   "tools": {
     "worldgen.place_gates": {"maxWallS": 60, "maxOwnGiB": 2.0, "measured": "greenspring cold 2026-09-30: 33 s, 1.31 GiB"},
     "placement-workbench.wb": {"maxWallS": 150, "maxOwnGiB": 2.0, "measured": "apply greenspring serial 2026-09-30: 53 s, 1.30 GiB; round worst 109 s"},
-    "worldgen.export_interior_bundle": {"maxWallS": 180, "maxOwnGiB": 1.5, "measured": "job-guard 2026-09-30: 0.93 GiB; worst 162.8 s"},
+    "worldgen.export_interior_bundle": {"maxWallS": 180, "maxOwnGiB": 1.25, "measured": "job-guard 2026-10-03: KeebaHouseCrafter 1.11 GiB (was 1.47), 41 s; worst 162.8 s"},
     "worldgen.interior_light": {"maxOwnGiB": 2.0, "measured": "job-guard 2026-09-30: 1.42 GiB"},
     "worldgen.export_settlement_bundle": {"maxOwnGiB": 1.0, "measured": "job-guard 2026-09-30: 0.15 GiB"},
     "pipeline.build_kit": {"maxWallS": 1800, "maxOwnGiB": 4.0, "measured": "7-day worst 1651 s, 4.19 GiB (RssAnon)"},

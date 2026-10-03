@@ -734,6 +734,8 @@ export function createWaterMaterial(
   // the vertex still level (m): lift and crest base; depth, shore and
   // exposure are per pixel (perf-diag4 V2)
   const vEsStill = n(varying(still, "vEsStill"));
+  // vertex along-flow undulation height (m): the crest swaps it per pixel (perf10 D11)
+  const vEsFlowH = strip ? null : n(varying(flowH, "vEsFlowH"));
   // turbidity, salinity, tannin, class index; the field reads only the class
   // (its colour constituents are per pixel, perf10 c9 V8)
   const vEsKlass = n(varying(vec4(kl.g, kl.b, ss.z, kl.r.mul(255.0)), "vEsKlass"));
@@ -942,17 +944,23 @@ export function createWaterMaterial(
     })().toVar("esCrestD"));
   }
   rip = n(rip).add(waveF.xy);
+  let flowHPx: TslNode = float(0.0);   // along-flow undulation height at this pixel (field)
   if (!strip) {
     // the along-flow undulation's slope per pixel (f33; the CPU twin sums the
     // same two small-slope fields)
-    const flowG = n(Fn(() => {
-      const o = vec2(0.0).toVar();
+    // .xy the slope, .z the undulation height at this pixel (perf10 D11)
+    const flowGH = n(Fn(() => {
+      const o = vec3(0.0, 0.0, vEsFlowH!).toVar();
       If(flowing, () => {
-        const fN = n(esFlowWave(vEsRestXZ, fDirN, speed, u.uWaveTime).normal);
-        o.assign(fN.xz.div(max(fN.y, 1e-3)).mul(float(1.0).sub(smoothstep(150.0, 400.0, dist))));
+        const fw = esFlowWave(vEsRestXZ, fDirN, speed, u.uWaveTime);
+        const fN = n(fw.normal);
+        const fade = n(float(1.0).sub(smoothstep(150.0, 400.0, dist)));
+        o.assign(vec3(fN.xz.div(max(fN.y, 1e-3)).mul(fade), n(fw.h).mul(fade)));
       });
       return o;
-    })().toVar("esFlowG"));
+    })().toVar("esFlowGH"));
+    const flowG = flowGH.xy;
+    flowHPx = flowGH.z;
     // the shore swell: height slope = dH/dd * grad(d) = -shoreDir * dH/dd
     // (diag14 V1; no hard shore < 90 m gate: a hard cut on a raster value is
     // itself a straight edge, and the swell is zero there anyway)
@@ -1046,8 +1054,12 @@ export function createWaterMaterial(
     // 3. whitecaps
     // the mesh crest is one plane per triangle; the short bands' own height
     // rides on top of it (perf-diag4 V2), and the crest bands' per-pixel
-    // height swap (crestD, diag11 W1 / diag12 Q2)
-    const crestMesh = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsStill).add(waveF.z).add(crestD);
+    // height swap (crestD, diag11 W1 / diag12 Q2). The along-flow undulation
+    // (1.6 m wavelength, under the grid) is swapped the same way: per vertex it
+    // aliased into one tilted plane per triangle and the whitecap threshold cut
+    // it into straight-edged pale wedges on rivers (perf10 D11)
+    let crestMesh: TslNode = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsStill).add(waveF.z).add(crestD);
+    if (vEsFlowH) crestMesh = n(crestMesh).sub(vEsFlowH).add(flowHPx);
     const crestFade = float(1.0).sub(smoothstep(1200.0, 2400.0, dist));
     const cp = n(n(wpXZ.sub(n(u.uWindDir).mul(fx(whitecapDriftMS(), 2)).mul(u.uTransportTime)).mul(0.085)).toVar());
     const cn = n(n(esFbm(cp, 3)).mul(0.5).add(n(esFbm(cp.mul(2.7).add(11.0), 2)).mul(0.5)).toVar());

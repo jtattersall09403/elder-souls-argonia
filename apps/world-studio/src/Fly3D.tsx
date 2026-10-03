@@ -335,6 +335,7 @@ export function Fly3D(props: Fly3DProps) {
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera, gl }) => {
         gl.domElement.dataset.renderCanvas = "";
+        gl.debug.checkShaderErrors = !import.meta.env.PROD; // production: no sync shader error check (perf10 diag 22 G-e)
         if (camAim) {
           camera.lookAt(
             camStart[0] + camAim.x * 2000,

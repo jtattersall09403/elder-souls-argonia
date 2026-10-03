@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "bmv-treehouse-int",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 3336864,
@@ -8,17 +9,34 @@
  },
  "totals": {
   "parts": 1,
-  "partBytes": 7116,
+  "partBytes": 12816,
   "textureFiles": 1,
   "textureBytes": 135456,
-  "bytes": 142572
+  "bytes": 148272
  },
  "assets": {
   "vanilla:clutter/barrel01": {
    "file": "vanilla_clutter_barrel01-65266384.glb",
-   "bytes": 7116,
+   "bytes": 12816,
    "vertices": 286,
    "triangles": 396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 286,
+     "triangles": 396
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "940d11c16a11b275"
    ]

@@ -593,6 +593,86 @@
    "evidence": "measured"
   },
   {
+   "op": "place",
+   "uid": "s-bones-rib1",
+   "asset": "vanilla:clutter/bones/humanribcage",
+   "at": [
+    2557.3,
+    6565.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-bones-skull3",
+   "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+   "at": [
+    2557.95,
+    6567.05
+   ],
+   "yaw": 100.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-bones-rib2",
+   "asset": "vanilla:clutter/bones/humanribcage",
+   "at": [
+    2558.6,
+    6567.05
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-bones-arm",
+   "asset": "vanilla:clutter/bones/humanarmleft",
+   "at": [
+    2558.6,
+    6566.62
+   ],
+   "yaw": 95.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-rib1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-skull3",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-rib2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-arm",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
    "op": "path",
    "action": "add",
    "id": "route.rose-bone-waystation.the-villages-way",
