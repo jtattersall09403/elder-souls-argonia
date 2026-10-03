@@ -102,27 +102,41 @@ export function hitchList(ts, profile, offsetMs, { hitchMs = 20, top = 4 } = {})
 }
 
 /** Retained bytes by function of a CDP HeapProfiler sampling profile; `maps` (source-maps.mjs) names minified frames
- * by their source position, "(<chunk>:<line>:<col>)" kept beside it. */
-function heapByFunction(sampling, maps = null) {
+ * by their source position, "(<chunk>:<line>:<col>)" kept beside it. With `callers` (a Map), also each function's
+ * bytes by its 3-deep caller chain (parent < grandparent < great-grandparent) into callers.get(name). */
+function heapByFunction(sampling, maps = null, callers = null) {
   const by = new Map();
-  const walk = (n) => {
+  const nameOf = (n) => {
     const cf = n.callFrame ?? {};
     const src = sourcePosition(maps, cf.url, cf.lineNumber ?? -1, cf.columnNumber ?? -1);
     const at = `${cf.url ? cf.url.replace(/^.*\//, "") : "(native)"}:${(cf.lineNumber ?? -1) + 1}`;
-    const k = `${cf.functionName || "(anon)"} ${src ? `${src} (${at}:${(cf.columnNumber ?? -1) + 1})` : at}`;
-    by.set(k, (by.get(k) ?? 0) + (n.selfSize ?? 0));
-    for (const c of n.children ?? []) walk(c);
+    return `${cf.functionName || "(anon)"} ${src ? `${src} (${at}:${(cf.columnNumber ?? -1) + 1})` : at}`;
   };
-  if (sampling?.head) walk(sampling.head);
+  const walk = (n, stack) => {
+    const k = nameOf(n);
+    by.set(k, (by.get(k) ?? 0) + (n.selfSize ?? 0));
+    if (callers && n.selfSize) {
+      const chain = stack.slice(-3).reverse().join(" < ") || "(root)";
+      let c = callers.get(k); if (!c) callers.set(k, (c = new Map()));
+      c.set(chain, (c.get(chain) ?? 0) + n.selfSize);
+    }
+    if (n.children?.length) { stack.push(k); for (const c of n.children) walk(c, stack); stack.pop(); }
+  };
+  if (sampling?.head) walk(sampling.head, []);
   return by;
 }
 
 /**
  * `heapsample`: the top allocators of ONE sampling profile taken with includeObjectsCollectedByMajorGC/MinorGC,
  * so selfSize is every byte allocated over the window, collected or not (the GC churn source). MB, largest first.
+ * The top `withCallers` rows carry `callers`: their 3 largest 3-deep caller chains (c10: name who calls
+ * setFromBufferAttribute / fromBufferAttribute), source-mapped like the name when `maps` is given.
  */
-export const heapTopAllocators = (sampling, top = 25, maps = null) => [...heapByFunction(sampling, maps)].sort((x, y) => y[1] - x[1])
-  .slice(0, top).map(([name, bytes]) => ({ name, MB: r2(bytes / 1e6) }));
+export function heapTopAllocators(sampling, top = 25, maps = null, withCallers = 5) {
+  const callers = withCallers > 0 ? new Map() : null;
+  return [...heapByFunction(sampling, maps, callers)].sort((x, y) => y[1] - x[1]).slice(0, top).map(([name, bytes], i) => ({ name, MB: r2(bytes / 1e6),
+    ...(i < withCallers && callers?.get(name) ? { callers: [...callers.get(name)].sort((x, y) => y[1] - x[1]).slice(0, 3).map(([chain, b]) => ({ chain, MB: r2(b / 1e6) })) } : {}) }));
+}
 
 /** The heap diff: functions whose retained sampled bytes grew from `before` to `after` (MB, largest first). */
 export function heapGrowth(before, after, top = 15) {

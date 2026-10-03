@@ -48,13 +48,21 @@ export function parseShots(spec, totalS) {
 
 /** The view's shot schedule (seconds): its own `shots`, else every 10 s when it sets `seconds`, else the run's `--shots`. */
 export function viewShots(view, runSpec, totalS) {
+  if (view.long) return parseShots("10000@0,10000", view.long);
   const spec = view.shots ?? (view.seconds !== undefined ? "10000@0,10000" : runSpec);
   return spec === "none" ? [] : parseShots(spec, totalS);
 }
 
 /** Shot time of second `s` after navigation: from navigation, or from the shot settle gate (`settleAt`, null = not yet
  * open -> -1) when the view sets `shotsFrom: "settle"` (diag19 D5: counting from a gate at ~45 s left 0-2 frames). */
-export const shotTime = (view, s, settleAt) => (view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s);
+export const shotTime = (view, s, settleAt, firstAt = null) => (view.long ? (firstAt == null ? -1 : s - firstAt)
+  : view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s);
+/** A view's run length: `long` views run `long` s past their first frame (pose + ready), else `seconds` (or the run's). */
+export const viewEndS = (view, totalS, firstAt) => (view.long ? (firstAt == null ? Infinity : firstAt + view.long) : totalS);
+/** Query parameters a capture URL may never carry: `scenario` (visualScenarios.ts; with it CombatRuntime passes
+ * SkyrimFighter its visualProbe and every skinned mesh runs computeBoundingBox each frame, SkyrimFighter.tsx ~1288),
+ * and `visualScenario` / `validation` (EnemyActor's probe flag). parseViews fails the view set on one. */
+export const FORBIDDEN_CAPTURE_PARAMS = ["scenario", "visualScenario", "validation"];
 
 /** The page's visible text, read for the world clock (the studio exposes no clock global; the TimePanel prints HH:MM). */
 export const HUD_TEXT_JS = `document.body.innerText`;
@@ -90,7 +98,7 @@ export function parseHeapSample(spec) {
 
 /** The heap sampling summary cell: top 5 allocators of heapTopAllocators rows ({name, MB}), null when none. */
 export function heapAllocLine(rows) {
-  return rows?.length ? rows.slice(0, 5).map((h) => `${h.name} ${h.MB} MB`).join("; ") : null;
+  return rows?.length ? rows.slice(0, 5).map((h) => `${h.name} ${h.MB} MB${h.callers?.length ? ` [${h.callers.map((c) => `${c.MB} MB < ${c.chain}`).join(" | ")}]` : ""}`).join("; ") : null;
 }
 
 /** Page JS: the vegetation DEV handle's rung split and the renderer's per-frame triangle counters, null-safe (a dist built
@@ -314,6 +322,10 @@ export function parseViews(text) {
     if (v.settle !== undefined && v.settle !== false && !(v.settle && typeof v.settle === "object" && Object.entries(v.settle).every(([k, x]) => k in SHOT_SETTLE_DEFAULT && x > 0)))
       throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, lumaFloor, fpsTol, minS, timeoutS} (each > 0)`);
     if (v.shotsFrom !== undefined && v.shotsFrom !== "settle") throw new Error(`views[${i}]: "shotsFrom" must be "settle"`);
+    if (v.long !== undefined && !(Number.isFinite(v.long) && v.long > 0)) throw new Error(`views[${i}]: "long" must be seconds > 0`);
+    const q = new URLSearchParams(v.url.split("?")[1]?.split("#")[0] ?? "");
+    const bad = FORBIDDEN_CAPTURE_PARAMS.filter((k) => q.has(k));
+    if (bad.length) throw new Error(`views[${i}] ${v.name}: url sets ${bad.join(", ")} (per-frame validation work, SkyrimFighter computeBoundingBox): never in a capture`);
     if (v.readyFlag !== undefined && !(typeof v.readyFlag === "string" && /^[A-Za-z_$][\w$]*$/.test(v.readyFlag))) throw new Error(`views[${i}]: "readyFlag" must be a global name`);
     if (v.heapsample !== undefined) parseHeapSample(v.heapsample);
     const pin = pinWeather(v.url, v.plain);
@@ -332,10 +344,81 @@ export function pinWeather(url, plain = false) {
   return { url: `${head}${head.includes("?") ? "&" : "?"}w=clear${hash !== undefined ? `#${hash}` : ""}`, added: true };
 }
 
-/** webgpu diag20 E8: the camera pose a first frame waits for. A character view (`view=character`): the player is spawned
- * (__STUDIO_CHARACTER_DEBUG__.playerY() not null, so the follow camera is on it, not on the open-water boot camera).
- * Other studio views: true. */
-export const POSE_READY_JS = `(() => { if (new URLSearchParams(location.search).get("view") !== "character") return true; const d = window.__STUDIO_CHARACTER_DEBUG__; const y = d?.playerY?.(); return y !== null && y !== undefined; })()`;
+/** webgpu c10 (E8): the pose a first frame waits for, from the view's URL (`x`, `z` km -> metres) and its `aim`
+ * ([yawRad, pitchRad], the follow camera's convention) or the URL's `yaw`/`pitch` (fly camera, compass degrees, pitch
+ * negative down). Character views gate the follow camera's focus (camera + its forward over the horizontal arm) within
+ * POSE_TOL_M of (x, z), and its yaw within POSE_TOL_DEG of aim[0] when the view aims; the view pitch is recorded but not
+ * gated (followCamera's look target sits above the pivot, so the camera's pitch is never the orbit pitch). Fly views gate
+ * yaw/pitch when the URL sets them (position recorded only). null = no gate (a plain view, or nothing to compare). */
+export const POSE_TOL_M = 1, POSE_TOL_DEG = 1, POSE_FRAMES = 3;
+export function poseTarget(url, aim = null) {
+  const q = new URLSearchParams(String(url).split("?")[1]?.split("#")[0] ?? "");
+  const x = Number(q.get("x")), z = Number(q.get("z"));
+  if (!q.has("x") || !q.has("z") || !Number.isFinite(x) || !Number.isFinite(z)) return null;
+  if (q.get("view") === "character") return { character: true, x: Math.round(x * 1e6) / 1e3, z: Math.round(z * 1e6) / 1e3, yaw: aim ? aim[0] * 180 / Math.PI : null, pitch: aim?.[1] !== undefined ? aim[1] * 180 / Math.PI : null };
+  const yaw = q.has("yaw") ? Number(q.get("yaw")) || 0 : null, pitch = q.has("pitch") ? Number(q.get("pitch")) || 0 : null;
+  return yaw === null && pitch === null ? null : { character: false, x: Math.round(x * 1e6) / 1e3, z: Math.round(z * 1e6) / 1e3, yaw, pitch };
+}
+/** One frame's camera {p: position, f: unit forward} against poseTarget -> residuals (m, degrees) and ok. `arm` is the
+ * follow camera's arm (__STUDIO_CHARACTER_DEBUG__.cameraArm), `playerY` the player's body y (the pivot is ~1 m above).
+ * Self-contained: stringified into the page by installPoseProbe. */
+export function poseResidual(cam, t, arm = null, playerY = null) {
+  const [px, py, pz] = cam.p, [fx, fy, fz] = cam.f, deg = 180 / Math.PI, hl = Math.hypot(fx, fz) || 1;
+  const ang = (a, b) => (a === null || b === null ? null : Math.round(Math.abs(((a - b + 540) % 360) - 180) * 100) / 100);
+  let posM, yaw, pitch, gateYaw = t.yaw, gatePitch = null;
+  if (t.character) {
+    const a = Number.isFinite(arm) && arm > 0 ? arm : 0, dy = Number.isFinite(playerY) ? py - (playerY + 1) : 0;
+    const h = Math.sqrt(Math.max(0, a * a - dy * dy));
+    posM = Math.hypot(px + (fx / hl) * h - t.x, pz + (fz / hl) * h - t.z);
+    yaw = Math.atan2(-fx, -fz) * deg; pitch = Math.asin(Math.max(-1, Math.min(1, -fy))) * deg;
+  } else {
+    posM = Math.hypot(px - t.x, pz - t.z);
+    yaw = Math.atan2(fx, -fz) * deg; pitch = Math.asin(Math.max(-1, Math.min(1, fy))) * deg; gatePitch = t.pitch;
+  }
+  const yawDeg = ang(yaw, t.yaw), pitchDeg = ang(pitch, t.pitch);
+  const ok = (!t.character || posM <= 1) && (gateYaw === null || yawDeg <= 1) && (gatePitch === null || pitchDeg <= 1);
+  return { ok, posM: Math.round(posM * 100) / 100, yawDeg, pitchDeg, cam: cam.p.map((v) => Math.round(v * 10) / 10), yaw: Math.round(yaw * 10) / 10, pitch: Math.round(pitch * 10) / 10 };
+}
+/** Page side of the pose gate: wraps `__RENDERER__.render` (classic WebGLRenderer and WebGPURenderer alike) and scores
+ * every perspective-camera render that is not a shadow pass with `residual` against the target the harness set
+ * (`__poseProbe.setTarget`); a rAF frame is at the pose when any of its renders is. Ready after `need` consecutive
+ * frames at the pose; stops scoring then. */
+export function installPoseProbe(win, residual, need = 3) {
+  const P = { target: null, ok: 0, frames: 0, at: null, residual: null, last: null };
+  // a frame passes when ANY perspective non-shadow render of it is at the pose: the scene camera may render into a
+  // composer target (classic post) and a water reflection camera beside it is never at the pose; the verdict of
+  // rAF frame n is closed by the first scored render of a later frame
+  let cur = -1, curBest = null;
+  const close = () => {
+    if (!curBest) return;
+    P.frames++; P.last = curBest; P.ok = curBest.ok ? P.ok + 1 : 0;
+    if (P.ok >= need) { P.at = win.performance.now() / 1000; P.residual = curBest; }
+    curBest = null;
+  };
+  const score = (r, cam) => {
+    if (!P.target || P.at !== null || !cam?.matrixWorld || !cam.isPerspectiveCamera) return;
+    const rt = typeof r.getRenderTarget === "function" ? r.getRenderTarget() : null;
+    if (rt && /shadow/i.test(String(rt.texture?.name ?? ""))) return;
+    const f = win.__RAFN ?? 0;
+    if (f !== cur) { close(); cur = f; if (P.at !== null) return; }
+    const e = cam.matrixWorld.elements, l = Math.hypot(e[8], e[9], e[10]) || 1, d = win.__STUDIO_CHARACTER_DEBUG__;
+    let arm = null, py = null; try { arm = d?.cameraArm?.() ?? null; py = d?.playerY?.() ?? null; } catch { /* not mounted */ }
+    const res = residual({ p: [e[12], e[13], e[14]], f: [-e[8] / l, -e[9] / l, -e[10] / l] }, P.target, arm, py);
+    if (!curBest || (res.ok && !curBest.ok) || (res.ok === curBest.ok && res.posM < curBest.posM)) curBest = res;
+  };
+  const hook = () => {
+    const r = win.__RENDERER__;
+    if (!r || typeof r.render !== "function") return false;
+    const rr = r.render;
+    r.render = function (scene, camera, ...a) { const v = rr.call(this, scene, camera, ...a); try { score(this, camera); } catch { /* never breaks the frame */ } return v; };
+    return true;
+  };
+  win.__poseProbe = { setTarget(t) { P.target = t; P.ok = 0; }, hasTarget: () => P.target !== null,
+    read: () => ({ ready: P.at !== null, at: P.at, residual: P.residual, last: P.last, frames: P.frames }) };
+  if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 100); }
+}
+/** Harness poll: sets the target once, then answers the probe's read ({ready, residual, last, frames}). */
+export const poseReadyJs = (target) => `(() => { const p = window.__poseProbe; if (!p) return { ready: false, err: "no pose probe" }; if (!p.hasTarget()) p.setTarget(${JSON.stringify(target)}); return p.read(); })()`;
 
 /** webgpu diag20 E8 dev hooks, read once per view at the end of the cost window: castShadow objects no caster layer carries
  * (WorldSky's debug handle `__STUDIO_SKY_DEBUG__.castersMissingLayer()`: name, owner, kind each; expect none) and the
@@ -404,19 +487,23 @@ export function summariseView(r) {
     fetchBeforeReady: resourceLine(r.resources?.atReady),
     profileSrc: r.profile?.selfTopSrc?.length ? `${r.profile.from === "settle" ? `settle+${r.profile.atSpec}` : r.profile.at} s: ${r.profile.selfTopSrc.map(([f, ms]) => `${f} ${ms}`).join("; ")}` : null,
     weatherPinAdded: r.weatherPinAdded ?? false,
+    readyGate: readyGateLine(r),
+    programErrors: r.errors?.length ? `${r.errors.length}: ${r.errors.slice(0, 3).map((e) => `${e.by ? `${e.by.perfTag ?? "-"}/${e.by.name || "?"}/${e.by.materialType ?? "?"}` : "?"} [${(e.attributes ?? []).length} attrs]`).join("; ")}` : "0",
+    shotErrors: r.shotErrors?.length ? r.shotErrors[0] : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
   const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
   return [...(unpinned.length ? [`WEATHER UNPINNED in the views file (w=clear added; diag20 E7): ${unpinned.join(", ")}`] : []), `cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
-    `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
+    `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`),
+    ...views.flatMap((v) => trisPassTable(v.name, v.window?.drawCensus))].join("\n");
 }
 
 /** A view's blank-page baseline (fresh browser context, 5 s after the previous view closed, before navigating) against
@@ -487,14 +574,24 @@ export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane
 }
 
 /** Page JS that hides everything but the render canvas for a screenshot, and HUD_SHOW_JS restores it. The render
- * canvas is the one marked `data-render-canvas` by the studio, never picked by size (walk-10 vol smoke 2: the largest
+ * canvas is the one marked `data-render-canvas` by the studio, else the renderer's own canvas `__RENDERER__.domElement`
+ * (a classic WebGLRenderer dev page marks none: c10, dev twins saved no frame), never picked by size (walk-10 vol smoke 2: the largest
  * canvas was the 2D province preview map, so the game canvas was hidden) nor by probing getContext (that claims a
  * canvas that has no context yet: the preview map then gets null for "2d" and the studio crashes). Every element that
  * neither is nor holds it is hidden (the HUD, the minimap, the 2D preview page), html and body get overflow hidden.
  * Returns {ok, hidden, before, after, err?}: before/after are the canvas's layout (client) and drawing-buffer sizes; ok
  * is false when no render canvas is marked or either size changed (the caller fails loudly). */
-export const HUD_HIDE_JS = `(() => { const main = document.querySelector("canvas[data-render-canvas]"); if (!main) return { ok: false, hidden: 0, err: "no canvas[data-render-canvas]" }; const size = () => [main.clientWidth, main.clientHeight, main.width, main.height]; const before = size(); window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !e.contains(main)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); const after = size(); const same = before.every((v, i) => v === after[i]); return { ok: same, hidden: window.__hid.length, before, after, ...(same ? {} : { err: "render canvas size changed on hide" }) }; })()`;
-export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; if (window.__ovf) [document.documentElement, document.body].forEach((e, i) => { e.style.overflow = window.__ovf[i]; }); window.__ovf = null; return true; })()`;
+export const HUD_HIDE_JS = `(() => { const dom = window.__RENDERER__?.domElement; const main = document.querySelector("canvas[data-render-canvas]") ?? (dom?.tagName === "CANVAS" && dom.isConnected !== false ? dom : null); if (!main) return { ok: false, hidden: 0, err: "no canvas[data-render-canvas] and no __RENDERER__.domElement" }; const size = () => [main.clientWidth, main.clientHeight, main.width, main.height]; const before = size(); window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !e.contains(main)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); const after = size(); const same = before.every((v, i) => v === after[i]); return { ok: same, hidden: window.__hid.length, before, after, ...(same ? {} : { err: "render canvas size changed on hide" }) }; })()`;
+/** One frame for the record (every frame and final.jpg of pod-capture): with `clean`, HUD_HIDE_JS around the screenshot
+ * only, and a hide that fails throws (the caller records it in result.shotErrors). io = {evaluate(js), shoot(quality)}
+ * -> base64 JPEG. */
+export async function captureFrame(io, clean, quality = 60) {
+  if (!clean) return io.shoot(quality);
+  const hide = await io.evaluate(HUD_HIDE_JS);
+  if (!hide?.ok) { await io.evaluate(HUD_SHOW_JS); throw new Error(`clean: ${JSON.stringify(hide)}`); }
+  try { return await io.shoot(quality); } finally { await io.evaluate(HUD_SHOW_JS); }
+}
+export const HUD_SHOW_JS =`(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; if (window.__ovf) [document.documentElement, document.body].forEach((e, i) => { e.style.overflow = window.__ovf[i]; }); window.__ovf = null; return true; })()`;
 
 /** Page JS that aims the studio's follow camera (CharacterMode __STUDIO_CHARACTER_DEBUG__.aimCamera; FollowCamera puts
  * the camera at player + (sin yaw, cos yaw) x distance, so it looks along (-sin yaw, -cos yaw): yaw 0 looks toward -z,
@@ -999,7 +1096,13 @@ export function installDrawCensus(win) {
   const N = CATS.length, MAXF = 4096, now = () => win.performance.now();
   const C = { on: false, frames: 0, draws: new Float64Array(N), refresh: new Float64Array(N), drawMs: 0, roMs: 0, renderMs: 0, renderCalls: 0, renderDepth: 0, roExMs: 0, roStack: [], refMatrix: new Map(), refStatic: [0, 0], roCreated: 0, roDisposed: 0, byTarget: new Map(), keptZero: 0,
     kinds: { plain: 0, instanced: 0, indirect: 0, zero: 0 }, perFrame: new Float64Array(MAXF), created: { pipelines: 0, shaders: 0, labels: [] },
-    hooked: { draw: false, renderObjectDirect: false, needsRefresh: false, render: false, renderObjects: false }, otherNames: new Map() };
+    hooked: { draw: false, renderObjectDirect: false, needsRefresh: false, render: false, renderObjects: false, renderBufferDirect: false }, otherNames: new Map() };
+  // c10: triangles per draw (the renderer's own info.render.triangles delta around the draw: three counts every pass of
+  // the frame there) per pass and per perfTag (userData.perfTag, else the category), userData.esIndirect draws in their
+  // own columns (native counts an indirect draw at its instance capacity, not the culled count)
+  const passTris = new Map(), tagTris = new Map();
+  const triRow = (m, k) => { let e = m.get(k); if (!e && m.size < 40) { e = { draws: 0, tris: 0, indirectDraws: 0, indirectTris: 0 }; m.set(k, e); } return e; };
+  const trisNow = () => { const t = win.__RENDERER__?.info?.render?.triangles; return Number.isFinite(t) ? t : 0; };
   const catOf = new WeakMap();
   const classify = (ro) => {
     const o = ro.object ?? {}, m = ro.material ?? {}, g = ro.geometry ?? {}, u = o.userData ?? {};
@@ -1043,7 +1146,7 @@ export function installDrawCensus(win) {
       if (!shadowIdx.has(id) && shadowIdx.size < 8) shadowIdx.set(id, shadowIdx.size);
       return shadowIdx.has(id) ? `shadow${shadowIdx.get(id)}` : "shadow+";
     }
-    return /reflect|mirror|water/i.test(tag) ? "reflection" : `rt:${tag.slice(0, 24)}`;
+    return /reflect|mirror|water/i.test(tag) ? "reflection" : /bloom|blur|post|composer|lumin|tonemap/i.test(tag) ? `post:${tag.slice(0, 20)}` : `rt:${tag.slice(0, 24)}`;
   };
   const pass = (r, cam) => {
     const k = passOf(r, cam);
@@ -1062,23 +1165,57 @@ export function installDrawCensus(win) {
   wrap(GL, "linkProgram", (f) => function (pr) { created("pipelines", "gl"); return f.call(this, pr); });
   let frameDraws = 0;
   const tick = () => { if (C.on) { if (C.frames < MAXF) C.perFrame[C.frames] = frameDraws; C.frames++; } frameDraws = 0; win.requestAnimationFrame(tick); };
+  // inclusive: nested render() calls (a pass rendering inside a render) count as calls, their time once
+  const hookRender = (r) => {
+    if (typeof r.render !== "function") return;
+    const rr = r.render;
+    r.render = function (...a) {
+      if (!C.on) return rr.apply(this, a);
+      C.renderCalls++; const top = C.renderDepth++ === 0, fr = C.roStack[C.roStack.length - 1], t = now();
+      if (fr) fr.rd++;
+      try { return rr.apply(this, a); } finally {
+        C.renderDepth--; const dt = now() - t;
+        if (top) C.renderMs += dt;
+        if (fr && --fr.rd === 0) fr.nested += dt;
+      }
+    };
+    C.hooked.render = true;
+  };
+  // one draw, from either renderer: ro = {object, material, geometry, camera}
+  const account = (ro, dt, tris) => {
+    C.drawMs += dt; frameDraws++;
+    const ci = cat(ro), kz = ci === 0 && ro.object?.userData?.esKept === 0, te = entry(win.__RENDERER__);
+    C.draws[ci]++; if (kz) C.keptZero++;
+    if (te) { te.draws[ci]++; if (kz) te.keptZero++; }
+    const pk = passOf(win.__RENDERER__, ro.camera), pe = pass(win.__RENDERER__, ro.camera); if (pe) pe.draws++;
+    const o = ro.object ?? {}, g = ro.geometry ?? {}, ind = o.userData?.esIndirect === true, tr = Math.max(0, tris);
+    for (const e of [triRow(passTris, pk), triRow(tagTris, String(o.userData?.perfTag ?? CATS[ci]))]) {
+      if (!e) continue;
+      if (ind) { e.indirectDraws++; e.indirectTris += tr; } else { e.draws++; e.tris += tr; }
+    }
+    if (g.indirect) C.kinds.indirect++; else if (o.isInstancedMesh || (o.count ?? 1) > 1) C.kinds.instanced++; else C.kinds.plain++;
+    if ((o.isInstancedMesh && o.count === 0) || g.drawRange?.count === 0) C.kinds.zero++;
+  };
+  // classic WebGLRenderer (dev twins): no backend; every draw (main, shadow maps, render targets) goes through
+  // renderer.renderBufferDirect(camera, scene, geometry, material, object, group)
+  const hookClassic = (r) => {
+    const rbd = r.renderBufferDirect;
+    r.renderBufferDirect = function (camera, scene, geometry, material, object, ...rest) {
+      if (!C.on) return rbd.call(this, camera, scene, geometry, material, object, ...rest);
+      const t = now(), t0 = trisNow();
+      try { return rbd.call(this, camera, scene, geometry, material, object, ...rest); } finally { account({ object, material, geometry, camera }, now() - t, trisNow() - t0); }
+    };
+    C.hooked.renderBufferDirect = true;
+  };
   const hook = () => {
     const r = win.__RENDERER__, be = r?.backend;
+    if (r && !be && typeof r.renderBufferDirect === "function") { hookClassic(r); hookRender(r); return true; }
     if (!be || typeof be.draw !== "function") return false;
     const draw = be.draw;
     be.draw = function (ro, info) {
       if (!C.on) return draw.call(this, ro, info);
-      const t = now();
-      try { return draw.call(this, ro, info); } finally {
-        C.drawMs += now() - t; frameDraws++;
-        const ci = cat(ro), kz = ci === 0 && ro.object?.userData?.esKept === 0, te = entry(win.__RENDERER__);
-        C.draws[ci]++; if (kz) C.keptZero++;
-        if (te) { te.draws[ci]++; if (kz) te.keptZero++; }
-        const pe = pass(win.__RENDERER__, ro.camera); if (pe) pe.draws++;
-        const o = ro.object ?? {}, g = ro.geometry ?? {};
-        if (g.indirect) C.kinds.indirect++; else if (o.isInstancedMesh || (o.count ?? 1) > 1) C.kinds.instanced++; else C.kinds.plain++;
-        if ((o.isInstancedMesh && o.count === 0) || g.drawRange?.count === 0) C.kinds.zero++;
-      }
+      const t = now(), t0 = trisNow();
+      try { return draw.call(this, ro, info); } finally { account(ro, now() - t, trisNow() - t0); }
     };
     C.hooked.draw = true;
     if (typeof r._renderObjectDirect === "function") {
@@ -1099,21 +1236,7 @@ export function installDrawCensus(win) {
       };
       C.hooked.renderObjectDirect = true;
     }
-    if (typeof r.render === "function") {
-      // inclusive: nested render() calls (a pass rendering inside a render) count as calls, their time once
-      const rr = r.render;
-      r.render = function (...a) {
-        if (!C.on) return rr.apply(this, a);
-        C.renderCalls++; const top = C.renderDepth++ === 0, fr = C.roStack[C.roStack.length - 1], t = now();
-        if (fr) fr.rd++;
-        try { return rr.apply(this, a); } finally {
-          C.renderDepth--; const dt = now() - t;
-          if (top) C.renderMs += dt;
-          if (fr && --fr.rd === 0) fr.nested += dt;
-        }
-      };
-      C.hooked.render = true;
-    }
+    hookRender(r);
     const nodes = r._nodes;
     if (nodes && typeof nodes.needsRefresh === "function") {
       const nr = nodes.needsRefresh;
@@ -1147,10 +1270,15 @@ export function installDrawCensus(win) {
   };
   win.__drawCensus = {
     state: C, categories: CATS,
-    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.roExMs = 0; C.refMatrix.clear(); C.refStatic = [0, 0]; C.roCreated = 0; C.roDisposed = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear(); byPass.clear(); shadowIdx.clear();
+    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.roExMs = 0; C.refMatrix.clear(); C.refStatic = [0, 0]; C.roCreated = 0; C.roDisposed = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear(); byPass.clear(); shadowIdx.clear(); passTris.clear(); tagTris.clear();
       C.kinds = { plain: 0, instanced: 0, indirect: 0, zero: 0 }; C.created = { pipelines: 0, shaders: 0, labels: [] }; C.on = true; },
     stop() { C.on = false; const f = Math.max(C.frames, 1), r2 = (x) => Math.round(x * 100) / 100;
-      return { ...drawCensusResult(C, CATS), byPass: Object.fromEntries([...byPass].sort((a, b) => b[1].objects - a[1].objects).map(([k, v]) => [k, { objectsPerFrame: r2(v.objects / f), drawsPerFrame: r2(v.draws / f) }])) }; },
+      const triTable = (m) => Object.fromEntries([...m].sort((a, b) => (b[1].tris + b[1].indirectTris) - (a[1].tris + a[1].indirectTris)).map(([k, v]) => [k, { drawsPerFrame: r2(v.draws / f), trisPerFrame: Math.round(v.tris / f), indirectDrawsPerFrame: r2(v.indirectDraws / f), indirectTrisPerFrame: Math.round(v.indirectTris / f) }]));
+      const i = win.__RENDERER__?.info, ir = i?.render ?? {};
+      return { ...drawCensusResult(C, CATS), byPass: Object.fromEntries([...byPass].sort((a, b) => b[1].objects - a[1].objects).map(([k, v]) => [k, { objectsPerFrame: r2(v.objects / f), drawsPerFrame: r2(v.draws / f) }])),
+        trisByPass: triTable(passTris), trisByTag: triTable(tagTris),
+        rendererInfo: i ? { renderer: win.__RENDERER__.backend ? (win.__RENDERER__.backend.isWebGPUBackend ? "WebGPURenderer/webgpu" : "WebGPURenderer/webgl2") : "WebGLRenderer",
+          calls: ir.calls ?? ir.drawCalls ?? null, triangles: ir.triangles ?? null, frame: ir.frame ?? null, geometries: i.memory?.geometries ?? null, textures: i.memory?.textures ?? null, programs: Array.isArray(i.programs) ? i.programs.length : null } : null }; },
   };
   // refreshes per frame by pass, then by category, each [static, dynamic]; and per pass totals
   function refreshSplit(c, f, r2) {
@@ -1195,6 +1323,75 @@ export function drawCensusLine(c, workMs = null) {
   const churn = c.renderObjectChurn ? `RenderObject +${c.renderObjectChurn.createdPerFrame}/-${c.renderObjectChurn.disposedPerFrame} per frame, ` : "";
   const outside = Number.isFinite(workMs) && Number.isFinite(c.renderMsPerFrame) ? Math.round((workMs - c.renderMsPerFrame) * 100) / 100 : "?";
   return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame)${c.usPerRenderObjectExcl != null ? `, ${c.usPerRenderObjectExcl} us excl (${c.renderObjectExclMsPerFrame} ms/frame)` : ""}, backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes${refs}, ${churn}${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}; passes ${Object.entries(c.byPass ?? {}).map(([k, v]) => `${k} ${v.objectsPerFrame}/${v.drawsPerFrame}`).join(", ") || "?"} (objects/draws per frame)`;
+}
+
+/** summary.md per-pass (then per-perfTag) triangle table of one view's draw census (c10: canopy-08 native 9.5 M vs its
+ * WebGL2 backend 6.6 M): draws and tris per frame, esIndirect draws and tris in their own columns. [] without a census. */
+export function trisPassTable(name, c) {
+  if (!c?.trisByPass || !Object.keys(c.trisByPass).length) return [];
+  const M = (x) => (Math.round(x / 1e4) / 100).toFixed(2);
+  const rows = (t, kind) => Object.entries(t).map(([k, v]) => `| ${kind} ${k} | ${v.drawsPerFrame} | ${M(v.trisPerFrame)} | ${v.indirectDrawsPerFrame} | ${M(v.indirectTrisPerFrame)} |`);
+  const ri = c.rendererInfo;
+  return ["", `### ${name}: triangles per frame by pass and perfTag (${ri ? `${ri.renderer}, info.render calls ${ri.calls} tris ${ri.triangles == null ? "?" : M(ri.triangles)} M, programs ${ri.programs ?? "?"}` : "renderer ?"})`,
+    "| pass / tag | draws | tris M | esIndirect draws | esIndirect tris M |", "|---|---|---|---|---|", ...rows(c.trisByPass, "pass"), ...rows(c.trisByTag ?? {}, "tag")];
+}
+
+/** WebGL2 program failures (c10: "VALIDATE_STATUS false ... Attribute location out of range" on the webgpu WebGL2 backend).
+ * Installed by the init script on every capture page (cheap: no added GL query). Remembers, per linked program, what was
+ * being drawn or pipelined when it linked (the WebGL backend's createRenderPipeline(renderObject) or draw, or a classic
+ * WebGLRenderer's renderBufferDirect object); three's error log queries VALIDATE_STATUS / the info log of the failing
+ * program, so a console.error matching the failure is paired with that program: its vertex attributes (`in` declarations
+ * of its vertex shader, location when declared) and the object (perfTag, name, type) and material (name, type).
+ * window.__programErrors (at most 20) -> result.errors. Self-contained: stringified into the page. */
+export function installProgramErrorProbe(win) {
+  const E = [], ctxOf = new WeakMap(), GL = win.WebGL2RenderingContext?.prototype;
+  let cur = null, lastProg = null;
+  win.__programErrors = E;
+  const desc = (o) => { if (!o) return null; const ob = o.object ?? {}, m = o.material ?? {}; return { perfTag: ob.userData?.perfTag ?? null, name: String(ob.name ?? ""), type: ob.type ?? null, instanced: Boolean(ob.isInstancedMesh), material: String(m.name ?? ""), materialType: m.type ?? null }; };
+  const attrs = (gl, prog) => {
+    try {
+      const vs = (gl.getAttachedShaders(prog) ?? []).find((sh) => gl.getShaderParameter(sh, 0x8b4f) === 0x8b31);
+      const src = vs ? gl.getShaderSource(vs) ?? "" : "";
+      return [...src.matchAll(/^\s*(?:layout\s*\(\s*location\s*=\s*(\d+)\s*\)\s*)?in\s+\w+\s+(\w+)\s*;/gm)].map((m) => (m[1] === undefined ? m[2] : `${m[1]}:${m[2]}`));
+    } catch (e) { return [`err ${String(e).slice(0, 60)}`]; }
+  };
+  const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
+  wrap(GL, "linkProgram", (f) => function (prog) { if (prog) ctxOf.set(prog, desc(cur)); return f.call(this, prog); });
+  wrap(GL, "getProgramParameter", (f) => function (prog, pname) { if (pname === 0x8b83 || pname === 0x8b82) lastProg = { gl: this, prog }; return f.call(this, prog, pname); });
+  wrap(GL, "getProgramInfoLog", (f) => function (prog) { lastProg = { gl: this, prog }; return f.call(this, prog); });
+  const ce = win.console?.error;
+  if (typeof ce === "function") {
+    win.console.error = function (...a) {
+      try {
+        const msg = a.map((x) => (typeof x === "string" ? x : String(x?.message ?? x))).join(" ");
+        if (E.length < 20 && /VALIDATE_STATUS false|Attribute location out of range|Shader Error|Program Info Log/.test(msg)) {
+          const p = lastProg;
+          E.push({ kind: "webgl-program", message: msg.slice(0, 300), attributes: p ? attrs(p.gl, p.prog) : null, by: p ? ctxOf.get(p.prog) ?? null : null });
+        }
+      } catch { /* never breaks the page's log */ }
+      return ce.apply(this, a);
+    };
+  }
+  const hook = () => {
+    const r = win.__RENDERER__;
+    if (!r) return false;
+    const be = r.backend, set = (o) => { cur = o; };
+    if (be && typeof be.createRenderPipeline === "function") { const f = be.createRenderPipeline; be.createRenderPipeline = function (ro, ...a) { set(ro); return f.call(this, ro, ...a); }; }
+    if (be && typeof be.draw === "function") { const f = be.draw; be.draw = function (ro, ...a) { set(ro); return f.call(this, ro, ...a); }; }
+    if (!be && typeof r.renderBufferDirect === "function") { const f = r.renderBufferDirect; r.renderBufferDirect = function (camera, scene, geometry, material, object, ...a) { set({ object, material }); return f.call(this, camera, scene, geometry, material, object, ...a); }; }
+    return true;
+  };
+  if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
+}
+
+/** The ready-gate summary cell: pose gate (time, residual m / yaw deg, consecutive frames), build-queue pending and
+ * streaming quiet (the last geometry/texture count change) as the harness saw them. */
+export function readyGateLine(r) {
+  const p = r.pose, res = p?.residual ?? p?.last;
+  const pose = r.poseAt == null ? (r.poseTimedOut ? `pose TIMED OUT (last ${res ? `${res.posM} m, yaw ${res.yawDeg ?? "-"} deg` : "?"})` : "pose -")
+    : `pose ${r.poseAt} s${res ? ` (${res.posM} m, yaw ${res.yawDeg ?? "-"} deg, pitch ${res.pitchDeg ?? "-"} deg)` : ""}`;
+  const q = r.final?.buildQueue?.pending, lh = r.loadHarness ?? {};
+  return `${pose}; ready ${r.readyS ?? "-"} s; queue pending ${q ?? "n/a"}${lh.queueEmpty != null ? ` (empty from ${lh.queueEmpty} s)` : ""}; streaming quiet ${lh.streamQuiet ?? "-"} s`;
 }
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the

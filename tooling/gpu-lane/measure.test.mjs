@@ -444,7 +444,14 @@ test("heapTopAllocators: allocated bytes by function and url:line, largest first
   const { heapTopAllocators } = await import("./checks.mjs");
   const n = (fn, line, selfSize, children = []) => ({ callFrame: { functionName: fn, url: "http://x/assets/a.js", lineNumber: line - 1 }, selfSize, children });
   const prof = { head: n("(root)", 0, 0, [n("grow", 10, 3e6, [n("tiny", 5, 1e3)]), n("decode", 20, 5e6), n("grow", 10, 1e6)]) };
-  assert.deepEqual(heapTopAllocators(prof, 2), [{ name: "decode a.js:20", MB: 5 }, { name: "grow a.js:10", MB: 4 }]);
+  assert.deepEqual(heapTopAllocators(prof, 2, null, 0), [{ name: "decode a.js:20", MB: 5 }, { name: "grow a.js:10", MB: 4 }]);
+  // c10: the top rows name their 3-deep caller chains (parent < grandparent < great-grandparent), largest first
+  const deep = { head: n("(root)", 0, 0, [n("streamChunk", 30, 0, [n("computeBoundingSphere", 40, 0, [n("setFromBufferAttribute", 50, 6e6)])]),
+    n("build", 60, 0, [n("raycast", 70, 0, [n("computeBoundingSphere", 40, 0, [n("setFromBufferAttribute", 50, 2e6)])])])]) };
+  const [top] = heapTopAllocators(deep, 1);
+  assert.equal(top.name, "setFromBufferAttribute a.js:50"); assert.equal(top.MB, 8);
+  assert.deepEqual(top.callers, [{ chain: "computeBoundingSphere a.js:40 < streamChunk a.js:30 < (root) a.js:0", MB: 6 },
+    { chain: "computeBoundingSphere a.js:40 < raycast a.js:70 < build a.js:60", MB: 2 }]);
 });
 
 test("relink probe: every link names type and owner, shadow depth materials are flagged", async () => {
