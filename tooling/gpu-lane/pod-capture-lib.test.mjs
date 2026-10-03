@@ -354,6 +354,39 @@ test("gpu-error probe: every required slot set, no dump", () => {
   assert.equal(win.__gpuErrorProbe.dumps.length, 0); assert.equal(win.__gpuErrorProbe.draws, 1);
   assert.match(gpuProbeLine(win.__gpuErrorProbe), /^not-a-bar; no unset slot in 1 draws/);
 });
+test("gpu-error probe: destroyedInSubmit names the destroy stack only when a destroyed buffer is bound at submit", () => {
+  class GPUBuffer { constructor(d) { this.label = d.label; this.size = d.size; this.usage = d.usage; } destroy() {} }
+  class GPURenderPassEncoder { setBindGroup() {} setVertexBuffer() {} setIndexBuffer() {} end() {} }
+  class GPUComputePassEncoder { setBindGroup() {} end() {} }
+  class GPUCommandEncoder { constructor(d) { this.label = d?.label ?? ""; } beginRenderPass() { return new GPURenderPassEncoder(); } beginComputePass() { return new GPUComputePassEncoder(); } finish() { return {}; } }
+  class GPUDevice { createBuffer(d) { return new GPUBuffer(d); } createBindGroup() { return {}; } createCommandEncoder(d) { return new GPUCommandEncoder(d); } }
+  const submitted = [];
+  class GPUQueue { submit(cbs) { submitted.push(cbs.length); } }
+  let t = 0;
+  const win = { GPUDevice, GPUBuffer, GPURenderPassEncoder, GPUComputePassEncoder, GPUCommandEncoder, GPUQueue, performance: { now: () => (t += 10) } };
+  installGpuErrorProbe(win);
+  const dev = new GPUDevice(), q = new GPUQueue();
+  const live = dev.createBuffer({ label: "live", size: 64, usage: 72 }), doomed = dev.createBuffer({ label: "", size: 256, usage: 72 });
+  const bg = dev.createBindGroup({ label: "bindGroup_lights", entries: [{ binding: 0, resource: { buffer: live } }, { binding: 1, resource: { buffer: doomed } }] });
+  const frame = (label) => { const e = dev.createCommandEncoder({ label }); const p = e.beginRenderPass({}); p.setBindGroup(0, bg); p.end(); q.submit([e.finish()]); };
+  const P = win.__gpuErrorProbe;
+  frame("renderContext_6");
+  assert.equal(P.destroyedInSubmit.length, 0); // bound but not destroyed: no record
+  function disposeLights() { doomed.destroy(); }
+  disposeLights();
+  const other = dev.createCommandEncoder({ label: "compute" }); other.beginComputePass().setBindGroup(0, dev.createBindGroup({ entries: [{ binding: 0, resource: { buffer: live } }] })); q.submit([other.finish()]);
+  assert.equal(P.destroyedInSubmit.length, 0); // destroyed buffer not bound by this encoder: no record
+  for (let i = 0; i < 7; i++) frame("renderContext_6");
+  assert.equal(P.destroyedInSubmitSeen, 7); assert.equal(P.destroyedInSubmit.length, 5); assert.equal(submitted.length, 9);
+  const r = P.destroyedInSubmit[0];
+  assert.equal(r.encoder, "renderContext_6"); assert.equal(r.buffers.length, 1);
+  const b = r.buffers[0];
+  assert.deepEqual([b.id, b.size, b.usage, b.bindGroup], [2, 256, 72, "bindGroup_lights"]);
+  assert.match(b.destroyStack[0], /disposeLights/); assert.ok(b.createStack.length > 0); assert.ok(b.msDestroyToSubmit > 0);
+  frame("renderContext_9"); // a new encoder label still gets its first record
+  assert.equal(P.destroyedInSubmit.length, 6); assert.equal(P.destroyedInSubmit[5].encoder, "renderContext_9");
+  assert.match(gpuProbeLine(P), /destroyed-in-submit 8 \(errors 0\) enc renderContext_6 buf #2 via bindGroup_lights destroyed by at disposeLights/);
+});
 
 // --draw-census: a fake renderer and WebGPU device on a fake window, frames driven by hand
 test("draw census: categories, kinds, refreshes, us/draw and created-in-window counts", () => {

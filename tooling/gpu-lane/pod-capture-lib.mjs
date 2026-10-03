@@ -400,6 +400,12 @@ export function backendFailure(view, r) {
  * destroyed), the missing slots, bind groups, index buffer, draw kind and args, the vertex WGSL, and the three.js render
  * object being drawn (win.__RENDERER__.backend.draw is wrapped once the studio exposes the renderer). The first 5
  * uncapturederror messages land in win.__gpuErrorProbe.errors with their time. Per draw: O(slots), no allocation.
+ * destroyedInSubmit: every buffer gets an id and an 8-frame creation stack at createBuffer, destroy() records a 12-frame
+ * stack and time (last 4096 kept), bind groups remember their buffers, and each command encoder (render/compute passes,
+ * bundles via executeBundles) the buffer ids it bound; at Queue.submit a command buffer that bound a destroyed buffer
+ * gives a record (encoder label; per buffer id/label/size/usage, the bind group or slot that carried it, creation and
+ * destroy stacks, ms destroy->submit): the first 5, plus the first of each new encoder label (20 labels).
+ * destroyedInSubmitSeen counts every such submit, destroyedInSubmitErrors Dawn's "used in submit while destroyed" errors.
  * Self-contained: it is stringified into the page. */
 export function installGpuErrorProbe(win) {
   const P = (win.__gpuErrorProbe = { dumps: [], errors: [], threeHooked: false, threeNote: "renderer not seen yet", draws: 0 });
@@ -420,17 +426,79 @@ export function installGpuErrorProbe(win) {
   wrap(Dev, "createRenderPipelineAsync", (f) => function (d) { return f.call(this, d).then((p) => { try { pipelines.set(p, pipeInfo(d)); } catch {} return p; }); });
   wrap(Dev, "createBindGroup", (f) => function (d) {
     const g = f.call(this, d);
+    try { bgBufs.set(g, { label: d.label ?? "", bufs: Array.from(d.entries ?? [], (e) => e.resource?.buffer).filter(Boolean) }); } catch {}
     try { bindGroups.set(g, { label: d.label ?? "", entries: Array.from(d.entries ?? [], (e) => ({ binding: e.binding, kind: e.resource?.buffer ? `buffer ${e.resource.buffer.label ?? ""} size ${e.resource.buffer.size}` : (e.resource?.constructor?.name ?? typeof e.resource) })) }); } catch {}
     return g;
   });
-  wrap(win.GPUBuffer?.prototype, "destroy", (f) => function () { destroyed.add(this); return f.call(this); });
+  // destroyed-in-submit: who destroyed a buffer a submitted command buffer still uses. Buffer info rides a WeakMap (lives
+  // as long as the buffer); destroy records sit in a Map bounded to MAX_DESTROYED (oldest dropped); per encoder the ids
+  // its passes and bundles bound (one Map per encoder, collected with it). Checked at Queue.submit, where Dawn rejects it.
+  const MAX_DESTROYED = 4096, MAX_DIS = 5, MAX_DIS_LABELS = 20;
+  const stack = (n) => String(new Error().stack ?? "").split("\n").slice(3, 3 + n).map((l) => l.trim());
+  const bufMeta = new WeakMap(), destroyedById = new Map(), bgBufs = new WeakMap(), encUse = new WeakMap(), passEnc = new WeakMap(), cbUse = new WeakMap(), bundleUse = new WeakMap();
+  let nextBufId = 1;
+  P.destroyedInSubmit = []; P.destroyedInSubmitSeen = 0; P.destroyedInSubmitErrors = 0;
+  const disLabels = new Set();
+  const meta = (b) => { let m = bufMeta.get(b); if (!m) { m = { id: nextBufId++, label: b.label ?? "", size: b.size, usage: b.usage, createStack: null }; bufMeta.set(b, m); } return m; };
+  wrap(Dev, "createBuffer", (f) => function (d) { const b = f.call(this, d); try { bufMeta.set(b, { id: nextBufId++, label: d?.label ?? b.label ?? "", size: d?.size ?? b.size, usage: d?.usage ?? b.usage, createStack: stack(8) }); } catch {} return b; });
+  wrap(win.GPUBuffer?.prototype, "destroy", (f) => function () {
+    destroyed.add(this);
+    try {
+      const m = meta(this);
+      destroyedById.delete(m.id); destroyedById.set(m.id, { t: now(), stack: stack(12), meta: m });
+      if (destroyedById.size > MAX_DESTROYED) destroyedById.delete(destroyedById.keys().next().value);
+    } catch {}
+    return f.call(this);
+  });
+  const useOf = (enc) => { let u = encUse.get(enc); if (!u) { u = { label: enc.label ?? "", used: new Map() }; encUse.set(enc, u); } return u; };
+  const noteBuf = (u, b, via) => { if (u && b) { const id = meta(b).id; if (!u.used.has(id)) u.used.set(id, via); } };
+  const noteGroup = (u, g) => { const bg = u && g ? bgBufs.get(g) : null; if (bg) for (const b of bg.bufs) noteBuf(u, b, bg.label); };
+  wrap(Dev, "createCommandEncoder", (f) => function (d) { const e = f.call(this, d); try { encUse.set(e, { label: d?.label ?? e.label ?? "", used: new Map() }); } catch {} return e; });
+  wrap(Dev, "createRenderBundleEncoder", (f) => function (d) { const e = f.call(this, d); try { passEnc.set(e, { label: d?.label ?? e.label ?? "", used: new Map() }); } catch {} return e; });
+  wrap(win.GPUCommandEncoder?.prototype, "beginComputePass", (f) => function (d) { const p = f.call(this, d); try { passEnc.set(p, useOf(this)); } catch {} return p; });
+  wrap(win.GPUCommandEncoder?.prototype, "finish", (f) => function (d) { const cb = f.call(this, d); try { cbUse.set(cb, useOf(this)); } catch {} return cb; });
+  for (const C of [win.GPURenderPassEncoder, win.GPUComputePassEncoder, win.GPURenderBundleEncoder]) {
+    const pr = C?.prototype;
+    wrap(pr, "setBindGroup", (f) => function (i, g, ...a) { try { noteGroup(passEnc.get(this), g); } catch {} return f.call(this, i, g, ...a); });
+    wrap(pr, "setVertexBuffer", (f) => function (slot, b, ...a) { try { noteBuf(passEnc.get(this), b, `vertex slot ${slot}`); } catch {} return f.call(this, slot, b, ...a); });
+    wrap(pr, "setIndexBuffer", (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, "index"); } catch {} return f.call(this, b, ...a); });
+  }
+  wrap(win.GPURenderBundleEncoder?.prototype, "finish", (f) => function (d) { const bun = f.call(this, d); try { bundleUse.set(bun, passEnc.get(this)); } catch {} return bun; });
+  wrap(win.GPURenderPassEncoder?.prototype, "executeBundles", (f) => function (list) {
+    try { const u = passEnc.get(this); for (const bun of list ?? []) { const bu = bundleUse.get(bun); if (u && bu) for (const [id, via] of bu.used) if (!u.used.has(id)) u.used.set(id, `bundle ${bu.label} ${via}`); } } catch {}
+    return f.call(this, list);
+  });
+  wrap(win.GPUQueue?.prototype, "submit", (f) => function (cbs) {
+    try {
+      for (const cb of cbs ?? []) {
+        const u = cbUse.get(cb);
+        if (!u) continue;
+        let hits = null;
+        for (const [id, via] of u.used) { const d = destroyedById.get(id); if (d) (hits ??= []).push({ id, via, d }); }
+        if (!hits) continue;
+        P.destroyedInSubmitSeen++;
+        const fresh = !disLabels.has(u.label) && disLabels.size < MAX_DIS_LABELS;
+        if (P.destroyedInSubmit.length >= MAX_DIS && !fresh) continue;
+        disLabels.add(u.label);
+        const t = now();
+        P.destroyedInSubmit.push({ t, encoder: u.label, buffers: hits.map(({ id, via, d }) => ({ id, label: d.meta.label, size: d.meta.size, usage: d.meta.usage,
+          bindGroup: via, createStack: d.meta.createStack, destroyStack: d.stack, msDestroyToSubmit: t - d.t })) });
+      }
+    } catch {}
+    return f.call(this, cbs);
+  });
   wrap(win.GPUAdapter?.prototype, "requestDevice", (f) => async function (...a) {
     const d = await f.apply(this, a);
-    d.addEventListener?.("uncapturederror", (e) => { if (P.errors.length < 5) P.errors.push({ t: now(), message: String(e.error?.message ?? e.message).slice(0, 600) }); });
+    d.addEventListener?.("uncapturederror", (e) => {
+      const msg = String(e.error?.message ?? e.message);
+      if (msg.includes("used in submit while destroyed")) P.destroyedInSubmitErrors++;
+      if (P.errors.length < 5) P.errors.push({ t: now(), message: msg.slice(0, 600) });
+    });
     return d;
   });
   wrap(win.GPUCommandEncoder?.prototype, "beginRenderPass", (f) => function (d) {
     const pass = f.call(this, d);
+    try { passEnc.set(pass, useOf(this)); } catch {}
     passes.set(pass, { pipeline: null, info: null, vb: new Array(MAX_SLOTS).fill(null), vbOff: new Array(MAX_SLOTS).fill(0), vbSize: new Array(MAX_SLOTS).fill(0),
       ib: null, ibFormat: null, groups: new Array(8).fill(null), label: d?.label ?? "" });
     return pass;
@@ -690,8 +758,10 @@ export function nanProbeLine(p) {
 export function gpuProbeLine(p) {
   if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
   const d = p.dumps?.[0];
-  if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors`;
-  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} mat ${d.tuple?.materialName ?? "?"} three-pipeline ${d.tuple?.threePipelineLabel ?? "?"} (${p.dumps.length} dumps)`;
+  const r = p.destroyedInSubmit?.[0], b = r?.buffers?.[0];
+  const dis = r ? `; destroyed-in-submit ${p.destroyedInSubmitSeen} (errors ${p.destroyedInSubmitErrors ?? 0}) enc ${r.encoder} buf ${b?.label || `#${b?.id}`} via ${b?.bindGroup} destroyed by ${b?.destroyStack?.[0] ?? "?"}` : "";
+  if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors${dis}`;
+  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} mat ${d.tuple?.materialName ?? "?"} three-pipeline ${d.tuple?.threePipelineLabel ?? "?"} (${p.dumps.length} dumps)${dis}`;
 }
 
 /** `--draw-census` (diagnosis only; never a bar row). Installed by the init script before the app's scripts. Between
