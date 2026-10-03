@@ -75,18 +75,25 @@ colour comes from the light rig.
    rises by sunBurn × (0.5 × height above the basin floor / depth + (1 −
    moisture)) for the mist and 0.5 × sunBurn off water for the marsh fog, so
    rims, dry land and shores clear before water. Densities (`FOG_TERMS`,
-   CPU twin `fogTermsAt`): radiation mist peak 0.04 /m, integrated only to
+   CPU twin `fogTermsAt`): radiation mist peak 0.015 /m, its scale height
+   over water capped at 0.4 m (`mistWaterScaleM`), integrated only to
    400 m from the camera (fading from 300 m) so a grazing ray never sums a
-   white horizon band; mist and marsh tops move ± 5 m (`topReliefM`) with
-   the lowest shape octave alone (125 m features, `fogShapeAt` .z), which
-   survives the slice averaging that flattens the fine octaves past ~50 m,
-   so the tops read as mounds and gaps at 100 m and beyond; marsh top
-   2.5 m (`marshTopM`) with a 0.3× skirt over water
-   to 6 m (2 m scale height), 0.16 /m; sea fog a 0.03 /m bank with a top at
-   20 ± 6 m faded over 6 m; canopy haze 0.025 /m, 0.06 /m once the sun is
-   above ~15°. Dawn over marsh water this gives a 100 m horizontal optical
-   depth of 3.4 at 1 m and 0 at 10 m (vol10 diag8). The sun phase's forward
-   share never falls under 0.35, so dawn mist wears the sun's tint.
+   white horizon band; the mist top moves ± 1 m (`mistReliefM`) and the
+   marsh top ± 0.5 m (`marshReliefM`) with the lowest shape octave alone
+   (125 m features, `fogShapeAt` .z); marsh fog a thin dense bank, 0.27 /m
+   at the surface falling linearly to its 1.2 m top (`marshTopM`), so a
+   1.6 m eye stands above it and looks down on it; sea fog a 0.03 /m bank
+   with a top at 20 ± 6 m faded over 6 m; canopy haze 0.025 /m, 0.06 /m
+   once the sun is above ~15°. Bar (dawn over marsh water, clear, CPU twin
+   test `fogTerms.test.ts`): 100 m horizontal optical depth at 0.5 m ≥ 2
+   (4.9), horizontal transmittance over 400 m from a 1.6 m eye ≥ 0.9
+   (0.97; 0.99 over 100 m), and the layer top (density < 0.1 × marsh peak)
+   ≤ 1.5 m. The sun phase's forward share never falls under 0.35, so dawn
+   mist wears the sun's tint toward the sun; away from it, saturated fog
+   is no brighter than the horizon sky: the horizon sky luminance already
+   holds the sun's light scattered by the air, so the medium's sky term is
+   `fogSkyLum` less the sun share a froxel facing away from the sun
+   receives (`fogSkyIrradianceInto`).
    **Fog shape** is the fog's own noise (`fogNoise.ts`), never the shared
    volume-detail texture:
 

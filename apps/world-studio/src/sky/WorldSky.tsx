@@ -82,7 +82,7 @@ import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import * as TSL_V from "three/tsl";
-import { Volumetrics, MAX_VOLUME_LIGHTS, SKY_INSCATTER, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { Volumetrics, MAX_VOLUME_LIGHTS, fogSkyIrradianceInto, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { BandGovernor, VOLUMETRIC_BANDS, volBandOverride, type VolumetricTier } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
 import {
   FogClockHistory, nearestVolumeLights, studioTerrainSamplers, sunriseSunsetMin,
@@ -307,6 +307,7 @@ export function WorldSky({
     sigmaBelowM: WHITEOUT_BELT.sigmaBelowM * verticalScale, sigmaAboveM: WHITEOUT_BELT.sigmaAboveM * verticalScale }), [verticalScale]);
   const volSun = useRef(new THREE.Color());
   const volSky = useRef(new THREE.Color());
+  const volSkyRgb = useRef<number[]>([0, 0, 0]);
   // onshore component of the wind for the sea-fog regime: climate-weather B's gradient, per camera cell
   const onshoreProbe = useMemo(() => new OnshoreProbe(tier === "mobile" ? ONSHORE.mobile : ONSHORE.high), [tier]);
   /** The sun and sky the lit effects (chimney smoke) read; refreshed every frame, owned by this sky. */
@@ -965,10 +966,11 @@ export function WorldSky({
     }
     sunLighting.dir.copy(sunDir);
     volSun.current.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
-    // The medium's sky light is the dome's horizon as WebGL's anchored fog sees it (0112 §3):
-    // the irradiance whose in-scatter (x SKY_INSCATTER) is the sky-lit bank radiance fogSkyLum,
-    // night floor included. The hemisphere light is a surface-ambient term, far below it.
-    volSky.current.setRGB(...rig.fogSkyLum).multiplyScalar(1 / SKY_INSCATTER);
+    // The medium's sky light is the dome's horizon as WebGL's anchored fog sees it (0112 §3), less the
+    // sun share a froxel facing away from the sun already gets (fogSkyIrradianceInto): saturated fog away
+    // from the sun settles at or below the horizon sky, night floor included.
+    const vs = fogSkyIrradianceInto(rig.fogSkyLum, [volSun.current.r, volSun.current.g, volSun.current.b], sunDir.y, volSkyRgb.current);
+    volSky.current.setRGB(vs[0], vs[1], vs[2]);
     // Outside only: inside a cell the interior host drives the medium
     // (InteriorDoors, with the cell's profile and no sun).
     if (volumetrics.band !== "off" && !hidden) {

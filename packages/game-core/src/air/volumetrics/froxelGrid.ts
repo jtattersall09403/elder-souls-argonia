@@ -107,21 +107,37 @@ export function sunInscatterGain(sunT: number, phase: number): number {
  * the forward share never falls under SUN_FORWARD_FLOOR, so a dawn mist still wears the sun's tint
  * toward it (vol10 diag8 F-7). */
 export const SUN_FORWARD_FLOOR = 0.35;
+const hgCpu = (g: number, c: number) => (1 - g * g) / (4 * Math.PI * Math.pow(1 + g * g - 2 * g * c, 1.5));
+/** CPU twin of sunPhase. */
+export function sunPhaseCpu(cSun: number, sunY: number): number {
+  const t = Math.min(1, Math.max(0, (sunY - 0.03) / 0.11)), w = t * t * (3 - 2 * t) * (0.75 - SUN_FORWARD_FLOOR) + SUN_FORWARD_FLOOR;
+  return hgCpu(0.2, cSun) + (hgCpu(0.85, cSun) - hgCpu(0.2, cSun)) * w;
+}
+/** The medium's sky irradiance (per channel, into `out`): the horizon sky luminance fogSkyLum already holds
+ * the sun's light scattered by the air, so the sun share a froxel looking away from the sun receives
+ * (sunIrr x the larger of its back phase and the isotropic 1/4pi) is taken out of the sky term; saturated
+ * fog away from the sun so settles at or below the horizon sky, and only the toward-sun side is brighter. */
+export function fogSkyIrradianceInto(fogSkyLum: readonly number[], sunIrr: readonly number[], sunY: number, out: number[]): number[] {
+  const gAway = Math.max(sunPhaseCpu(-Math.sqrt(Math.max(0, 1 - sunY * sunY)), sunY), 1 / (4 * Math.PI)) * (sunY > 0 ? 1 : 0);
+  for (let i = 0; i < 3; i++) out[i] = Math.max(fogSkyLum[i] - sunIrr[i] * gAway, 0) / SKY_INSCATTER;
+  return out;
+}
 function sunPhase(cSun: TslNode, sunY: TslNode): TslNode {
   return mix(hg(0.2, cSun), hg(0.85, cSun), smoothstep(0.03, 0.14, sunY).mul(0.75 - SUN_FORWARD_FLOOR).add(SUN_FORWARD_FLOOR));
 }
 
 /** Peak densities (m^-1) and shapes of the outdoor fog terms in density() (vol10 diag8 F-1..F-6, O-2). */
 export const FOG_TERMS = {
-  /** Radiation mist at the basin floor, full cover. */
-  mistPeakPerM: 0.04,
+  /** Radiation mist at the basin floor, full cover; over water its scale height is capped at
+   * mistWaterScaleM, so the eye at 1.6 m stands above it (vol10 c8 veil2). */
+  mistPeakPerM: 0.015, mistWaterScaleM: 0.4,
   /** Mist is integrated out to here from the camera (m), fading over the last quarter: a grazing ray
    * along a 6 m layer never sums more than this much of it (no white horizon band). */
   mistFarCapM: 400,
-  /** Marsh ground fog at its base, full cover. */
-  marshPeakPerM: 0.16, marshTopM: 2.5,
-  /** Mist and marsh tops move +- this (m) with the low-octave shape (fogShapeAt .z). */
-  topReliefM: 5,
+  /** Marsh ground fog at its base, full cover: a thin dense bank the eye looks down on. */
+  marshPeakPerM: 0.27, marshTopM: 1.2,
+  /** Mist and marsh tops move +- these (m) with the low-octave shape (fogShapeAt .z). */
+  mistReliefM: 1, marshReliefM: 0.5,
   /** Sea fog bank: density, top above sea level (m, billowed +-6 m by the shape) and its fade (m). */
   seaPeakPerM: 0.03, seaTopM: 20, seaFadeM: 6,
   /** Rain-fed wet haze at the ground per unit wetHaze (0..4). */
@@ -157,24 +173,24 @@ const burnCpu = (n: number, c: number, rim: number) => Math.max(n - (1 - c) - ri
  * shape's coverage and slow terms at their mean): for tests and the dev probe. Writes into `out`. */
 export function fogTermsAt(q: FogTermPoint, out: FogTerms): FogTerms {
   const T = FOG_TERMS, n = q.noise, nc = n - 0.5;
-  const relief = (q.noiseLow - 0.5) * 2 * T.topReliefM;
+  const lowS = (q.noiseLow - 0.5) * 2;
   const hAG = q.y - q.ground;
   const moistW = MOISTURE_FLOOR + (1 - MOISTURE_FLOOR) * q.moist * q.moist;
-  const top = q.floor + q.mistDepth + relief;
+  const top = q.floor + q.mistDepth + lowS * T.mistReliefM;
   const depth = Math.max(top - q.floor, 1);
   const hF = Math.max(q.y - q.floor, 0);
   const mistRim = ((q.ground - q.floor) / depth * 0.5 + (1 - q.moist)) * q.mistBurn;
-  out.mist = Math.exp(-hF / (depth * MIST_SCALE_SHARE * Math.max(q.mistHeightScale, 1e-3)))
+  const mistScale = depth * MIST_SCALE_SHARE * Math.max(q.mistHeightScale, 1e-3);
+  out.mist = Math.exp(-hF / (mistScale + (Math.min(mistScale, T.mistWaterScaleM) - mistScale) * q.waterMask))
     * (1 - sm(top - Math.max(depth * MIST_FADE_SHARE, 1.5), top, q.y)) * sm(-1, 1, hAG) * sm(0, 6, top - q.ground)
     * (1 - sm(0.75 * T.mistFarCapM, T.mistFarCapM, q.distM))
     * burnCpu(n, q.cover[0], mistRim) * moistW * T.mistPeakPerM;
   const surf = q.ground + (Math.max(q.ground, q.waterH) - q.ground) * q.waterMask;
   const hAS = q.y - surf;
   const low = 1 - sm(2, 12, q.ground - q.floor);
-  const marshTop = T.marshTopM + relief;
+  const marshTop = T.marshTopM + lowS * T.marshReliefM;
   const fall = Math.min(1, Math.max(0, 1 - hAS / Math.max(marshTop, 0.2)));
-  const skirt = q.waterMask * Math.exp(Math.max(hAS, 0) / -2) * (1 - sm(4, 6, hAS)) * 0.3;
-  out.marsh = q.moist * low * Math.max(fall, skirt) * (hAS >= 0 ? 1 : 0)
+  out.marsh = q.moist * low * fall * (hAS >= 0 ? 1 : 0)
     * burnCpu(n, q.cover[2], (1 - q.waterMask) * q.mistBurn * 0.5) * T.marshPeakPerM;
   const seaTop = T.seaTopM + nc * 12;
   out.sea = q.sea * (1 - sm(seaTop - T.seaFadeM, seaTop, q.y)) * burnCpu(n, q.cover[3], 0) * T.seaPeakPerM;
@@ -571,15 +587,17 @@ export class Volumetrics implements VolumetricsSampler {
     const nc = n.sub(0.5);
     // layer tops: relief from the lowest octave only (125 m features), which survives the
     // slice averaging that flattens the fine octaves past ~50 m (vol10 diag9 S4)
-    const relief = shape.z.sub(0.5).mul(2 * FOG_TERMS.topReliefM);
+    const lowS = shape.z.sub(0.5).mul(2);
     const outdoor = u.outdoor;
     // radiation mist: pools over the basin floor, falling exponentially with height above it
     // (fogField mistHeightProfile), faded to zero by a top billowed by the shape; ground above the floor
     // (slopes, rims) sits higher in the profile and carries less; the lateral edge fades over the last 6 m.
-    const top = farT.g.add(u.mistDepth).add(relief);
+    const top = farT.g.add(u.mistDepth).add(lowS.mul(FOG_TERMS.mistReliefM));
     const depth = max(top.sub(farT.g), float(1));
     const hF = max(p.y.sub(farT.g), float(0));
-    const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE).mul(max(u.mistHeightScale, float(1e-3)))).negate())
+    // over water the scale height is capped at mistWaterScaleM (fogTermsAt mistScale)
+    const mistScale = depth.mul(MIST_SCALE_SHARE).mul(max(u.mistHeightScale, float(1e-3)));
+    const mist = exp(hF.div(mix(mistScale, min(mistScale, float(FOG_TERMS.mistWaterScaleM)), waterMask)).negate())
       .mul(float(1).sub(smoothstep(top.sub(max(depth.mul(MIST_FADE_SHARE), soft(1.5))), top, p.y)))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
       // integrated only out to mistFarCapM: a grazing ray in the thin layer never saturates to a white band
@@ -603,12 +621,10 @@ export class Volumetrics implements VolumetricsSampler {
     const surf = mix(ground, max(ground, nearT.g), waterMask);
     const hAS = p.y.sub(surf);
     const low = float(1).sub(smoothstep(2, 12, ground.sub(farT.g)));
-    // top 2.5 m + the low-octave relief (+-topReliefM, several froxel rows at 100 m), plus a 0.3x skirt over water
-    // falling at a 2 m scale height to 6 m so the bank reads past 50 m (vol10 diag7 O2)
-    const marshTop = float(FOG_TERMS.marshTopM).add(relief);
+    // top marshTopM + the low-octave relief (+-marshReliefM): a thin dense bank under a 1.6 m eye (vol10 c8 veil2)
+    const marshTop = float(FOG_TERMS.marshTopM).add(lowS.mul(FOG_TERMS.marshReliefM));
     const marshFall = clamp(float(1).sub(hAS.div(max(marshTop, float(0.2)))), 0, 1);
-    const skirt = waterMask.mul(exp(max(hAS, float(0)).div(-2))).mul(float(1).sub(smoothstep(4, 6, hAS))).mul(0.3);
-    const marsh = moist.mul(low).mul(max(marshFall, skirt)).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
+    const marsh = moist.mul(low).mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
       .mul(this.burn(n, u.cover.z, cov, float(1).sub(waterMask).mul(u.mistBurn).mul(0.5))).mul(FOG_TERMS.marshPeakPerM);
     // sea fog: a bank over the sea with a top ~20 m billowed +-6 m by the shape, faded over its last 6 m
     const seaTop = float(FOG_TERMS.seaTopM).add(nc.mul(12));
