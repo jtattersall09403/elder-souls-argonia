@@ -7,7 +7,7 @@
 # /studio/, built with the committed vite.harness.mjs). Key (also pod-sync.sh's) = sha1 of the
 # name + HEAD tree entries, `git diff HEAD` and untracked file contents of the SOURCE paths only (apps/world-studio, packages,
 # root package files, vite.harness.mjs for harness; never tooling/ or docs/); equal to dist-<name>/.srchash -> skip.
-# Built to /tmp/<lane>/build-<name> under job_guard, then `rsync -a --checksum --delete` into the fixed folder, so
+# Built to /tmp/<lane>/build-<name> under job_guard (--mem 2: measured peak 0.85 GiB, webgpu10 c10), then `rsync -a --checksum --delete` into the fixed folder, so
 # unchanged files keep their mtimes and pod-sync.sh sends only what changed. The studio data vite copies from public/
 # (kits/ province/ textures/) is left out: the pod serves it once from /root/site/public (pod-sync.sh --data).
 # Never per-iteration dist folders, never cp -R. Appends {step:"build:<name>", seconds, at, skipped?} to
@@ -41,7 +41,7 @@ if [ -f "$dist/.srchash" ] && [ "$(cat "$dist/.srchash")" = "$key" ]; then
 fi
 # the boot precompile list is baked from the published kits before every build, so it can never be stale
 (cd "$wt" && node packages/game-core/scripts/bake-render-signatures.mjs) || exit 1
-(cd "$wt/apps/world-studio" && env "${envs[@]}" bash "$here/../repo-standards/job_guard.sh" "$lane" --mem 8 -- npx vite build "${cfg[@]}" --outDir "$stage" --emptyOutDir >"/tmp/$lane/build-$n.log" 2>&1) || { tail -20 "/tmp/$lane/build-$n.log"; exit 1; }
+(cd "$wt/apps/world-studio" && env "${envs[@]}" bash "$here/../repo-standards/job_guard.sh" "$lane" --mem 2 -- npx vite build "${cfg[@]}" --outDir "$stage" --emptyOutDir >"/tmp/$lane/build-$n.log" 2>&1) || { tail -20 "/tmp/$lane/build-$n.log"; exit 1; }
 # the harness page is served as the dist's index.html (serve.mjs reads the base from it; the view URLs end in /harness/?..)
 [ "$n" = harness ] && cp "$stage/harness.html" "$stage/index.html"
 mkdir -p "$dist"
