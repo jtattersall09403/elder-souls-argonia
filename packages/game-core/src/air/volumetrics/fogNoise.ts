@@ -5,7 +5,7 @@
  *   double precision (never wind x time), a slow two-slice morph at sqrt(2)-ratio rates under a
  *   speed modulator re-phased per day, and the eased coverage per regime;
  * - `fogShapeNoise`, the CPU mirror of the shader's octave sum (froxelGrid density()), for tests.
- * Four octaves on prime tiles 997/263/71/19 m, each rotated by the golden angle, drift at 1.00-1.25 x
+ * Four octaves on prime tiles 997/263/47/19 m, each rotated by the golden angle, drift at 1.00-1.25 x
  * the wind, warped by 50 m and 12 m (no curl, no rotation in time: banks bend, never spiral).
  * Everything is sampled at world position only: nothing here reads the camera or the player.
  */
@@ -23,23 +23,26 @@ export const FOG_NOISE = {
   warpTexels: 32,
   warpPeriod: 4,
   octaves: [
-    { tileXZ: 997, tileY: 211, weight: 0.45, rate: 1.0 },
+    { tileXZ: 997, tileY: 211, weight: 0.3, rate: 1.0 },
     { tileXZ: 263, tileY: 67, weight: 0.3, rate: 1.07 },
-    { tileXZ: 71, tileY: 23, weight: 0.17, rate: 1.15 },
-    { tileXZ: 19, tileY: 7, weight: 0.08, rate: 1.25 },
+    { tileXZ: 47, tileY: 23, weight: 0.25, rate: 1.15 },
+    { tileXZ: 19, tileY: 7, weight: 0.15, rate: 1.25 },
   ] as readonly FogOctave[],
   /** Octave k's axes are turned about Y by k x this, so no two lattices align. */
   rotationRad: GOLDEN_ANGLE,
   /** Domain warp: world tile and amplitude (m) per layer; it drifts at `warpRate` x the wind. */
   warp: [{ tileM: 1777, ampM: 50 }, { tileM: 433, ampM: 12 }] as readonly { tileM: number; ampM: number }[],
   warpRate: 0.7,
-  /** The 4th octave fades to its mean between these view distances (m): near froxels only. */
-  fineFadeM: [60, 120] as const,
+  /** The 4th octave (2.4 m features) fades to its mean between these view distances (m): the high
+   * grid's lateral froxel (2 tan30 d / 160) passes half a feature (Nyquist, 1.2 m) at ~166 m, so it
+   * ends there and never shimmers (vol10 diag7 O4 asked 150..300; past 170 m it would alias). */
+  fineFadeM: [100, 170] as const,
   /** Stretch of the octave sum about its mean 0.5 before the burn-off threshold. */
   contrast: 2.6,
   morph: {
-    /** Two slices advance at these rates (texture periods / s); B/A = sqrt(2). */
-    rateA: 0.0011, rateB: 0.0011 * Math.SQRT2,
+    /** Two slices advance at these rates (texture periods / s); B/A = sqrt(2) (irrational: the pair
+     * never repeats; slice A alone takes 200 s per period, past the 60 s capture series). */
+    rateA: 0.005, rateB: 0.005 * Math.SQRT2,
     /** The crossfade between them, period at modulator 1 (s). */
     fadePeriodS: 389,
     /** Speed modulator m(t) = 1 + 0.5 sum a_i sin(2 pi t / P_i + phase_i(day)), 0.5..1.5. */

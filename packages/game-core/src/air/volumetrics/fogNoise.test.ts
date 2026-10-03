@@ -65,7 +65,7 @@ describe("fog noise (vol10 A)", () => {
     const c = slice(d); d.step(1, 0.3, 0); const e = slice(d);
     expect(d.t).toBeGreaterThan(8192);
     const step = (p: number[], q: number[]) => p.reduce((s, v, i) => s + Math.abs(v - q[i]), 0) / p.length;
-    expect(step(a, b)).toBeLessThan(0.02);
+    expect(step(a, b)).toBeLessThan(0.04) // morph 0.005 periods/s and the 47 m octave (vol10 diag7 O4);
     expect(step(a, b)).toBeLessThan(step(c, e) * 3 + 0.005);
     d.step(1e6, 0.3, 0);
     for (const v of d.octaveOff) { expect(v).toBeGreaterThanOrEqual(0); expect(v).toBeLessThan(1); }
