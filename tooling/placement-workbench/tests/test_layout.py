@@ -63,6 +63,10 @@ def test_op_aliases_and_refusals():
         layout.op_to_argv({"op": "remove", "uid": "a", "at": [1, 2]}, ap)
     with pytest.raises(ValueError, match="needs 'asset'"):
         layout.op_to_argv({"op": "place", "uid": "a", "at": [1, 2]}, ap)
+    # `fills` is for the promise gate, never a CLI argument
+    place = {"op": "place", "uid": "a", "asset": "x:y", "at": [1, 2]}
+    assert layout.op_to_argv({**place, "fills": ["promise.p.thing-ore"]}, ap) \
+        == layout.op_to_argv(place, ap)
 
 
 def test_legacy_log_line_rejoins_a_spaced_asset_and_new_lines_are_shlex():

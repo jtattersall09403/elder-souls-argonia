@@ -851,7 +851,7 @@ def open_modular_ends(placements: list[dict], shelf: "KitShelf",
     piece pair, or a family pair of the two pieces' families, relative scale
     matching; plan offset within ABUTS_MATCH_M, yaw within ABUTS_MATCH_DEG,
     either piece as the parent). K9 B: the first or last piece of a `pieces`
-    run leaves its outward end open without a flag when the mine shows runs
+    run (or its first or last member not in `singleUse`, R91) leaves its outward end open without a flag when the mine shows runs
     ending on that piece (or its family) with that face bare
     (`abuts.terminates` / `familyTerminates`). A structural kit piece that no
     plugin places at all (`abuts.placedAssets`) has no evidence of where its
@@ -879,6 +879,15 @@ def open_modular_ends(placements: list[dict], shelf: "KitShelf",
     connectors = kit_connectors()
     pieces = [p for p in placements if p.get("objectKind") == "parcel"]
     out = []
+    # a run's terminal pieces are its first and last members that are not
+    # singleUse: a plugin step-down laid past the last deck by its mined
+    # double joint (R91, `dockstrsol01` -y > `dockstepsdown01`) leaves that
+    # deck's outward face bare, as the plugin's own `terminates` row records
+    real: dict[str, list[int]] = {}
+    for q in pieces:
+        r = q.get("run") or {}
+        if r and q["assetId"] not in single:
+            real.setdefault(q.get("parcelId"), []).append(int(r.get("index", 0)))
 
     def keyed(q: dict, a: dict, b: dict) -> tuple[str, str]:
         return ((family_of(a["assetId"]), family_of(b["assetId"])) if q["_fam"]
@@ -890,7 +899,9 @@ def open_modular_ends(placements: list[dict], shelf: "KitShelf",
             continue
         if aid in ends:
             run = p.get("run") or {}
-            terminal = bool(run) and run.get("index") in (0, run.get("length", 0) - 1)
+            members = real.get(p.get("parcelId")) or [0]
+            terminal = bool(run) and run.get("index") in (0, run.get("length", 0) - 1,
+                                                          min(members), max(members))
             for face in ends[aid]:
                 met = False
                 for q in pieces:

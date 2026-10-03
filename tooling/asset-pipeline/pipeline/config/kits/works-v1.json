@@ -78,7 +78,8 @@
  "snapLogic": {
   "grid": "None — these are freestanding props, not a tileset. Placement is by hand/compiler rule against the site, not by connector.",
   "stockade-scaffold": "The one family here that DOES snap, in vanilla's own logic: a `stockadescaffoldbase<n>sided01` footing carries a `stockadescaffoldtop<n>sided01` deck of the matching side count (`n` = how many faces are railed), joined between decks by `bridge01/02`/`bridgenarrow`, climbed by `ramp01` or `stairs01`, and propped by `basesupport01` and `toppost01/02`. Keep side counts consistent around a platform or railings gap.",
-  "mine-timbers": "`minewoodbeam01-03` + `minewoodbeamshort01/02` + `minewoodplanks01-04` are vanilla's shoring vocabulary and are placed as a repeating rib along a tunnel or trench; `minescaffoldsupport01`/`minescaffoldbasesupport01(w)` are the vertical props.",
+  "spoil-heaps": "`minecdirtmound02` (3.6 x 3.6 m, 0.69 m deep of which ~0.37 m stands above its pivot) and `minecdirtmound03` (6.3 x 7.5 m, 1.0 m deep, ~0.53 m above) are vanilla's mine spoil heaps, the disturbed-ground cue of a dig-and-carry works (bog iron). Their lower part is designed to sink into the ground. Skyrim.esm sets `shovel01` beside both (kit-mounts-mined.json anchors shovel01 abuts, n=3 each). The taller variants 04-08 (1.3-1.8 m, up to 15.9 m long) read as cave floor ramps, not heaps, and are left out.",
+  "mine-timbers":"`minewoodbeam01-03` + `minewoodbeamshort01/02` + `minewoodplanks01-04` are vanilla's shoring vocabulary and are placed as a repeating rib along a tunnel or trench; `minescaffoldsupport01`/`minescaffoldbasesupport01(w)` are the vertical props.",
   "reads": "Documented substitutions this kit is the answer to: kiln = `smelter01` + `smelter01coal01` + firewood stacks + drying racks; sluice gate = `walkwaycwallgate01/02` set in a compiler-cut channel; slipway/hull-on-stocks = stockade scaffold + `minewoodbeam` rollers + dock steps, with an SBoT hull raised on them (hull comes from the boat pools, not this kit); winding gear = mine scaffold and a shored tunnel mouth; saltern = terrain pans dressed with `saltpile`, baskets, rakes (`pitchfork01`), `shovel01` and a `horsetrough01` store; water-wheel works = `lumbermill01waterwheel01/02`.",
   "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json.",
   "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length.",
@@ -370,6 +371,12 @@
   },
   {
    "asset": "vanilla:clutter/common/shovel01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/rocks/minecdirtmound02"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/rocks/minecdirtmound03"
   },
   {
    "asset": "vanilla:clutter/containers/miscsacklarge"

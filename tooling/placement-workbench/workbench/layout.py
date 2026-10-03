@@ -57,6 +57,10 @@ OPS = ("place", "move", "settle", "snap", "mount", "attach", "mirror", "swap", "
 _SPACED = {"place": (2, "--"), "swap": (2, "--"), "note": (2, None)}
 SOCKET_OP = "socket"
 POOL_OP = "pool"
+# keys an op carries for the readers of the layout, never a CLI argument:
+# `fills` names the promise-ledger rows the placement keeps (place-build
+# step 0 item 3; read by `worldgen.promise_gate.fills_index`)
+LAYOUT_ONLY_KEYS = ("fills",)
 
 
 def sha256(path: Path) -> str:
@@ -88,7 +92,7 @@ def op_to_argv(op: dict, ap: argparse.ArgumentParser) -> list[str]:
     if name not in OPS:
         raise ValueError(f"op {name!r} is not a layout op (one of {', '.join(OPS)})")
     sp = _subparsers(ap)[name]
-    op = {k.replace("-", "_"): v for k, v in op.items()}
+    op = {k.replace("-", "_"): v for k, v in op.items() if k not in LAYOUT_ONLY_KEYS}
     argv, known = [name], set()
     for act in sp._actions:
         if isinstance(act, argparse._HelpAction):

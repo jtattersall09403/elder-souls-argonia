@@ -1465,7 +1465,6 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         parcels = {p["id"]: p for p in bp.get("parcels", [])}
         ids = []
         laid_runs: dict[str, list[dict]] = {}
-        parcel_treatment: dict[str, dict] = {}
         for raw in doc.get("placements", []):
             if not raw.get("kit"):
                 raise ValueError(
@@ -1508,7 +1507,6 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     treatment = {"id": f"treatment.{placement['id']}", "kind": kind,
                                  "footprintM": footprint}
                     treatments.append(treatment)
-                    parcel_treatment.setdefault(raw.get("parcelId"), treatment)
                 navmesh.append({"id": f"navcut.{placement['id']}",
                                 "placementId": placement["id"],
                                 "polygonM": footprint, "order": 3})
@@ -1520,7 +1518,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     })
         for door in doc.get("doors", []):
             x, z = survey.uv_to_m(*door["thresholdUV"])
-            _attach_door_apron(door, x, z, parcel_treatment)
+            _attach_door_apron(door, x, z, treatments)
             doors.append({**door, "settlementId": doc["id"],
                           "thresholdM": [round(x, 3), round(z, 3)],
                           "interiorArrival": {"doorId": door["id"],
@@ -1749,15 +1747,14 @@ DECK_TREATMENT_CLEARANCE_M = 0.8
 SHELL_GROUND_CATEGORIES = ("rock", "landscape")
 
 
-def _attach_door_apron(door: dict, x: float, z: float,
-                       parcel_treatment: dict[str, dict]) -> None:
+def _attach_door_apron(door: dict, x: float, z: float, treatments: list[dict]) -> None:
     """Every door threshold keeps a DOOR_APRON_RADIUS_M disc of groundcover
-    clear, carried on its parcel's first ground treatment (check-in 3 §5)."""
-    owner = parcel_treatment.get(door.get("parcelId"))
-    if owner is None:
-        raise ValueError(f"{door['id']}: its parcel {door.get('parcelId')!r} has no "
-                         "ground treatment to carry the door apron")
-    owner.setdefault("apronsM", []).append([round(x, 3), round(z, 3), DOOR_APRON_RADIUS_M])
+    clear, carried on its own floor treatment `treatment.<door id>.apron`
+    (check-in 3 §5); its footprint is the disc."""
+    from .vegetation_patches import apron_polygon
+    disc = [round(x, 3), round(z, 3), DOOR_APRON_RADIUS_M]
+    treatments.append({"id": f"treatment.{door['id']}.apron", "kind": "floor",
+                       "footprintM": apron_polygon(*disc), "apronsM": [disc]})
 
 
 def _deck_clearance_m(asset: dict, inventory: dict) -> float | None:
@@ -2352,16 +2349,17 @@ def place_budgets(bundle: dict, kits_dir: Path | None = None) -> dict[str, int]:
     return {pid: round(n * COLLIDER_PART_HEADROOM) for pid, n in parts.items()}
 
 
-def published_base(base: Path | None, out: Path) -> dict:
+def published_base(base: Path | None, out: Path, places=None) -> dict:
     """The published record a --places publish merges into, whole-file shape:
     `base` when given (a province folder or index.json holding the bundles;
-    `settlement_bundles.read_published`), else the bundles beside `out`."""
+    `settlement_bundles.read_published`), else the bundles beside `out`.
+    Only the exported `places`' index shas are verified."""
     if base is not None:
         if Path(base).exists():
-            return settlement_bundles.read_published(base)
+            return settlement_bundles.read_published(base, places)
         raise ValueError(f"--places needs a published bundle to publish into; {base} does not exist")
     if (out.parent / settlement_bundles.BUNDLE_DIR / settlement_bundles.INDEX_NAME).exists():
-        return settlement_bundles.load_published(out.parent)
+        return settlement_bundles.load_published(out.parent, places)
     raise ValueError(f"--places needs a published bundle to publish into; "
                      f"{out.parent / settlement_bundles.BUNDLE_DIR / settlement_bundles.INDEX_NAME} "
                      f"does not exist (run one full export)")
@@ -2384,7 +2382,8 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
     bundle = build_bundle(fixtures_ok=fixtures_ok, all_kit_assets=all_kit_assets,
                           places=places, report=report)
     if places is not None:
-        bundle = merge_bundle(published_base(base, out), bundle, _place_scope(places))
+        bundle = merge_bundle(published_base(base, out, _place_scope(places)), bundle,
+                              _place_scope(places))
         # the budget is the MERGED set's (decision 0052): the part's own worst
         # case says nothing about the places carried from the base
         budget, ceiling_errors = collider_part_budget(

@@ -838,7 +838,8 @@ const FOG_NIGHT_TINT: readonly number[] = [0.82, 0.88, 1.0];
 const FOG_FORWARD = 0.09; // effective phase gain / π for the sun-side lobe
 const HEMI_SKY_NIGHT: readonly number[] = [0.05, 0.07, 0.12];
 const HEMI_SKY_DAY: readonly number[] = [0.55, 0.72, 1.0];
-const HEMI_GROUND_NIGHT: readonly number[] = [0.02, 0.02, 0.03];
+// Night ground bounce lifts vertical kit walls (sky/ground average) off near-black; still below HEMI_SKY_NIGHT (perf-diag21 R3).
+const HEMI_GROUND_NIGHT: readonly number[] = [0.035, 0.04, 0.05];
 const HEMI_GROUND_DAY: readonly number[] = [0.38, 0.34, 0.26];
 
 const sunsetBell = (alt: number): number => Math.exp(-Math.pow((alt - 1) / 5.5, 2));

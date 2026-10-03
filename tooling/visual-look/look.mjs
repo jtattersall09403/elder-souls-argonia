@@ -108,6 +108,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { KTX2Loader } from "three/addons/loaders/KTX2Loader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { FlameSystem } from "/fire/FlameSystem.js";
+import { isSettlementGlowMaterial, WINDOW_GLOW_LINEAR_RGB, windowGlowScale } from "/gc/settlement/windowGlow.js";
 import { pieceFlameAnchorsLocal, manifestBoxYUp, isFlameCardMaterial, flameCardBedAnchorLocal, flameAnchorFailures } from "/fire/flameAnchors.js";
 import { FIRE_PRESETS } from "/fire/fireTypes.js";
 const TW = 480, TH = 400;
@@ -164,7 +165,11 @@ window.look = async ({ url, node, row, fromPart }) => {
     const d = new THREE.Mesh(new THREE.SphereGeometry(Math.max(r * 0.012, 0.004), 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }));
     d.position.copy(a.local); scene.add(d); dots.push(d);
   }
-  const isFire = anchors.length > 0;
+  // a piece with a flame or any emissive map (window glass, glow maps) gets
+  // the night tile, so a glow that should or should not show is judged (audit10 c3)
+  let emits = false;
+  scene.traverse((o) => { for (const m of [o.material].flat()) if (m && m.emissiveMap) emits = true; });
+  const isFire = anchors.length > 0 || emits;
   const fov = 35, dist = (r / Math.sin((fov * Math.PI) / 360)) * 1.05;
   const at = (bearing, elev, d = dist, target = centre) => {
     const b = (bearing * Math.PI) / 180, e = (elev * Math.PI) / 180;
@@ -194,6 +199,10 @@ window.look = async ({ url, node, row, fromPart }) => {
     ground.material.color.set(0x6b6247).multiplyScalar(inv); grid.material.color.setScalar(inv);
     bw.material.color.set(0x00ff66).multiplyScalar(inv);
     for (const d of dots) d.material.color.setScalar(inv);
+    // the runtime window glow (materials.ts glowLine): emissive map x warm rgb x screen gain / exposure x night (1 at full night, 0 by day)
+    const glowK = night ? windowGlowScale(exposure) : 0;
+    scene.traverse((o) => { for (const m of [o.material].flat()) if (m && isSettlementGlowMaterial(m)) {
+      m.emissive.setRGB(WINDOW_GLOW_LINEAR_RGB[0] * glowK, WINDOW_GLOW_LINEAR_RGB[1] * glowK, WINDOW_GLOW_LINEAR_RGB[2] * glowK); m.emissiveIntensity = 1; } });
     const cam = new THREE.PerspectiveCamera(fov, TW / TH, Math.max(0.005, r * 0.01), dist * 20);
     cam.position.copy(v.pos); cam.lookAt(v.target);
     fire.update(0.4 + i * 0.2, () => 1);

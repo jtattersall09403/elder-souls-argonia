@@ -14,8 +14,8 @@ export const CAPTURE_RATE = 0.5;
  * <name>, <name>2, <name>3, ...). `walk=<s>` is sugar for `steps=w:<s>`. Probe tokens make the spot a diagnosis row
  * (never judged against the bar, README "Probe rules"): `diag=<probe,..>`, `trace`, `trace-gpu` (implies trace),
  * `memory-infra` (implies trace), `heapsample`, `profile` (a 200 us CPU profile over the settled window), `profile-walk` (the same over the walk window, with per-spike stacks).
- * `hold=<s>[/<every>]` opens the settle window s seconds after the ready gate with a screenshot every `every` s (10)
- * until then (warm-up vs steady state, also a diagnosis row). Returns [{name, query, aim, steps, hold, probes}], probes =
+ * `hold=<s>[/<every>]` opens the settle window s seconds after the ready gate with a screenshot every `every` s (10; sub-second
+ * allowed, e.g. hold=3/0.2) until then, clean and at the settled shot's camera (warm-up vs steady state, also a diagnosis row). Returns [{name, query, aim, steps, hold, probes}], probes =
  * {diag: [names], trace, traceGpu, memoryInfra, heapsample, profile, profileWalk}.
  */
 export function parseSpots(text) {
@@ -41,7 +41,7 @@ export function parseSpots(text) {
       else if (tok[k] === "heapsample") probes.heapsample = true;
       else if (tok[k] === "profile") probes.profile = true;
       else if (tok[k] === "profile-walk") probes.profileWalk = true;
-      else if (/^hold=\d+(\/\d+)?$/.test(tok[k])) { const [s, every = 10] = tok[k].slice(5).split("/").map(Number); spot.hold = { s, every }; }
+      else if (/^hold=\d+(\/\d*\.?\d+)?$/.test(tok[k])) { const [s, every = 10] = tok[k].slice(5).split("/").map(Number); if (!(every > 0)) throw new Error(`spots line ${i + 1}: hold every must be > 0`); spot.hold = { s, every }; }
       else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, hold=<s>[/<every>], diag=<probes>, trace, trace-v8, trace-gpu, memory-infra, heapsample, profile, profile-walk)`);
     }
     if (!/^[\w.-]+$/.test(spot.name) || !spot.query) throw new Error(`spots line ${i + 1}: need "<name> <?query>"`);

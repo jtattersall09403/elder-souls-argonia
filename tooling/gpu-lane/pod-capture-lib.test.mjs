@@ -427,7 +427,7 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   dev.createRenderPipeline({ label: "renderPipeline_late" }); dev.createShaderModule({ label: "late.wgsl" });
   const c = win.__drawCensus.stop();
   assert.equal(c.frames, 2);
-  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true });
+  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true, renderObjects: false });
   assert.equal(c.renderCallsPerFrame, 1); assert.ok(c.renderMsPerFrame > c.renderObjectMsPerFrame); assert.deepEqual(Object.keys(c.renderObjectByTarget), ["screen"]);
   assert.equal(c.drawsPerFrame, 5); assert.equal(c.drawsMax, 5);
   assert.deepEqual(c.byCategory, { "veg-gpucull": 2, "settlement-merge": 1, terrain: 1, other: 1 });
@@ -438,9 +438,41 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   assert.deepEqual(c.createdInWindow, { pipelines: 1, shaders: 1, labels: ["pipelines:renderPipeline_late", "shaders:late.wgsl"] });
   assert.equal(c.otherTop[0][0], "Mesh:thing|MeshBasicNodeMaterial:x");
   // the inclusive renderObject figure, not backend.draw alone (diag13 D2: 1.81 printed for 13.08)
-  const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
-  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5; passes main 5\/5 \(objects\/draws per frame\)$/);
+  const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerRenderObjectExcl: 9.5, renderObjectExclMsPerFrame: 6, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
+  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), 9\.5 us excl \(6 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes \(main 4; esStatic 0, dynamic 4\), RenderObject \+0\/-0 per frame, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5; passes main 5\/5 \(objects\/draws per frame\)$/);
   assert.match(drawCensusLine(null), /^not-a-bar; census unread/);
+});
+
+test("draw census (c9): nested render() is excluded from renderObject time; refreshes by pass/static/tag; RenderObject churn", () => {
+  const rafs = [];
+  let target = null, tt = 0;
+  const disposed = [];
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: () => true },
+    _objects: { createRenderObject(o) { const ro = { object: o, onDispose() { disposed.push(o); } }; return ro; } },
+    // the first receiver renders a shadow map nested in itself: 10 ms inside its renderObject call
+    _renderObjectDirect(o, m, s, cam) { tt += 1; if (o.nested) { const prev = target; target = { texture: { name: "shadow" } }; this.render([{ object: { name: "", userData: {} }, camera: { uuid: "c0", isOrthographicCamera: true } }]); target = prev; } this.backend.draw({ object: o, material: m, geometry: {}, camera: cam }); },
+    render(list) { for (const ro of list) { this._nodes.needsRefresh(ro); tt += 4; if (ro.camera) { /* shadow object */ this._renderObjectDirect(ro.object, {}, null, ro.camera); } } },
+    getRenderTarget: () => target };
+  const win = { performance: { now: () => tt }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  win.__drawCensus.start();
+  const recv = { name: "terrain", nested: true, userData: { esStatic: true } };
+  const ro1 = r._objects.createRenderObject(recv); ro1.onDispose();
+  r._objects.createRenderObject(recv);
+  r._nodes.needsRefresh({ object: recv, camera: { isPerspectiveCamera: true } });
+  r.render([{ object: recv, camera: { isPerspectiveCamera: true } }]);
+  rafs.shift()();
+  const c = win.__drawCensus.stop();
+  assert.ok(c.hooked.renderObjects);
+  assert.deepEqual(c.renderObjectChurn, { createdPerFrame: 2, disposedPerFrame: 1 }); assert.deepEqual(disposed, [recv]);
+  // outer renderObject: 1 own + nested render (4 refresh + 1 inner renderObject) = inclusive 6, exclusive 1; inner: 1
+  assert.ok(c.renderObjectMsPerFrame > c.renderObjectExclMsPerFrame);
+  assert.equal(c.renderObjectExclMsPerFrame, 2); assert.equal(c.renderObjectMsPerFrame, 7);
+  assert.ok(c.usPerRenderObject > c.usPerRenderObjectExcl);
+  assert.deepEqual(c.refreshByStatic, { static: 2, dynamic: 1 });
+  assert.deepEqual(c.refreshByPass, { main: { static: 2, dynamic: 0 }, shadow0: { static: 0, dynamic: 1 } });
+  assert.deepEqual(c.refreshByPassTag.main, { terrain: { static: 2, dynamic: 0 } });
+  assert.match(drawCensusLine(c), /3 refreshes \(main 2 shadow0 1; esStatic 2, dynamic 1\), RenderObject \+2\/-1 per frame/);
 });
 
 test("draw census: byTarget draws by category and kept-zero vegetation draws", () => {
@@ -519,8 +551,12 @@ test("--profile N@settle+S (diag20 E8): starts S s after the settle gate, and th
 });
 
 test("dev hooks line (diag20 E8): casters missing a layer and the warm gate's open reason", () => {
-  assert.equal(devHooksLine({ castersMissingLayer: 0, warm: { open: true, reason: "stable", frames: 41 } }), "casters missing layer 0; warm stable @41f");
-  assert.equal(devHooksLine({ castersMissingLayer: 3, warm: { open: true, reason: "cap", frames: 600 } }), "casters missing layer 3 (expect 0); warm cap @600f");
+  assert.equal(devHooksLine({ castersMissingLayer: [], warm: { open: true, reason: "stable", frames: 41 } }), "casters missing layer 0; warm stable @41f");
+  const missing = [{ name: "wall", owner: "settlements", kind: "Mesh esSettlementBatch" }, { name: "<unnamed>", owner: "<scene>", kind: "Mesh" }];
+  assert.equal(devHooksLine({ castersMissingLayer: missing, warm: { open: true, reason: "cap", frames: 600 } }),
+    "casters missing layer 2 (expect 0): wall [settlements, Mesh esSettlementBatch], <unnamed> [<scene>, Mesh]; warm cap @600f");
+  const many = Array.from({ length: 10 }, (_, i) => ({ name: `m${i}`, owner: "o", kind: "Mesh" }));
+  assert.match(devHooksLine({ castersMissingLayer: many, warm: null }), /m7 \[o, Mesh\] \+2 more; warm \?$/);
   assert.equal(devHooksLine({ castersMissingLayer: null, warm: null }), "casters ?; warm ?");
   assert.equal(devHooksLine(null), null);
   assert.match(POSE_READY_JS, /__STUDIO_CHARACTER_DEBUG__/);
@@ -742,4 +778,42 @@ test("duplicateKeyViews refuses a twin that appended vol=off beside vol=high (di
     { name: "page", url: "http://x/?a=1&a=2", plain: true }];
   assert.deepEqual(duplicateKeyViews(views), [{ name: "a-voloff", key: "vol" }]);
   assert.equal(new URL(withParam(base, "vol", "off")).searchParams.getAll("vol").join(), "off");
+});
+
+test("view heapsample: the --profile grammar, one parser; a bad spec names heapsample", async () => {
+  const { parseHeapSample, parseViews } = await import("./pod-capture-lib.mjs");
+  assert.deepEqual(parseHeapSample("10@settle+5"), { seconds: 10, at: 5, from: "settle" });
+  assert.deepEqual(parseHeapSample("10@60"), parseProfile("10@60"));
+  assert.throws(() => parseHeapSample("10"), /heapsample wants/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/y", heapsample: "bad" }])), /heapsample wants/);
+  assert.equal(parseViews(JSON.stringify([{ name: "a", url: "http://x/y", heapsample: "10@settle+5" }]))[0].heapsample, "10@settle+5");
+});
+
+test("heap alloc top5, veg tris by rung and fetch before ready: filled from a fixture, empty and null-safe without it", async () => {
+  const { heapAllocLine, vegRungLine, VEG_READ_JS, resourceSummary, resourceLine } = await import("./pod-capture-lib.mjs");
+  const rows = Array.from({ length: 7 }, (_, i) => ({ name: `f${i} a.ts:${i}`, MB: 7 - i }));
+  assert.equal(heapAllocLine(rows), "f0 a.ts:0 7 MB; f1 a.ts:1 6 MB; f2 a.ts:2 5 MB; f3 a.ts:3 4 MB; f4 a.ts:4 3 MB");
+  assert.equal(heapAllocLine([]), null); assert.equal(heapAllocLine(undefined), null);
+  const read = { veg: { trianglesByRung: { near: 1.5e6, mid: 5e5, far: 2e5, card: 1e5 }, triangles: 2.3e6 }, render: { triangles: 3e6, calls: 900 } };
+  assert.equal(vegRungLine(read), "near 1.5 / mid 0.5 / far 0.2 / card 0.1 M; veg total 2.3 M; render triangles 3 M");
+  assert.equal(vegRungLine({ veg: null, render: null }), null); assert.equal(vegRungLine(undefined), null);
+  assert.equal(vegRungLine({ veg: null, render: { triangles: 2e6 } }), "render triangles 2 M");
+  // the page JS itself runs null-safe: no handle, no renderer
+  assert.deepEqual(new Function("window", `return ${VEG_READ_JS}`)({}), { veg: null, render: null });
+  const got = new Function("window", `return ${VEG_READ_JS}`)({ __STUDIO_VEGETATION_DEBUG__: { trianglesByRung: { near: 1, mid: 2, far: 3, card: 4 }, triangles: 10 }, __RENDERER__: { info: { render: { triangles: 5, drawCalls: 2, frame: 9 } } } });
+  assert.deepEqual(got.render, { triangles: 5, drawCalls: 2 }); assert.equal(got.veg.trianglesByRung.card, 4);
+  const sum = resourceSummary([
+    { name: "http://h/a/b.glb?v=1", transferSize: 3e6, encodedBodySize: 3e6, responseEnd: 10 }, { name: "http://h/t.ktx2", transferSize: 0, encodedBodySize: 2e6, responseEnd: 20 },
+    { name: "http://h/c.json", transferSize: 1e5, encodedBodySize: 1e5, responseEnd: 30 }, { name: "http://h/x.png", transferSize: 5e5, encodedBodySize: 5e5, responseEnd: 40 }]);
+  assert.equal(sum.requests, 4); assert.equal(sum.MB, 5.6); assert.deepEqual(sum.byKind.glb, { n: 1, MB: 3 }); assert.deepEqual(sum.byKind.ktx2, { n: 1, MB: 2 });
+  assert.deepEqual(sum.top.map((t) => t.name), ["a/b.glb", "h/t.ktx2", "h/x.png"]);
+  assert.equal(resourceLine(sum), "4 req / 5.6 MB (glb 1/3 MB, ktx2 1/2 MB, png 1/0.5 MB, json 1/0.1 MB); top3 a/b.glb 3, h/t.ktx2 2, h/x.png 0.5");
+  assert.equal(resourceLine(null), null);
+  assert.equal(resourceSummary(undefined).requests, 0);
+  const s = summariseView({ vegRead: undefined, final: { vegRead: read } , heapSample: { topAllocated: rows }, resources: { atReady: sum } });
+  assert.match(s.vegTrisByRung, /^near 1\.5/); assert.match(s.heapAllocTop5, /^f0 /); assert.match(s.fetchBeforeReady, /^4 req/);
+  const e = summariseView({});
+  assert.equal(e.vegTrisByRung, null); assert.equal(e.heapAllocTop5, null); assert.equal(e.fetchBeforeReady, null);
+  const t = summaryTable([{ name: "a", summary: s }, { name: "b", summary: e }], null);
+  assert.match(t, /heap alloc top5 \| veg tris by rung \| fetch before ready \|/); assert.match(t, /\| - \| - \| - \|\n?$/m);
 });

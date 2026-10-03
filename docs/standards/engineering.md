@@ -471,7 +471,7 @@ headless.
   cascades it reaches), never a bare `castShadow = true` or a JSX
   `castShadow` prop. The sun's cascade cameras see only the caster layers,
   so three never projects and sorts a non-caster per cascade; a bare flag
-  casts nothing (`window.__CASTERS_MISSING_LAYER__()` in the studio counts
+  casts nothing (`window.__STUDIO_SKY_DEBUG__.castersMissingLayer()` in the studio names
   them; 0 expected).
 - One whole-scene matrix walk a frame: `WaterPipeline` calls
   `scene.updateMatrixWorld()` once before the scene pass and holds
@@ -562,6 +562,9 @@ headless.
   layer's own gate replaces it (distance AND the view frustum, widened, with
   a hysteresis latch: reuse `cellGating.viewPlanesFor` / `boxInPlanes`);
   shadow casters are kept by a sweep along the light.
+- A merged batch's key never depends on the camera; every level is built
+  before ready and walking only flips visibility between prebuilt batches
+  (F40: the settlement layer merged on the main thread on every 40 m move).
 - Build each unit once, on the input it settles on (the finest terrain LOD
   it needs, or a short settle window), and count rebuilds in a harness that
   replays a startup stream.
@@ -654,6 +657,9 @@ npm test                     # from the repo root — includes repo-standards
 npm test -w @elder-souls/repo-standards     # just these checks
 npm run test:placement       # the worldgen/placement suites
 ```
+
+Test selection: an exporter change selects the exporter and interior tests
+only, not the whole placement group (143 s against the 60 s bar).
 
 Each check names the standard it enforces and prints the offending file and
 line. Every CI job that runs a Python gate installs

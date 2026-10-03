@@ -147,6 +147,13 @@ nothing: give it a reviewed `assetPlacement` row in
 `tooling/asset-pipeline/pipeline/config/placement-policies.json` (sink, why,
 a render of its foot) and refresh the kits that carry it
 (`--refresh-built-manifests --kit <kit>`), in the same round (L83).
+The same holds for a piece whose every plugin reference stands on a
+static (mine spoil heaps on mine floors: `--merge` writes only
+`refsDroppedStaticSupported`, no row): read its vertex rings with
+`wb.py bpy` and write the row from them. A loose earth or rock heap
+whose skirt sits under its pivot takes policy `dug-in` in
+`assetPolicies` (with its `assetPolicyEvidence` line); on `direct` it is
+judged on the 2 deg building slope bar (audit10 c4, minecdirtmound02).
 
 ## Interior audit (SKILL step 4)
 

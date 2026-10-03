@@ -44,7 +44,6 @@ import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSumma
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
 import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, V8_TRACE_CATEGORIES, classifyFrames, isV8Event, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
-import { HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
 
@@ -404,6 +403,29 @@ const nodeWait = (ms) => new Promise((r) => setTimeout(r, ms));
  * CDP round-trip (a 45-52 ms main-thread message) lands inside it (perf-diag4 D2). `during` (the CPU
  * profile, the driver) may only send its start/stop at the window's edges or the scenario's own input.
  */
+/** Every capture frame (settled, walk, hold) goes through here: --clean hides the HUD overlays (fixed/absolute
+ * elements without a canvas) for the screenshot only. */
+export async function cleanShot(page, p, clean) {
+  if (clean) await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
+  await page.screenshot({ path: p, type: "jpeg", quality: 75 }).catch(() => {});
+  if (clean) await page.evaluate(() => window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; })).catch(() => {});
+}
+/** Hold frame name from its time after the ready gate: whole seconds `hold-005s`, else milliseconds `hold-0200ms`. */
+export function holdName(tS) {
+  const ms = Math.round(tS * 1000);
+  return ms % 1000 === 0 ? `hold-${String(ms / 1000).padStart(3, "0")}s` : `hold-${String(ms).padStart(4, "0")}ms`;
+}
+/** hold = {s, every}: one cleanShot every `every` s from tReady until tReady + s; returns the paths. */
+export async function takeHoldShots(page, hold, pathAt, clean, tReady = Date.now(), hl = harnessLogger(), wait = nodeWait) {
+  const shots = [];
+  for (let k = 0; Date.now() - tReady < hold.s * 1000; k++) {
+    const p = pathAt(Math.round(k * hold.every * 1000) / 1000);
+    await hl.wrap("screenshot:hold", () => cleanShot(page, p, clean));
+    shots.push(p);
+    await wait(Math.max(0, Math.min(tReady + (k + 1) * hold.every * 1000, tReady + hold.s * 1000) - Date.now()));
+  }
+  return shots;
+}
 export async function sample(page, seconds, during, wait = nodeWait, hl = harnessLogger(), schedule = null) {
   // The heartbeat Worker ticks every 5 ms on its own thread and keeps its gaps over 20 ms (page time) to itself
   // until read once after the window: a gap the main thread AND the worker both saw is a process/host stall.
@@ -708,24 +730,16 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
-  // `hold=<s>[/<every>]` spot token: the settle window opens <s> s after the ready gate; until then one screenshot
-  // every <every> s (`<spot>-hold-<t>s.jpg`, t from the ready gate), all before any stats window.
-  const holdShots = [];
-  if (spot.hold) {
-    const tReady = Date.now();
-    for (let k = 0; Date.now() - tReady < spot.hold.s * 1000; k++) {
-      const p = join(o.out, `${name}-hold-${String(k * spot.hold.every).padStart(3, "0")}s.jpg`);
-      await hl.wrap("screenshot:hold", () => page.screenshot({ path: p, type: "jpeg", quality: 75 })).catch(() => {});
-      holdShots.push(p);
-      await nodeWait(Math.max(0, Math.min(tReady + (k + 1) * spot.hold.every * 1000, tReady + spot.hold.s * 1000) - Date.now()));
-    }
-  }
+  const tReady = Date.now();
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
   if (spot.aim) {
     const [yaw, pitch] = spot.aim.split(",").map(Number);
     await hl.wrap("evaluate:aim", () => page.evaluate(([y, p]) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y, p), [yaw, pitch])).catch(() => {});
     await page.waitForTimeout(1500);
   }
+  // `hold=<s>[/<every>]` spot token, after the aim so every hold frame has the settled shot's camera: the settle
+  // window opens <s> s after the ready gate; until then one cleanShot every <every> s (holdName), before any stats window.
+  const holdShots = spot.hold ? await takeHoldShots(page, spot.hold, (t) => join(o.out, `${name}-${holdName(t)}.jpg`), o.clean, tReady, hl) : [];
   const traces = {};
   const P = spot.probes ?? {};
   const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra, v8: !!P.traceV8 };
@@ -755,15 +769,10 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const shot = async (tag) => {
     if (!o.shots) return;
     const p = join(o.out, `${name}-${tag}.jpg`);
-    // --clean 1: hide the overlays and the minimap for the screenshot only (pod-capture-lib HUD_HIDE_JS).
     await hl.wrap(`screenshot:${tag}`, () => shotNow(p));
     screenshots.push(p);
   };
-  const shotNow = async (p) => {
-    if (o.clean) { const h = await page.evaluate(HUD_HIDE_JS); if (!h?.ok) throw new Error(`--clean: ${JSON.stringify(h)}`); }
-    await page.screenshot({ path: p, type: "jpeg", quality: 75 }).catch(() => {});
-    if (o.clean) await page.evaluate(HUD_SHOW_JS).catch(() => {});
-  };
+  const shotNow = (p) => cleanShot(page, p, o.clean);
   await shot("settled");
   let walk = null, heapsample = null, profileWalk = null;
   if (P.profileWalk && !(walkS > 0)) profileWalk = { error: "profile-walk needs a walk spot (walk=<s> or steps=)" };

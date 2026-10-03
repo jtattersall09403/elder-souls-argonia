@@ -13,6 +13,7 @@ the planner acts on every finding at every wake (docs/standards/hooks.md
             job_guard.sh, vite build) whose lane (job_guard lane arg or
             /tmp/<lane>/ in its cmdline) no live agent names; with no lane, it
             is an orphan when no agent is live at all.
+            A job whose parent chain reaches cron/systemd (the `backup` lane) is exempt.
   OVERCTX   a live lead/deliver whose context has been past 150k for > 10 min.
   UNGUARDED a python/blender/node process over 2 GiB RSS outside a job_guard
             scope (its cgroup is not a systemd-run `run-*.scope`).
@@ -160,12 +161,31 @@ def cgroup(pid: int) -> str:
         return ""
 
 
+SCHEDULED = re.compile(r"(^|/)(cron|crond|CRON|anacron|atd)\b|systemd --user|backup_changed\.sh")
+
+
+def scheduled(p, by_pid) -> bool:
+    """True when the process chain reaches cron/systemd before any claude process (not an agent's job)."""
+    seen = set()
+    while p and p["pid"] not in seen and p["pid"] != 1:
+        seen.add(p["pid"])
+        if "claude" in p["args"].split(None, 1)[0].rsplit("/", 1)[-1]:
+            return False
+        if SCHEDULED.search(p["args"]):
+            return True
+        p = by_pid.get(p["ppid"])
+    return False
+
+
 def orphans(procs, agents) -> list[str]:
     hits = {p["pid"]: p for p in procs if HEAVY_JOB.search(p["args"]) and "lane_watch" not in p["args"]}
+    by_pid = {p["pid"]: p for p in procs}
     live_lanes = {ln for w in agents if w.live for ln in w.lanes}
     any_live = any(w.live for w in agents)
     out = []
     for p in hits.values():
+        if scheduled(p, by_pid):   # a cron/systemd job (the nightly vault backup), never an agent's
+            continue
         if p["ppid"] in hits:   # report the top of each job tree once
             continue
         lanes = set(GUARD_LANE.findall(p["args"]) + TMP_LANE.findall(p["args"]))

@@ -108,13 +108,22 @@
     "ruling": "L12 review PLAUSIBLE, L13 2026-09-28: a reference outside its parent cell reads the pivot cell's water",
     "runDate": "2026-09-28",
     "minerVersion": "4d04f6f3bf2b"
+   },
+   {
+    "assets": [
+     "vanilla:dungeons/mines/rocks/minecdirtmound02",
+     "vanilla:dungeons/mines/rocks/minecdirtmound03"
+    ],
+    "ruling": "audit10 c4 bog-iron: mounds joined works-v1 in e379351b without a sink row",
+    "runDate": "2026-10-03",
+    "minerVersion": "1e4fc409f442"
    }
   ]
  },
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS",
  "method": "designedSinkM = groundZ - pivotZ (metres, z-up, positive = pivot below the ground line) per exterior reference at unit scale; terrain from esp_index.height_at (bilinear on the LAND of the cell under the pivot, which for a reference in a worldspace's persistent cell is not its parent cell, refsOutsideCell, whose water it reads too, refsParentCellWater where no file defines it; where the placing file carries no real LAND there, the LAND of its last-loaded on-disk master that has one, R12, refsMasterLand; references with no LAND anywhere are counted, refsNoLand); a reference with mesh contact from below on a static or kit piece (worldgen/mine_mounts.py contact) is left out, and so is one whose bounds bottom stands more than 0.10 m above the highest LAND under its corners and pivot with no contact seen (refsDroppedPluginUnsupported); percentiles over n >= 3 references; slopeTermMPerDeg = least-squares gradient of sink on local terrain slope in degrees; designedWaterlineM from the cell water height on the same sign convention (the defining file's references only when it has 3 or more). Assets without n >= 3 samples: a composite whose bounds and origin equal its base piece's (compose.parts[0]) takes the base piece's plugin sink (evidence base:<id>; so does one whose part 0 carries the plugin's pitch/roll, the pose its references hold; one whose part 0 is its base at a non-unit scale takes the base's plugin sink over the references at that scale, byScale, evidence base:<id>@<scale>, planner ruling 2026-09-27), else a measured twin shipping the same mesh (evidence swap:<id>), else the mesh-sill ground-line tell of the raw kit GLB (pipeline/mesh_ground_line.py, evidence mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' when the left-out references are what left it short, 'mesh-sill (plugin-unsupported)' when the unsupported ones are); a structure piece (architecture, ruin, dungeon-kit, bridge) whose plugin IQR exceeds 1.0 m with n < 6 or over half its mesh height takes its mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin percentiles kept in pluginSpread); a stilt-fit asset's mesh tell is its deck top minus the stilt policy's deckClearanceM (tell deck-top); every mesh-sill row carries fallback: true and the record counts them (sinkFallback, R12); a texture variant (manifest variantOf) takes its base's row (a plugin row as swap:<base>); neither: no p50 (policy fallback at write time). worldgen/mine_designed_sink.py",
  "kitAssetsConsidered": 1626,
- "assetsMeasured": 1478,
+ "assetsMeasured": 1480,
  "refsJoined": 65561,
  "refsJoinedMasterBase": 32728,
  "refsStaticSupported": 8042,
@@ -124,7 +133,7 @@
  "refsOutsideCell": 526,
  "sinkFallback": {
   "rows": 1049,
-  "of": 1478,
+  "of": 1480,
   "byEvidence": {
    "mesh-sill": 969,
    "mesh-sill (plugin refs static-supported)": 44,
@@ -45290,6 +45299,29 @@
     "valueM": -0.9105
    },
    "fallback": true
+  },
+  "vanilla:dungeons/mines/rocks/minecdirtmound02": {
+   "byScaleRefsDropped": 3,
+   "refsDroppedStaticSupported": 9,
+   "staticSupportedFallback": true,
+   "baseObject": [
+    "vanilla:dungeons/mines/rocks/minecdirtmound02.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 3
+  },
+  "vanilla:dungeons/mines/rocks/minecdirtmound03": {
+   "refsDroppedStaticSupported": 19,
+   "staticSupportedFallback": true,
+   "baseObject": [
+    "vanilla:dungeons/mines/rocks/minecdirtmound03.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 1
   }
  }
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import {
-  SHADOW_CASTER_LAYER, aimShadowCameraAtCasters, countCastersMissingLayer,
+  SHADOW_CASTER_LAYER, aimShadowCameraAtCasters, castersMissingLayer,
   setCastShadow, setCastShadowCascades,
 } from "./shadowCasters";
 
@@ -32,11 +32,16 @@ describe("shadow caster layer (webgpu10 diag20 E5)", () => {
     expect(near.castShadow).toBe(false);
   });
 
-  it("counts flagged casters without the layer", () => {
-    const g = new THREE.Group();
-    const bad = new THREE.Mesh(); bad.castShadow = true;
+  it("names flagged casters without the layer, with their owner and kind", () => {
+    const g = new THREE.Group(); g.name = "settlements";
+    const inner = new THREE.Group();
+    const bad = new THREE.Mesh(); bad.castShadow = true; bad.name = "wall"; bad.userData.esSettlementBatch = true;
+    const anon = new THREE.Mesh(); anon.castShadow = true;
     const good = new THREE.Mesh(); setCastShadow(good, true);
-    g.add(bad, good);
-    expect(countCastersMissingLayer(g)).toBe(1);
+    inner.add(bad); g.add(inner, anon, good);
+    expect(castersMissingLayer(g)).toEqual([
+      { name: "wall", owner: "settlements", kind: "Mesh esSettlementBatch" },
+      { name: "<unnamed>", owner: "settlements", kind: "Mesh" },
+    ]);
   });
 });

@@ -9817,13 +9817,13 @@
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": {
-            "arcM": 1.56,
+            "arcM": 1.86,
             "bearingDeg": 258.0,
             "interiorRef": null,
             "kind": "open-front",
             "worldM": [
-              333.219,
-              3087.201
+              332.937,
+              3087.26
             ]
           },
           "front": null,
@@ -11986,13 +11986,13 @@
           ],
           "districtId": "district.the-broke-column.the-line",
           "entrance": {
-            "arcM": 1.45,
-            "bearingDeg": 25.0,
+            "arcM": 1.77,
+            "bearingDeg": 345.0,
             "interiorRef": null,
             "kind": "open-front",
             "worldM": [
-              1186.39,
-              3086.17
+              1184.56,
+              3086.22
             ]
           },
           "front": null,
@@ -14906,8 +14906,8 @@
       "districts": [
         {
           "centreM": [
-            4598.936,
-            1690.915
+            4602.451,
+            1697.463
           ],
           "cultureKit": "argonian-mud",
           "id": "district.border-road-greenspring-crossings.the-crossings",
@@ -14935,32 +14935,36 @@
               1622.566
             ],
             [
-              4469.881,
-              1626.464
+              4469.882,
+              1626.47
             ],
             [
-              4656.462,
-              1792.486
+              4657.96,
+              1792.867
             ],
             [
-              4703.189,
-              1814.305
+              4661.281,
+              1794.684
             ],
             [
-              4703.481,
-              1814.437
+              4694.403,
+              1810.15
             ],
             [
-              4706.949,
-              1815.768
+              4701.229,
+              1813.235
             ],
             [
-              4710.546,
-              1817.027
+              4707.867,
+              1816.21
+            ],
+            [
+              4709.547,
+              1815.985
             ],
             [
               4810.0,
-              1782.589
+              1782.604
             ],
             [
               4810.0,
@@ -15105,8 +15109,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-docks",
           "centreM": [
-            4662.81,
-            1788.51
+            4660.99,
+            1787.68
           ],
           "districtId": "district.border-road-greenspring-crossings.the-crossings",
           "entrance": null,
@@ -15120,56 +15124,72 @@
           "orientationWhy": "Laid east-south-east along the road's line, straight across the inlet mouth between its two dry banks.",
           "polygon": [
             [
-              4660.547,
-              1785.002
+              4659.424,
+              1784.96
             ],
             [
-              4660.388,
-              1785.062
+              4659.261,
+              1785.029
             ],
             [
-              4658.629,
-              1788.941
+              4659.191,
+              1785.184
             ],
             [
-              4658.684,
-              1789.109
+              4660.209,
+              1789.401
             ],
             [
-              4704.861,
-              1810.671
+              4660.274,
+              1789.573
             ],
             [
-              4705.025,
-              1810.745
+              4663.089,
+              1791.114
             ],
             [
-              4708.327,
-              1812.012
+              4696.073,
+              1806.515
             ],
             [
-              4710.553,
-              1812.792
+              4702.87,
+              1809.588
             ],
             [
-              4710.716,
-              1812.723
+              4708.464,
+              1812.094
             ],
             [
-              4710.787,
-              1812.568
+              4708.643,
+              1812.07
             ],
             [
-              4709.768,
-              1808.351
+              4708.744,
+              1811.931
             ],
             [
-              4709.703,
-              1808.178
+              4710.157,
+              1808.793
             ],
             [
-              4706.888,
-              1806.638
+              4710.151,
+              1808.622
+            ],
+            [
+              4710.034,
+              1808.498
+            ],
+            [
+              4704.729,
+              1805.49
+            ],
+            [
+              4664.952,
+              1787.007
+            ],
+            [
+              4661.651,
+              1785.74
             ]
           ],
           "spans": null,
@@ -15182,7 +15202,7 @@
             "whyNeighbours": "A cairn marks its west head. The track up to Greenspring turns off a short walk to the east.",
             "whySpot": "From the dry ground below the bank east across the mouth to the dry ground under the Greenspring rise."
           },
-          "yawDeg": 114.4
+          "yawDeg": 294.4
         },
         {
           "assetRef": null,

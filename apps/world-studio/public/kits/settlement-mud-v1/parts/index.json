@@ -3,15 +3,15 @@
  "kit": "settlement-mud-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 20165864,
-  "sha256": "38c65b39902b293363f077d68239eda0216097967e39bdf4c0e0e26bf7bd88d6"
+  "bytes": 20167696,
+  "sha256": "51ac55b6848ac92578ddd11069972fd0943af845c0bb5699e2f010585277909a"
  },
  "totals": {
   "parts": 6,
-  "partBytes": 92492,
+  "partBytes": 92436,
   "textureFiles": 8,
   "textureBytes": 1808323,
-  "bytes": 1900815
+  "bytes": 1900759
  },
  "assets": {
   "kotm:argonia/mudhuts/door01": {
@@ -66,7 +66,7 @@
   },
   "mudmother:gv_meshes/argoniannest/argoniancandle01": {
    "file": "mudmother_gv_meshes_argoniannest_argoniancandle01-9ced16a4.glb",
-   "bytes": 30588,
+   "bytes": 30532,
    "vertices": 1262,
    "triangles": 1548,
    "textures": [

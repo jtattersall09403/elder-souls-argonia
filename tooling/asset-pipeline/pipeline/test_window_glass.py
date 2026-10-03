@@ -123,3 +123,30 @@ def test_own_emit_material_gets_its_diffuse_as_emissive_map():
     assert gltf["materials"][0]["emissiveFactor"] == [1.0, 1.0, 1.0]
     assert "emissiveTexture" not in gltf["materials"][1]
     assert gltf["materials"][2]["emissiveTexture"] == {"index": 7}
+
+
+def test_emit_maps_key_on_window_class_not_every_emitter(tmp_path):
+    """Audit10 c3: the GLB pass reads `windowMaterials`; the canoe hull
+    (Object009:2, emissive but not glass) keeps no emissive map."""
+    import json
+    import struct
+    from .build_kit import apply_own_emit_maps
+    tex = {"index": 0, "texCoord": 0}
+    gltf = {"materials": [
+        {"name": "Objekt01:1.Mat", "pbrMetallicRoughness": {"baseColorTexture": tex}},
+        {"name": "Object009:2.Mat", "pbrMetallicRoughness": {"baseColorTexture": tex}},
+    ]}
+    body = json.dumps(gltf).encode()
+    body += b" " * (-len(body) % 4)
+    glb = tmp_path / "k.glb"
+    glb.write_bytes(struct.pack("<4sII", b"glTF", 2, 20 + len(body))
+                    + struct.pack("<I4s", len(body), b"JSON") + body)
+    summary = {"assets": [
+        {"emissiveMaterials": ["Objekt01:1.Mat"], "windowMaterials": ["Objekt01:1.Mat"]},
+        {"emissiveMaterials": ["Object009:2.Mat"]},
+    ]}
+    assert apply_own_emit_maps(glb, summary) == ["Objekt01:1.Mat"]
+    data = glb.read_bytes()
+    (n,) = struct.unpack_from("<I", data, 12)
+    mats = json.loads(data[20:20 + n])["materials"]
+    assert "emissiveTexture" in mats[0] and "emissiveTexture" not in mats[1]

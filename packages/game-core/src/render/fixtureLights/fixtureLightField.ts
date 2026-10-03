@@ -37,7 +37,7 @@ import { Lighting, LightsNode } from "three/webgpu";
 import type { WebGPURenderer } from "three/webgpu";
 import { TiledLighting } from "three/examples/jsm/lighting/TiledLighting.js";
 import {
-  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, int, ivec2, positionView, textureLoad, uniform, vec4,
+  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, int, ivec2, max, positionView, textureLoad, uniform, vec4,
 } from "three/tsl";
 import { activeBackend } from "../createRenderer";
 import { sel, type TslNode } from "../nodes/materialNodes";
@@ -93,11 +93,15 @@ interface ObjectSlots {
   count: number;
 }
 
+/** The shortest lamp distance the attenuation sees (metres): the field's graph and its number twin. */
+export const FIXTURE_LIGHT_MIN_DISTANCE_M = 0.8;
+
 /**
  * three's point-light attenuation (LightUtils getDistanceAttenuation): the
  * plain-number twin of the graph, for tests.
  */
 export function fixtureAttenuation(distanceM: number, radiusM: number, decay = FIXTURE_LIGHT_DECAY): number {
+  distanceM = Math.max(distanceM, FIXTURE_LIGHT_MIN_DISTANCE_M);
   const falloff = 1 / Math.max(Math.pow(distanceM, decay), 0.01);
   if (!(radiusM > 0)) return falloff;
   const t = Math.min(1, Math.max(0, 1 - Math.pow(distanceM / radiusM, 4)));
@@ -438,10 +442,14 @@ export class FixtureFieldLightsNode extends LightsNode {
         const posRadius = textureLoad(tex, ivec2(index, int(0)));
         const radiance = textureLoad(tex, ivec2(index, int(1)));
         const viewPosition = cameraViewMatrix.mul(vec4(posRadius.xyz, 1)).xyz;
+        const lightVector = viewPosition.sub(positionView);
+        const lightLength = lightVector.length();
         // three 0.184's runtime takes `lightVector` (its typings lag)
         builder.lightsNode.setupDirectLight(builder, this, (directPointLight as (p: Record<string, TslNode>) => TslNode)({
           color: radiance.rgb,
-          lightVector: viewPosition.sub(positionView),
+          // distance floored at FIXTURE_LIGHT_MIN_DISTANCE_M (dev perf10: a lamp's own shell and
+          // the wall beside it never take the 1/d^2 spike), direction unchanged
+          lightVector: lightVector.div(max(lightLength, 1e-4)).mul(max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M)),
           cutoffDistance: posRadius.w,
           decayExponent: radiance.a,
         }));

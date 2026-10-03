@@ -102,11 +102,13 @@ Load-bearing contracts:
   once a second, and each drawn object is lit by its 8 nearest (one program
   for any count); the rest glow only. The manager is the layer's own or
   injected (`lightFixtures` prop). Batches are split per 48 m square
-  (`SETTLEMENT_CHUNK_M`) inside `SETTLEMENT_LAMP_BAND_M`, so off-screen parts
-  are culled and each batch's bounds pick its own lamps, and per 384 m cell
-  beyond (`drawCellOf`); a build is patched
-  (CSM, surface, fixture lights) and its programs linked (`compileAsync`)
-  before it swaps in;
+  (`SETTLEMENT_CHUNK_M`), so off-screen parts are culled and each batch's
+  bounds pick its own lamps, and per kit level and ladder class
+  (`settlementBatchCell`, `quantizedLadder`): the key never reads the camera,
+  every level is merged once and linked (`compileAsync`, all batches visible)
+  before the first swap, and walking only flips visibility
+  (`applyBatchVisibility`, chunk-centre distance) with no merge or compile
+  (F40; every level costs 2.08x the one-level merge at Greenspring);
 - a failed bundle, manifest, schema, collision-frame or geometry load fails
   the layer closed: nothing of it is drawn, `console.error` names the cause
   and the injected `onError` hands the host `{fatal: true, message}` (the

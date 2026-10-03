@@ -107,8 +107,13 @@ def split(whole: dict, budgets: dict[str, int]) -> tuple[dict[str, dict], dict[s
 
     for p in whole["placements"]:
         put("placements", p, owner[p["id"]], p["id"])
+    door_owner = {d["id"]: ("place", d["settlementId"]) for d in whole.get("doors") or []}
     for row in whole.get("groundTreatments") or []:
-        put("groundTreatments", row, owner.get(row["id"].removeprefix("treatment.")), row["id"])
+        ref = row["id"].removeprefix("treatment.")
+        # a door apron (`treatment.<door id>.apron`) belongs to its door's place
+        key = (door_owner.get(ref.removesuffix(".apron")) if ref.endswith(".apron")
+               else owner.get(ref))
+        put("groundTreatments", row, key, row["id"])
     for field in ("navmeshCuts", "navmeshLinks"):
         for row in whole.get(field) or []:
             put(field, row, owner.get(row["placementId"]), row["id"])
@@ -244,30 +249,37 @@ def read_index(province_dir: Path | None = None) -> dict:
     return index
 
 
-def load_published(province_dir: Path | None = None) -> dict:
-    """The published settlements in the old whole-file shape (contract 2)."""
+def load_published(province_dir: Path | None = None,
+                   verify_places: set[str] | None = None) -> dict:
+    """The published settlements in the old whole-file shape (contract 2).
+    Every entry's sha256 is checked; with `verify_places` only those places'
+    entries (a --places export writes only them, and another place's
+    half-reverted publish must not block it)."""
     root = Path(province_dir or PROVINCE)
     index = read_index(root)
     docs = []
     for entry in index["places"] + index.get("routes", []):
         data = (root / entry["bundle"]).read_bytes()
-        if hashlib.sha256(data).hexdigest() != entry["sha256"]:
+        if verify_places is not None and entry["id"] not in verify_places:
+            pass
+        elif hashlib.sha256(data).hexdigest() != entry["sha256"]:
             raise ValueError(f"{entry['bundle']}: bytes do not match the index sha256")
         docs.append(json.loads(data))
     return assemble(docs)
 
 
-def read_published(path: Path | None = None) -> dict:
+def read_published(path: Path | None = None,
+                   verify_places: set[str] | None = None) -> dict:
     """The whole-file record from `path`: a province folder or a
     settlements/index.json (the bundles), or a legacy whole settlements.json;
     None is the published province."""
     if path is None:
-        return load_published()
+        return load_published(None, verify_places)
     path = Path(path)
     if path.is_dir():
-        return load_published(path)
+        return load_published(path, verify_places)
     if path.name == INDEX_NAME:
-        return load_published(path.parent.parent)
+        return load_published(path.parent.parent, verify_places)
     return json.loads(path.read_text())
 
 

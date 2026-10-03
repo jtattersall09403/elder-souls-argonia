@@ -74,7 +74,9 @@ import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/ai
 import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
-import { aimShadowCameraAtCasters, countCastersMissingLayer } from "@elder-souls/game-core/render/shadowCasters";
+import {
+  aimShadowCameraAtCasters, castersMissingLayer, type CasterMissingLayer,
+} from "@elder-souls/game-core/render/shadowCasters";
 import { climateAirAt, ONSHORE, OnshoreProbe, RegionFogProbe, type RegionClimateMeta } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
@@ -153,6 +155,9 @@ export function getStarDensityMult(): number {
 }
 
 export interface SkyDebugState {
+  /** castShadow objects no caster layer carries, by name, owner and kind
+   * (expect none; the gpu-lane dev hooks print them). */
+  castersMissingLayer: () => CasterMissingLayer[];
   epochMinutes: number;
   dayPhase: string;
   sunAltitudeDeg: number;
@@ -306,6 +311,8 @@ export function WorldSky({
   const sunLighting = useMemo<SunLighting>(() => ({ dir: new THREE.Vector3(0, 1, 0), sunIrradiance: volSun.current, skyIrradiance: volSky.current }), []);
   useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
   const segments = useFrameSegments();
+  // the debug handle's caster audit (castShadow objects with no caster layer cast nothing)
+  const listCastersMissingLayer = useMemo(() => () => castersMissingLayer(scene), [scene]);
   const base = DATA_BASE;
   // fog profile of the region under the camera (climate-regions home table via hydrology-meta)
   const regionFog = useRef<RegionFogProbe | null>(null);
@@ -325,9 +332,6 @@ export function WorldSky({
     (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
     (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
     (window as unknown as { __AERIAL__?: AerialUniforms }).__AERIAL__ = sharedAerialUniforms;
-    // castShadow objects no caster layer carries: they cast nothing (0 expected)
-    (window as unknown as { __CASTERS_MISSING_LAYER__?: () => number }).__CASTERS_MISSING_LAYER__ =
-      () => countCastersMissingLayer(scene);
   }
 
   // Climate rasters as GPU textures for the haze term (shared uniforms):
@@ -1034,6 +1038,7 @@ export function WorldSky({
     }
 
     window.__STUDIO_SKY_DEBUG__ = {
+      castersMissingLayer: listCastersMissingLayer,
       epochMinutes,
       dayPhase: dayPhaseAt(epochMinutes),
       sunAltitudeDeg: rig.sun.altitude / DEG,
