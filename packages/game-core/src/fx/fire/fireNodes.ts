@@ -48,13 +48,25 @@ export function fireFbm(p: TslNode, octaves: TslNode): TslNode {
   return v.div(float(0.5).add(s2.mul(0.25)).add(s3.mul(0.125)));
 }
 
-/** Teardrop: widest a third of the way up, rounded root, tip narrowed by taper. */
-export function fireMask(p: TslNode, taper: TslNode): TslNode {
+/** Card flame fade above the emitter plane, as a share of the card height. */
+export const FLAME_CARD_ROOT_FADE = 0.14;
+/** Volume flame fade above the emitter plane, as a share of the box height. */
+export const FLAME_VOLUME_ROOT_FADE = 0.05;
+/** Root fade edges: zero at the emitter plane (`rootShare` up the shape), full `fade` above it,
+ * so nothing below the emitter (inside the fuel) draws and no hard cut shows where it crosses. */
+export function flameRootFadeEdges(rootShare: number, fade: number): [number, number] {
+  return [rootShare, rootShare + fade];
+}
+
+/** Teardrop: widest a third of the way up, rounded root fading to zero at the emitter plane
+ * (`rootShare` of the card height), tip narrowed by taper. */
+export function fireMask(p: TslNode, taper: TslNode, rootShare: number): TslNode {
+  const [lo, hi] = flameRootFadeEdges(rootShare, FLAME_CARD_ROOT_FADE);
   const y = clamp(p.y, 0, 1);
   const width = sqrt(clamp(y.mul(3), 0, 1)).mul(0.5).mul(pow(float(1).sub(y), mix(0.6, 1.6, taper)));
   const d = abs(p.x).div(max(width, 1e-3));
   return float(1).sub(smoothstep(0.55, 1.0, d))
-    .mul(smoothstep(-0.04, 0.22, p.y))
+    .mul(smoothstep(lo, hi, p.y))
     .mul(float(1).sub(smoothstep(0.85, 1.0, p.y)));
 }
 

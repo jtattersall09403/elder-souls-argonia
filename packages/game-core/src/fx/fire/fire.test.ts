@@ -13,9 +13,9 @@ import {
 } from "./fireTypes";
 import { FlameSystem } from "./FlameSystem";
 import {
-  FIRE_VOLUME_REACH_M, makeEmberMaterial, makeFireUniforms, makeFlameMaterial, volumeShareAt,
+  FIRE_VOLUME_REACH_M, FLAME_ROOT_SHARE, makeEmberMaterial, makeFireUniforms, makeFlameMaterial, volumeShareAt,
 } from "./flameMaterial";
-import { acesRoundTripGrey } from "./fireNodes";
+import { FLAME_CARD_ROOT_FADE, FLAME_VOLUME_ROOT_FADE, acesRoundTripGrey, flameRootFadeEdges } from "./fireNodes";
 import { makeFireCurl } from "./volumeFire";
 import { FIRE_VOLUME_PRESETS, FIRE_VOLUME_TIER_CONFIG, fireCurlMiB, fireVolumeCost } from "./fireTypes";
 import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior, CellLightFlicker } from "./interiorFires";
@@ -604,5 +604,18 @@ describe("vol10 F8 fire look and draw", () => {
       seen.add(Math.round(f.factor(0, t) * 1000));
     }
     expect(seen.size).toBeGreaterThan(3);
+  });
+});
+
+describe("flame root (vol10 c9 D3)", () => {
+  const ss = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  it("card and volume fade to zero at the emitter plane, so no hard cut shows on the fuel", () => {
+    for (const fade of [FLAME_CARD_ROOT_FADE, FLAME_VOLUME_ROOT_FADE]) {
+      const [lo, hi] = flameRootFadeEdges(FLAME_ROOT_SHARE, fade);
+      expect(ss(lo, hi, FLAME_ROOT_SHARE)).toBe(0);
+      expect(ss(lo, hi, FLAME_ROOT_SHARE + fade)).toBe(1);
+    }
+    // the old card edges smoothstep(-0.04, 0.22) left the flame half bright at the emitter plane
+    expect(ss(-0.04, 0.22, FLAME_ROOT_SHARE)).toBeGreaterThan(0.4);
   });
 });

@@ -44,7 +44,7 @@ import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { sel } from "../../render/nodes/materialNodes";
 import { FIRE_VOLUME_MAX_CATCHUP, type FireVolumeConfig, type FireVolumeTierConfig } from "./fireTypes";
-import { displayToScene, fireFlickerNode } from "./fireNodes";
+import { FLAME_VOLUME_ROOT_FADE, displayToScene, fireFlickerNode } from "./fireNodes";
 import { FLAME_ROOT_SHARE, premultipliedFireMaterial, volumeShareNode, type FireUniforms } from "./flameMaterial";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
@@ -503,7 +503,9 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
       const fy = box.y.div(fu.flameShare);
       const halfW = T.sqrt(clamp(fy.mul(4), 0.35, 1)).mul(T.pow(float(1).sub(clamp(fy, 0, 1)), float(0.8))).mul(0.5);
       const env = float(1).sub(smoothstep(0.55, 1.0, r.div(max(halfW, 1e-3))))
-        .mul(float(1).sub(smoothstep(0.7, 1.0, fy)));
+        .mul(float(1).sub(smoothstep(0.7, 1.0, fy)))
+        // zero at the emitter plane: nothing below it (inside the fuel) draws, no hard cut
+        .mul(smoothstep(fu.rootShare, fu.rootShare.add(FLAME_VOLUME_ROOT_FADE), box.y));
       // plume: a column widening as it rises (radius 0.15 -> 0.45 box widths), from half the
       // flame's height to a fade over the box's top 15 %
       const plume = float(1).sub(smoothstep(0.6, 1.0, r.div(box.y.mul(0.3).add(0.15))))

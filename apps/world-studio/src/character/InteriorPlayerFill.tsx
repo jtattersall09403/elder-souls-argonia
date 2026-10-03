@@ -7,7 +7,7 @@ import {
   PLAYER_FILL_DISTANCE_M, PLAYER_FILL_TOWARD_CAMERA_M, PLAYER_FILL_UP_M, cellAmbientLuminance, playerFillIntensity,
 } from "@elder-souls/game-core/interior/playerFill";
 
-const PLAYER_FILL_NAME = "player-fill";
+export const PLAYER_FILL_NAME = "player-fill";
 
 /**
  * Give a loaded cell its player fill (vol10 c9 I2; game-core interior/playerFill): one PointLight under the

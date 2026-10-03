@@ -46,7 +46,7 @@ import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbi
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { settlementColliderDesc } from "./SettlementColliders";
 import type { DoorOverlayChannel } from "./doorOverlay";
-import { InteriorPlayerFill, preparePlayerFill } from "./InteriorPlayerFill";
+import { InteriorPlayerFill, PLAYER_FILL_NAME, preparePlayerFill } from "./InteriorPlayerFill";
 import { interiorPlayerFillK, type QualitySettings } from "@elder-souls/game-core/core/quality";
 import {
   PLAYER_FILL_TOWARD_CAMERA_M, cellAmbientLuminance, playerFillIntensity,
@@ -231,7 +231,7 @@ export function InteriorDoors({
   useEffect(() => { transition.setDoors(doors); }, [transition, doors]);
   // Quality or touch changed inside a cell: retune the shown cell's fill intensity only.
   useEffect(() => {
-    const light = shown?.interior.group.getObjectByName("player-fill") as THREE.PointLight | undefined;
+    const light = shown?.interior.group.getObjectByName(PLAYER_FILL_NAME) as THREE.PointLight | undefined;
     if (shown && light) light.intensity = playerFillIntensity(cellAmbientLuminance(shown.interior.bundle), fillK, PLAYER_FILL_TOWARD_CAMERA_M);
   }, [shown, fillK]);
   // a deep-linked cell is fetched on mount, not after the controller mounts: it opens on bundle resident

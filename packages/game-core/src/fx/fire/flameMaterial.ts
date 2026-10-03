@@ -206,7 +206,7 @@ export function makeFlameMaterial(u: FireUniforms): NodeMaterial {
     const n2 = fireFbm(q.mul(1.7).add(9.3), max(float(1), vOctaves.sub(1)));
     // distort more toward the tip: the root is steady, the tongues lick
     const pp = vec2(vUv.x.add(n.sub(0.5).mul(turb).mul(0.9).mul(vUv.y)), vUv.y.add(n2.sub(0.5).mul(turb).mul(0.35)));
-    const mask = fireMask(pp, vTaper);
+    const mask = fireMask(pp, vTaper, FLAME_ROOT_SHARE);
     // heat: hottest low in the core, cooling up and out
     const heat = mask.mul(float(1).sub(vUv.y.mul(0.55))).mul(n.mul(0.5).add(0.75)).mul(mix(1, 0.55, outer)).toVar();
     If(heat.lessThan(0.01), () => { Discard(); });
