@@ -51,6 +51,7 @@ async function main() {
     if (fn === "teleport") return d.teleport(arg[0], arg[1], arg[2]);
     if (fn === "interior") return d.interior();
     if (fn === "doors") return d.doors?.() ?? null;
+    if (fn === "hidePlayer") return d.hidePlayer?.(arg) ?? null;
     return null;
   }, [fn, arg]);
   const key = (k, down) => cdp.send("Input.dispatchKeyEvent", { type: down ? "keyDown" : "keyUp", ...KEYS[k] });
@@ -62,11 +63,19 @@ async function main() {
     while (Date.now() < end) { const s = await state().catch((e) => { if (cdpLost(e)) throw e; return null; }); if (s && pred(s)) return s; await wait(250); }
     return null;
   };
+  /** Every judged shot is static: the drawn player body is hidden for it (walkHarnessHooks hidePlayer) and the
+   * page never shows a scrollbar. Two animation frames let the fade and the style apply before the capture. */
   const shot = async (file) => {
     const p = join(o.out, file);
+    await dbg("hidePlayer", true);
+    await page.evaluate(() => new Promise((res) => {
+      document.documentElement.style.overflow = "hidden"; document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => requestAnimationFrame(res));
+    }));
     await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => { const r = e.getBoundingClientRect(); return r.width * r.height < 0.5 * innerWidth * innerHeight && ["fixed", "absolute"].includes(getComputedStyle(e).position); }); /* HUD and minimap (a canvas), never the full-screen world canvas */ window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
     await page.screenshot({ path: p, type: "jpeg", quality: 80 });
     await page.evaluate(() => window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; })).catch(() => {});
+    await dbg("hidePlayer", false);
     return file;
   };
   const pos2 = (s) => (s?.pos ? [s.pos[0], s.pos[2]] : null);
@@ -170,10 +179,14 @@ async function main() {
     if (!s) { findings.push({ pass, where: a.doorId, finding: "E did not enter the interior within 30 s" }); return r; }
     r.entered = true; r.enterS = r2((Date.now() - tIn) / 1000); r.cellShown = s.cellId;
     if (s.cellId !== a.cellId) findings.push({ pass, where: a.doorId, finding: `entered cell ${s.cellId}, route expects ${a.cellId}` });
-    // off the arrival marker, away from the door frame (walk10 H-clip), then let exposure adapt (H-dark)
+    // to the cell's floor centre (route interiorCentreLocalM), else interiorStep forward off the arrival marker
+    // (walk10 H-clip); then let exposure adapt (H-dark)
     const stepM = a.interiorStep ?? 1.5;
     const sIn = s;
-    await key("w", true); await wait((stepM / o.speed) * 1000); await key("w", false); await wait(400);
+    const probeIn = await dbg("interior");
+    if (a.interiorCentreLocalM && probeIn?.originM) {
+      r.interiorWalk = await walkTo([probeIn.originM[0] + a.interiorCentreLocalM[0], probeIn.originM[2] + a.interiorCentreLocalM[2]], 1, 0.4);
+    } else { await key("w", true); await wait((stepM / o.speed) * 1000); await key("w", false); await wait(400); }
     const sStep = await state();
     r.interiorStep = { stepM, movedM: sIn?.pos && sStep?.pos ? r2(legTo(pos2(sIn), pos2(sStep)).distM) : null, posM: sStep?.pos?.map(r2) ?? null };
     r.exposure = await exposureSettle();
@@ -221,7 +234,7 @@ async function main() {
     const resumeAt = P.waypoints.length;
     try {
       const w0 = route.waypoints[0];
-      const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w[ti]}&rate=${o.rate}`;
+      const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w[ti]}&rate=${o.rate}&markers=0`;
       P.url = url;
       await page.goto("about:blank").catch(() => {});
       await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" });
@@ -273,6 +286,9 @@ async function main() {
         P.freeWalk = { ...frameStats(smp.ts), ...smp.work, hitches: undefined, routeId: fw.routeId,
           movedM: s0?.pos && s1?.pos ? r2(Math.hypot(s1.pos[0] - s0.pos[0], s1.pos[2] - s0.pos[2])) : null };
         if (P.freeWalk.movedM !== null && P.freeWalk.movedM < 5) findings.push({ pass, where: "freeWalk", finding: `the 20 s walk moved only ${P.freeWalk.movedM} m (blocked or keys not reaching input)` });
+        // the end shot: the route's backed-off stand along the last leg, horizon pitch (same pose every pass)
+        const es = fw.endShot;
+        if (es) { await dbg("teleport", [es.standM[0], es.standM[1], camYaw(es.yaw)]); await wait(2500); await aim(es.yaw, es.pitch); await wait(800); }
         await shot(`${pass}-freewalk-end.jpg`);
       }
       }

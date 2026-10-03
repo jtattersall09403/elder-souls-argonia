@@ -27,17 +27,27 @@ Route rules (the walk-10 causes they fix are in `tooling/.reports/16k/walk10/wal
   away and the straight line crosses no footprint, or a one-corner `detourM` around the blocking
   footprints is clear; otherwise `teleport`, which the runner never walks.
 - The door approach is 0.6 m out from the threshold along the door's facing (reach is 1.5 m planar,
-  `packages/game-core/src/interior/doors.ts:4`). Interior shots face into the room at the exit door's
-  yaw +180°, +135° and −135°, pitched down, after walking `interiorStep` (1.5 m) forward; the out shot
+  `packages/game-core/src/interior/doors.ts:4`). Interior shots stand at the cell's floor centre
+  (`interiorCentreLocalM`, the mean of its sockets, else of its placements; `interiorStep` forward when
+  the cell has neither) and look at the exit door's yaw +180°, +60° and −60°, 5° down; the out shot
   stands 3 m out from the door.
+- Every capture hides the drawn player body (`hidePlayer` in `walkHarnessHooks.ts`; physics and camera
+  untouched) and the page scrollbar; the walk URL carries `markers=0` (no settlement beacons).
+- Sign close-ups stand 3 m off the highest board of the cluster, on whichever face points to the place
+  centre, aimed at the board centre (halfway down from the hook) from 1.6 m eye height. Fire close-ups aim
+  at each fixture's flame point: its position plus the fires-map light or flame offset (else the middle of
+  the flame-card volume). Fire series sheets are 3-wide grids of 640 px tiles.
+- The free walk ends on `freeWalk.endShot`: looking along the last leg at pitch 0 from a stand backed
+  off that leg until the stand and the camera 2 m behind it clear every footprint by 2 m. A place with no
+  painted way walks `fallback-loop`: every clear stand point, sorted by compass angle round the place
+  centre, closed. Every pose is route data, so each night shot has its t12 twin.
 - Overviews stand on the painted-way point nearest each boundary corner, and the free walk follows the
   longest painted way (`groundPaint` centreline) one compass leg per segment at 3.5 m/s, at most 20 s.
   Painted ways are land; the published water level is not read.
 - Pitch is the follow camera's: positive looks down (`followCamera.ts` minPitch/maxPitch). Aimed
   pitches put the target on the view ray through the look target 1.45 m over the feet:
   `atan2(ground + 1.45 − targetY, planar distance)`, ground from the nearest walk-route sample. Fires
-  door bases at 1.2 m over the threshold. Fire and sign close-ups (`close_up`) aim at the fixture's actual
-  world y (flame +0.3 m; sign = the cluster's highest placement), measure the pitch from 1.6 m eye height over
+  door bases at 1.2 m over the threshold. Fire close-ups (`close_up`) aim at the flame point (below), measure the pitch from 1.6 m eye height over
   the stand ground, and stand 3-10 m off: far enough that the subject fills a third of a 60 deg frame and the
   look-up stays under 0.35 rad (a steeper one puts the camera arm under the hill). The first overview (the
   yaw-check start) is chosen so 4 m north and 4 m east are clear of every collider.

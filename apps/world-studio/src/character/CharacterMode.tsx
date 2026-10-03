@@ -260,8 +260,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     if (!Number.isFinite(n)) return null;
     return Math.min(2, Math.max(0.5, n));
   }, []);
-  // Settlement beacons in walk mode (owner round 6): on by default.
-  const [showMarkers, setShowMarkers] = useState(true);
+  // Settlement beacons in walk mode (owner round 6): on by default; `?markers=0` starts them hidden.
+  const [showMarkers, setShowMarkers] = useState(
+    () => new URLSearchParams(window.location.search).get("markers") !== "0");
   // The place sockets as labelled posts (0103 decision 6): `?sockets=1` sets
   // the start state, the "sockets" checkbox toggles it live (owner walk 2).
   const [showSockets, setShowSockets] = useState(() => socketsOverlayEnabled());
@@ -1547,6 +1548,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
   const frameCount = useRef(0);
+  // The walk harness hides the drawn body for its static judged shots (walkHarnessHooks hidePlayer).
+  const playerHiddenRef = useRef(false);
 
   // Validation hook for headless probes: compare the live physics world
   // against the CPU-side environment query.
@@ -1631,7 +1634,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         bodyCentreHeight: CHARACTER_BODY_CENTER_HEIGHT, focusRef, camera: camera3P,
         cameraPos: () => [camera.position.x, camera.position.y, camera.position.z],
         player: () => (adapter.ready ? (adapter.position(new THREE.Vector3()).toArray() as [number, number, number]) : null),
-        interior: () => interiorProbeRef?.current?.() ?? null, interaction }),
+        interior: () => interiorProbeRef?.current?.() ?? null, interaction, playerHidden: playerHiddenRef }),
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
   }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene, focusRef, interaction]);
@@ -1774,7 +1777,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         fadePinFrame.current = 60;
         warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
       }
-      fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+      fadePlayerModel(playerModelRef.current, playerHiddenRef.current ? 0 : playerOpacityForArm(camera3P.arm));
     }
     focusRef.current = { x: position.x, z: position.z };
 
