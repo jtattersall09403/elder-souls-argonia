@@ -469,6 +469,16 @@ export function capVerdict(blankRafFps) {
 }
 
 const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number" ? String(Math.round(x * 100) / 100) : String(x));
+/** The "gpu segments" cell: `label avg/max` per GPU segment, ms. Native WebGPU pages report nothing unless the view's URL
+ * carries `gputiming=1` (the timestamp queries are off while the HUD perf section is closed); the cell then reads
+ * "off (no gputiming=1)". Nothing is added to the URL here. */
+export function segmentsCell(g) {
+  const seg = g?.segments;
+  if (!Array.isArray(seg)) return null;
+  if (!seg.length) return g.supported ? "none yet" : "off (no gputiming=1)";
+  return seg.map((x) => `${x.label} ${r1c(x.avg)}/${r1c(x.max)}`).join("; ");
+}
+const r1c = (x) => (Number.isFinite(x) ? Math.round(x * 100) / 100 : "?");
 /** A view's summary from its result.json fields. Rates come from the cost window (it starts after the settled read;
  * `from` is "window", or "unsettled" when the view ended before the settled read): fps is the window's wall-clock frame
  * rate, GPU and CPU ms the window's per-frame means (measure.mjs workStats gpuFrameMs, workMs), low1 its frame intervals.
@@ -486,6 +496,7 @@ export function summariseView(r) {
     costMs: wk?.costMs?.mean ?? null, uncappedFps: wk?.uncappedFps ?? null,
     calls: g.calls ?? s.renderer?.calls ?? null, tris: trisInvalid(r) ? "tris invalid (cull read-back)" : g.tris ?? s.renderer?.triangles ?? null,
     heapMbPerMin: r.heapSlope?.mbPerMin ?? null,
+    gpuSegments: segmentsCell(g),
     majorGCs: w.heap?.majorGCs ?? null, allocMBps: w.heap?.allocMBps ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
     errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
@@ -513,9 +524,9 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "gpu segments avg/max ms", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null || typeof s.tris === "string" ? s.tris : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
+    s.costMs, s.uncappedFps, s.gpuSegments, s.calls, s.tris == null || typeof s.tris === "string" ? s.tris : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
   const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
   return [...(unpinned.length ? [`WEATHER UNPINNED in the views file (w=clear added; diag20 E7): ${unpinned.join(", ")}`] : []), `cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",

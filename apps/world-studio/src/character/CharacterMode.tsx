@@ -1065,6 +1065,8 @@ interface FrameGpuStats {
   wall?: boolean;
   /** Which clock the GPU figure comes from (node renderer timestamps). */
   source?: GpuTimerSource;
+  /** Per-segment GPU ms (sky, scene, water, ...), read on demand by probes; allocates, never called per frame. */
+  segments?: () => readonly { label: string; avg: number; max: number }[];
   /** Triangles and draw calls the WHOLE frame issued, averaged over the same
    * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
   tris: number;
@@ -1180,6 +1182,7 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
       avg: 0, max: 0, supported: Boolean(segments?.gpuSupported), wall: undefined,
       tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0,
       hiddenChunks: undefined, hiddenSectors: undefined,
+      segments: () => segments?.stats().gpu ?? [],
     });
     gpu.current.stats.buckets.fill(0);
     // Attribution (HUD line 3). `info.render.triangles` is the only count

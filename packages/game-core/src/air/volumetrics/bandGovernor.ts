@@ -30,6 +30,8 @@ function median(xs: number[]): number {
 export class BandGovernor {
   band: VolumetricBand;
   private readonly fixed: boolean;
+  /** True when the band is pinned to `off` for the session: the sampler can be left out of the shader at build time. */
+  get fixedOff(): boolean { return this.fixed && this.band === "off"; }
   /** The last 2 s of frames: ms, and seconds since the last band change when recorded. */
   private frames: { ms: number; t: number }[] = [];
   private sinceChange = 0;

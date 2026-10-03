@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, segmentsCell } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -1054,4 +1054,14 @@ test("summariseView: CONTAMINATED cell; tris invalid when GPU errors hit indirec
   assert.equal(summariseView({ final: { gpuMs: { tris: 5e6 }, backend: "webgpu" }, gpuErrors: [["x", 1]] }).tris, "tris invalid (cull read-back)");
   assert.equal(summariseView({ final: { gpuMs: { tris: 5e6 }, backend: "webgl2" }, gpuErrors: [["x", 1]] }).tris, 5e6);
   assert.match(summaryTable([{ name: "N", summary: bad }], null), /\| tris invalid \(cull read-back\) \|/);
+});
+
+test("segmentsCell: per-segment avg/max ms; absent timing says so; summariseView carries it", () => {
+  const g = { supported: true, segments: [{ label: "sky", avg: 0.512, max: 1.2 }, { label: "water", avg: 3, max: 4.456 }] };
+  assert.equal(segmentsCell(g), "sky 0.51/1.2; water 3/4.46");
+  assert.equal(segmentsCell({ supported: false, segments: [] }), "off (no gputiming=1)");
+  assert.equal(segmentsCell({ supported: true, segments: [] }), "none yet");
+  assert.equal(segmentsCell({ supported: true }), null);
+  assert.equal(summariseView({ final: { gpuMs: g } }).gpuSegments, "sky 0.51/1.2; water 3/4.46");
+  assert.match(summaryTable([{ name: "v", summary: summariseView({ final: { gpuMs: g } }) }], {}), /gpu segments avg\/max ms/);
 });

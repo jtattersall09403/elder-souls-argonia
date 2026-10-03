@@ -334,12 +334,13 @@ export function WorldSky({
   useLayoutEffect(() => {
     const fogScene = scene as THREE.Scene & { fogNode?: unknown };
     const V = TSL_V as unknown as Record<string, { z: { negate(): unknown } }>;
-    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms, (lit) =>
+    // A fixed `off` band (`?vol=off`, the classic-WebGL backend) leaves the apply out of the graph: no 3D sample, no light loop.
+    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms, governor.fixedOff ? undefined : (lit) =>
       applyVolumetrics(volumetrics, lit, V.positionView.z.negate() as never, V.screenUV as never));
     return () => {
       fogScene.fogNode = null;
     };
-  }, [scene, volumetrics]);
+  }, [scene, volumetrics, governor]);
 
   // Renderer: physical lights + ACES + soft shadows, one configuration for
   // both modes (module 55 §96 — tone mapping is part of the light system).

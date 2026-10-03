@@ -315,7 +315,8 @@ const READ = `(async () => {
   const rafMs = (window.__RAFMS ?? []).slice(-300);
   const g = window.__STUDIO_GPU_MS__;
   return { rafMs, frames: [f1, f2], backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
-    fps: window.__STUDIO_FPS__, gpuMs: g && { avg: g.avg, max: g.max, supported: g.supported, cpu: g.cpu, cpuMax: g.cpuMax, tris: g.tris, calls: g.calls, source: g.source },
+    fps: window.__STUDIO_FPS__, gpuMs: g && { avg: g.avg, max: g.max, supported: g.supported, cpu: g.cpu, cpuMax: g.cpuMax, tris: g.tris, calls: g.calls, source: g.source,
+      segments: (() => { try { return g.segments?.().map((x) => ({ label: x.label, avg: x.avg, max: x.max })); } catch { return undefined; } })() },
     renderer: i && { geometries: i.memory?.geometries, textures: i.memory?.textures, triangles: i.render?.triangles, calls: i.render?.drawCalls ?? i.render?.calls },
     vegRead: ${VEG_READ_JS},
     buildQueue: q && { pending: q.pending, twinsHeld: q.twinsHeld, skippedDraws: q.skippedDraws },
