@@ -46,6 +46,8 @@ import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbi
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { settlementColliderDesc } from "./SettlementColliders";
 import type { DoorOverlayChannel } from "./doorOverlay";
+import { InteriorPlayerFill, preparePlayerFill } from "./InteriorPlayerFill";
+import { interiorPlayerFillK, parseQuality } from "@elder-souls/game-core/core/quality";
 
 /** Scratch: the sun's colour handed to the shown cell's daylight each frame. */
 const daylightColour = new THREE.Color();
@@ -184,11 +186,29 @@ export function InteriorDoors({
 
   // A cell the doors prefetch is linked as soon as it is built, against the
   // inside's lighting (`InteriorLinker.warm`), so entering finds it compiled.
+  // Set on the cell before its first link, so its program set is compiled once with it: the player fill (vol10 c9
+  // I2; k from the quality preset, the mobile value on a touch device, `?playerfill=0` off) and the dev-capture
+  // switch `?cellsunshadow=0` (the cell sun casts no shadow; vol10 c9 I1 twin). Read like CharacterMode's `?q=`.
+  const prepareCell = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    const touch = window.matchMedia?.("(pointer: coarse)").matches ?? false;
+    const k = params.get("playerfill") === "0" ? 0
+      : interiorPlayerFillK(parseQuality(params.get("quality") ?? params.get("q")), touch);
+    const cellSunShadow = params.get("cellsunshadow") !== "0";
+    return (interior: LoadedInterior) => {
+      if (!cellSunShadow && interior.daylight.directional) interior.daylight.directional.castShadow = false;
+      preparePlayerFill(interior, k);
+    };
+  }, []);
   const interiors = useMemo<InteriorSource>(() => ({
-    request: (cellId) => loader.request(cellId).then((interior) => { linker.warm(interior, camera, interiorFog); return interior; }),
+    request: (cellId) => loader.request(cellId).then((interior) => {
+      prepareCell(interior);
+      linker.warm(interior, camera, interiorFog);
+      return interior;
+    }),
     ready: (cellId) => loader.ready(cellId),
     failure: (cellId) => loader.failure(cellId),
-  }), [loader, linker, camera, interiorFog]);
+  }), [loader, linker, camera, interiorFog, prepareCell]);
 
   const stagesMs = useRef<InteriorDoorsProbe["stagesMs"]>({ opened: null, shown: null, clear: null });
   const transition = useMemo(() => new DoorTransition({
@@ -337,6 +357,7 @@ export function InteriorDoors({
     let live = true;
     const startedMs = performance.now();
     shown.interior.group.position.set(...shown.originM);
+    prepareCell(shown.interior);
     // the window lights take their slots in the scene's fixture light field (0108)
     shown.interior.daylight.bind(fixtureLightFieldOf(scene));
     linker.link(shown.interior.group, camera, scene).then((added) => {
@@ -347,7 +368,7 @@ export function InteriorDoors({
       setLinked(shown);
     });
     return () => { live = false; shown.interior.daylight.unbind(); };
-  }, [shown, linker, camera, scene, baseUrl]);
+  }, [shown, linker, camera, scene, baseUrl, prepareCell]);
   // after the commit that mounted the linked group: the fade may lift
   useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
 
@@ -522,7 +543,14 @@ export function InteriorDoors({
     return () => { probeRef.current = null; };
   }, [probeRef, shown, transition, interaction, overlay, daylightSeen, skyEased, windows, scene]);
 
-  if (shown) return linked === shown ? <primitive object={shown.interior.group} position={shown.originM} /> : null;
+  if (shown) {
+    return linked === shown ? (
+      <>
+        <primitive object={shown.interior.group} position={shown.originM} />
+        <InteriorPlayerFill interior={shown.interior} controller={controller} />
+      </>
+    ) : null;
+  }
   return exteriorSwing.length ? <>{exteriorSwing.map((d) => <primitive key={d.id} object={d.object} />)}</> : null;
 }
 

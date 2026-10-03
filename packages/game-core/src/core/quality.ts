@@ -47,6 +47,19 @@ export interface QualitySettings {
    * (game time x30), so 1/2/4 halves to quarters their pass cost unseen. The
    * character view has one cascade, so there it changes nothing. */
   readonly shadowCascadeRota: readonly number[];
+  /** The player fill indoors (vol10 c9 I2; interior/playerFill.ts): k in I = k x E_amb x d^2, the
+   * irradiance the fill adds to the camera side of the character as a multiple of the cell's ambient.
+   * An art-direction default (the common character key light), presented to the owner as such; 0 = off.
+   * A touch (mobile) device takes INTERIOR_PLAYER_FILL_K_MOBILE whatever the preset. */
+  readonly interiorPlayerFillK: number;
+}
+
+/** The player fill k on a touch (mobile) device: the stricter value (0108 checklist). */
+export const INTERIOR_PLAYER_FILL_K_MOBILE = 1;
+
+/** The player fill k for a preset on a device; `mobile` is the touch test that picks VolumetricTier mobile. */
+export function interiorPlayerFillK(quality: QualitySettings, mobile: boolean): number {
+  return mobile ? Math.min(INTERIOR_PLAYER_FILL_K_MOBILE, quality.interiorPlayerFillK) : quality.interiorPlayerFillK;
 }
 
 export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> = {
@@ -61,6 +74,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     dprMax: 1,
     shadowMapSize: 2048,
     shadowCascadeRota: [1, 2, 4],
+    interiorPlayerFillK: 1,
   },
   medium: {
     name: "medium",
@@ -73,6 +87,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     dprMax: 1,
     shadowMapSize: 2048,
     shadowCascadeRota: [1, 2, 4],
+    interiorPlayerFillK: 2,
   },
   high: {
     name: "high",
@@ -85,6 +100,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     dprMax: 1.25,
     shadowMapSize: 4096,
     shadowCascadeRota: [1, 2, 4],
+    interiorPlayerFillK: 2,
   },
 };
 
