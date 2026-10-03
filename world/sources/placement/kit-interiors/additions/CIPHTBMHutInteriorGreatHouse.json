@@ -1,0 +1,54 @@
+{
+ "schemaVersion": 1,
+ "cellId": "CIPHTBMHutInteriorGreatHouse",
+ "additions": [
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:hearth-fireplacewood01burning-01",
+   "assetId": "vanilla:clutter/woodfires/fireplacewood01burning",
+   "pos": [0.11, 0.03, -0.11],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Logs burn in the fire pit at the middle of the hall, where the chairs face."
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:table-table03sq-01",
+   "assetId": "kotm:argonia/furniture/table03sq",
+   "pos": [2.22, 0.04, -1.76],
+   "rotZDeg": 145.4,
+   "zone": "table",
+   "why": "The elders eat at this table, between the two chairs on the east side."
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [2.22, 0.936, -1.76],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the table for the evening meal."
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-01",
+   "assetId": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "pos": [3.3, 0.04, 1.2],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the basket by the east wall."
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-02",
+   "assetId": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "pos": [-1.0, 0.04, -3.5],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the basket by the door."
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse:add:store-argoniancandle-03",
+   "assetId": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "pos": [-3.0, 0.04, 2.1],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the barrels along the west wall."
+  }
+ ]
+}
