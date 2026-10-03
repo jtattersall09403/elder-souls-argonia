@@ -1,6 +1,7 @@
 import { targetsLine } from "./target-probe.mjs";
 import { readFileSync } from "node:fs";
 import { topCause } from "./trace-frames.mjs";
+import { sourcePosition } from "./source-maps.mjs";
 /** Pure parts of pod-capture.mjs (unit-tested in pod-capture-lib.test.mjs). */
 
 /**
@@ -77,13 +78,35 @@ export function withFinalJpgLuma(final, middle) {
 
 /** "--profile 10@60" -> { seconds: 10, at: 60 } */
 export function parseProfile(spec) {
-  const m = /^(\d+(?:\.\d+)?)@(\d+(?:\.\d+)?)$/.exec(spec ?? "");
-  if (!m) throw new Error(`--profile wants <seconds>@<startS>, got ${spec}`);
-  return { seconds: +m[1], at: +m[2] };
+  const m = /^(\d+(?:\.\d+)?)@(?:(\d+(?:\.\d+)?)|settle\+(\d+(?:\.\d+)?))$/.exec(spec ?? "");
+  if (!m) throw new Error(`--profile wants <seconds>@<startS> or <seconds>@settle+<s>, got ${spec}`);
+  return m[2] !== undefined ? { seconds: +m[1], at: +m[2], from: "nav" } : { seconds: +m[1], at: +m[3], from: "settle" };
 }
 
-/** CPU profile -> top self and total time by function (ms). */
-export function summariseProfile(profile, n = 30) {
+/** The view second a --profile starts at: nav form `at`; settle form `at` seconds after the view settled (settledAt, the
+ * build queue empty 5 s; a plain view or no settle gate: readyS), null while that has not happened. */
+export function profileStartS(prof, settledAt, readyS) {
+  if (prof.from !== "settle") return prof.at;
+  const anchor = settledAt ?? readyS;
+  return anchor === null || anchor === undefined ? null : anchor + prof.at;
+}
+
+/** CPU profile -> top self and total time by function (ms). With `maps` (source-maps.mjs loadSourceMaps over a dist
+ * built with ES_GPU_LANE_SOURCEMAP=1), `selfTopSrc`: the top 15 self functions named by source file:line. */
+export function summariseProfile(profile, n = 30, maps = null) {
+  const out = summariseProfileRaw(profile, n);
+  if (!maps?.size) return out;
+  const self = new Map();
+  const nodes = new Map(profile.nodes.map((x) => [x.id, x.callFrame]));
+  profile.samples.forEach((id, i) => {
+    const c = nodes.get(id), dt = profile.timeDeltas[i] ?? 0;
+    const k = `${c.functionName || "(anon)"} @ ${sourcePosition(maps, c.url, c.lineNumber, c.columnNumber) ?? `${c.url.split("/").pop()}:${c.lineNumber + 1}`}`;
+    self.set(k, (self.get(k) ?? 0) + dt);
+  });
+  return { ...out, selfTopSrc: [...self].sort((a, b) => b[1] - a[1]).slice(0, 15).map(([f, us]) => [f, Math.round(us / 1000)]) };
+}
+
+function summariseProfileRaw(profile, n) {
   const nodes = new Map(profile.nodes.map((x) => [x.id, x])), parent = new Map();
   profile.nodes.forEach((x) => (x.children ?? []).forEach((c) => parent.set(c, x.id)));
   const key = (x) => `${x.callFrame.functionName || "(anon)"} @ ${x.callFrame.url.split("/").pop()}:${x.callFrame.lineNumber}:${x.callFrame.columnNumber}`;
@@ -239,8 +262,38 @@ export function parseViews(text) {
       throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, lumaFloor, fpsTol, minS, timeoutS} (each > 0)`);
     if (v.shotsFrom !== undefined && v.shotsFrom !== "settle") throw new Error(`views[${i}]: "shotsFrom" must be "settle"`);
     if (v.readyFlag !== undefined && !(typeof v.readyFlag === "string" && /^[A-Za-z_$][\w$]*$/.test(v.readyFlag))) throw new Error(`views[${i}]: "readyFlag" must be a global name`);
-    return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
+    const pin = pinWeather(v.url, v.plain);
+    return { ...v, url: pin.url, ...(pin.added ? { weatherPinAdded: true } : {}), steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
+}
+
+/** webgpu diag20 E7: a studio view (`view=` in its query, not plain) whose URL names no weather (`w=`, App.tsx
+ * parseWeatherParam) drifts with the world's weather (iter28 night views turned to rain). Such a URL gets `w=clear`
+ * appended and `added: true` (pod-capture prints a warning line and the view's result carries weatherPinAdded). */
+export function pinWeather(url, plain = false) {
+  const q = String(url).split("?")[1] ?? "";
+  const p = new URLSearchParams(q.split("#")[0]);
+  if (plain || !p.has("view") || p.has("w")) return { url, added: false };
+  const [head, hash] = String(url).split("#");
+  return { url: `${head}${head.includes("?") ? "&" : "?"}w=clear${hash !== undefined ? `#${hash}` : ""}`, added: true };
+}
+
+/** webgpu diag20 E8: the camera pose a first frame waits for. A character view (`view=character`): the player is spawned
+ * (__STUDIO_CHARACTER_DEBUG__.playerY() not null, so the follow camera is on it, not on the open-water boot camera).
+ * Other studio views: true. */
+export const POSE_READY_JS = `(() => { if (new URLSearchParams(location.search).get("view") !== "character") return true; const d = window.__STUDIO_CHARACTER_DEBUG__; const y = d?.playerY?.(); return y !== null && y !== undefined; })()`;
+
+/** webgpu diag20 E8 dev hooks, read once per view at the end of the cost window: castShadow objects no caster layer carries
+ * (WorldSky __CASTERS_MISSING_LAYER__, expect 0) and the RenderWarmGate state (CharacterMode __STUDIO_WARM__: open reason
+ * "stable" or "cap", frames). */
+export const DEV_HOOKS_JS = `(() => { let casters = null; try { casters = typeof window.__CASTERS_MISSING_LAYER__ === "function" ? window.__CASTERS_MISSING_LAYER__() : null; } catch (e) { casters = "err " + String(e).slice(0, 60); } const w = window.__STUDIO_WARM__; return { castersMissingLayer: casters, warm: w ? { open: w.open, reason: w.reason, frames: w.frames } : null }; })()`;
+
+/** One summary cell from DEV_HOOKS_JS's answer. */
+export function devHooksLine(d) {
+  if (!d) return null;
+  const c = d.castersMissingLayer === null || d.castersMissingLayer === undefined ? "casters ?" : `casters missing layer ${d.castersMissingLayer}${d.castersMissingLayer === 0 ? "" : " (expect 0)"}`;
+  const w = d.warm ? `warm ${d.warm.open ? d.warm.reason : "not open"} @${d.warm.frames}f` : "warm ?";
+  return `${c}; ${w}`;
 }
 
 /** rAF rate of a blank page (frames per second) -> the cap verdict. Above 61 fps the vsync / frame-rate cap is off and
@@ -280,17 +333,21 @@ export function summariseView(r) {
     clockStopped: r.clock?.clockAdvancing === false && /[?&]rate=(?!0(&|$))/.test(r.url ?? ""),
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     load: r.loadTimeline ? loadLine(r.loadTimeline) : null,
+    devHooks: devHooksLine(r.devHooks),
+    profileSrc: r.profile?.selfTopSrc?.length ? `${r.profile.from === "settle" ? `settle+${r.profile.atSpec}` : r.profile.at} s: ${r.profile.selfTopSrc.map(([f, ms]) => `${f} ${ms}`).join("; ")}` : null,
+    weatherPinAdded: r.weatherPinAdded ?? false,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock", "dev hooks", "profile self top15 (source)"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock, s.devHooks, s.profileSrc].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
-  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
+  const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
+  return [...(unpinned.length ? [`WEATHER UNPINNED in the views file (w=clear added; diag20 E7): ${unpinned.join(", ")}`] : []), `cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
 
@@ -905,6 +962,27 @@ export function installDrawCensus(win) {
     if (!e && C.byTarget.size < 16) { e = { ms: 0, n: 0, draws: new Float64Array(N), keptZero: 0 }; C.byTarget.set(tag, e); }
     return e;
   };
+  // per pass (webgpu diag20 E8): main (screen), shadow<k> (an orthographic camera into a target, k by first sight of its
+  // camera: one per CSM cascade), reflection (a perspective camera into a target named reflect/mirror/water), rt:<tag>
+  // (any other target); at most 16 passes: objects (_renderObjectDirect) and draws (backend.draw) per frame
+  const shadowIdx = new Map(), byPass = new Map();
+  const passOf = (r, cam) => {
+    const rt = typeof r?.getRenderTarget === "function" ? r.getRenderTarget() : null;
+    if (!rt) return "main";
+    const tag = String(rt.texture?.name || "rt");
+    if (cam?.isOrthographicCamera || /shadow/i.test(tag)) {
+      const id = cam?.uuid ?? tag;
+      if (!shadowIdx.has(id) && shadowIdx.size < 8) shadowIdx.set(id, shadowIdx.size);
+      return shadowIdx.has(id) ? `shadow${shadowIdx.get(id)}` : "shadow+";
+    }
+    return /reflect|mirror|water/i.test(tag) ? "reflection" : `rt:${tag.slice(0, 24)}`;
+  };
+  const pass = (r, cam) => {
+    const k = passOf(r, cam);
+    let e = byPass.get(k);
+    if (!e && byPass.size < 16) { e = { objects: 0, draws: 0 }; byPass.set(k, e); }
+    return e;
+  };
   const created = (kind, label) => { if (!C.on) return; C.created[kind]++; if (C.created.labels.length < 20) C.created.labels.push(`${kind}:${label ?? ""}`); };
   const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
   const Dev = win.GPUDevice?.prototype;
@@ -928,6 +1006,7 @@ export function installDrawCensus(win) {
         const ci = cat(ro), kz = ci === 0 && ro.object?.userData?.esKept === 0, te = entry(win.__RENDERER__);
         C.draws[ci]++; if (kz) C.keptZero++;
         if (te) { te.draws[ci]++; if (kz) te.keptZero++; }
+        const pe = pass(win.__RENDERER__, ro.camera); if (pe) pe.draws++;
         const o = ro.object ?? {}, g = ro.geometry ?? {};
         if (g.indirect) C.kinds.indirect++; else if (o.isInstancedMesh || (o.count ?? 1) > 1) C.kinds.instanced++; else C.kinds.plain++;
         if ((o.isInstancedMesh && o.count === 0) || g.drawRange?.count === 0) C.kinds.zero++;
@@ -944,6 +1023,7 @@ export function installDrawCensus(win) {
           const dt = now() - t; C.roMs += dt;
           const e = entry(this);
           if (e) { e.ms += dt; e.n++; }
+          const pe = pass(this, a[3]); if (pe) pe.objects++;
         }
       };
       C.hooked.renderObjectDirect = true;
@@ -968,9 +1048,10 @@ export function installDrawCensus(win) {
   };
   win.__drawCensus = {
     state: C, categories: CATS,
-    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear();
+    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear(); byPass.clear(); shadowIdx.clear();
       C.kinds = { plain: 0, instanced: 0, indirect: 0, zero: 0 }; C.created = { pipelines: 0, shaders: 0, labels: [] }; C.on = true; },
-    stop() { C.on = false; return drawCensusResult(C, CATS); },
+    stop() { C.on = false; const f = Math.max(C.frames, 1), r2 = (x) => Math.round(x * 100) / 100;
+      return { ...drawCensusResult(C, CATS), byPass: Object.fromEntries([...byPass].sort((a, b) => b[1].objects - a[1].objects).map(([k, v]) => [k, { objectsPerFrame: r2(v.objects / f), drawsPerFrame: r2(v.draws / f) }])) }; },
   };
   function drawCensusResult(c, cats) {
     const f = Math.max(c.frames, 1), r2 = (x) => Math.round(x * 100) / 100, total = c.draws.reduce((a, b) => a + b, 0);
@@ -999,7 +1080,7 @@ export function drawCensusLine(c, workMs = null) {
   const cw = c.createdInWindow ?? {};
   const tgt = Object.entries(c.byTarget ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v.drawsPerFrame}`).join(", ");
   const outside = Number.isFinite(workMs) && Number.isFinite(c.renderMsPerFrame) ? Math.round((workMs - c.renderMsPerFrame) * 100) / 100 : "?";
-  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame), backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes, ${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}`;
+  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame), backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes, ${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}; passes ${Object.entries(c.byPass ?? {}).map(([k, v]) => `${k} ${v.objectsPerFrame}/${v.drawsPerFrame}`).join(", ") || "?"} (objects/draws per frame)`;
 }
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the

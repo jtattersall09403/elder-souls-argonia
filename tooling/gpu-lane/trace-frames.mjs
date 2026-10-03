@@ -9,16 +9,24 @@
  * nested children on the same thread), so a wrapper (BeginMainFrame, FireAnimationFrame) around a FunctionCall
  * gives the call's time to `js`, not to the wrapper's cause (webgpu diag8 T8: every hitch read "other").
  * Causes (first match wins per event; an event counts toward a frame only for the self ms it overlaps):
- * gc (V8/Blink GC), shader (compile/link, program cache), upload (texture/buffer upload, image decode),
- * gpu (any other event in the GPU process), timer (TimerFire), js (FunctionCall/EvaluateScript/
+ * gc (V8/Blink GC: MajorGC, MinorGC, V8.GC*, V8.GC_MC_*, BlinkGC*, Scavenge, MarkCompact, Sweep), shader (compile/link,
+ * program cache), upload (texture/buffer upload, image decode), gpu-wait (the renderer blocked on the GPU process:
+ * CommandBufferProxyImpl::WaitForToken / WaitForGetOffset / WaitSyncToken; webgpu diag20 E6: the night 44-71 ms
+ * hitches read "other" and were these waits), gpu (any other event in the GPU process), timer (TimerFire), js (FunctionCall/EvaluateScript/
  * v8.callFunction on the main thread), raster/compositor (viz, cc), other.
  */
 import { readFileSync } from "node:fs";
 
+/** V8 and Blink GC trace event names (MajorGC, MinorGC, V8.GC*, V8.GC_MC_*, BlinkGC.*, ...). */
+export const GC_EVENT = /^(MajorGC|MinorGC)$|^V8\.GC|GC_MC_|BlinkGC|GC|Gc|Scavenge|MarkCompact|Sweep/;
+/** The renderer waiting on the GPU process's command buffer (a sync GPU round trip on the main thread). */
+export const GPU_WAIT_EVENT = /CommandBufferProxyImpl::Wait|WaitForToken|WaitForGetOffset|WaitSyncToken/;
+
 const CAUSES = [
-  ["gc", (e) => /GC|Gc|Scavenge|MarkCompact|Sweep/.test(e.name)],
+  ["gc", (e) => GC_EVENT.test(e.name)],
   ["shader", (e) => /Shader|LinkProgram|CompileProgram|ProgramCache|ProgramBinary/.test(e.name)],
   ["upload", (e) => /TexImage|TexSubImage|TexStorage|BufferData|BufferSubData|Upload|Decode/.test(e.name)],
+  ["gpu-wait", (e, ctx) => !ctx.gpuPids.has(e.pid) && GPU_WAIT_EVENT.test(e.name)],
   ["gpu", (e, ctx) => ctx.gpuPids.has(e.pid)],
   ["timer", (e) => e.name === "TimerFire"],
   ["js", (e, ctx) => e.pid === ctx.pid && e.tid === ctx.tid && /FunctionCall|EvaluateScript|v8\.callFunction|RunMicrotasks|FireAnimationFrame/.test(e.name)],

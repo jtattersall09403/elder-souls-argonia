@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, POSE_READY_JS } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -26,7 +26,7 @@ test("schedule clipped by a short run and parsed from flags", () => {
   assert.deepEqual(parseShots("1000@2,5000", 10), [0, 1, 2, 7]);
   assert.deepEqual(parseShots(undefined, 1), [0, 0.5, 1]);
   assert.throws(() => parseShots("bad", 10));
-  assert.deepEqual(parseProfile("10@60"), { seconds: 10, at: 60 });
+  assert.deepEqual(parseProfile("10@60"), { seconds: 10, at: 60, from: "nav" });
 });
 test("summariseProfile attributes self and total time", () => {
   const cf = (n) => ({ functionName: n, url: "http://x/a.js", lineNumber: 1, columnNumber: 2 });
@@ -432,7 +432,7 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   assert.equal(c.otherTop[0][0], "Mesh:thing|MeshBasicNodeMaterial:x");
   // the inclusive renderObject figure, not backend.draw alone (diag13 D2: 1.81 printed for 13.08)
   const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
-  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5$/);
+  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5; passes main 5\/5 \(objects\/draws per frame\)$/);
   assert.match(drawCensusLine(null), /^not-a-bar; census unread/);
 });
 
@@ -454,7 +454,69 @@ test("draw census: byTarget draws by category and kept-zero vegetation draws", (
   assert.deepEqual(c.byTarget["shadow-cascade-0"], { drawsPerFrame: 2, keptZeroPerFrame: 1, "veg-gpucull": 2 });
   assert.deepEqual(c.byTarget.screen, { drawsPerFrame: 1, keptZeroPerFrame: 0, "veg-gpucull": 1 });
   assert.equal(c.keptZeroPerFrame, 1);
-  assert.match(drawCensusLine(c), /keptZero 1; veg-gpucull 3; targets shadow-cascade-0 2, screen 1$/);
+  assert.match(drawCensusLine(c), /keptZero 1; veg-gpucull 3; targets shadow-cascade-0 2, screen 1; passes shadow0 2\/2, main 1\/1 \(objects\/draws per frame\)$/);
+});
+
+test("draw census (diag20 E8): per-pass objects and draws, one shadow pass per cascade camera, reflection apart", () => {
+  const rafs = [];
+  let target = null;
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: () => false }, _renderObjectDirect(o, m, s, cam) { this.backend.draw({ object: o, material: m, geometry: {}, camera: cam }); },
+    render() {}, getRenderTarget: () => target };
+  const win = { performance: { now: () => 0 }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  const obj = { name: "", userData: {} }, mat = { name: "" };
+  const main = { uuid: "m", isPerspectiveCamera: true }, c0 = { uuid: "c0", isOrthographicCamera: true }, c1 = { uuid: "c1", isOrthographicCamera: true };
+  win.__drawCensus.start();
+  for (let f = 0; f < 2; f++) {
+    target = { texture: { name: "" } };
+    for (let i = 0; i < 6; i++) r._renderObjectDirect(obj, mat, null, c0);
+    for (let i = 0; i < 3; i++) r._renderObjectDirect(obj, mat, null, c1);
+    target = { texture: { name: "waterReflection" } }; r._renderObjectDirect(obj, mat, null, main);
+    target = null; for (let i = 0; i < 4; i++) r._renderObjectDirect(obj, mat, null, main);
+    rafs.shift()();
+  }
+  const c = win.__drawCensus.stop();
+  // seen to fail before the per-pass split: both cascades read as one "rt" target of 9 draws, no objects per pass
+  assert.deepEqual(c.byPass, { shadow0: { objectsPerFrame: 6, drawsPerFrame: 6 }, main: { objectsPerFrame: 4, drawsPerFrame: 4 },
+    shadow1: { objectsPerFrame: 3, drawsPerFrame: 3 }, reflection: { objectsPerFrame: 1, drawsPerFrame: 1 } });
+  assert.match(drawCensusLine(c), /passes shadow0 6\/6, main 4\/4, shadow1 3\/3, reflection 1\/1/);
+});
+
+test("views pin weather (diag20 E7): a studio view without w= gets w=clear and is named in the summary", () => {
+  const [a, b, c, d] = parseViews(JSON.stringify([{ name: "a", url: "http://x/elder-souls-argonia/webgpu/?view=character&x=1&z=2&t=22&rate=0.5" },
+    { name: "b", url: "http://x/elder-souls-argonia/webgpu/?view=character&t=22&w=rain" }, { name: "c", url: "https://threejs.org/examples/x.html" },
+    { name: "d", url: "http://x/?view=character", plain: true }]));
+  assert.equal(a.url, "http://x/elder-souls-argonia/webgpu/?view=character&x=1&z=2&t=22&rate=0.5&w=clear"); assert.equal(a.weatherPinAdded, true);
+  assert.equal(b.url, "http://x/elder-souls-argonia/webgpu/?view=character&t=22&w=rain"); assert.equal(b.weatherPinAdded, undefined);
+  assert.equal(c.weatherPinAdded, undefined); assert.equal(d.weatherPinAdded, undefined);
+  const t = summaryTable([{ name: "a", summary: summariseView({ ...a, weatherPinAdded: true }) }, { name: "b", summary: summariseView(b) }], null);
+  assert.match(t.split("\n")[0], /^WEATHER UNPINNED in the views file \(w=clear added; diag20 E7\): a$/);
+  assert.doesNotMatch(summaryTable([{ name: "b", summary: summariseView(b) }], null), /WEATHER UNPINNED/);
+});
+
+test("--profile N@settle+S (diag20 E8): starts S s after the settle gate, and the summary maps the profile to source", () => {
+  assert.deepEqual(parseProfile("12@settle+5"), { seconds: 12, at: 5, from: "settle" });
+  assert.deepEqual(parseProfile("10@60"), { seconds: 10, at: 60, from: "nav" });
+  assert.throws(() => parseProfile("10@ready+5"), /settle\+<s>/);
+  assert.equal(profileStartS(parseProfile("12@settle+5"), null, 9), 14, "no settle gate: from ready");
+  assert.equal(profileStartS(parseProfile("12@settle+5"), 40, 9), 45);
+  assert.equal(profileStartS(parseProfile("12@settle+5"), null, null), null, "not settled yet: not started");
+  assert.equal(profileStartS(parseProfile("10@60"), 40, 9), 60);
+  // one map: chunk index.js line 0 col 10 -> src/a.ts:7
+  const maps = new Map([["index.js", { sources: ["src/a.ts"], lines: [[[0, 0, 6, 0]]] }]]);
+  const prof = { startTime: 0, endTime: 3000, nodes: [{ id: 1, callFrame: { functionName: "Yg", url: "http://x/assets/index.js", lineNumber: 0, columnNumber: 10 }, children: [] }], samples: [1, 1, 1], timeDeltas: [1000, 1000, 1000] };
+  assert.deepEqual(summariseProfile(prof, 30, maps).selfTopSrc, [["Yg @ src/a.ts:7", 3]]);
+  assert.equal(summariseProfile(prof, 30).selfTopSrc, undefined, "no maps: no source column");
+  const s = summariseView({ name: "v", url: "u", profile: { at: 45, from: "settle", atSpec: 5, ...summariseProfile(prof, 30, maps) } });
+  assert.equal(s.profileSrc, "settle+5 s: Yg @ src/a.ts:7 3");
+});
+
+test("dev hooks line (diag20 E8): casters missing a layer and the warm gate's open reason", () => {
+  assert.equal(devHooksLine({ castersMissingLayer: 0, warm: { open: true, reason: "stable", frames: 41 } }), "casters missing layer 0; warm stable @41f");
+  assert.equal(devHooksLine({ castersMissingLayer: 3, warm: { open: true, reason: "cap", frames: 600 } }), "casters missing layer 3 (expect 0); warm cap @600f");
+  assert.equal(devHooksLine({ castersMissingLayer: null, warm: null }), "casters ?; warm ?");
+  assert.equal(devHooksLine(null), null);
+  assert.match(POSE_READY_JS, /__STUDIO_CHARACTER_DEBUG__/);
 });
 
 test("loadTimeline: complete = max of streaming-quiet, queue empty, last build; over 10 s is BAR FAIL", async () => {

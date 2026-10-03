@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
-import { ANCHOR_PREFIX, classifyFrames, groupFrames, joinLinks, keepTraceEvent, mainThreadStages, memoryDumps, topCause } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, causeOf, classifyFrames, groupFrames, joinLinks, keepTraceEvent, mainThreadStages, memoryDumps, topCause } from "./trace-frames.mjs";
 
 const FA = (ts) => ({ ph: "X", pid: 1, tid: 1, name: "FireAnimationFrame", ts, dur: 3000 });
 const stamp = (ts, pageMs) => ({ ph: "I", pid: 1, tid: 1, name: "TimeStamp", ts, args: { data: { message: ANCHOR_PREFIX + pageMs } } });
@@ -187,4 +187,17 @@ test("memoryDumps: discardable total and root allocators per dump (hex sizes, ch
   const fa = [0, 16, 32, 48].map((ms) => FA(1e6 + ms * 1000));
   assert.equal(classifyFrames([...ev, ...fa]).memoryDumps.length, 2, "classifyFrames carries the dumps");
   assert.equal(classifyFrames(fa).memoryDumps, undefined);
+});
+test("diag20 E6: GC event names label gc; main-thread WaitForToken labels gpu-wait, not other", () => {
+  const E = (name, ms, dur, extra = {}) => ({ ph: "X", pid: 1, tid: 1, name, ts: ms * 1000, dur: dur * 1000, ...extra });
+  const ctx = { pid: 1, tid: 1, gpuPids: new Set([9]) };
+  for (const n of ["MajorGC", "MinorGC", "V8.GC_MC_MARK_WEAK_CLOSURE_EPHEMERON", "V8.GCFinalizeMC", "BlinkGC.AtomicPauseMarkRoots"]) assert.equal(causeOf({ name: n, pid: 1, tid: 1 }, ctx), "gc", n);
+  assert.equal(causeOf({ name: "CommandBufferProxyImpl::WaitForToken", pid: 1, tid: 1 }, ctx), "gpu-wait");
+  assert.equal(causeOf({ name: "CommandBufferProxyImpl::WaitForToken", pid: 9, tid: 1 }, ctx), "gpu", "in the GPU process it stays gpu");
+  // the iter28 night frame shape: a 56 ms FunctionCall holding 45 ms of WaitForToken (seen to fail before: topCause "other")
+  const ev = [0, 16, 76, 92].flatMap((ms) => [E("ProxyMain::BeginMainFrame", ms, 2), E("FireAnimationFrame", ms, 1)]);
+  ev.push(E("ProxyMain::BeginMainFrame", 18, 57), E("FunctionCall", 18, 56), E("CommandBufferProxyImpl::WaitForToken", 20, 45, { cat: "gpu" }), E("MajorGC", 66, 3));
+  const [f] = classifyFrames(ev).long;
+  assert.equal(topCause(f.byCause), "gpu-wait", JSON.stringify(f.byCause));
+  assert.equal(f.byCause.gc, 3);
 });
