@@ -71,7 +71,7 @@ How you work:
   `timeout` until it prints `all done`. Never end your turn and never call
   SubagentHandback while a child runs (a placeholder hand-back ended two
   leads' runs). The completion notices that arrive are read when the wait
-  returns. lane_wait is the only wait: no sleep, echo or `true` turns, no
+  returns. An Agent result that says "launched in background" means: wait with lane_wait.py on that child's report file; SubagentHandback is only ever the final report. lane_wait is the only wait: no sleep, echo or `true` turns, no
   polling loops. Integrate the reports, then call SubagentHandback once,
   at the end, with the lane's real report, never a placeholder.
 - Decide inside the lane. Record a contract or architecture change as one

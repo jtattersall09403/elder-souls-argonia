@@ -79,3 +79,12 @@ def test_es_test_changed_accepts_newline_and_space_lists(monkeypatch, capsys):
         sel.main()
         out.append(capsys.readouterr().out)
     assert out[0] == out[1] and "test_known_red.py" in out[0]
+
+
+def test_an_empty_selection_prints_nothing_and_never_falls_back_to_the_suite(monkeypatch, capsys):
+    sel = _module()
+    assert sel.command_args("placement", ["README.md"]) == []
+    monkeypatch.setenv("ES_TEST_CHANGED", "README.md")
+    monkeypatch.setattr(sys, "argv", ["select_tests.py", "placement"])
+    sel.main()
+    assert capsys.readouterr().out == ""

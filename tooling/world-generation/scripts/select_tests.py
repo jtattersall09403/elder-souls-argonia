@@ -470,7 +470,7 @@ def command_args(suite: str, changed: list[str] | None) -> list[str]:
     result = select_changed(suite, changed)
     files = [os.path.relpath(REPO / t, REPO / SUITES[suite]) for t in result["selected"]]
     if not files:                                         # preflight skips such a gate; never run "everything"
-        files = [os.path.relpath(REPO / t, REPO / SUITES[suite]) for t in suite_tests(suite)]
+        return []
     return files + [f"--deselect={d}" for d in slow_deselects(suite, result)]
 
 
@@ -517,7 +517,9 @@ def main() -> None:
         r["deselect"] = slow_deselects(suite, r)
         print(json.dumps(r))
         return
-    print(" ".join(command_args(suite, changed)))
+    out = command_args(suite, changed)
+    if out:                                               # an empty selection prints nothing
+        print(" ".join(out))
 
 
 if __name__ == "__main__":
