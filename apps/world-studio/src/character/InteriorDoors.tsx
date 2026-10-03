@@ -90,6 +90,8 @@ export interface InteriorDoorsProbe {
     playerFixtureSlots: number | null;
     environment: { uuid: string; name: string } | null;
     cellAmbientIntensity: number;
+    /** The cell directional (vol10 c8 L2): intensity, castShadow and the sun occluder's hole count (null: windowless). */
+    cellSun: { intensity: number; castShadow: boolean; occluderHoles: number | null } | null;
   } | null;
   /** Bytes the shown cell's load fetched over the network (resource timing; cached files count 0). */
   bytes: number | null;
@@ -668,6 +670,10 @@ function lightingIn(interior: LoadedInterior, scene: THREE.Scene): NonNullable<I
     playerFixtureSlots: slots >= 0 ? slots : null,
     environment: env ? { uuid: env.uuid, name: env.name } : null,
     cellAmbientIntensity: interior.daylight.ambient.intensity,
+    cellSun: interior.daylight.directional ? {
+      intensity: interior.daylight.directional.intensity, castShadow: interior.daylight.directional.castShadow,
+      occluderHoles: interior.daylight.occluder?.holeCount ?? null,
+    } : null,
   };
 }
 

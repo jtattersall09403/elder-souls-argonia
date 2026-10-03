@@ -100,12 +100,14 @@ export function cellSunOccluderGeometry(box: THREE.Box3, apertures: readonly Occ
     holes.set(key, [...(holes.get(key) ?? []), r]);
   }
   const p = new THREE.Vector3();
+  let holeCount = 0;
   for (const { axis, max } of faces) {
     const [ua, va] = axis === 0 ? [2, 1] : axis === 1 ? [0, 2] : [0, 1];
     const u0 = box.min.getComponent(ua), u1 = box.max.getComponent(ua);
     const v0 = box.min.getComponent(va), v1 = box.max.getComponent(va);
     const shape = new THREE.Shape([new THREE.Vector2(u0, v0), new THREE.Vector2(u1, v0), new THREE.Vector2(u1, v1), new THREE.Vector2(u0, v1)]);
     for (const h of mergeOverlaps(holes.get(`${axis}${max}`) ?? [])) {
+      holeCount++;
       shape.holes.push(new THREE.Path([new THREE.Vector2(h[0], h[1]), new THREE.Vector2(h[0], h[3]), new THREE.Vector2(h[2], h[3]), new THREE.Vector2(h[2], h[1])]));
     }
     const g = new THREE.ShapeGeometry(shape);
@@ -124,6 +126,7 @@ export function cellSunOccluderGeometry(box: THREE.Box3, apertures: readonly Occ
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
   geometry.setIndex(indices);
   geometry.computeBoundingSphere();
+  geometry.userData.holeCount = holeCount;
   return geometry;
 }
 
@@ -155,6 +158,8 @@ export class CellSunOccluder {
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = false;
   }
+  /** The holes punched for the last build's sun (merged overlaps count once); probe-read. */
+  get holeCount(): number { return (this.mesh.geometry.userData.holeCount as number | undefined) ?? 0; }
   /** Aim the holes at a sun toward `toSun` (unit, cell frame); true when the geometry was rebuilt. */
   aim(toSun: THREE.Vector3): boolean {
     if (toSun.dot(this.builtToSun) >= this.cosRebuild) return false;

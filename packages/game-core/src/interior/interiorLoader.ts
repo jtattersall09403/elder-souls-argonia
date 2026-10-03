@@ -18,6 +18,7 @@ import {
 
 import { interiorLightOf } from "../air/volumetrics/windowApertures";
 import { CellSunOccluder, CellSunShadowNode } from "./cellSunOccluder";
+import { CELL_SHADOW_OWNER } from "../render/shadowCasters";
 import { applyLanternShell, isLanternShellMaterial } from "../settlement/fixtureGlow";
 import { applySettlementDecal, settlementMeshDrawFlags } from "../settlement/materials";
 
@@ -251,7 +252,7 @@ export class InteriorDaylight {
     /** Each record light paired with its fire, built once per cell (`CellLightFlicker`); null: all steady. */
     private readonly flicker: CellLightFlicker | null = null,
     /** The windowed cell's occluder: its holes follow the sun (`setSun`); null when windowless. */
-    private readonly occluder: CellSunOccluder | null = null,
+    readonly occluder: CellSunOccluder | null = null,
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
@@ -445,6 +446,8 @@ export function instantiateInterior(
 ): LoadedInterior {
   const group = new THREE.Group();
   group.name = `interior:${bundle.cellId}`;
+  // its casters cast for the cell directional, whose shadow camera sees layer 0 (castersMissingLayer skips them)
+  group.userData[CELL_SHADOW_OWNER] = true;
   const byAsset = new Map<string, { asset: ArchitectureAsset; placements: InteriorPlacement[] }>();
   const drawn = drawnPlacements(bundle);
   for (const p of drawn) {

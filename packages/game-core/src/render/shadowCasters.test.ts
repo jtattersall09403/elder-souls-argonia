@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import {
-  SHADOW_CASTER_LAYER, aimShadowCameraAtCasters, castersMissingLayer,
+  SHADOW_CASTER_LAYER, CELL_SHADOW_OWNER, aimShadowCameraAtCasters, castersMissingLayer,
   setCastShadow, setCastShadowCascades,
 } from "./shadowCasters";
 
@@ -43,5 +43,15 @@ describe("shadow caster layer (webgpu10 diag20 E5)", () => {
       { name: "wall", owner: "settlements", kind: "Mesh esSettlementBatch" },
       { name: "<unnamed>", owner: "settlements", kind: "Mesh" },
     ]);
+  });
+  it("skips non-mesh objects and meshes a cell owns (vol10 c8 C)", () => {
+    const root = new THREE.Group();
+    const empty = new THREE.Object3D(); empty.castShadow = true;
+    const cell = new THREE.Group(); cell.name = "interior:X"; cell.userData[CELL_SHADOW_OWNER] = true;
+    const prop = new THREE.Mesh(); prop.castShadow = true;
+    const stray = new THREE.Mesh(); stray.name = "stray"; stray.castShadow = true;
+    cell.add(new THREE.Group().add(prop));
+    root.add(empty, cell, stray);
+    expect(castersMissingLayer(root).map((c) => c.name)).toEqual(["stray"]);
   });
 });

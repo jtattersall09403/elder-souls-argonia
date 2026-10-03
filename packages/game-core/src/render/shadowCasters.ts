@@ -53,12 +53,23 @@ export function aimShadowCameraAtCasters(camera: THREE.Camera, index = -1): void
  * plus its `es*` userData flags, e.g. `Mesh esSettlementBatch`). */
 export interface CasterMissingLayer { name: string; owner: string; kind: string }
 
-/** DEV (studio debug handle, gpu-lane dev hooks): every object flagged
- * castShadow that no caster layer carries (expect none). */
+/** userData flag on a subtree whose casters cast for its own light, whose
+ * shadow camera is not layer-aimed (an interior cell's sun: interiorLoader). */
+export const CELL_SHADOW_OWNER = "esCellShadowOwner";
+
+function cellOwned(o: THREE.Object3D): boolean {
+  for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p.userData[CELL_SHADOW_OWNER]) return true;
+  return false;
+}
+
+/** DEV (studio debug handle, gpu-lane dev hooks): every mesh flagged
+ * castShadow that no caster layer carries (expect none). A non-mesh draws
+ * nothing in a shadow pass, and a cell-owned mesh (`CELL_SHADOW_OWNER`)
+ * casts for its cell's light, so neither is listed (vol10 c8 C). */
 export function castersMissingLayer(root: THREE.Object3D): CasterMissingLayer[] {
   const out: CasterMissingLayer[] = [];
   root.traverse((o) => {
-    if (!o.castShadow || (o as THREE.Light).isLight || (o.layers.mask & CASTER_BITS) !== 0) return;
+    if (!o.castShadow || !(o as THREE.Mesh).isMesh || (o.layers.mask & CASTER_BITS) !== 0 || cellOwned(o)) return;
     let owner = o.parent;
     while (owner && !owner.name) owner = owner.parent;
     const flags = Object.keys(o.userData).filter((k) => k.startsWith("es") && o.userData[k]);

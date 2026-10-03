@@ -79,3 +79,49 @@ describe("cellSunOccluder (vol10 diag4 D2)", () => {
     expect(Array.from(a)).toEqual(Array.from(mesh.geometry.getAttribute("position").array));
   });
 });
+
+// vol10 c8 L2: the shipped record's Brinas apertures, in the frame the loader builds the occluder in
+describe("cellSunOccluder on DawnstarBrinasHouse's record apertures (vol10 c8 L2)", async () => {
+  const { interiorLightOf } = await import("../air/volumetrics/windowApertures");
+  const row = interiorLightOf("DawnstarBrinasHouse") as unknown as {
+    boundsM: [number[], number[]]; apertures: { centreM: number[]; outward: number[]; radiusM: number }[];
+  };
+  const bounds = new THREE.Box3(new THREE.Vector3(...row.boundsM[0]), new THREE.Vector3(...row.boundsM[1]));
+  const aps = row.apertures.map((a) => ({
+    centre: new THREE.Vector3(a.centreM[0], a.centreM[1], a.centreM[2]),
+    outward: new THREE.Vector3(a.outward[0], 0, a.outward[2]).normalize(),
+    halfSideM: a.radiusM,
+  }));
+  it("has the four plugin apertures inside the bounds", () => {
+    expect(aps.length).toBe(4);
+    for (const a of aps) expect(bounds.containsPoint(a.centre)).toBe(true);
+  });
+  // the loader's clamp: 45 deg elevation, from the bearing of each aperture's outward
+  for (const [i, a] of aps.entries()) {
+    for (const yawDeg of [0, 30, -30]) {
+      it(`a sun ray through aperture ${i} (bearing ${yawDeg} deg off its normal) reaches the floor`, () => {
+        const h = a.outward.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(yawDeg));
+        const toSun = new THREE.Vector3(h.x * Math.SQRT1_2, Math.SQRT1_2, h.z * Math.SQRT1_2).normalize();
+        const occ = new CellSunOccluder(bounds, aps, toSun);
+        occ.mesh.updateMatrixWorld();
+        // floor (y 0) point on the sun ray through the aperture centre
+        const t = a.centre.y / toSun.y;
+        const floor = a.centre.clone().addScaledVector(toSun, -t);
+        expect(bounds.containsPoint(floor)).toBe(true);
+        expect(hits(occ.mesh, floor, floor.clone().addScaledVector(toSun, 40))).toBe(false);
+        // and a floor point 1 m beside the patch is shadowed (the walls stay closed)
+        const side = floor.clone().add(new THREE.Vector3(-h.z, 0, h.x));
+        expect(hits(occ.mesh, side, side.clone().addScaledVector(toSun, 40))).toBe(true);
+      });
+    }
+  }
+});
+
+describe("CellSunOccluder.holeCount (vol10 c8 L2 probe)", () => {
+  it("counts the holes of the last build: one for a sun-facing window, none for a sun behind it", () => {
+    const b = new THREE.Box3(new THREE.Vector3(-4, 0, -3), new THREE.Vector3(4, 3, 3));
+    const w = { centre: new THREE.Vector3(3.7, 1.5, 0), outward: new THREE.Vector3(1, 0, 0), halfSideM: 0.5 };
+    expect(new CellSunOccluder(b, [w], new THREE.Vector3(1, 1, 0).normalize()).holeCount).toBe(1);
+    expect(new CellSunOccluder(b, [w], new THREE.Vector3(-1, 1, 0).normalize()).holeCount).toBe(0);
+  });
+});
