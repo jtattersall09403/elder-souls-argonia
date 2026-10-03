@@ -27,12 +27,15 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import architecture_regions
 from .asset_taxonomy import classify, is_non_content, normalise
 from .esp_index import UNITS_PER_METRE, Plugin
 from .vault import asset_pipeline_root
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "assets"
+#: 2: architecture rows carry regionClasses + regionClassesSource
+SCHEMA_VERSION = 2
 
 # ELDER_SOULS_ASSET_ROOT is this tool's historical override; worldgen.vault
 # answers it the same way everything else in the chain does when it is unset.
@@ -479,6 +482,7 @@ def _usage_from_mining() -> dict[str, dict]:
 def build(vault: Path = DEFAULT_VAULT) -> dict:
     REGISTRY_DIR.mkdir(parents=True, exist_ok=True)
     usage = _usage_from_mining()
+    region_rules = architecture_regions.load_rules()
     summary: dict[str, dict] = {}
 
     for pool in POOLS:
@@ -535,6 +539,8 @@ def build(vault: Path = DEFAULT_VAULT) -> dict:
             observed = usage.get(model_key)
             if observed:
                 row.update(observed)
+            if row["category"] == "architecture":
+                architecture_regions.tag(row, region_rules)
             rows.append(row)
 
         out = REGISTRY_DIR / f"registry-{pool.id}.jsonl"
@@ -557,7 +563,7 @@ def build(vault: Path = DEFAULT_VAULT) -> dict:
         print(f"{pool.id:9s} {len(rows):6d} rows  ({len(set(paths))} meshes seen)")
 
     summary_path = REGISTRY_DIR / "registry-summary.json"
-    summary_path.write_text(json.dumps({"pools": summary}, indent=1) + "\n")
+    summary_path.write_text(json.dumps({"schemaVersion": SCHEMA_VERSION, "pools": summary}, indent=1) + "\n")
     return summary
 
 
@@ -578,6 +584,8 @@ def query(args) -> None:
     matches = []
     for row in load(args.pool):
         if args.category and row["category"] not in args.category:
+            continue
+        if args.region_class and not set(args.region_class) & set(row.get("regionClasses", ())):
             continue
         if args.biome and not set(args.biome) & set(row.get("biomes", ())):
             continue
@@ -611,6 +619,8 @@ def main() -> None:
     q.add_argument("--pool", action="append")
     q.add_argument("--category", action="append")
     q.add_argument("--biome", action="append")
+    q.add_argument("--region-class", action="append",
+                   help="a regions.py REGION_CLASSES name, e.g. 'mangrove forest' (architecture rows)")
     q.add_argument("--culture", action="append")
     q.add_argument("--contains")
     q.add_argument("--used", action="store_true",

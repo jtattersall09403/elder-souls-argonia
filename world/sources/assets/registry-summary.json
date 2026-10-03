@@ -1,4 +1,5 @@
 {
+ "schemaVersion": 2,
  "pools": {
   "bmv": {
    "label": "Black Marsh & Valenwood",
