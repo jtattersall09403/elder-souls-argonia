@@ -485,7 +485,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
 
   if (error) {
     return (
-      <div style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a", color: "#e6ecf5", display: "grid", placeItems: "center" }}>
+      <div data-es-view="character-error" style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a", color: "#e6ecf5", display: "grid", placeItems: "center" }}>
         <div>
           <p>Character mode failed to load: {error}</p>
           <button onClick={onExit}>← Back to map</button>
@@ -495,7 +495,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a" }}>
+    <div data-es-view="character" style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a" }}>
       {canvasError && <CanvasErrorBanner message={canvasError} />}
       {manifest && spawn ? (
         <Canvas

@@ -38,14 +38,14 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
-import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
+import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems, viewProblem } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
 import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, V8_TRACE_CATEGORIES, classifyFrames, isV8Event, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
-export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
+export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems, viewProblem };
 
 const repo = resolve(new URL("../..", import.meta.url).pathname);
 const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
@@ -197,6 +197,11 @@ export function profileSummary(profile, top = 40, maps = null) {
 export function pageProbe() {
   const lane = { ts: [], frames: [], on: false, wrapMs: 0, lost: 0 };
   window.addEventListener("webglcontextlost", () => { lane.lost++; }, true);
+  // A rejected promise nobody handles throws no pageerror: log it as a console error so consoleErrors carries it.
+  window.addEventListener("unhandledrejection", (e) => {
+    const r = e.reason;
+    console.error(`unhandledrejection: ${String(r?.message ?? r).slice(0, 400)}${typeof r?.stack === "string" ? `\n${r.stack.split("\n").slice(1, 13).join("\n")}` : ""}`);
+  });
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });
   // Load timeline (decision 0120 "Measure before building"): every resource entry kept, a mark at the first rAF
   // frame, and renderer.info.programs length every 250 ms through the dev hook __RENDERER__ for the first 150 s.
@@ -755,7 +760,15 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const onConsole = (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); };
   const onPageError = (e) => consoleErrors.push(pageErrorText(e));
   const onResponse = (r) => { if (r.status() === 404) http404s.push(r.url()); };
+  // Requests still open (perf10 c12: the resource list shows only finished ones, so a hung fetch was invisible).
+  const open = new Map();
+  const onRequest = (r) => open.set(r, Date.now());
+  const onRequestDone = (r) => open.delete(r);
   page.on("console", onConsole); page.on("pageerror", onPageError); page.on("response", onResponse);
+  page.on("request", onRequest); page.on("requestfinished", onRequestDone); page.on("requestfailed", onRequestDone);
+  const inFlight = () => [...open].map(([r, t]) => [r.url().slice(0, 200), Math.round((Date.now() - t) / 100) / 10]).sort((a, b) => b[1] - a[1]);
+  const expectedView = new URLSearchParams(query.startsWith("?") ? query : `?${query}`).get("view");
+  let viewStall = null;
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
   if (idx > 0) await page.goto("about:blank").catch(() => {}); // drop the previous world (and its GPU memory) before the next spot
   // `cold` spot token: an empty HTTP cache before the navigation, as the owner's first visit.
@@ -774,9 +787,16 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     const s = await hl.wrap("evaluate:ready-poll", () => page.evaluate(() => {
       const text = document.body.innerText;
       const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
-      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text };
-    })).catch(() => ({ fps: 0, tris: 0, loading: true, text: "" }));
-    const { text, ...rest } = s;
+      const el = document.querySelector("[data-es-view]");
+      const marks = performance.getEntriesByType("mark").filter((e) => e.name.startsWith("es:load:"));
+      const v = { view: el?.getAttribute("data-es-view") ?? null, shown: !!el?.checkVisibility?.(), canvas: !!el?.querySelector("canvas"),
+        lastMark: marks.length ? marks[marks.length - 1].name : null };
+      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text, v };
+    })).catch(() => ({ fps: 0, tris: 0, loading: true, text: "", v: null }));
+    const { text, v, ...rest } = s;
+    // Fail fast when the page is not in the view its URL asked for (checks.mjs viewProblem names the stage).
+    viewStall = v ? viewProblem({ ...v, inFlight: inFlight() }, expectedView, Math.round((Date.now() - t0) / 100) / 10) : null;
+    if (viewStall) { consoleErrors.push(viewStall); break; }
     const st = parseHud(text).cpuByStage;
     samples.push({ t: Date.now(), ...rest, pre: st ? (st.pre?.avg ?? 0) : null, gc: st ? (st.gc?.avg ?? 0) : null });
     if (isReady(samples, { startT: t0 })) { ready = true; break; }
@@ -784,6 +804,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
   const tReady = Date.now();
+  const inFlightAtReady = inFlight().slice(0, 20);
   const loadTimeline = await hl.wrap("evaluate:load-timeline", () => page.evaluate(() => ({
     nowMs: performance.now(),
     resources: performance.getEntriesByType("resource").map((e) => [e.name, e.startTime, e.responseEnd, e.encodedBodySize, e.initiatorType]),
@@ -877,10 +898,11 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     }, png.toString("base64")).catch(() => null);
     const contextLost = await page.evaluate(() => window.__GPU_LANE__.lost).catch(() => 0);
     const r = { ready, readyS, uncappedFps: stats.uncappedFps, luma: rgba ? meanLuma(rgba) : null, consoleErrors, contextLost,
-      foreign: foreignPages(browser, own) };
+      foreign: foreignPages(browser, own), viewStall };
     smoke = { ...r, luma: r.luma == null ? null : Math.round(r.luma * 10) / 10, problems: smokeProblems(r) };
   }
   page.off("console", onConsole); page.off("pageerror", onPageError); page.off("response", onResponse);
+  page.off("request", onRequest); page.off("requestfinished", onRequestDone); page.off("requestfailed", onRequestDone);
   const harnessLog = hl.entries();
   const hostSamples = host ? hostSeries(host.stop(), hl.origin) : null;
   const spikes = hostSpikes(hostSamples);
@@ -889,7 +911,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
   return { name, url, query, ready, readyS, cold: !!spot.cold, loadTimeline, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+    walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, viewStall, inFlightAtReady, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
 /**

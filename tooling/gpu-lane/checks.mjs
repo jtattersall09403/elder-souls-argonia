@@ -36,11 +36,30 @@ export function foreignPages(browser, own) {
 }
 
 /**
+ * Is the page in the view its URL asked for? (perf10 c12: a character-view URL sat 40 s on the 2D map page with
+ * 0 console errors; the CharacterMode overlay never showed.) `v` = one ready-poll sample: {view: the mounted
+ * [data-es-view] value or null, shown: that element is visible, canvas: it holds a canvas, lastMark: the last
+ * es:load mark, inFlight: [[url, ageS]]}. `expected` = the URL's ?view= (character|fly3d; other values are not
+ * checked). Returns null while the page may still get there, else the stage it stopped at.
+ */
+export function viewProblem(v, expected, elapsedS, { mountS = 10, canvasS = 20 } = {}) {
+  if (expected !== "character" && expected !== "fly3d") return null;
+  const where = () => `; last load mark ${v.lastMark ?? "none"}${v.inFlight?.length
+    ? `; in flight: ${v.inFlight.slice(0, 4).map(([u, a]) => `${u.replace(/^.*\/studio\//, "")} ${a} s`).join(", ")}` : ""}`;
+  if (elapsedS < mountS) return null;
+  if (v.view !== expected) return `view: ${expected} view not mounted after ${elapsedS} s (page shows ${v.view ?? "the map page"})${where()}`;
+  if (!v.shown) return `view: ${expected} view mounted but hidden after ${elapsedS} s (suspended to its fallback; the map page shows)${where()}`;
+  if (elapsedS >= canvasS && !v.canvas) return `view: ${expected} view has no canvas after ${elapsedS} s (the world never started)${where()}`;
+  return null;
+}
+
+/**
  * The reasons a smoke run must fail ([] = pass). `r` = {ready, readyS, uncappedFps, luma, consoleErrors,
- * contextLost, foreign}.
+ * contextLost, foreign, viewStall}.
  */
 export function smokeProblems(r, { readyMaxS = 40, capFps = VSYNC_CAP_FPS, capTol = 1.5, black = BLACK_LUMA } = {}) {
   const bad = [];
+  if (r.viewStall) bad.push(r.viewStall);
   if (!r.ready || r.readyS > readyMaxS) bad.push(`ready gate took ${r.readyS} s (limit ${readyMaxS} s)${r.ready ? "" : ", never passed"}`);
   if (r.uncappedFps != null && Math.abs(r.uncappedFps - capFps) <= capTol) bad.push(`uncapped fps ${r.uncappedFps} agrees with the ${capFps} vsync cap: the frame is capped and the cost numbers are wall time`);
   if (r.luma == null) bad.push("no screenshot to judge for a black frame");

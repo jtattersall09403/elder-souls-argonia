@@ -151,6 +151,25 @@ test("meanLuma and the black-frame check: night shots (29, 36) pass, a black fra
   assert.match(smokeProblems({ ...ok, luma: null })[0], /no screenshot/);
 });
 
+test("viewProblem: a character URL left on the map page or suspended fails at 10 s, naming the stage", async () => {
+  const { viewProblem, smokeProblems } = await import("./measure.mjs");
+  const ok = { view: "character", shown: true, canvas: true, lastMark: "es:load:warm-gate", inFlight: [] };
+  assert.equal(viewProblem(ok, "character", 30), null);
+  assert.equal(viewProblem({ ...ok, view: null }, "character", 9.5), null); // still in time
+  assert.equal(viewProblem({ ...ok, view: null }, null, 30), null); // the map view is not checked
+  // c12s1: only es:load:first-present, the overlay hidden, the ground raster never finishing.
+  const c12 = viewProblem({ ...ok, shown: false, canvas: false, lastMark: "es:load:first-present",
+    inFlight: [["http://x/elder-souls-argonia/studio/province/refined/ground-control.png", 9.1]] }, "character", 10.2);
+  assert.match(c12, /^view: character view mounted but hidden after 10.2 s/);
+  assert.match(c12, /last load mark es:load:first-present; in flight: province\/refined\/ground-control.png 9.1 s/);
+  assert.match(viewProblem({ ...ok, view: null }, "character", 10), /not mounted .*the map page/);
+  assert.match(viewProblem({ ...ok, view: "character-error" }, "character", 10), /page shows character-error/);
+  assert.equal(viewProblem({ ...ok, canvas: false }, "character", 15), null);
+  assert.match(viewProblem({ ...ok, view: "fly3d", canvas: false }, "fly3d", 20), /no canvas after 20 s/);
+  const r = { ready: false, readyS: 10.2, uncappedFps: 90, luma: 30, consoleErrors: [], contextLost: 0, foreign: [], viewStall: c12 };
+  assert.equal(smokeProblems(r)[0], c12);
+});
+
 test("smokeProblems: vsync cap, ready gate, GPU errors, lost context, foreign pages", async () => {
   const { smokeProblems } = await import("./measure.mjs");
   const ok = { ready: true, readyS: 25, uncappedFps: 90, luma: 30, consoleErrors: ["404 foo"], contextLost: 0, foreign: [] };
