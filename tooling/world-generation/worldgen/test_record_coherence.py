@@ -33,20 +33,69 @@ def test_synthetic_green():
 
 def test_synthetic_between_route_and_feature_fail():
     ix = _index("A halt between Alderford and Brinemouth on the Long reach.", "The shrine is robbed", False)
-    fails = rc.coherence_failures("place.t.home", ix)
+    fails = rc.coherence_failures("place.t.home", ix, BUILT_EMPTY)
     assert any("between Alderford and Brinemouth" in f and "9.0 km away" in f for f in fails)
     assert any("names the route Long reach" in f for f in fails)
-    assert any("premises a shrine" in f for f in fails)
+    assert any("quest quest.t.1 names a shrine" in f for f in fails)
     assert any("names Alderford" in f for f in fails)
 
 
-def test_a_premise_feature_held_by_another_anchor_place_passes():
-    """MQ01 (walk 9): the Hist of the premise stands at the quest's other anchor."""
+BUILT_EMPTY = {"placements": []}
+
+
+def _built(*assets: str) -> dict:
+    return {"placements": [{"id": f"p{i}", "assetId": a} for i, a in enumerate(assets)]}
+
+
+def test_a_physical_noun_is_kept_only_by_a_placed_asset():
+    """audit10: the Tag House record promised bones; its own sockets, a parcel
+    named for them and an unbuilt place never keep the promise, a placed
+    bone asset does."""
+    ix = _index("Bones hang by the keeper's door.", "Nothing", True)
+    ix.places["place.t.home"]["sockets"] = {"landmark": ["landmark.home.the-bones"]}
+    assert rc.coherence_failures("place.t.home", ix) == []          # unbuilt: not read
+    assert any("the record names a bones" in f
+               for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY))
+    named = {"placements": [{"id": "parcel.home.bone-yard.p1", "assetId": "vanilla:clutter/basket01"}]}
+    assert any("names a bones" in f for f in rc.coherence_failures("place.t.home", ix, named))
+    assert not any("names a bones" in f for f in rc.coherence_failures(
+        "place.t.home", ix, _built("settlement:mud/argonianbonechime01")))
+
+
+def test_a_noun_is_kept_by_what_the_promise_gate_accepts(monkeypatch):
+    """walk 10: a plank run filling thing-plank-crossing keeps "bridge", a
+    marker filling thing-steps keeps "steps", a frozen tarn at the site keeps
+    "tarn"; siting notes are no promise."""
+    ix = _index("A bridge and stone steps by the tarn.", "Nothing", True)
+    ix.places["place.t.home"]["sitingNote"] = "no shed here"
+    ledger = {"placeId": "place.t.home", "promises": [
+        {"id": "promise.home.thing-plank-crossing", "kind": "provision", "filledBy": ["rb-00"]},
+        {"id": "promise.home.thing-steps", "kind": "provision", "filledBy": ["socket.home.stair"]}]}
+    monkeypatch.setattr(rc.pg, "load_ledger", lambda pid: ledger)
+    monkeypatch.setattr(rc.pg, "fills_index", lambda bp, s, lay, led: {
+        r["id"]: r["filledBy"] for r in led["promises"]})
+    ix.cache["bodies"] = [("swamp", -10.0, -10.0, 10.0, 10.0)]
+    built = {"placements": [{"id": "place.t.home.parcel.run.rb-00", "assetId": "docks/dockstrent02"}],
+             "settlement": {"sockets": [{"id": "socket.home.stair"}]}}
+    fails = rc.coherence_failures("place.t.home", ix, built)
+    assert [f for f in fails if "names a" in f] == ["record.coherence: the record names a tarn and the "
+                                                   "built place and the water within 3 km have none"]
+    ix.cache["bodies"] = [("tarn-upland", 90.0, 0.0, 120.0, 30.0)]
+    assert not [f for f in rc.coherence_failures("place.t.home", ix, built) if "names a" in f]
+
+
+def test_a_premise_feature_held_by_another_anchor_place_passes(monkeypatch):
+    """MQ01 (walk 9): the Hist of the premise stands at the quest's other
+    anchor, kept there when that anchor is unbuilt or its bundle shows it."""
     ix = _index("A halt.", "A Hist withdraws over a dead clutch", True)
-    assert any("premises a Hist tree" in f for f in rc.coherence_failures("place.t.home", ix))
-    ix.places["place.t.aaa"]["sockets"] = {"landmark": ["landmark.aaa.the-hist-tree"]}
+    assert any("names a Hist tree" in f for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY))
     ix.quests[0][1]["anchorPlaces"].append("place.t.aaa")
-    assert not any("premises" in f for f in rc.coherence_failures("place.t.home", ix))
+    monkeypatch.setattr(rc, "load_compiled", lambda pid: BUILT_EMPTY)
+    assert any("names a Hist tree" in f for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY))
+    monkeypatch.setattr(rc, "load_compiled", lambda pid: _built("tree/histtree01"))
+    assert not any("names a Hist" in f for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY))
+    monkeypatch.setattr(rc, "load_compiled", lambda pid: None)
+    assert not any("names a Hist" in f for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY))
 
 
 def _rel_index(home_rel: dict, other_rel: dict) -> rc.Index:
@@ -80,11 +129,11 @@ def test_entrance_count_not_recorded_skips():
 def test_season_and_idiom_are_no_features():
     """fig-market's premise (local-imperial-fringe.json): the season is no spring."""
     for prose in ("A herdsman who died in the spring", "Spring rains came late", "The fever takes its toll",
-                  "The boatmen came as well"):
+                  "The boatmen came as well", "The yards are well kept"):
         ix = _index("A halt.", prose, True)
-        assert not any("premises" in f for f in rc.coherence_failures("place.t.home", ix)), prose
+        assert not any("names a" in f for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY)), prose
     ix = _index("A halt.", "The spring under the hall is fouled", True)
-    assert any("premises a spring" in f for f in rc.coherence_failures("place.t.home", ix))
+    assert any("names a spring" in f for f in rc.coherence_failures("place.t.home", ix, BUILT_EMPTY))
 
 
 def test_rival_and_dependency_fail():

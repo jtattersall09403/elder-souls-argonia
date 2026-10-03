@@ -775,6 +775,23 @@
     }
    ],
    "why": "Mudmother's Sithis shrine stands only inside 00MudHut01. It is licensed outdoors where the record's culture is Argonian and the record names a Sithis or dead-cult provision (a Nisswo, a Sithis rite), never as generic village dressing."
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "settings": [
+    "exterior"
+   ],
+   "when": [
+    {
+     "cultures": [
+      "argonian"
+     ],
+     "recordTerms": [
+      "bone-tag",
+      "bones"
+     ]
+    }
+   ],
+   "why": "Mudmother's bone chime (a pole hung with bones, a skull and tags) hangs only inside its nest cells. The material-culture dossier (world/sources/lore/topics/material-culture.md:300) puts bone-and-tin chimes at every Argonian threshold and eave, so it is licensed outdoors, hung from an eave, where an Argonian record is about bones or bone-tags (the Tag House), never as generic village dressing."
   }
  }
 }

@@ -18,6 +18,7 @@ builder's § Promises table is the ledger with a fulfilment column.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -37,6 +38,149 @@ UNFILLED_REASONS = ("later-phase-system", "gpu-judgement", "asset-exists-nowhere
                     "owner-world-call")
 #: blueprint collections whose rows may carry `fills`
 FILLING_COLLECTIONS = ("parcels", "doors", "questSockets")
+#: the physical nouns a record's prose can promise (audit10: bones, steps,
+#: signs, a shed and a seep were promised and never built, and every gate was
+#: green): noun -> (the prose pattern, the asset/id words that show it). Each
+#: noun a `prose` row names is a `provision` row `thing-<noun>` that a placed
+#: thing fills (blueprint_promises.claim_rows); `record_coherence` reads the
+#: same table against the compiled bundle. Bare words that are also ordinary
+#: prose are read only as the noun: "as well" is no well, "in the spring" is
+#: the season, "takes its toll" no toll, "stable ground" no stable.
+PHYSICAL_NOUNS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "boat": (r"\b(?:boats?|canoes?|rafts?|skiffs?)\b", ("boat", "canoe", "raft", "skiff", "ship")),
+    "ferry": (r"\bferry\b|\bferries\b", ("ferry",)),
+    "sign": (r"\b(?:signs?|signposts?|signboards?|signage)\b(?!\s+of\b)", ("sign",)),
+    "steps": (r"(?<!\bman )(?<!\bwoman )(?<!\bhe )(?<!\bshe )(?<!\bwho )(?<!\bone )"
+              r"(?<!\bsomeone )\bsteps\b(?!\s+(?:down|up|out|in|back|over|across|aside|off)\b)"
+              r"|\b(?:stairs?|stairways?)\b", ("step", "stair")),
+    "plank crossing": (r"\bplanks?\b|\bboardwalks?\b",
+                       ("plank", "dock", "boardwalk", "walkway", "bridge", "timber")),
+    "well": (r"(?<!\bas )\bwells?\b(?![-,])"
+             r"(?!\s+(?:kept|before|after|known|over|into|above|below|enough|off|made|built))",
+             ("well",)),
+    "spring": (r"(?<!\bin )(?<!\bin the )(?<!\bthis )(?<!\blast )(?<!\bnext )(?<!\bthat )"
+               r"(?<!\bevery )(?<!\beach )(?<!\bby )(?<!\buntil )(?<!\bsince )(?<!\bthe late )"
+               r"(?<!\bthe early )\bsprings?\b"
+               r"(?!\s+(?:rains?|floods?|thaw|seasons?|tides?|planting|and\s+summer|or\s+summer))",
+               ("spring",)),
+    "tarn": (r"\btarns?\b", ("tarn", "pond", "pool")),
+    "seep": (r"\bseeps?\b", ("seep",)),
+    "shed": (r"\bsheds?\b", ("shed",)),
+    "ore": (r"\bores?\b", ("ore", "ingot", "bloom")),
+    "bones": (r"\bbones?\b|\bskulls?\b", ("bone", "skull", "spine")),
+    "stable": (r"\bstables\b|\b(?:a|the|its) stable\b(?!\s+(?:ground|footing|floor|bank))",
+               ("stable",)),
+    "farmhouse": (r"\bfarmhouses?\b", ("farmhouse",)),
+    "lantern": (r"\blanterns?\b|\blamps?\b", ("lantern", "lamp")),
+    "fire": (r"\bfires?\b|\bhearths?\b|\bbraziers?\b|\bfire[- ]?pits?\b",
+             ("fire", "brazier", "hearth", "campfire", "firepit")),
+    "channel": (r"\bchannels?\b", ("channel", "canal")),
+    "canal": (r"\bcanals?\b", ("canal", "channel")),
+    # "a Hist a day upriver" stands elsewhere, not at the place
+    "Hist tree": (r"\bHist\b(?!\s+(?:a|an|one|two|three|half a)\s+(?:days?|hours?|miles?)\b)",
+                  ("hist",)),
+    "toll": (r"(?<!\btakes its )(?<!\btook its )(?<!\btake its )(?<!\btaken its )"
+             r"(?<!\btakes their )(?<!\btook their )(?<!\btake a )\btolls?\b"
+             r"(?!\s+(?:company|companies|men|officers?)\b)", ("toll",)),
+    "bridge": (r"\bbridges?\b", ("bridge",)),
+    "dock": (r"\bdocks?\b|\bjett(?:y|ies)\b|\bpiers?\b|\bquays?\b",
+             ("dock", "jetty", "pier", "quay", "landing", "stage")),
+    "shrine": (r"\bshrines?\b", ("shrine",)),
+    "mine": (r"\bmines?\b(?!\s+(?:is|was))", ("mine", "diggings")),
+    "tower": (r"\btowers?\b", ("tower",)),
+}
+
+
+def physical_nouns(text: str) -> list[str]:
+    """The PHYSICAL_NOUNS a text names (sorted); "Hist" is matched case-sensitively."""
+    return sorted(n for n, (pat, _) in PHYSICAL_NOUNS.items()
+                  if re.search(pat, str(text or ""), 0 if n == "Hist tree" else re.I))
+
+
+#: nouns a placed thing cannot show: water courses (the hydrology holds them)
+#: and a toll (a relation); record_coherence still checks them
+NOT_PLACED = ("channel", "canal", "toll")
+
+
+def thing_nouns(text: str) -> list[str]:
+    """The physical nouns of a text that a placed thing must show."""
+    return [n for n in physical_nouns(text) if n not in NOT_PLACED]
+
+
+def noun_slug(noun: str) -> str:
+    return noun.lower().replace(" ", "-")
+
+
+#: noun -> the other nouns whose filled `thing-` row also shows it (a plank
+#: run over a crossing is the bridge a record names, and the reverse)
+SHOWN_BY: dict[str, tuple[str, ...]] = {"bridge": ("plank crossing",),
+                                        "plank crossing": ("bridge",)}
+#: the bundle key `with_route_ids` adds: placements of the route bundles at
+#: the place (a road's stair at a crossing is the route compile's, audit10)
+ROUTE_KEY = "routePlacements"
+SETTLEMENT_INDEX = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements" / "index.json"
+
+
+def route_placements_at(place_id: str, index_path: Path = SETTLEMENT_INDEX) -> list[dict]:
+    """The placements of every published route bundle whose circle meets the
+    place's circle (positionM, radiusM in the settlements index)."""
+    if not index_path.exists():
+        return []
+    idx = json.loads(index_path.read_text(encoding="utf-8"))
+    me = next((p for p in idx.get("places") or [] if p.get("id") == place_id), None)
+    if me is None:
+        return []
+    out = []
+    for r in idx.get("routes") or []:
+        (ax, az), (bx, bz) = me["positionM"], r["positionM"]
+        if ((ax - bx) ** 2 + (az - bz) ** 2) ** 0.5 > me["radiusM"] + r["radiusM"]:
+            continue
+        doc = json.loads((index_path.parent.parent / r["bundle"]).read_text(encoding="utf-8"))
+        # a road bundle spans the province: only its pieces inside the place
+        out += [p for key in ("placements", "compiledObjects") for p in doc.get(key) or []
+                if len(p.get("positionM") or []) >= 2
+                and ((p["positionM"][0] - ax) ** 2 + (p["positionM"][-1] - az) ** 2) ** 0.5
+                <= me["radiusM"]]
+    return out
+
+
+def with_route_ids(bundle: dict, place_id: str) -> dict:
+    """The bundle plus the placements of the route bundles at the place."""
+    return {**bundle, ROUTE_KEY: route_placements_at(place_id)}
+
+
+def shown_things(ledger: dict | None, bundle: dict | None, bp: dict | None = None,
+                 layout: dict | None = None) -> set[str]:
+    """The physical nouns (PHYSICAL_NOUNS keys) whose `thing-<noun>` row is
+    filled by a filler in the bundle, plus the nouns SHOWN_BY them: what the
+    place keeps, read the way the promise gate reads it."""
+    if not ledger or bundle is None:
+        return set()
+    ids = bundle_ids(bundle) or set()
+    slug = str(ledger.get("placeId") or "").rsplit(".", 1)[-1]
+    sockets = (bundle.get("settlement") or {}).get("sockets") or layout_sockets(layout)
+    filled = fills_index(bp or {"id": ledger.get("placeId")}, sockets, layout, ledger)
+    shown = {n for n in PHYSICAL_NOUNS
+             if any(_in_bundle(f, ids) for f in filled.get(f"promise.{slug}.thing-{noun_slug(n)}", []))}
+    return shown | {n for n, by in SHOWN_BY.items() if shown & set(by)}
+
+
+def bundle_ids(bundle: dict | None) -> set[str] | None:
+    """Every id the published bundle carries (placements, compiled objects,
+    doors, sockets), or None when no bundle is given (the compile stage)."""
+    if bundle is None:
+        return None
+    st = bundle.get("settlement") or {}
+    rows = [r for key in ("placements", "compiledObjects", "doors", "sockets", ROUTE_KEY)
+            for src in (bundle, st) for r in src.get(key) or []]
+    return ({str(r["id"]) for r in rows if isinstance(r, dict) and r.get("id")}
+            | {str(i) for key in ("placementIds", "compiledObjectIds") for i in st.get(key) or []})
+
+
+def _in_bundle(oid: str, ids: set[str]) -> bool:
+    """A layout id is in the bundle as itself, or as the tail or a segment of
+    a compiled id (`<place>.parcel.<p>.assembly.<op id>`)."""
+    return oid in ids or any(i.endswith("." + oid) or f".{oid}." in i for i in ids)
 
 
 def ledger_path(place_id: str, root: Path = LEDGER_DIR) -> Path:
@@ -74,31 +218,68 @@ def layout_sockets(layout: dict | None) -> list[dict]:
         op for op in layout.get("ops") or [] if op.get("op") == "socket"]
 
 
-def fills_index(bp: dict, sockets: list[dict] | None = None) -> dict[str, list[str]]:
-    """promise id -> the ids of the sockets, doors and parcels that name it in
-    ``fills`` (each filler once, sorted)."""
+def fills_index(bp: dict, sockets: list[dict] | None = None,
+                layout: dict | None = None, ledger: dict | None = None) -> dict[str, list[str]]:
+    """promise id -> the ids of the sockets, doors, parcels and layout
+    placements (any layout op with an `id` or `uid`) that name it in
+    ``fills``, and the ids a ledger row names in ``filledBy`` (each filler
+    once, sorted). With no ``layout`` or ``ledger`` given, the place's
+    committed ``<slug>.layout.json`` and ledger are read, so the compile's
+    ``promiseFills`` carries every filler of a row."""
+    if layout is None:
+        path = LAYOUT_DIR / f"{str(bp.get('id') or '').rsplit('.', 1)[-1]}.layout.json"
+        layout = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+    if ledger is None and bp.get("id"):
+        ledger = load_ledger(str(bp["id"]))
     out: dict[str, set[str]] = {}
     rows = [r for key in FILLING_COLLECTIONS for r in bp.get(key) or [] if isinstance(r, dict)]
     rows += [s for s in sockets or [] if isinstance(s, dict)]
+    # a layout op is named by `id`, a `place` op by `uid`
+    rows += [op for op in (layout or {}).get("ops") or []
+             if isinstance(op, dict) and (op.get("id") or op.get("uid")) and op.get("fills")]
     for row in rows:
         for pid in row.get("fills") or []:
-            out.setdefault(pid, set()).add(str(row.get("id")))
+            out.setdefault(pid, set()).add(str(row.get("id") or row.get("uid")))
+    # a ledger row may name its fillers by id (`filledBy`): placed things the
+    # layout cannot carry `fills` on (a route bundle's stair, a compiled run)
+    for row in (ledger or {}).get("promises") or []:
+        for fid in row.get("filledBy") or []:
+            out.setdefault(row["id"], set()).add(str(fid))
     return {pid: sorted(ids) for pid, ids in sorted(out.items())}
 
 
 def promise_gate_errors(bp: dict, ledger: dict | None,
-                        sockets: list[dict] | None = None) -> list[str]:
+                        sockets: list[dict] | None = None, layout: dict | None = None,
+                        bundle: dict | None = None) -> list[str]:
     """Every ledger row filled by at least one ``fills`` reference, or
     carrying ``unfilled`` with a valid reason; every ``fills`` id a row of
-    this ledger. Each message is led by its rule id, ``promises.*``."""
+    this ledger; every physical noun a prose row names has its
+    ``thing-<noun>`` row; a prose row naming a physical noun is confirmed
+    with the ``ids`` of the placements it rests on. Given the published
+    ``bundle``, every filler and confirmation id must be in it. Each message
+    is led by its rule id, ``promises.*``."""
     if ledger is None:
         return []
     out: list[str] = []
+    ids = bundle_ids(bundle)
     if ledger.get("placeId") != bp.get("id"):
         out.append(f"promises.ledger: ledger placeId {ledger.get('placeId')!r} is not "
                    f"blueprint {bp.get('id')!r}")
     rows = {r["id"]: r for r in ledger.get("promises") or []}
-    filled = fills_index(bp, sockets)
+    filled = fills_index(bp, sockets, layout, ledger)
+    slug = str(ledger.get("placeId") or "").rsplit(".", 1)[-1]
+    named: dict[str, list[str]] = {}
+    for pid, row in sorted(rows.items()):
+        for noun in thing_nouns(row.get("text")) if row.get("kind") == "prose" else []:
+            named.setdefault(noun, []).append(pid)
+    out += [f"promises.thing: {', '.join(pids)} name{'s' if len(pids) == 1 else ''} a {noun} and "
+            f"the ledger has no row promise.{slug}.thing-{noun_slug(noun)}; regenerate it with "
+            f"`blueprint_promises --id {ledger.get('placeId')} --write`"
+            for noun, pids in sorted(named.items())
+            if f"promise.{slug}.thing-{noun_slug(noun)}" not in rows]
+    for pid, fillers in sorted(filled.items()) if ids is not None else []:
+        out += [f"promises.built: {f} fills {pid} and is not in the published bundle; fill "
+                f"from a placed thing and publish the place" for f in fillers if not _in_bundle(f, ids)]
     for pid, fillers in filled.items():
         if pid not in rows:
             out.append(f"promises.unknown: {', '.join(fillers)} fills {pid!r}, which is no row "
@@ -106,7 +287,7 @@ def promise_gate_errors(bp: dict, ledger: dict | None,
                        f"`blueprint_promises --id {ledger.get('placeId')} --write`)")
     for pid, row in sorted(rows.items()):
         if row.get("kind") in CONFIRMED_KINDS:
-            out += _confirmation_errors(pid, row)
+            out += _confirmation_errors(pid, row, ids)
             continue
         unfilled = row.get("unfilled")
         if unfilled is not None:
@@ -128,8 +309,11 @@ def promise_gate_errors(bp: dict, ledger: dict | None,
     return out
 
 
-def _confirmation_errors(pid: str, row: dict) -> list[str]:
-    """A prose or quest row: confirmed against its current text, with a note."""
+def _confirmation_errors(pid: str, row: dict, ids: set[str] | None = None) -> list[str]:
+    """A prose or quest row: confirmed against its current text, with a note;
+    a prose row that names a physical noun also names, in ``confirmed.ids``,
+    the placement(s) it rests on, each in the published bundle when one is
+    given (a builder's pin alone kept a shed nobody built, audit10)."""
     from .blueprint_promises import text_sha
     conf = row.get("confirmed") or {}
     sha = text_sha(row.get("text"))
@@ -140,4 +324,54 @@ def _confirmation_errors(pid: str, row: dict) -> list[str]:
                 f"then set `confirmed: {{\"sha\": \"{sha}\", \"note\": <what in the place keeps it>}}`"]
     if not str(conf.get("note") or "").strip():
         return [f"promises.confirm: {pid} is confirmed with no note naming what keeps it"]
-    return []
+    nouns = thing_nouns(row.get("text")) if row.get("kind") == "prose" else []
+    shown = [str(i) for i in conf.get("ids") or []]
+    if nouns and not shown:
+        return [f"promises.confirm: {pid} names {', '.join(nouns)} and its confirmation names no "
+                f"placement: add `ids: [<placement id>, ...]` to `confirmed`"]
+    return [f"promises.built: {pid} rests on {i}, which is not in the published bundle"
+            for i in shown if ids is not None and not _in_bundle(i, ids)]
+
+
+BUNDLE_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements"
+
+
+def published_errors(place_id: str) -> list[str]:
+    """The gate over the PUBLISHED place: its committed blueprint export, its
+    layout's sockets and fills, and the bundle every filler must be in."""
+    bundle_path = BUNDLE_DIR / f"{place_id}.json"
+    bp_path = LAYOUT_DIR / f"{place_id}.json"
+    if not bundle_path.exists() or not bp_path.exists():
+        return [f"promises.built: {place_id} has no published bundle or blueprint export"]
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    bp = json.loads(bp_path.read_text(encoding="utf-8"))["blueprint"]
+    sockets = (bundle.get("settlement") or {}).get("sockets") or bundle.get("sockets")
+    lay = LAYOUT_DIR / f"{place_id.rsplit('.', 1)[-1]}.layout.json"
+    layout = json.loads(lay.read_text(encoding="utf-8")) if lay.exists() else None
+    if sockets is None:
+        sockets = layout_sockets(layout)
+    return promise_gate_errors(bp, load_ledger(place_id), sockets, layout,
+                               with_route_ids(bundle, place_id))
+
+
+def main(argv=None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description="The promise gate over published places.")
+    ap.add_argument("--place", action="append", default=[])
+    ap.add_argument("--all-built", action="store_true",
+                    help="every place with a ledger and a published bundle")
+    args = ap.parse_args(argv)
+    places = list(args.place) or sorted(p.stem for p in LEDGER_DIR.glob("*.json")
+                                        if (BUNDLE_DIR / p.name).exists())
+    rc = 0
+    for pid in places:
+        errs = published_errors(pid)
+        print(f"{pid}: {len(errs)} failing")
+        for e in errs:
+            print(f"  {e}")
+        rc |= bool(errs)
+    return rc
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

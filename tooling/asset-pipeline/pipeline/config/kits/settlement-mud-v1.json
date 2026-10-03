@@ -134,11 +134,11 @@
     ],
     "fixtureKind": "lantern",
     "offsetM": [
-     -0.17,
-     -2.57,
-     0.28
+     0.0,
+     -1.81,
+     0.0
     ],
-    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): SLightStreetStreet01 (Skyrim.esm LIGH 000d0e40) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 4 argonianlanterns03 refs the mod places (none 3); offset is that ref's in the piece's frame, glTF Y-up metres (n 1). Mined 2026-09-28 (lane L16, /tmp/l16/lantern_lights.py, the kits2 brazier method)."
+    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): SLightStreetStreet01 (Skyrim.esm LIGH 000d0e40) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 4 argonianlanterns03 refs the mod places; mine_kit_lights finds it under MIN_HITS (NO LIGH, 2026-10-03), so the record is kept as the lit fixture every Argonian lantern is (walk 3 L7) and its light sits at its own lantern body, 1.81 m below the pivot (0.34 m above the base, the body height of the short-cord sibling argonianlanterns04), where the hanging fallback flame burns. The single ref's offset (-0.17, -2.57, 0.28) put the light 0.42 m under the lantern (audit10 B2)."
    }
   },
   {

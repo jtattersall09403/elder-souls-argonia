@@ -1028,6 +1028,36 @@
    ],
    "width": 1.5,
    "kind": "footpath"
+  },
+  {
+   "op": "socket",
+   "id": "socket.border-road-greenspring-crossings.scene-river-planks",
+   "kind": "marker",
+   "at": [
+    4474.77,
+    1592.76
+   ],
+   "zone": "scene",
+   "parcel": "parcel.border-road-greenspring-crossings.river-bridge",
+   "why": "The road crosses the river marsh on planks laid over piles, from the grave mound to the foot of the stone steps.",
+   "fills": [
+    "promise.border-road-greenspring-crossings.thing-plank-crossing"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.border-road-greenspring-crossings.scene-inlet-planks",
+   "kind": "marker",
+   "at": [
+    4689.2,
+    1800.83
+   ],
+   "zone": "scene",
+   "parcel": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "why": "The road crosses the inlet mouth on planks laid over piles, below the Greenspring track.",
+   "fills": [
+    "promise.border-road-greenspring-crossings.thing-plank-crossing"
+   ]
   }
  ]
 }

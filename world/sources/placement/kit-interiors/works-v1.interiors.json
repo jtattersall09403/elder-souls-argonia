@@ -560,48 +560,8 @@
   },
   "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01": {
    "category": "architecture",
-   "doorwayProbeCentreM": [
-    1.41,
-    -0.52
-   ],
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.34,
-     "kind": "leaf",
-     "offsetM": [
-      -3.48,
-      1.0
-     ],
-     "sideDeg": 260.0
-    },
-    {
-     "arcM": 1.34,
-     "kind": "leaf",
-     "offsetM": [
-      -3.48,
-      -1.0
-     ],
-     "sideDeg": 280.0
-    },
-    {
-     "arcM": 1.79,
-     "kind": "opening",
-     "offsetM": [
-      1.56,
-      1.18
-     ],
-     "sideDeg": 208.92
-    },
-    {
-     "arcM": 0.81,
-     "kind": "opening",
-     "offsetM": [
-      4.14,
-      0.9
-     ],
-     "sideDeg": 115.02
-    }
-   ],
+   "doorStoreyM": 5.46,
+   "doorwaysMeasuredAboveFloorM": 0.75,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 6.0,
@@ -629,30 +589,28 @@
   },
   "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02": {
    "category": "architecture",
-   "doorwayProbeCentreM": [
-    -4.42,
-    -0.52
-   ],
+   "doorStoreyM": 5.46,
    "doorwaysClosedDropped": [
     {
-     "arcM": 1.86,
+     "arcM": 1.29,
      "kind": "opening",
      "offsetM": [
-      -4.88,
-      1.19
+      -1.01,
+      1.28
      ],
-     "sideDeg": 257.88
+     "sideDeg": 232.5
     },
     {
-     "arcM": 0.86,
+     "arcM": 1.29,
      "kind": "opening",
      "offsetM": [
-      -3.09,
-      0.93
+      -1.01,
+      -1.28
      ],
-     "sideDeg": 256.08
+     "sideDeg": 307.5
     }
    ],
+   "doorwaysMeasuredAboveFloorM": 0.5,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 6.0,
@@ -2034,6 +1992,55 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (1.4 m\u00b2 plan, 1.7 m tall)"
+  },
+  "vanilla:landscape/volcanic/mineralpoolbig01": {
+   "category": "terrain-feature",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 284.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 285\u00b0 in the piece's own frame carries 1.75x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.71,
+   "heightM": 4.18,
+   "interior": "none",
+   "medianWallM": 7.95,
+   "planAreaM2": 240.14,
+   "planCentreM": [
+    -0.91,
+    -0.12
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "category 'terrain-feature' is never a building"
+  },
+  "vanilla:landscape/volcanic/mineralpoolsm01": {
+   "category": "terrain-feature",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.17,
+   "heightM": 2.37,
+   "interior": "none",
+   "medianWallM": 2.88,
+   "planAreaM2": 53.29,
+   "planCentreM": [
+    -0.31,
+    0.19
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "category 'terrain-feature' is never a building"
   }
  },
  "kit": "works-v1",

@@ -45,8 +45,17 @@ test("walk budget is 1.5x the expected time, at least 2 s", () => {
 test("args: t list and defaults", () => {
   const o = parseArgs(["--route", "r.json", "--out", "o", "--t", "12,22"]);
   assert.deepEqual(o.t, ["12", "22"]);
-  assert.equal(o.w, "clear");
+  assert.deepEqual(o.w, ["clear", "clear"]);
+  assert.equal(o.rate, 0.5);
   assert.throws(() => parseArgs(["--bogus", "1"]));
+});
+
+test("--w pairs with --t by index, a single value broadcasts, --rate parses", () => {
+  const base = ["--route", "r", "--out", "o"];
+  assert.deepEqual(parseArgs([...base, "--t", "12,22", "--w", "clear,rain"]).w, ["clear", "rain"]);
+  assert.deepEqual(parseArgs([...base, "--t", "12,22", "--w", "rain"]).w, ["rain", "rain"]);
+  assert.equal(parseArgs([...base, "--rate", "1"]).rate, 1);
+  assert.throws(() => parseArgs([...base, "--t", "12,22,6", "--w", "clear,rain"]));
 });
 
 test("day pass and coverage", () => {

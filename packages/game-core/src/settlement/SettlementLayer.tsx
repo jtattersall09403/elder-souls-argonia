@@ -41,6 +41,7 @@ import {
   type SettlementMaterialUniforms,
 } from "./materials";
 import { isLanternShellMaterial } from "./fixtureGlow";
+import { SettlementMaterialIdentities } from "./materialIdentity";
 import {
   SETTLEMENT_COLLISION_FRAME,
   type GroundArea,
@@ -96,7 +97,7 @@ interface DrawBucket {
   chunk: string;
 }
 
-/** What one settlement draw holds: every part of one chunk drawing with one
+/** What one settlement draw holds: every part of one cell drawing with one
  * material and one vertex layout, baked into one geometry. */
 export interface DrawBatch {
   material: THREE.Material;
@@ -108,12 +109,13 @@ export interface DrawBatch {
   far: boolean;
 }
 
-/** The batch a bucket draws in: material, vertex layout, chunk and draw flags. */
+/** The batch a bucket draws in: material instance (one per identity,
+ * materialIdentity.ts), vertex layout, cell and draw flags. */
 export function drawBatchKey(
-  material: THREE.Material, geometry: THREE.BufferGeometry, chunk: string,
+  material: THREE.Material, geometry: THREE.BufferGeometry, cell: string,
   drawFlags: { castShadow: boolean; renderOrder: number },
 ): string {
-  return `${material.uuid}|${vertexLayoutKey(geometry)}|${chunk}|${drawFlags.castShadow ? 1 : 0}|${drawFlags.renderOrder}`;
+  return `${material.uuid}|${vertexLayoutKey(geometry)}|${cell}|${drawFlags.castShadow ? 1 : 0}|${drawFlags.renderOrder}`;
 }
 
 /** Add one bucket's part and copies to its batch. */
@@ -737,7 +739,10 @@ export function SettlementLayer({
     if (!variant) { variant = cloneSettlementMaterial(material); byKind.set(kind, variant); }
     return variant;
   }, []);
-  // Far merges kept across builds while their instances are unchanged.
+  // One material instance per identity for the layer's life (materialIdentity.ts):
+  // pieces of different assets and kits sharing textures and factors share a draw.
+  const identities = useMemo(() => new SettlementMaterialIdentities(), []);
+  // Merged batch geometries kept across builds while their copies are unchanged.
   const farCache = useRef(new Map<string, { signature: string; geometry: THREE.BufferGeometry }>());
   // Colliders kept across builds while their placement's final matrix is unchanged.
   const solidCache = useRef<SolidCache>(new Map());
@@ -1111,12 +1116,12 @@ export function SettlementLayer({
       // and on the console; never thrown, so one bad run cannot blank a place.
       const runJointFailures = runJointErrors(runJoints);
       if (runJointFailures.length) console.error(`settlement run joints: ${runJointFailures.join("; ")}`);
-      // One draw per material per cell (decision 0111, settlement draws): every
-      // bucket of a cell drawing with one material and vertex layout is baked
-      // into one geometry. three's WebGPU path costs ~50-60 µs of CPU per draw,
-      // and an instanced mesh per part per chunk made 528 draws at Riverwalk.
-      // Inside the lamp band the cell is the chunk (its bounds pick its lamps);
-      // beyond it the cell is SETTLEMENT_COARSE_CELL_M (drawCellOf).
+      // One draw per material per cell: every bucket of a cell drawing with
+      // one material instance (one per identity, materialIdentity.ts) and one
+      // vertex layout is baked into one geometry. A main thread bound by
+      // per-draw CPU drew an instanced mesh per (asset, part, chunk): 267 at
+      // Greenspring. Inside the lamp band the cell is the 48 m chunk (its
+      // bounds pick its lamps); beyond it SETTLEMENT_COARSE_CELL_M (drawCellOf).
       const batches = new Map<string, DrawBatch>();
       for (const [bucketKey, bucket] of buckets) {
         yield;
@@ -1126,7 +1131,10 @@ export function SettlementLayer({
         const glowMaterial = bucket.flame ? (bucket.alwaysLit ? "flame" as const : "lamp-flame" as const)
           : bucket.shell ? "lamp-shell" as const
           : isSettlementGlowMaterial(bucket.part.material);
-        const material = materialVariant(bucket.part.material, String(glowMaterial));
+        // flame cards and lantern shells keep their own material; every other
+        // part draws with its identity's one instance
+        const base = bucket.flame || bucket.shell ? bucket.part.material : identities.of(bucket.part.material);
+        const material = materialVariant(base, String(glowMaterial));
         bucket.material = material;
         materialPatch?.(material);
         // decal, additive card, still water and the surface features; the
@@ -1296,7 +1304,7 @@ export function SettlementLayer({
     };
   }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
-      placementById, materialVariant, gl, scene, sceneCamera, linker]);
+      placementById, materialVariant, identities, gl, scene, sceneCamera, linker]);
 
   // The live group goes with the world: on unmount, a new
   // baseUrl, or a fatal error emptying the layer. A new set of bundles

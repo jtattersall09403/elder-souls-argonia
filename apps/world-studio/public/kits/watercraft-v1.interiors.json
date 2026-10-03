@@ -49,7 +49,8 @@
   "bmv:architecture/ships/imperialship01base": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
-   "doorwaysMeasuredAboveFloorM": 8.7,
+   "doorStoreyM": 0.36,
+   "doorwaysMeasuredAboveFloorM": 8.35,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -223,7 +224,7 @@
      "sideDeg": 10.0
     }
    ],
-   "doorwaysMeasuredAboveFloorM": 16.0,
+   "doorwaysMeasuredAboveFloorM": 15.5,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -247,7 +248,8 @@
   "bmv:transport/ships/merchant_ship": {
    "category": "vehicle",
    "closedShellPromotedBy": "own-geometry-door",
-   "doorwaysMeasuredAboveFloorM": 22.5,
+   "doorStoreyM": 0.21,
+   "doorwaysMeasuredAboveFloorM": 22.25,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -538,7 +540,7 @@
     "deg": 255.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 255\u00b0 in the piece's own frame carries 2.26x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 255\u00b0 in the piece's own frame carries 2.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.68,
    "interior": "none",
@@ -742,26 +744,28 @@
   },
   "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01": {
    "category": "boat",
+   "doorStoreyM": 2.12,
    "doorwaysClosedDropped": [
     {
-     "arcM": 12.16,
+     "arcM": 5.2,
      "kind": "open-front",
      "offsetM": [
-      -1.95,
-      5.4
+      -1.69,
+      -9.1
      ],
-     "sideDeg": 195.12
+     "sideDeg": 346.4
     },
     {
-     "arcM": 4.73,
-     "kind": "opening",
+     "arcM": 4.56,
+     "kind": "open-front",
      "offsetM": [
-      -1.62,
-      0.21
+      1.4,
+      -9.28
      ],
-     "sideDeg": 217.38
+     "sideDeg": 10.54
     }
    ],
+   "doorwaysMeasuredAboveFloorM": 7.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 1.0,
@@ -769,7 +773,7 @@
     "deg": 317.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 318\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 318\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 3.34,
@@ -844,7 +848,37 @@
   "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked": {
    "category": "dungeon-kit",
    "closedShellPromotedBy": "own-geometry-door",
-   "doorwaysMeasuredAboveFloorM": 6.74,
+   "doorStoreyM": 0.83,
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 5.16,
+     "kind": "open-front",
+     "offsetM": [
+      3.32,
+      -3.1
+     ],
+     "sideDeg": 87.5
+    },
+    {
+     "arcM": 1.48,
+     "kind": "opening",
+     "offsetM": [
+      -3.15,
+      -2.67
+     ],
+     "sideDeg": 265.0
+    },
+    {
+     "arcM": 0.9,
+     "kind": "opening",
+     "offsetM": [
+      2.58,
+      -6.33
+     ],
+     "sideDeg": 35.0
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": 8.55,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -867,51 +901,25 @@
   },
   "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked": {
    "category": "dungeon-kit",
+   "doorStoreyM": 0.35,
    "doorwaysClosedDropped": [
     {
-     "arcM": 1.87,
-     "kind": "opening",
-     "offsetM": [
-      -1.5,
-      -2.43
-     ],
-     "sideDeg": 347.5
-    },
-    {
-     "arcM": 2.67,
+     "arcM": 4.23,
      "kind": "open-front",
      "offsetM": [
-      1.96,
-      0.04
+      -0.67,
+      -5.4
      ],
-     "sideDeg": 37.85
+     "sideDeg": 357.49
     },
     {
-     "arcM": 2.55,
+     "arcM": 0.99,
      "kind": "opening",
      "offsetM": [
-      1.65,
-      -2.32
+      -1.65,
+      -3.48
      ],
-     "sideDeg": 20.33
-    },
-    {
-     "arcM": 1.09,
-     "kind": "opening",
-     "offsetM": [
-      0.15,
-      0.11
-     ],
-     "sideDeg": 9.06
-    },
-    {
-     "arcM": 0.93,
-     "kind": "opening",
-     "offsetM": [
-      -1.19,
-      -3.8
-     ],
-     "sideDeg": 352.52
+     "sideDeg": 348.18
     }
    ],
    "entrance": null,
@@ -948,7 +956,7 @@
     "deg": 78.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 78\u00b0 in the piece's own frame carries 3.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 78\u00b0 in the piece's own frame carries 3.15x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.971,
    "headroomM": 1.87,
@@ -986,7 +994,28 @@
   "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01": {
    "category": "dungeon-kit",
    "closedShellPromotedBy": "own-geometry-door",
-   "doorwaysMeasuredAboveFloorM": 7.4,
+   "doorStoreyM": 0.47,
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 7.57,
+     "kind": "open-front",
+     "offsetM": [
+      3.86,
+      -1.82
+     ],
+     "sideDeg": 95.0
+    },
+    {
+     "arcM": 6.17,
+     "kind": "open-front",
+     "offsetM": [
+      -3.74,
+      -1.46
+     ],
+     "sideDeg": 260.0
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": 6.95,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -1017,7 +1046,7 @@
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -1076,7 +1105,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -1108,7 +1137,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -1134,7 +1163,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",
@@ -1235,6 +1264,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

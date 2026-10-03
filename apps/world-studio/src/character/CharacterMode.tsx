@@ -11,6 +11,7 @@ import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { studioCanvasRenderer, type StudioRendererHost } from "../studioRenderer";
 import type { WebGPURenderer } from "three/webgpu";
 import { SettlementErrorLine } from "../SettlementErrorLine";
+import { STUDIO_TOOLS } from "../studioTools";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
@@ -19,6 +20,8 @@ import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollisi
 import { rapierCameraObstruction } from "./cameraObstruction";
 import { fadePlayerModel, gatePlayerFirstShow, warmPlayerFadePrograms } from "./playerFade";
 import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
+import { RenderWarmGate } from "@elder-souls/game-core/render/RenderWarmGate";
+import type { WarmGateState } from "@elder-souls/game-core/render/warmGate";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
@@ -32,6 +35,7 @@ import {
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
 import { visualSupportY } from "@elder-souls/game-core/physics/visualSupport";
 import { spawnBodyY } from "./spawnHeight";
+import { useHudPoll } from "./hudPoll";
 import { TRI_BUCKETS, bucketIndexOf, bucketSlot, emptyBuckets } from "./triangleBuckets";
 import type { VegetationStats } from "../vegetation/Vegetation";
 import type { GroundcoverPerf } from "../vegetation/Groundcover";
@@ -283,8 +287,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     if (!Number.isFinite(n)) return null;
     return Math.min(2, Math.max(0.5, n));
   }, []);
-  // Settlement beacons in walk mode (owner round 6): on by default.
-  const [showMarkers, setShowMarkers] = useState(true);
+  // Settlement beacons in walk mode (owner round 6): on by default; `?markers=0` starts them hidden.
+  const [showMarkers, setShowMarkers] = useState(
+    () => new URLSearchParams(window.location.search).get("markers") !== "0");
   // The place sockets as labelled posts (0103 decision 6): `?sockets=1` sets
   // the start state, the "sockets" checkbox toggles it live (owner walk 2).
   const [showSockets, setShowSockets] = useState(() => socketsOverlayEnabled());
@@ -406,9 +411,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
-  // …and until rendering is smooth: during load, shader compiles stall frames
-  // for 100s of ms, and integrating the capsule through those stalls makes its
-  // hover-spring oscillate visibly (the settle "jerking", owner 2026-08-25).
+  // …and until the render path is warm (RenderWarmGate: per-frame work stable,
+  // frames counted): load stalls make the capsule's hover-spring oscillate
+  // (owner 2026-08-25), and V8 tier-up bursts made the first seconds after
+  // ready 13-17 ms frames (perf10 C5). The "Loading" line shows until then.
   const [renderWarm, setRenderWarm] = useState(false);
   const verticalScaleRef = useRef(verticalScale);
   verticalScaleRef.current = verticalScale;
@@ -624,7 +630,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
           {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
             startAt={focusRef.current} shown={shownCell} />}
-          <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
+          <RenderWarmGate armed={collidersReady} onOpen={() => setRenderWarm(true)} onProgress={publishWarm} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
               remounts the whole canvas tree — WorldSky included, leaking one
@@ -781,6 +787,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         color: "#e6ecf5", font: "13px system-ui",
       }}>
         <SettlementErrorLine error={settlementError} style={{ flexBasis: "100%" }} />
+        {manifest && spawn && !renderWarm && <span style={{ flexBasis: "100%" }}>Loading: warming the renderer…</span>}
         <button onClick={onExit} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
         <button onClick={() => {
           const hud = hudChannel.latest;
@@ -924,18 +931,8 @@ function readPerfOpen(): boolean {
 
 function PerfHudSection({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(readPerfOpen);
-  const [fps, setFps] = useState(0);
-  const [backend, setBackend] = useState("");
-  useEffect(() => {
-    const host = window as unknown as { __STUDIO_FPS__?: number } & StudioRendererHost;
-    const read = () => {
-      setFps(host.__STUDIO_FPS__ ?? 0);
-      setBackend(host.__RENDERER_BACKEND__ ?? "");
-    };
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
+  const fps = useHudPoll(() => (window as unknown as { __STUDIO_FPS__?: number }).__STUDIO_FPS__ ?? 0, []);
+  const backend = useHudPoll(() => (window as unknown as StudioRendererHost).__RENDERER_BACKEND__ ?? "", []);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // Held keys auto-repeat `keydown`; without this guard, holding F3 for
@@ -1012,15 +1009,9 @@ function segmentText(rows: SegmentStat[], order: string[]): string {
  * main-thread milliseconds went, pass by pass and stage by stage. Polled once
  * a second like the lines above it. */
 function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
-  const [stats, setStats] = useState<FrameSegmentStats | null>(null);
   // GPU timing runs only while these lines are shown (perf section open).
   useEffect(() => segments.requestGpuTiming(), [segments]);
-  useEffect(() => {
-    const read = () => setStats(segments.stats());
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
-  }, [segments]);
+  const stats = useHudPoll<FrameSegmentStats | null>(() => segments.stats(), [segments]);
   if (!stats) return null;
   return (
     <>
@@ -1041,19 +1032,12 @@ function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
 /** DEV HUD line: post on/off and the glow pass's GPU and CPU ms (segment
  * `bloom`), so `?post=0` can be A/B'd on a device. */
 function PostHudLine({ segments, on }: { segments: FrameSegments; on: boolean }) {
-  const [text, setText] = useState("");
-  useEffect(() => {
-    const read = () => {
-      const s = segments.stats();
-      const gpu = s.gpu.find((r) => r.label === "bloom");
-      const cpu = s.cpu.find((r) => r.label === "bloom");
-      setText(on
-        ? `post on · bloom gpu ${s.gpuSupported && gpu ? gpu.avg.toFixed(2) : "n/a"} ms · cpu ${cpu ? cpu.avg.toFixed(2) : "—"} ms`
-        : "post off (?post=0)");
-    };
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
+  const text = useHudPoll(() => {
+    if (!on) return "post off (?post=0)";
+    const s = segments.stats();
+    const gpu = s.gpu.find((r) => r.label === "bloom");
+    const cpu = s.cpu.find((r) => r.label === "bloom");
+    return `post on · bloom gpu ${s.gpuSupported && gpu ? gpu.avg.toFixed(2) : "n/a"} ms · cpu ${cpu ? cpu.avg.toFixed(2) : "—"} ms`;
   }, [segments, on]);
   return <span style={{ display: "block", opacity: 0.75 }}>{text}</span>;
 }
@@ -1334,28 +1318,18 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
  * the A/B the owner reads. One line, DEV only.
  */
 function VegetationHudLine() {
-  const [sample, setSample] = useState<
-    {
-      veg: VegetationStats | null;
-      fps: number;
-      gpu: FrameGpuStats | null;
-    } | null>(null);
-  useEffect(() => {
+  const sample = useHudPoll<{ veg: VegetationStats | null; fps: number; gpu: FrameGpuStats | null }>(() => {
     const host = window as unknown as {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
       __STUDIO_FPS__?: number;
       __STUDIO_GPU_MS__?: FrameGpuStats;
     };
-    const read = () => setSample({
+    return {
       veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
       fps: host.__STUDIO_FPS__ ?? 0,
       gpu: host.__STUDIO_GPU_MS__ ?? null,
-    });
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
+    };
   }, []);
-  if (!sample) return null;
   const { veg, fps, gpu } = sample;
   const gpuText = gpu
     ? `${gpu.supported ? `gpu ${gpu.wall ? "~" : ""}${gpu.avg}/${gpu.max} ms` : "gpu n/a"}`
@@ -1381,16 +1355,9 @@ function VegetationHudLine() {
 
 /** The same DEV line for the groundcover ring, polled once a second. */
 function GroundcoverHudLine() {
-  const [gc, setGc] = useState<GroundcoverPerf | null>(null);
-  useEffect(() => {
-    const host = window as unknown as {
-      __STUDIO_GROUNDCOVER_DEBUG__?: { perf?: GroundcoverPerf };
-    };
-    const read = () => setGc(host.__STUDIO_GROUNDCOVER_DEBUG__?.perf ?? null);
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
+  const gc = useHudPoll<GroundcoverPerf | null>(() => (window as unknown as {
+    __STUDIO_GROUNDCOVER_DEBUG__?: { perf?: GroundcoverPerf };
+  }).__STUDIO_GROUNDCOVER_DEBUG__?.perf ?? null, []);
   if (!gc) return null;
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
@@ -1417,23 +1384,17 @@ function GroundcoverHudLine() {
  * A/B readable.
  */
 function TriangleAttributionLine() {
-  const [gpu, setGpu] = useState<FrameGpuStats | null>(null);
-  const [veg, setVeg] = useState<VegetationStats | null>(null);
-  useEffect(() => {
+  // useHudPoll snapshots: the published objects are rewritten in place
+  const { gpu, veg, warm } = useHudPoll<{
+    gpu: FrameGpuStats | null; veg: VegetationStats | null; warm: WarmGateState | null;
+  }>(() => {
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
+      __STUDIO_WARM__?: WarmGateState;
     };
-    const read = () => {
-      // A snapshot: the published object is rewritten in place every frame,
-      // so its identity never changes and React would skip the update.
-      const live = host.__STUDIO_GPU_MS__;
-      setGpu(live ? { ...live, buckets: live.buckets.slice() } : null);
-      setVeg(host.__STUDIO_VEGETATION_DEBUG__ ?? null);
-    };
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
+    return { gpu: host.__STUDIO_GPU_MS__ ?? null, veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
+      warm: host.__STUDIO_WARM__ ?? null };
   }, []);
   if (!gpu) return null;
   const rung = veg?.trianglesByRung;
@@ -1453,7 +1414,7 @@ function TriangleAttributionLine() {
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
       {`tris ${millions(gpu.tris)} / budget ${millions(FRAME_TRIANGLE_BUDGET)}:`
-        + ` ${parts.join(" · ")}${hidden}`}
+        + ` ${parts.join(" · ")}${hidden}${warm ? ` · warm ${warm.frames} ${warm.reason}` : ""}`}
     </span>
   );
 }
@@ -1481,23 +1442,9 @@ function CharacterHudMinimap({ channel, mapCanvas, meta, bottomPx, overlay }: {
   );
 }
 
-/** Unpauses physics only once frames flow smoothly: `armed` (colliders ready)
- * plus a run of consecutive sub-100 ms frames. A hard 3 s cap guarantees the
- * gate opens even on very slow devices. */
-function RenderWarmup({ armed, onWarm }: { armed: boolean; onWarm: () => void }) {
-  const smooth = useRef(0);
-  const waited = useRef(0);
-  const done = useRef(false);
-  useFrame((_, delta) => {
-    if (done.current || !armed) return;
-    waited.current += delta;
-    smooth.current = delta < 0.1 ? smooth.current + 1 : 0;
-    if (smooth.current >= 5 || waited.current > 3) {
-      done.current = true;
-      onWarm();
-    }
-  });
-  return null;
+/** Dev stats: the warm gate's frame count and why it opened (HUD tris line, `__STUDIO_WARM__`). */
+function publishWarm(state: WarmGateState) {
+  if (STUDIO_TOOLS) (window as unknown as { __STUDIO_WARM__?: WarmGateState }).__STUDIO_WARM__ = { ...state };
 }
 
 /** The per-frame driver: input → locomotion → camera → HUD. Lives inside
@@ -1638,6 +1585,8 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
   const frameCount = useRef(0);
+  // The walk harness hides the drawn body for its static judged shots (walkHarnessHooks hidePlayer).
+  const playerHiddenRef = useRef(false);
 
   // Validation hook for headless probes: compare the live physics world
   // against the CPU-side environment query.
@@ -1722,7 +1671,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
         bodyCentreHeight: CHARACTER_BODY_CENTER_HEIGHT, focusRef, camera: camera3P,
         cameraPos: () => [camera.position.x, camera.position.y, camera.position.z],
         player: () => (adapter.ready ? (adapter.position(new THREE.Vector3()).toArray() as [number, number, number]) : null),
-        interior: () => interiorProbeRef?.current?.() ?? null, interaction }),
+        interior: () => interiorProbeRef?.current?.() ?? null, interaction, playerHidden: playerHiddenRef }),
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
   }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene, focusRef, interaction]);
@@ -1868,7 +1817,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
         fadePinFrame.current = 60;
         warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
       }
-      fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+      fadePlayerModel(playerModelRef.current, playerHiddenRef.current ? 0 : playerOpacityForArm(camera3P.arm));
     }
     focusRef.current = { x: position.x, z: position.z };
     poseTimer.current += rawDelta;

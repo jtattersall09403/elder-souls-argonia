@@ -1,11 +1,11 @@
 {
  "schemaVersion": 1,
  "placeId": "place.pirate-freeholds.opening-work-camp",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-pirate-freeholds.json",
-   "sha256": "e4743ea13f68542f4748ae7e68ce03a0568ef25ccfc9439c9c6af142ca894189"
+   "sha256": "8331151fc3ffaf805c38db89c5d365d3438857e2a060656fe1a15faa1b8a1612"
   },
   {
    "file": "world/sources/quests/quests-main.json",
@@ -113,7 +113,10 @@
    "text": "The gang's families live on this slope above the marsh. The warm shed at the top holds the gang's egg clutch. The families will not move away from it.",
    "confirmed": {
     "sha": "c7ce0e9c605d",
-    "note": "The hatching shed (b-hatch) stands on the top terrace below the Border road; the families' sheds and tents step down the slope below it."
+    "note": "The hatching shed (b-hatch) stands on the top terrace below the Border road; the families' sheds and tents step down the slope below it.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -126,7 +129,10 @@
    "text": "the way in drops from the Border road to the hatching shed door; the yard way steps down the terraces from there",
    "confirmed": {
     "sha": "d7056361131c",
-    "note": "the-road-way runs from the Border road to the hatching shed door; the yard way runs down the terraces from it."
+    "note": "the-road-way runs from the Border road to the hatching shed door (b-hatch), where the road sign post r-post stands with boards to Stormhold and Thorn; the yard way runs down the terraces from it.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -178,7 +184,11 @@
    "text": "mud, undyed cloth, the warm amber of the hatching shed's lamps at night",
    "confirmed": {
     "sha": "491f419db163",
-    "note": "Two hanging lanterns (h-lamp1, h-lamp2) burn amber at the hatching shed door at night."
+    "note": "Two hanging lanterns (h-lamp1, h-lamp2) burn amber at the hatching shed door at night.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.assembly.h-lamp1",
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -191,7 +201,10 @@
    "text": "cooking, wet reed; from the hatching shed a low continuous sound",
    "confirmed": {
     "sha": "6620341b7f89",
-    "note": "Cookfire y-fire with its pot and reed thatch on every shed; the shed's sound is the audio phase's (later system)."
+    "note": "Cookfire y-fire with its pot and reed thatch on every shed; the shed's sound is the audio phase's (later system).",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -204,7 +217,10 @@
    "text": "the hatching shed, kept warmer and cleaner than the sleeping sheds",
    "confirmed": {
     "sha": "20dfa34eee9b",
-    "note": "The hatching shed sits on its own top terrace with two lanterns, a candle and a totem at the door."
+    "note": "The hatching shed (b-hatch) sits on its own top terrace with two lanterns, a candle and a totem at the door.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -217,7 +233,10 @@
    "text": "low shelters stepped down a slope on levelled terraces, with the hatching shed on the top terrace below the road",
    "confirmed": {
     "sha": "2f1857631eca",
-    "note": "Six shelters on six levelled pads stepping down the slope below the road."
+    "note": "Six shelters on six levelled pads stepping down the slope below the road.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -256,7 +275,10 @@
    "text": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
    "confirmed": {
     "sha": "04a76bf44dc0",
-    "note": "The clutch is in the hatching shed (clutch-dies scene and dead-clutch evidence markers); no Hist stands at the camp."
+    "note": "The clutch is in the hatching shed (clutch-dies scene and dead-clutch evidence markers); no Hist stands at the camp.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -269,7 +291,10 @@
    "text": "A slope of firm ground between the Border road and the marsh. Its top terrace stays dry enough for a hatching shed.",
    "confirmed": {
     "sha": "9f0c18d4fe10",
-    "note": "Pads on the firm slope; the hatching shed's terrace is the highest and driest, below the Border road."
+    "note": "Pads on the firm slope; the hatching shed's terrace is the highest and driest, below the Border road.",
+    "ids": [
+     "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+    ]
    }
   },
   {
@@ -380,6 +405,32 @@
    },
    "text": "Gang Ground has the scene socket scene.opening.clutch-dies.",
    "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.thing-lantern",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.palette"
+   },
+   "text": "Gang Ground shows the lantern its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.assembly.h-lamp1"
+   ]
+  },
+  {
+   "id": "promise.opening-work-camp.thing-shed",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].why.siteAdvantages"
+   },
+   "text": "Gang Ground shows the shed its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.pirate-freeholds.opening-work-camp.parcel.opening-work-camp.hatching-shed.building"
+   ]
   }
  ]
 }

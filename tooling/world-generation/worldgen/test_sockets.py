@@ -132,6 +132,19 @@ def test_the_gates_pass_when_every_promise_is_placed():
     assert next(s for s in socks if s["id"] == "idle.work")["positionM"][1] == 7.0   # ground
 
 
+@pytest.mark.parametrize("ref, ok", [("track.imperial-fringe.mile-house-of-the-eagle", True),
+                                     ("route.road.archon-gideon", True),
+                                     ("place.imperial-fringe.mile-house-of-the-eagle", True),
+                                     ("lane.imperial-fringe.mile-house-of-the-eagle", False)])
+def test_a_sign_arm_names_a_route_a_minor_track_or_a_place(ref, ok):
+    """audit10 (The Broke Column, 207 m off every road): a waymark on a minor
+    track names the track's registry id (`routes-minor.json` `track.*`)."""
+    sign = {"op": "socket", "id": "sign.way", "kind": "sign", "host": "barrel", "pointsTo": [ref]}
+    ops = sk.socket_ops({**LAYOUT, "sockets": GOOD + [sign]}, CATEGORY, VOCAB, {"test-yard": YARD})
+    _socks, _errors, gates = _compile(ops, _walked(*EVERY))
+    assert ("sockets.sign" not in _rules(gates)) is ok, gates
+
+
 @pytest.mark.parametrize("change, rule", [
     (lambda ops: [o for o in ops if o["id"] != "npc.keeper"], "sockets.roster"),
     (lambda ops: [{**o, "schedule": o["schedule"][:1]} if o["id"] == "npc.keeper" else o

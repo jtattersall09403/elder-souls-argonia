@@ -2669,15 +2669,16 @@
   "bmv:architecture/citebosmer/trees/treegiantbranche7": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorStoreyM": 0.85,
    "doorwaysClosedDropped": [
     {
-     "arcM": 3.2,
-     "kind": "opening",
+     "arcM": 3.79,
+     "kind": "open-front",
      "offsetM": [
-      -3.74,
-      -0.44
+      -3.4,
+      -0.33
      ],
-     "sideDeg": 272.5
+     "sideDeg": 270.0
     }
    ],
    "entrance": null,
@@ -3327,19 +3328,59 @@
   },
   "mudmother:gv_meshes/argoniannest/histtree": {
    "category": "misc",
+   "doorStoreyM": 7.21,
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 4.25,
+     "kind": "opening",
+     "offsetM": [
+      0.19,
+      0.43
+     ],
+     "sideDeg": 5.0
+    },
+    {
+     "arcM": 3.37,
+     "kind": "opening",
+     "offsetM": [
+      -0.58,
+      1.34
+     ],
+     "sideDeg": 268.29
+    },
+    {
+     "arcM": 2.37,
+     "kind": "opening",
+     "offsetM": [
+      -5.16,
+      1.61
+     ],
+     "sideDeg": 266.84
+    },
+    {
+     "arcM": 1.84,
+     "kind": "opening",
+     "offsetM": [
+      -9.79,
+      8.96
+     ],
+     "sideDeg": 232.34
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": -0.0,
    "entrance": {
-    "arcM": 0.93,
-    "centreShiftM": -0.88,
-    "clearM": 2.95,
+    "arcM": 1.73,
+    "centreShiftM": -0.6,
+    "clearM": 1.9,
     "kind": "opening",
     "offsetM": [
-     5.27,
-     2.7
+     3.77,
+     2.84
     ],
     "rayConfirmed": true,
-    "sideDeg": 105.0,
-    "sillYM": -0.82,
-    "widthM": 3.3
+    "sideDeg": 112.5,
+    "sillYM": -1.62,
+    "widthM": 3.85
    },
    "floorOffsetM": 8.0,
    "frontFaceFraction": 0.733,
@@ -3576,7 +3617,46 @@
   },
   "vanilla:landscape/rocks/rockcaveentrance02": {
    "category": "rock",
-   "doorwaysMeasuredAboveFloorM": 15.0,
+   "doorStoreyM": 1.57,
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 9.39,
+     "kind": "open-front",
+     "offsetM": [
+      -1.46,
+      1.66
+     ],
+     "sideDeg": 182.5
+    },
+    {
+     "arcM": 1.46,
+     "kind": "opening",
+     "offsetM": [
+      0.56,
+      -1.75
+     ],
+     "sideDeg": 95.0
+    },
+    {
+     "arcM": 9.58,
+     "kind": "open-front",
+     "offsetM": [
+      -0.85,
+      1.57
+     ],
+     "sideDeg": 172.53
+    },
+    {
+     "arcM": 3.19,
+     "kind": "opening",
+     "offsetM": [
+      0.88,
+      -1.05
+     ],
+     "sideDeg": 111.63
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": 14.25,
    "entrance": {
     "doorAsset": "vanilla:autoloadmarker01",
     "kind": "esp-door",

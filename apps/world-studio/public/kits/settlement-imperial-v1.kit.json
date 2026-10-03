@@ -53,6 +53,12 @@
     "Farmhouse01:4.Mat": 0.502
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Farmhouse01:14.Mat"
+   ],
+   "windowMaterials": [
+    "Farmhouse01:14.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -108,6 +114,7 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 01",
    "glowFacingsDeg": [
     90.0,
     270.0
@@ -115,14 +122,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "emissiveMaterials": [
-    "Farmhouse01:14.Mat"
-   ],
-   "windowMaterials": [
-    "Farmhouse01:14.Mat"
-   ],
-   "displayName": "Farmhouse 01"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02",
@@ -184,6 +184,12 @@
     "L2_Rope:22.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Farmhouse02:14.Mat"
+   ],
+   "windowMaterials": [
+    "Farmhouse02:14.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -233,6 +239,7 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 02",
    "glowFacingsDeg": [
     90.0,
     270.0
@@ -240,14 +247,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "emissiveMaterials": [
-    "Farmhouse02:14.Mat"
-   ],
-   "windowMaterials": [
-    "Farmhouse02:14.Mat"
-   ],
-   "displayName": "Farmhouse 02"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
@@ -347,11 +347,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 01 walkway",
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
-   "displayName": "Farmhouse 01 walkway"
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02walkway",
@@ -443,11 +443,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 02 walkway",
    "undersideClosed": true,
    "undersideCoverage": 0.905,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
-   "displayName": "Farmhouse 02 walkway"
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol01",
@@ -540,11 +540,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Dock str sol 01",
    "undersideClosed": true,
    "undersideCoverage": 0.793,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233,
-   "displayName": "Dock str sol 01"
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -630,11 +630,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Dock cor sol 01",
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218,
-   "displayName": "Dock cor sol 01"
+   "pivotAboveBaseM": 6.218
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -721,11 +721,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Dock str 4way 01",
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.157,
-   "displayName": "Dock str 4way 01"
+   "pivotAboveBaseM": 6.157
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -815,11 +815,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Dock steps down 01",
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317,
-   "displayName": "Dock steps down 01"
+   "pivotAboveBaseM": 6.317
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -894,11 +894,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Dock col str 01",
    "undersideClosed": false,
    "undersideCoverage": 0.152,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.615,
-   "displayName": "Dock col str 01"
+   "pivotAboveBaseM": 10.615
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -970,11 +970,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Dock rope str 01",
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.464,
-   "displayName": "Dock rope str 01"
+   "pivotAboveBaseM": -0.464
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboat01",
@@ -1043,11 +1043,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shiprowboat 01",
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179,
-   "displayName": "Shiprowboat 01"
+   "pivotAboveBaseM": 0.179
   },
   {
    "id": "rowboats:dungeons/clutter/shipoar01",
@@ -1114,11 +1114,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shipoar 01",
    "undersideClosed": false,
    "undersideCoverage": 0.345,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071,
-   "displayName": "Shipoar 01"
+   "pivotAboveBaseM": 0.071
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
@@ -1201,11 +1201,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shipcyrodiiliccityferry 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507,
-   "displayName": "Shipcyrodiiliccityferry 01"
+   "pivotAboveBaseM": 0.507
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
@@ -1288,11 +1288,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shipcyrodiilicriverferry 01",
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.583,
-   "displayName": "Shipcyrodiilicriverferry 01"
+   "pivotAboveBaseM": 0.583
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
@@ -1366,11 +1366,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shipcyrodiilicrowboat 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.402,
-   "displayName": "Shipcyrodiilicrowboat 01"
+   "pivotAboveBaseM": 0.402
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven01",
@@ -1461,11 +1461,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Fence woven 01",
    "undersideClosed": false,
    "undersideCoverage": 0.382,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Fence woven 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven02",
@@ -1558,11 +1558,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Fence woven 02",
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Fence woven 02"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall01",
@@ -1646,11 +1646,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewall 01",
    "undersideClosed": false,
    "undersideCoverage": 0.05,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewall 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall02",
@@ -1740,11 +1740,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewall 02",
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Stonewall 02"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
@@ -1828,11 +1828,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewall end l 01",
    "undersideClosed": false,
    "undersideCoverage": 0.093,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewall end l 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
@@ -1916,11 +1916,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewall end r 01",
    "undersideClosed": false,
    "undersideCoverage": 0.04,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewall end r 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:farmhouse/farmhouse01-with-door",
@@ -2024,6 +2024,7 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 01",
    "glowFacingsDeg": [
     90.0,
     270.0
@@ -2031,8 +2032,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Farmhouse 01"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-door",
@@ -2138,6 +2138,7 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 02",
    "glowFacingsDeg": [
     90.0,
     270.0
@@ -2145,8 +2146,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Farmhouse 02"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-walkway",
@@ -2269,6 +2269,7 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouse 02",
    "glowFacingsDeg": [
     90.0,
     270.0
@@ -2276,8 +2277,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.527,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.651,
-   "displayName": "Farmhouse 02"
+   "pivotAboveBaseM": 3.651
   },
   {
    "id": "composite:farmhouse/stonewall-run-3",
@@ -2368,11 +2368,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewall 01",
    "undersideClosed": false,
    "undersideCoverage": 0.044,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewall 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:farmhouse/stonewall-run-5",
@@ -2465,11 +2465,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stonewall 01",
    "undersideClosed": false,
    "undersideCoverage": 0.035,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stonewall 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/imperial/impwallsconcecandle01",
@@ -2522,6 +2522,9 @@
      "sizeM": 0.036,
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
+   ],
+   "emissiveMaterials": [
+    "ImpWallSconceCandle01:8.Mat"
    ],
    "designedSinkM": {
     "p25": -0.3345,
@@ -2584,14 +2587,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Imp wall sconce candle 01",
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335,
-   "emissiveMaterials": [
-    "ImpWallSconceCandle01:8.Mat"
-   ],
-   "displayName": "Imp wall sconce candle 01"
+   "pivotAboveBaseM": 0.335
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -2694,11 +2694,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Imp free wall 01",
    "undersideClosed": false,
    "undersideCoverage": 0.562,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.341,
-   "displayName": "Imp free wall 01"
+   "pivotAboveBaseM": 0.341
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrpost01",
@@ -2783,11 +2783,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Sign WR post 01",
    "undersideClosed": false,
    "undersideCoverage": 0.173,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Sign WR post 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
@@ -2870,11 +2870,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Sign WR drunken huntsman 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.046,
-   "displayName": "Sign WR drunken huntsman 01"
+   "pivotAboveBaseM": 1.046
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
@@ -2932,11 +2932,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Sign WR general goods",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.031,
-   "displayName": "Sign WR general goods"
+   "pivotAboveBaseM": 1.031
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrstables01",
@@ -3018,11 +3018,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Sign WR stables 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.033,
-   "displayName": "Sign WR stables 01"
+   "pivotAboveBaseM": 1.033
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -3123,11 +3123,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Barrel empty 01",
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Barrel empty 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/barrel02",
@@ -3228,11 +3228,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Barrel 02 static",
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Barrel 02 static"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -3338,11 +3338,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Firewood pile large 01",
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019,
-   "displayName": "Firewood pile large 01"
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -3448,11 +3448,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Firewood pile medium 01",
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "displayName": "Firewood pile medium 01"
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -3475,7 +3475,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "firewood01.dds",
@@ -3558,11 +3558,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.344,
+     0.178,
+     0.421
+    ],
+    "centreOffsetM": [
+     -0.061,
+     0.185,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Firewood pile small 01",
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017,
-   "displayName": "Firewood pile small 01"
+   "pivotAboveBaseM": 0.017
   },
   {
    "id": "vanilla:furniture/farm/farmbench01",
@@ -3663,11 +3676,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farm bench 01 f",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Farm bench 01 f"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -3690,7 +3703,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "bucket01.dds"
@@ -3768,11 +3781,24 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.22,
+     0.188,
+     0.237
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.213,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Bucket 01",
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Bucket 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/hay/haymound01",
@@ -3882,11 +3908,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Hay mound 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Hay mound 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
@@ -3976,11 +4002,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Walkway stairs 1",
    "undersideClosed": true,
    "undersideCoverage": 0.728,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Walkway stairs 1"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
@@ -4077,11 +4103,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Walkway stairs 4",
    "undersideClosed": true,
    "undersideCoverage": 0.816,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Walkway stairs 4"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
@@ -4178,11 +4204,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Walkway stairs 8",
    "undersideClosed": true,
    "undersideCoverage": 0.848,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Walkway stairs 8"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy01",
@@ -4260,11 +4286,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ivy 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.501,
-   "displayName": "Ivy 01"
+   "pivotAboveBaseM": 0.501
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy02",
@@ -4346,11 +4372,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ivy 02",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067,
-   "displayName": "Ivy 02"
+   "pivotAboveBaseM": 1.067
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy03",
@@ -4429,11 +4455,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ivy 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067,
-   "displayName": "Ivy 03"
+   "pivotAboveBaseM": 1.067
   },
   {
    "id": "vanilla:plants/chickennest01",
@@ -4537,11 +4563,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Chicken nest",
    "undersideClosed": false,
    "undersideCoverage": 0.233,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.096,
-   "displayName": "Chicken nest"
+   "pivotAboveBaseM": -0.096
   },
   {
    "id": "vanilla:architecture/riften/rtstables01",
@@ -4635,11 +4661,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "RT stables 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "RT stables 01"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:clutter/horsetrough/horsetrough01",
@@ -4729,11 +4755,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Horse trough 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Horse trough 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/candlelanternwithcandle01",
@@ -4830,6 +4856,9 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.0285,
     "p50": -0.0268,
@@ -4899,14 +4928,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Candle lanternwith candle 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "emissiveMaterials": [
-    "CandleLanternWithCandle:7.Mat"
-   ],
-   "displayName": "Candle lanternwith candle 01"
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",
@@ -4990,11 +5016,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Signpost",
    "undersideClosed": true,
    "undersideCoverage": 0.609,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.884,
-   "displayName": "Signpost"
+   "pivotAboveBaseM": 2.884
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
@@ -5037,24 +5063,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 31706232,
-  "bytesAfter": 14132180,
+  "bytesBefore": 31706360,
+  "bytesAfter": 14132292,
   "images": 56,
   "imageBytesAfter": 12255176,
   "warnings": [],
-  "sha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf",
+  "sha256": "b34ca8b13a6fbb70ab2cde8a6172ff4da0a1c1a721dd071ab247c47dc76b7cd7",
   "parts": {
    "parts": 7,
-   "partBytes": 102652,
+   "partBytes": 102708,
    "textureFiles": 8,
    "textureBytes": 1182169,
-   "bytes": 1284821,
-   "sourceSha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf"
+   "bytes": 1284877,
+   "sourceSha256": "b34ca8b13a6fbb70ab2cde8a6172ff4da0a1c1a721dd071ab247c47dc76b7cd7"
   },
   "sidecarBytes": {
    "connectors": 37323,
    "footprints": 62051,
-   "interiors": 43162
+   "interiors": 43023
   }
  }
 }

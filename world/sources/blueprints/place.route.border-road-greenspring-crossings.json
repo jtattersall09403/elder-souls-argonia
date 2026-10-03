@@ -1360,7 +1360,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/border-road-greenspring-crossings.layout.json",
-        "sha256": "fbf2bc4d1cb65722242fcdcff67d4ac378ee9c2787d7f04c4bf89d9b128942ab"
+        "sha256": "66d0038674b6675f8931c6b5088d503ec188cb96b9d415a390be3a058804f7cc"
       }
     },
     "walkRoutes": {

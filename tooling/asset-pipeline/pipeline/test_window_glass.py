@@ -104,3 +104,22 @@ def test_window_glass(suffix, want):
     if path is None:
         pytest.skip(f"{suffix}: kit not built here")
     assert bool(nb.window_glass_shapes(nb.parse(Path(path).read_bytes()))) is want
+
+
+def test_own_emit_material_gets_its_diffuse_as_emissive_map():
+    """Audit10 B1: an emitting OWN_EMIT material (the mud-hut amber window)
+    ships its diffuse as the emissive map; others and Glow_Map ones are kept."""
+    from .build_kit import own_emit_maps
+    tex = {"index": 3, "texCoord": 0}
+    gltf = {"materials": [
+        {"name": "Objekt01:1.Mat.001", "pbrMetallicRoughness": {"baseColorTexture": tex}},
+        {"name": "Door:0.Mat", "pbrMetallicRoughness": {"baseColorTexture": tex}},
+        {"name": "Cylinder.Mat", "emissiveTexture": {"index": 7},
+         "pbrMetallicRoughness": {"baseColorTexture": tex}},
+    ]}
+    changed = own_emit_maps(gltf, {"Objekt01:1.Mat", "Cylinder.Mat"})
+    assert changed == ["Objekt01:1.Mat.001"]
+    assert gltf["materials"][0]["emissiveTexture"] == tex
+    assert gltf["materials"][0]["emissiveFactor"] == [1.0, 1.0, 1.0]
+    assert "emissiveTexture" not in gltf["materials"][1]
+    assert gltf["materials"][2]["emissiveTexture"] == {"index": 7}

@@ -183,10 +183,16 @@ export function waterSourceDistanceSquared(camera: Vec3, plunge: Vec3, lip?: Vec
   return (camera.x - x) ** 2 + (camera.y - y) ** 2 + (camera.z - z) ** 2;
 }
 
+/** A cell's numeric key; exact for |x|, |z| < 2^19 cells (67 000 km at CELL_M). */
+function cellKey(x: number, z: number): number {
+  return (x + 524288) * 1048576 + (z + 524288);
+}
+
 /** Spatially local, nearest-first source admission. File ordering must never
  * let eight distant/behind-camera falls starve the fall beside the player. */
 export class WaterCascadeSources {
-  private readonly cells = new Map<string, Cascade[]>();
+  /** Keyed by `cellKey` (a number: no key string per cell per query). */
+  private readonly cells = new Map<number, Cascade[]>();
   private readonly seen = new Set<Cascade>();
   private readonly result: Cascade[] = [];
   private readonly distances: number[] = [];
@@ -200,7 +206,7 @@ export class WaterCascadeSources {
         throw new Error(`Invalid cascade spatial bounds: ${fall.id}`);
       }
       for (let z = z0; z <= z1; z++) for (let x = x0; x <= x1; x++) {
-        const key = `${x},${z}`;
+        const key = cellKey(x, z);
         const entries = this.cells.get(key);
         if (entries) entries.push(fall); else this.cells.set(key, [fall]);
       }
@@ -215,7 +221,10 @@ export class WaterCascadeSources {
     if (!count || !Number.isFinite(camera.x + camera.y + camera.z + radius)) return this.result;
     for (let z = Math.floor((camera.z - radius) / CELL_M); z <= Math.floor((camera.z + radius) / CELL_M); z++) {
       for (let x = Math.floor((camera.x - radius) / CELL_M); x <= Math.floor((camera.x + radius) / CELL_M); x++) {
-        for (const fall of this.cells.get(`${x},${z}`) ?? []) {
+        const entries = this.cells.get(cellKey(x, z));
+        if (!entries) continue;
+        for (let e = 0; e < entries.length; e++) {
+          const fall = entries[e];
           if (this.seen.has(fall)) continue;
           this.seen.add(fall);
           const distance = waterSourceDistanceSquared(camera, fall.plunge, fall.lip);
@@ -223,8 +232,11 @@ export class WaterCascadeSources {
           let at = 0;
           while (at < this.distances.length && this.distances[at] <= distance) at++;
           if (at >= count) continue;
-          this.result.splice(at, 0, fall); this.distances.splice(at, 0, distance);
-          if (this.result.length > count) { this.result.pop(); this.distances.pop(); }
+          // insert in place (splice returns a fresh array per call)
+          const n = Math.min(this.result.length + 1, count);
+          for (let k = n - 1; k > at; k--) { this.result[k] = this.result[k - 1]; this.distances[k] = this.distances[k - 1]; }
+          this.result[at] = fall; this.distances[at] = distance;
+          this.result.length = n; this.distances.length = n;
         }
       }
     }

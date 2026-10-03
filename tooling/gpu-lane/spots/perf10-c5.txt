@@ -1,0 +1,24 @@
+# perf10 chunk 4 round (pod, WebGL, 1280x720). The 8 perf10 spots a-h probe-off (the headline rows, judged against
+# the bar), then the diagnosis rows (any probe token: pass reads `diag`, never counted). README "Probe rules".
+a ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5       # Riverwalk night rain
+b ?view=character&x=4.7789&z=1.9&t=22&w=rain&rate=0.5         # Greenspring Hist night rain
+b2 ?view=character&x=4.7789&z=1.9&t=22&w=rain&rate=0.5
+b3 ?view=character&x=4.7789&z=1.9&t=22&w=rain&rate=0.5
+c ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=0.5        # Greenspring noon clear
+d ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5          # ESE jungle marsh
+e ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 x3  # d with a 20 s W-held walk into the water, three times (e, e2, e3)
+f ?view=character&x=0.304&z=3.042&t=12&rate=0.5               # Claywater day
+g ?view=character&x=4.475&z=1.6&t=12&rate=0.5                 # open river
+h ?view=character&x=4.53&z=4.52&t=22&w=rain&rate=0.5 --aim 1.4,0.1   # ESE marsh night-rain aimed view (perf-shots ese-night-rain)
+ediag ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 trace-gpu memory-infra heapsample profile  # C2a discardable purge, C2b GC churn
+cdiag ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=0.5 trace-gpu   # C4 residual hitch at c
+adiag ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5 diag=relink,heap   # C3: draw links tagged `first`
+atrace ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5 trace-gpu   # diag: what the running clock costs
+aprof ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5 profile   # K7: 200 us CPU profile over the settled window (sky owner)
+apaused ?view=character&x=7.1971&z=0.584&t=22&w=rain   # control: clock paused, compare with a
+a2 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5
+a3 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5
+f2 ?view=character&x=0.304&z=3.042&t=12&rate=0.5
+f3 ?view=character&x=0.304&z=3.042&t=12&rate=0.5
+aday ?view=character&x=7.1971&z=0.584&t=12&w=clear&rate=0.5   # diag: noon, non-bar
+adayq ?view=character&x=7.1971&z=0.584&t=12&w=clear&rate=0.5&wq=low   # diag: water quality low

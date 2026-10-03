@@ -11,7 +11,7 @@
  *     [--ready-timeout 150] [--profile <s>] [--out tooling/.reports/gpu-lane/<run>/]
  *     [--pod "ssh -i <key> -p <port> root@<ip>"] [--maps <built site dir>]
  *
- * --pod: host sampler (host-sampler.mjs) beside workerGaps; --maps: hidden source maps (source-maps.mjs, A1).
+ * --pod: host sampler (host-sampler.mjs) beside workerGaps (a --spots run with a headline row needs --pod or --no-pod); --maps: hidden source maps (source-maps.mjs, A1).
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
  * --smoke: one spot (default spot a), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
@@ -24,7 +24,7 @@
  * url<i>-<settled|walk>.trace.json beside measure.json, its long-frame classes (trace-frames.mjs) in `trace`.
  * --aim "yaw,pitch" (radians): aim the follow camera before the settle. --clean 1: HUD-free screenshots.
  * --spots <file>: ONE invocation measures every spot of the file (one line each: `<name> <?query> [--aim yaw,pitch]
- * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample] [profile]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
+ * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample] [profile] [profile-walk]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
  * clean settled screenshot of each (<run dir>/<name>-settled.jpg) and writes summary.md: settled fps, p1Low,
  * uncapped, p1LowUncapped, max ms, over20, over33 and pass against --bar fps,p1low (default 83,69). A spot with a
  * probe token, a `diag=` query, or any global --diag/--trace/--profile/--census is a diagnosis row: pass reads `diag`
@@ -40,9 +40,9 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
-import { hostSeries, hostSpikes, startHostSampler } from "./host-sampler.mjs";
+import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
-import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, classifyFrames, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, V8_TRACE_CATEGORIES, classifyFrames, isV8Event, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 import { HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
 
@@ -51,14 +51,21 @@ export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeP
 const repo = resolve(new URL("../..", import.meta.url).pathname);
 const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 
+/** A --spots run with a headline (non-diagnosis) row records host steal/faults only with --pod: refused unless --no-pod is explicit. */
+export function podRefusal(o) {
+  if (!o.spots || o.pod || o.noPod) return null;
+  const head = (o.spotList ?? []).filter((s) => !s.diagnosis).map((s) => s.name);
+  return head.length ? `--spots run has headline rows (${head.join(", ")}) and no --pod: the host steal/fault sampler would be off. Pass --pod "ssh ..." or --no-pod` : null;
+}
+
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
     cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
-    smoke: false, census: false, trace: false, traceGpu: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15, pod: "", maps: "" };
+    smoke: false, noPod: false, census: false, trace: false, traceGpu: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15, pod: "", maps: "" };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
-    if (k === "shots" || k === "smoke" || k === "census" || k === "trace") { o[k] = true; continue; }
+    if (k === "shots" || k === "smoke" || k === "census" || k === "trace" || k === "no-pod") { o[camel(k)] = true; continue; }
     if (k === "trace-gpu") { o.traceGpu = o.trace = true; continue; }
     const v = argv[++i];
     if (v === undefined) throw new Error(`--${k} needs a value`);
@@ -89,6 +96,8 @@ export function parseArgs(argv) {
   }
   o.url = o.spotList.map((s) => s.query);
   o.diagList = [...new Set(o.spotList.flatMap((s) => s.diagList))];
+  const refusal = podRefusal(o);
+  if (refusal) throw new Error(refusal);
   if (!["webgl", "webgpu"].includes(o.renderer)) throw new Error("--renderer is webgl or webgpu");
   o.base ??= o.renderer === "webgpu" ? "/elder-souls-argonia/webgpu/" : "/elder-souls-argonia/studio/";
   o.out = resolve(o.out ?? join(repo, "tooling/.reports/gpu-lane", o.run));
@@ -195,10 +204,17 @@ export function pageProbe() {
   const ch = new MessageChannel();
   let cur = null;
   ch.port1.onmessage = () => { if (cur) cur.msg = now(); };
+  // The groundcover's cumulative refill timers (GroundcoverPerf.tf), snapshotted as each frame closes; the window
+  // read differences consecutive snapshots into per-frame values (GC_COLUMNS order).
+  const gcSnap = () => {
+    const f = window.__STUDIO_GROUNDCOVER_DEBUG__?.perf?.tf;
+    return f ? [f.useFrameMs, f.genMs, f.commitMs, f.swapMs, f.rangesMs, f.fillMs, f.allocMs, f.statsMs, f.renderMs,
+      f.effectMs, f.cullMs, f.bytes, f.refills, f.drains, f.meshes, f.allocs] : null;
+  };
   window.requestAnimationFrame = (cb) => raf((stamp) => {
     const w0 = now();
     if (!cur || cur.stamp !== stamp) {
-      if (cur && lane.on) lane.frames.push(cur);
+      if (cur && lane.on) { cur.gc = gcSnap(); lane.frames.push(cur); }
       const g = window.__STUDIO_GPU_MS__;
       cur = { stamp, start: w0, end: w0, msg: 0, gpu: g?.supported ? g.avg : null };
       ch.port2.postMessage(0);
@@ -258,15 +274,14 @@ async function runCensus(page, o) {
   // The hitch window opens CENSUS_LEAD_MS after Profiler.start: starting the profiler costs one ~400 ms
   // frame of its own (perf-f6), which is the harness, not the app.
   await cdp.send("Profiler.start");
-  // The profile clock starts with Profiler.start, ~ the instant before this page read.
-  const pn = await page.evaluate(() => performance.now());
+  const pn = await profileAnchor(page);
   await page.waitForTimeout(CENSUS_LEAD_MS);
   await page.evaluate(() => { const t0 = performance.now(); window.__HEAPS = []; window.__HEAPI = setInterval(() => window.__HEAPS.push([(performance.now() - t0) / 1000, (performance.memory?.usedJSHeapSize ?? NaN) / 1e6]), 500); });
   const w = await sample(page, seconds, async () => {
     const t0 = Date.now();
     await nodeWait(seconds * 1000);
     profile = (await cdp.send("Profiler.stop")).profile;
-    offsetMs = profile.startTime / 1000 - pn;
+    offsetMs = profileOffset(profile, pn);
     return { elapsedMs: Date.now() - t0 };
   });
   const endMB = await heapMB();
@@ -327,12 +342,12 @@ async function postGcHeap(page, hl) {
 }
 
 /** Start a Chrome trace on the page; the returned stop() writes <file> and returns the long-frame classes. */
-async function startTrace(page, file, { gpu = false, memoryInfra = false } = {}, hl) {
+async function startTrace(page, file, { gpu = false, memoryInfra = false, v8 = false } = {}, hl) {
   const cdp = await page.context().newCDPSession(page);
-  const ev = [], gpuEv = [];
-  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) { if (keepTraceEvent(e)) ev.push(e); else if (gpu && isGpuCategoryEvent(e)) gpuEv.push(e); } });
+  const ev = [], gpuEv = [], v8Ev = [];
+  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) { if (v8 && isV8Event(e)) v8Ev.push(e); if (keepTraceEvent(e)) ev.push(e); else if (gpu && isGpuCategoryEvent(e)) gpuEv.push(e); } });
   const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
-  const includedCategories = [...TRACE_CATEGORIES, ...(gpu ? GPU_TRACE_CATEGORIES : []), ...(memoryInfra ? [MEMORY_INFRA_CATEGORY] : [])];
+  const includedCategories = [...TRACE_CATEGORIES, ...(gpu ? GPU_TRACE_CATEGORIES : []), ...(memoryInfra ? [MEMORY_INFRA_CATEGORY] : []), ...(v8 ? V8_TRACE_CATEGORIES : [])];
   // memory-infra: Chrome dumps on its own timer (MEMORY_DUMP_CONFIG), set here, before the window opens.
   await hl.wrap("trace:start", () => cdp.send("Tracing.start", { traceConfig: { includedCategories, recordMode: "recordContinuously",
     ...(memoryInfra ? { memoryDumpConfig: MEMORY_DUMP_CONFIG } : {}) }, transferMode: "ReportEvents" }));
@@ -342,7 +357,7 @@ async function startTrace(page, file, { gpu = false, memoryInfra = false } = {},
     await hl.wrap("trace:stop", async () => { await cdp.send("Tracing.end"); await done; });
     await cdp.detach().catch(() => {});
     const profile = profileFile ? JSON.parse(readFileSync(profileFile, "utf8")) : null;
-    const res = classifyFrames(gpu ? [...ev, ...gpuEv] : ev, { profile, windowEndPageMs, gpuAnyDur: gpu });
+    const res = classifyFrames(gpu ? [...ev, ...gpuEv] : ev, { profile, windowEndPageMs, gpuAnyDur: gpu, v8Events: v8 ? v8Ev : null });
     // --trace-gpu: GPU-process events of any duration are written only inside long frames, to keep the file small.
     const gpuPids = new Set(ev.filter((e) => e.ph === "M" && e.name === "process_name" && /GPU/i.test(e.args?.name ?? "")).map((e) => e.pid));
     const extra = gpu ? gpuEventsInSpans(gpuEv, gpuPids, (res.long ?? []).map((f) => f.spanUs)) : [];
@@ -389,16 +404,28 @@ const nodeWait = (ms) => new Promise((r) => setTimeout(r, ms));
  * CDP round-trip (a 45-52 ms main-thread message) lands inside it (perf-diag4 D2). `during` (the CPU
  * profile, the driver) may only send its start/stop at the window's edges or the scenario's own input.
  */
-export async function sample(page, seconds, during, wait = nodeWait, hl = harnessLogger()) {
+export async function sample(page, seconds, during, wait = nodeWait, hl = harnessLogger(), schedule = null) {
   // The heartbeat Worker ticks every 5 ms on its own thread and keeps its gaps over 20 ms (page time) to itself
   // until read once after the window: a gap the main thread AND the worker both saw is a process/host stall.
-  await hl.wrap("evaluate:window-open", () => page.evaluate((ms) => {
+  // `schedule` (stepsSchedule) is the walk's route: page timers play it from the window open, W as a synthetic
+  // KeyboardEvent on window (input.ts reads event.code), turns through aimCamera; `route` lists what fired when.
+  await hl.wrap("evaluate:window-open", () => page.evaluate(([ms, sched]) => {
     const l = window.__GPU_LANE__; l.ts = []; l.frames = []; l.wrapMs = 0; l.on = true;
+    l.route = sched ? { done: false, fired: [] } : null;
+    if (sched) {
+      const s0 = performance.now(), route = l.route;
+      sched.forEach((e, i) => setTimeout(() => {
+        if (e.k === "aim") window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(e.yaw);
+        else window.dispatchEvent(new KeyboardEvent(e.down ? "keydown" : "keyup", { key: "w", code: "KeyW", bubbles: true }));
+        route.fired.push([e.k, e.k === "aim" ? e.yaw : e.down, Math.round(performance.now() - s0)]);
+        if (i === sched.length - 1) route.done = true;
+      }, e.at));
+    }
     l.hb = typeof Worker === "function" ? new Worker(URL.createObjectURL(new Blob([`let last = performance.now(); const gaps = [];
       const id = setInterval(() => { const n = performance.now(); if (n - last > 20) gaps.push([last + performance.timeOrigin, n - last]); last = n; }, 5);
       onmessage = () => { clearInterval(id); postMessage(gaps); };`]))) : null;
     setTimeout(() => { l.on = false; }, ms);
-  }, seconds * 1000));
+  }, [seconds * 1000, schedule]));
   const t0 = Date.now();
   const extra = during ? await during() : null;
   await wait(Math.max(0, seconds * 1000 - (Date.now() - t0)) + 150);
@@ -406,17 +433,78 @@ export async function sample(page, seconds, during, wait = nodeWait, hl = harnes
     const l = window.__GPU_LANE__;
     const hb = l.hb; l.hb = null;
     const workerGaps = hb ? await new Promise((r) => { hb.onmessage = (e) => { hb.terminate(); r(e.data.map(([s, ms]) => [s - performance.timeOrigin, ms])); }; hb.postMessage(0); }) : null;
-    return { ts: l.ts, wrapMs: l.wrapMs, workerGaps, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu })) };
+    return { ts: l.ts, wrapMs: l.wrapMs, workerGaps, route: l.route, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu, gcCum: f.gc })) };
   }));
   for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
+  gcDeltas(raw.frames);
   const workerGaps = raw.workerGaps?.map(([s, ms]) => [r2(s), r2(ms)]) ?? null;
-  return { ts: raw.ts, extra, series: frameSeries(raw.frames), workerGaps,
+  return { ts: raw.ts, extra, route: raw.route ?? null, series: frameSeries(raw.frames), workerGaps,
     work: { ...workStats(raw.frames), wrapperMsPerFrame: raw.frames.length ? r2(raw.wrapMs / raw.frames.length) : null } };
 }
 
-/** The per-frame series of a stats window as compact column arrays (page ms, 0.01 ms): {t, dt, work, gpu}. */
+/** Order of pageProbe's gcSnap array: the cumulative GroundcoverPerf.tf fields as series columns. */
+export const GC_SNAP = ["gcUseFrame", "gcGen", "gcCommit", "gcSwap", "gcRanges", "gcFill", "gcAlloc", "gcStats", "gcRender",
+  "gcEffect", "gcCull", "gcBytes", "refills", "drains", "gcMeshes", "gcAllocs"];
+/** The ms sub-timers, and those that are not nested in another (their sum is the groundcover's main-thread ms). */
+export const GC_MS = ["gcUseFrame", "gcGen", "gcCommit", "gcSwap", "gcRanges", "gcFill", "gcAlloc", "gcStats", "gcRender", "gcEffect", "gcCull"];
+export const GC_TOP = ["gcUseFrame", "gcFill", "gcStats", "gcRender", "gcEffect"];
+/** Per-frame series columns from the groundcover: GC_MS, then gcBytes, gcRefill (1 a fill started, 2 a commit
+ * drain finished: the fill swapped in), gcMeshes, gcAllocs. */
+export const GC_COLUMNS = [...GC_MS, "gcBytes", "gcRefill", "gcMeshes", "gcAllocs"];
+
+/** In place: each frame's `gcCum` snapshot (or null) becomes `gc` {column: this frame's value} against the previous
+ * frame's snapshot; the first frame and a frame with no snapshot get null. */
+export function gcDeltas(frames) {
+  let prev = null;
+  for (const f of frames) {
+    const c = f.gcCum ?? null;
+    delete f.gcCum;
+    f.gc = null;
+    if (c && prev) {
+      const d = Object.fromEntries(GC_SNAP.map((k, i) => [k, c[i] - prev[i]]));
+      f.gc = { ...Object.fromEntries(GC_MS.map((k) => [k, d[k]])), gcBytes: d.gcBytes,
+        gcRefill: (d.refills > 0 ? 1 : 0) | (d.drains > 0 ? 2 : 0), gcMeshes: d.gcMeshes, gcAllocs: d.gcAllocs };
+    }
+    prev = c;
+  }
+  return frames;
+}
+
+/** The per-frame series of a stats window as compact column arrays (page ms, 0.01 ms): {t, dt, work, gpu} plus the
+ * GC_COLUMNS when the page published groundcover timers (null per frame where it did not). */
 export function frameSeries(frames) {
-  return { t: frames.map((f) => r2(f.t)), dt: frames.map((f) => r2(f.dt)), work: frames.map((f) => r2(f.work)), gpu: frames.map((f) => f.gpu ?? null) };
+  const s = { t: frames.map((f) => r2(f.t)), dt: frames.map((f) => r2(f.dt)), work: frames.map((f) => r2(f.work)), gpu: frames.map((f) => f.gpu ?? null) };
+  if (frames.some((f) => f.gc)) for (const k of GC_COLUMNS) s[k] = frames.map((f) => (f.gc ? r2(f.gc[k]) : null));
+  return s;
+}
+
+/**
+ * The groundcover digest of a window series: `frames` lists every frame with work >= minWork ms, its GC_COLUMNS
+ * values (zeros dropped), `gcMs` (the sum of the non-nested GC_TOP timers) and `otherMs` = work - gcMs; `totals` sums
+ * each column over the window. Null when the series carries no groundcover columns.
+ */
+export function gcFramesDigest(series, minWork = 12) {
+  if (!series?.gcGen) return null;
+  const totals = Object.fromEntries(GC_COLUMNS.map((k) => [k, 0]));
+  const frames = [];
+  for (let i = 0; i < series.t.length; i++) {
+    if (series.gcGen[i] == null) continue;
+    for (const k of GC_COLUMNS) totals[k] += k === "gcRefill" ? (series[k][i] & 1) : series[k][i];
+    if (!(series.work[i] >= minWork)) continue;
+    const gc = Object.fromEntries(GC_COLUMNS.filter((k) => series[k][i]).map((k) => [k, series[k][i]]));
+    const gcMs = r2(GC_TOP.reduce((a, k) => a + series[k][i], 0));
+    frames.push({ t: series.t[i], work: series.work[i], gcMs, otherMs: r2(series.work[i] - gcMs), gc });
+  }
+  for (const k of GC_COLUMNS) totals[k] = r2(totals[k]);
+  return { minWork, frames, totals };
+}
+
+/** summary.md lines for one window's gcFrames digest. */
+export function gcFramesText(label, d) {
+  if (!d) return [];
+  const tot = Object.entries(d.totals).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`).join(", ");
+  return [`- ${label}: ${d.frames.length} frames >= ${d.minWork} ms; totals ${tot || "0"} (gcRefill = fills started)`,
+    ...d.frames.map((f) => `  - t ${f.t} work ${f.work} gc ${f.gcMs} other ${f.otherMs}: ${Object.entries(f.gc).map(([k, v]) => `${k} ${v}`).join(", ")}`)];
 }
 
 /**
@@ -464,6 +552,30 @@ export function hitchContextText(name, ctx) {
 
 /** Starts a CDP CPU profile (sampling `intervalUs`); the returned stop(file) ends it, writes the
  * .cpuprofile and returns the raw profile with the file. Every CDP send is at the call or the stop. */
+/**
+ * Clock anchor for a running CPU profile (perf10 F36): the page runs a named busy loop for ANCHOR_BUSY_MS and returns
+ * the performance.now() it began at; profileOffset finds the loop's first sample, so the page-to-profile mapping is
+ * read off the samples' own clock. `profile.startTime/1000 - performance.now()` read after Profiler.start was ~185 ms
+ * off (tooling/.reports/16k/walk10/perf-diag18-q.md "Measurement defect").
+ */
+export const ANCHOR_FN = "__gpuLaneProfileAnchor__";
+export const ANCHOR_BUSY_MS = 5;
+function profileAnchor(page) {
+  return page.evaluate(`(function ${ANCHOR_FN}() { const t = performance.now(); while (performance.now() - t < ${ANCHOR_BUSY_MS}); return t; })()`);
+}
+
+/** offsetMs (profile ms - page ms) from the anchor loop's first sample; startTime when the loop was never sampled. */
+export function profileOffset(profile, anchorPn) {
+  const ids = new Set(profile.nodes.filter((n) => n.callFrame?.functionName === ANCHOR_FN).map((n) => n.id));
+  const { samples = [], timeDeltas = [] } = profile;
+  let t = profile.startTime;
+  for (let i = 0; i < samples.length; i++) {
+    t += timeDeltas[i] ?? 0;
+    if (ids.has(samples[i])) return t / 1000 - anchorPn;
+  }
+  return profile.startTime / 1000 - anchorPn;
+}
+
 async function startCpuProfile(page, intervalUs, hl) {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send("Profiler.enable");
@@ -486,6 +598,39 @@ async function cpuProfile(page, o, seconds, tag, name, hl) {
   return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile, 40, o.sourceMaps) };
 }
 
+/**
+ * `profile-walk` spikes: for every frame of a window series ({t, work} page ms) whose rAF work is >= minWork ms, the top
+ * `top` self-time functions of the profile samples inside the frame's span [t_i, t_i+1) (last frame: t + work), as
+ * {t, work, top: [{name, at, ms}]}. `offsetMs` = profileOffset(profile, anchor page ms), the mapping hitchList uses.
+ */
+export function profileSpikes(profile, offsetMs, series, { minWork = 12, top = 8 } = {}, maps = null) {
+  const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+  const { samples = [], timeDeltas = [] } = profile;
+  const smp = [];
+  let t = profile.startTime / 1000 - offsetMs;
+  for (let i = 0; i < samples.length; i++) {
+    t += (timeDeltas[i] ?? 0) / 1000;
+    smp.push({ t, id: samples[i], dt: (timeDeltas[i + 1] ?? 0) / 1000 });
+  }
+  const out = [];
+  for (let i = 0; i < series.t.length; i++) {
+    if (!(series.work[i] >= minWork)) continue;
+    const a = series.t[i], b = i + 1 < series.t.length ? series.t[i + 1] : a + series.work[i];
+    const self = new Map();
+    for (const s of smp) {
+      if (s.t < a || s.t >= b) continue;
+      const cf = byId.get(s.id)?.callFrame ?? {};
+      const key = `${cf.functionName || "(anon)"}\t${sourcePosition(maps, cf.url, cf.lineNumber ?? -1, cf.columnNumber ?? -1) ?? `${cf.url || "(native)"}:${(cf.lineNumber ?? -1) + 1}`}`;
+      self.set(key, (self.get(key) ?? 0) + s.dt);
+    }
+    out.push({ t: r2(a), work: r2(series.work[i]), top: [...self].sort((x, y) => y[1] - x[1]).slice(0, top).map(([k, ms]) => {
+      const [name, at] = k.split("\t");
+      return { name, at, ms: r2(ms) };
+    }) });
+  }
+  return out;
+}
+
 /** `profile` spot token: the top `top` functions by self time over a stats window, as
  * {name, at: "<url>:<line>", msPerFrame} with `frames` the window's frame count. */
 export function profileTopPerFrame(profile, frames, top = 25, maps = null) {
@@ -505,19 +650,23 @@ export function profileTopPerFrame(profile, frames, top = 25, maps = null) {
 }
 
 /**
- * Runs a step sequence through io {key(down), aim(yaw), wait(ms)}: W goes down at the first w segment and stays
- * down to the end. aimCamera is absolute, so a sequence with a yaw step first sets the camera to baseYaw (the
- * spot's --aim yaw, else 0) and each yaw step sets baseYaw + the running sum; the character turns with the camera.
+ * The in-page route of a `steps=` sequence: [{at (ms from the window open), k: "aim", yaw} | {at, k: "key", down}].
+ * W goes down at the first w segment and up at the end. aimCamera is absolute, so a sequence with a yaw step first
+ * sets the camera to baseYaw (the spot's --aim yaw, else 0) and each yaw step sets baseYaw + the running sum; the
+ * character turns with the camera. sample() hands it to the page as the window opens and page timers play it (no
+ * CDP call or page.evaluate inside the window, README "Probe rules" 4).
  */
-export async function driveSteps(io, steps, baseYaw = 0) {
-  let yaw = baseYaw, held = false;
-  if (steps.some((s) => s.yaw !== undefined)) await io.aim(yaw);
+export function stepsSchedule(steps, baseYaw = 0) {
+  const out = [];
+  let yaw = baseYaw, t = 0, held = false;
+  if (steps.some((s) => s.yaw !== undefined)) out.push({ at: 0, k: "aim", yaw });
   for (const s of steps) {
-    if (s.yaw !== undefined) { yaw += s.yaw; await io.aim(yaw); continue; }
-    if (!held) { await io.key(true); held = true; }
-    await io.wait(s.w * 1000);
+    if (s.yaw !== undefined) { yaw += s.yaw; out.push({ at: t, k: "aim", yaw }); continue; }
+    if (!held) { out.push({ at: t, k: "key", down: true }); held = true; }
+    t += s.w * 1000;
   }
-  if (held) await io.key(false);
+  if (held) out.push({ at: t, k: "key", down: false });
+  return out;
 }
 
 /** A pageerror entry with its stack kept (perf-diag9 E2: the message alone could not name the throwing caller). */
@@ -559,6 +708,18 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
+  // `hold=<s>[/<every>]` spot token: the settle window opens <s> s after the ready gate; until then one screenshot
+  // every <every> s (`<spot>-hold-<t>s.jpg`, t from the ready gate), all before any stats window.
+  const holdShots = [];
+  if (spot.hold) {
+    const tReady = Date.now();
+    for (let k = 0; Date.now() - tReady < spot.hold.s * 1000; k++) {
+      const p = join(o.out, `${name}-hold-${String(k * spot.hold.every).padStart(3, "0")}s.jpg`);
+      await hl.wrap("screenshot:hold", () => page.screenshot({ path: p, type: "jpeg", quality: 75 })).catch(() => {});
+      holdShots.push(p);
+      await nodeWait(Math.max(0, Math.min(tReady + (k + 1) * spot.hold.every * 1000, tReady + spot.hold.s * 1000) - Date.now()));
+    }
+  }
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
   if (spot.aim) {
     const [yaw, pitch] = spot.aim.split(",").map(Number);
@@ -567,7 +728,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const traces = {};
   const P = spot.probes ?? {};
-  const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra };
+  const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra, v8: !!P.traceV8 };
   const stopSettleTrace = doTrace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`), traceOpt, hl) : null;
   // `profile` token: started before the settled window, stopped after it (no CDP inside it).
   const stopSettleProfile = P.profile ? await startCpuProfile(page, 200, hl) : null;
@@ -590,7 +751,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     return { tris: g?.tris ?? null, calls: g?.calls ?? null,
       memory: m ? { usedJSHeapSize: m.usedJSHeapSize, totalJSHeapSize: m.totalJSHeapSize, jsHeapSizeLimit: m.jsHeapSizeLimit } : null };
   }).catch(() => ({}));
-  const screenshots = [];
+  const screenshots = [...holdShots];
   const shot = async (tag) => {
     if (!o.shots) return;
     const p = join(o.out, `${name}-${tag}.jpg`);
@@ -604,28 +765,29 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     if (o.clean) await page.evaluate(HUD_SHOW_JS).catch(() => {});
   };
   await shot("settled");
-  let walk = null, heapsample = null;
+  let walk = null, heapsample = null, profileWalk = null;
+  if (P.profileWalk && !(walkS > 0)) profileWalk = { error: "profile-walk needs a walk spot (walk=<s> or steps=)" };
   if (P.heapsample && !(walkS > 0)) heapsample = { error: "heapsample needs a walk spot (walk=<s> or steps=)" };
   if (walkS > 0) {
-    const cdp = await ctx.newCDPSession(page);
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
-    const key = { key: "w", code: "KeyW", windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: "w" };
-    const io = {
-      key: (down) => hl.wrap(down ? "input:keyDown" : "input:keyUp", () => cdp.send("Input.dispatchKeyEvent", { type: down ? "keyDown" : "keyUp", ...key })),
-      aim: (yaw) => hl.wrap("evaluate:aim", () => page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y), yaw)).catch(() => {}),
-      wait: nodeWait,
-    };
     const stopWalkTrace = doTrace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), traceOpt, hl) : null;
+    // `profile-walk`: started just before the window opens, stopped just after it (no CDP inside it).
+    const stopWalkProfile = P.profileWalk ? await startCpuProfile(page, 200, hl) : null;
+    const walkPn = stopWalkProfile ? await profileAnchor(page) : 0;
     const stopHeap = P.heapsample ? await startHeapSample(page, hl, o.sourceMaps) : null;
-    // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
-    const [w] = await Promise.all([
-      sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name, hl) : null, nodeWait, hl),
-      driveSteps(io, spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0),
-    ]);
+    // One window (stats, trace, profile) spans the whole sequence; the page plays the route (stepsSchedule).
+    const w = await sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name, hl) : null, nodeWait, hl,
+      stepsSchedule(spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0));
+    if (stopWalkProfile) {
+      const file = join(o.out, `${name}-walk.cpuprofile`);
+      const prof = await stopWalkProfile(file);
+      profileWalk = { file, intervalUs: 200, frames: w.ts.length, topSelfPerFrame: profileTopPerFrame(prof, w.ts.length, 25, o.sourceMaps),
+        spikes: profileSpikes(prof, profileOffset(prof, walkPn), w.series, {}, o.sourceMaps) };
+    }
     if (stopHeap) heapsample = await stopHeap(join(o.out, `${name}-walk.heapsample.json`));
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));
     if (w.extra) profile = w.extra;
-    walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, series: w.series, workerGaps: w.workerGaps,
+    walk = { seconds: walkS, steps: spot.steps, route: w.route,...frameStats(w.ts), ...w.work, series: w.series, gcFrames: gcFramesDigest(w.series), workerGaps: w.workerGaps,
       hud: parseHud(await hl.wrap("evaluate:hud", () => page.evaluate(() => document.body.innerText)).catch(() => "")) };
     await shot("walk");
   }
@@ -654,10 +816,12 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const harnessLog = hl.entries();
   const hostSamples = host ? hostSeries(host.stop(), hl.origin) : null;
   const spikes = hostSpikes(hostSamples);
+  const coreCorr = coreCorrelation(settle.series, hostSamples);
+  if (walk) walk.coreCorrelation = coreCorrelation(walk.series, hostSamples);
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
-  return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+  return { name, url, query, ready, readyS, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+    walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
 /**
@@ -714,8 +878,10 @@ async function main() {
   }
   const rows = result.urls.flatMap((u) => spotRows(u.name, u, o.barParsed));
   const table = summaryTable(rows, o.barParsed);
+  const gcLines = result.urls.flatMap((u) => [...gcFramesText(`${u.name} settled`, u.gcFrames), ...gcFramesText(`${u.name} walk`, u.walk?.gcFrames)]);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\n${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
+  const coreLines = result.urls.flatMap((u) => [coreCorrelationText(`${u.name} settled`, u.coreCorrelation), coreCorrelationText(`${u.name} walk`, u.walk?.coreCorrelation)].filter(Boolean));
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n${gcLines.length ? `\n## Groundcover sub-timers on frames over 12 ms (ms; gcRefill 1 fill started, 2 swapped in)\n\n${gcLines.join("\n")}\n` : ""}`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});

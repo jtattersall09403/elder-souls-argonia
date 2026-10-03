@@ -1501,12 +1501,14 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             if footprint and not is_dressing:
                 # The grass exclusion reads it (the skirt, rubble and far-tier
                 # fields were cut at check-in 2): a floor clears its footprint,
-                # a raised deck only its contacts (check-in 3 §5).
-                treatment = {"id": f"treatment.{placement['id']}",
-                             "kind": _treatment_kind(asset, raw, fit, inventory),
-                             "footprintM": footprint}
-                treatments.append(treatment)
-                parcel_treatment.setdefault(raw.get("parcelId"), treatment)
+                # a raised deck only its contacts (check-in 3 §5); a rock or
+                # landscape shell is ground itself and clears nothing.
+                kind = _treatment_kind(asset, raw, fit, inventory)
+                if kind is not None:
+                    treatment = {"id": f"treatment.{placement['id']}", "kind": kind,
+                                 "footprintM": footprint}
+                    treatments.append(treatment)
+                    parcel_treatment.setdefault(raw.get("parcelId"), treatment)
                 navmesh.append({"id": f"navcut.{placement['id']}",
                                 "placementId": placement["id"],
                                 "polygonM": footprint, "order": 3})
@@ -1743,6 +1745,8 @@ DOOR_APRON_RADIUS_M = 1.5
 #: A stilt/deck piece whose deck stands more than this over the ground keeps
 #: the groundcover under it (owner 2026-09-25).
 DECK_TREATMENT_CLEARANCE_M = 0.8
+#: kit categories whose pieces are ground (a rock, a landscape shell): no treatment
+SHELL_GROUND_CATEGORIES = ("rock", "landscape")
 
 
 def _attach_door_apron(door: dict, x: float, z: float,
@@ -1768,9 +1772,14 @@ def _deck_clearance_m(asset: dict, inventory: dict) -> float | None:
     return float(value) if isinstance(value, (int, float)) else None
 
 
-def _treatment_kind(asset: dict, raw: dict, fit: str, inventory: dict) -> str:
+def _treatment_kind(asset: dict, raw: dict, fit: str, inventory: dict) -> str | None:
     """`deck` for a stilt/deck fit whose deck clears the ground by more than
-    DECK_TREATMENT_CLEARANCE_M, else `floor` (16h check-in 3 §5)."""
+    DECK_TREATMENT_CLEARANCE_M, else `floor` (16h check-in 3 §5); None for a
+    rock or landscape shell (category `rock`/`landscape`): its own skirt is
+    the ground, and a floor under its box left a dark bare slab at the rock
+    foot (Jungle Root Hollow, audit10)."""
+    if asset.get("category") in SHELL_GROUND_CATEGORIES:
+        return None
     anchor_class = raw.get("anchorClass") or asset.get("anchorClass")
     if fit != "stilt" and anchor_class != "deck":
         return "floor"

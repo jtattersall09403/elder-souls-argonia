@@ -4,9 +4,9 @@ export const VSYNC_CAP_FPS = 58.5; // a trivial page under Xvfb (README Gotchas)
 export const BLACK_LUMA = 8; // mean 0-255; the night shots in tooling/.reports/gpu-lane/r3-ab measure 29 and 36
 import { sourcePosition } from "./source-maps.mjs";
 
-export const PROBES = ["relink", "heap"];
+export const PROBES = ["relink", "heap", "uniforms", "draws"];
 /** Probes that are a script injected into the page (`probes/<name>.js`); `heap` is read by measure.mjs after GC. */
-export const INPAGE_PROBES = ["relink"];
+export const INPAGE_PROBES = ["relink", "uniforms", "draws"];
 
 const r2 = (x) => Math.round(x * 100) / 100;
 

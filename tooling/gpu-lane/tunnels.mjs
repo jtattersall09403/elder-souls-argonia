@@ -6,7 +6,7 @@
  *   node tooling/gpu-lane/tunnels.mjs open --pod "ssh -i <key> -p <port> root@<ip>" [--local 9222] [--remote 9222] [--purpose cdp]
  *   node tooling/gpu-lane/tunnels.mjs keep --pod "<ssh>" --local 9242 [--remote 9222]   (foreground; re-opens on every drop)
  *   node tooling/gpu-lane/tunnels.mjs list
- *   node tooling/gpu-lane/tunnels.mjs close [--purpose cdp]     (kills only recorded PIDs whose command line is still ssh)
+ *   node tooling/gpu-lane/tunnels.mjs close [--purpose cdp] [--local 9242]   (only matching recorded PIDs still ssh; no filter closes all)
  *
  * pod-capture.mjs --pod opens its own CDP tunnel through openTunnel and closes it at exit (also on SIGINT/SIGTERM).
  */
@@ -76,11 +76,13 @@ export function keepTunnel(args, everyMs = 10_000) {
   return () => clearInterval(h);
 }
 
-/** Kill recorded tunnels (all, or those matching purpose / pid) and drop them and any dead entries from the registry. */
-export function closeTunnels({ purpose, pid, reg = registryPath(), kill = process.kill.bind(process), alive = isOurSsh } = {}) {
+/** Kill recorded tunnels (all, or those matching every given filter: purpose, pid, localPort) and drop them and any
+ * dead entries from the registry. */
+export function closeTunnels({ purpose, pid, localPort, reg = registryPath(), kill = process.kill.bind(process), alive = isOurSsh } = {}) {
   const list = load(reg), keep = [], closed = [];
   for (const t of list) {
-    const match = (pid === undefined || t.pid === pid) && (purpose === undefined || t.purpose === purpose);
+    const match = (pid === undefined || t.pid === pid) && (purpose === undefined || t.purpose === purpose)
+      && (localPort === undefined || t.localPort === localPort);
     if (!alive(t.pid)) continue;
     if (match) { try { kill(t.pid, "SIGTERM"); closed.push(t); } catch { /* already gone */ } } else keep.push(t);
   }
@@ -105,7 +107,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   } else if (cmd === "list") {
     for (const t of load(registryPath())) console.log(`${isOurSsh(t.pid) ? "up  " : "dead"} ${JSON.stringify(t)}`);
   } else if (cmd === "close") {
-    const c = closeTunnels({ purpose: opt("purpose") });
+    const c = closeTunnels({ purpose: opt("purpose"), localPort: opt("local") === undefined ? undefined : Number(opt("local")) });
     console.log(`tunnels: closed ${c.length}${c.map((t) => ` ${t.pid}(${t.purpose}:${t.localPort})`).join("")}`);
   } else { console.error("usage: tunnels.mjs open|list|close (see header)"); process.exit(2); }
 }

@@ -86,6 +86,8 @@ import {
 } from "@elder-souls/game-core/vegetation/cellBuild";
 import {
   casterReachesCascade,
+  GATE_ENTRIES_PER_STEP_MIN,
+  GatePass,
   gateSpecies,
   GATE_TILE_COUNT,
   rangeDistances,
@@ -601,6 +603,8 @@ export function Vegetation({
   /** The view planes of the last gate pass (null before the first), which a
    * cell arriving between passes is gated with too. */
   const gateView = useRef<GateView | null>(null);
+  /** The regate in progress, resumed each frame until complete (F38b). */
+  const gatePass = useRef(new GatePass());
   /** The shadow-casting sun light, looked up every `SUN_SCAN_FRAMES`. */
   const sunLight = useRef<THREE.DirectionalLight | null>(null);
   const gateDirty = useRef(true);
@@ -701,12 +705,14 @@ export function Vegetation({
       ? (x: number, z: number) => groundHeightM(store, chunksManifest, x, z)
       : () => null
   ), [store, chunksManifest]);
-  /** The occlusion-mask sweep's ground, in rendered space (O6). */
-  const maskGround = useMemo(() => (
-    chunksManifest
-      ? new FrameGroundSampler(store, chunksManifest, verticalScale)
-      : { reset: () => {}, sample: () => null }
-  ), [store, chunksManifest, verticalScale]);
+  /** The occlusion-mask sweep's ground, in rendered space (O6). One class
+   * always (empty with no manifest), so the sweep's call site is monomorphic
+   * (diag11 O1). */
+  const maskGround = useMemo(
+    () => new FrameGroundSampler(store, chunksManifest ?? null, verticalScale),
+    [store, chunksManifest, verticalScale],
+  );
+  useEffect(() => () => maskGround.dispose(), [maskGround]);
 
   // Per-species build parameters, recomputed only when the kit, the quality
   // tier or the chunk ring changes — never per frame and never per cell.
@@ -1202,10 +1208,10 @@ export function Vegetation({
         Math.floor(((cz + 0.5) * size) / OCCLUSION_CELL_M) - MASK_SIZE / 2,
       );
     }
-    // Rendered space, like the camera; one grid lookup per chunk per frame.
-    maskGround.reset();
+    // Rendered space, like the camera; one grid lookup per chunk, kept across
+    // frames (diag10 C3).
     const sweep = mask.sweep(
-      MASK_CELLS_PER_FRAME, eye, maskGround.sample,
+      MASK_CELLS_PER_FRAME, eye, maskGround,
       tallestM, OCCLUSION_MIN_DISTANCE_M,
       occupiedList.current,
     );
@@ -1238,10 +1244,13 @@ export function Vegetation({
       if (sun !== sunLight.current) gateDirty.current = true;
       sunLight.current = sun;
     }
-    const runGate = gateDirty.current
+    // A pass runs to completion before the next one starts: a trigger seen
+    // mid-pass (a dirty flag stays set) starts the next pass after it.
+    const pass = gatePass.current;
+    const runGate = !pass.running && (gateDirty.current
       || !(moved < GATE_STEP_M)
       || !(turned > Math.cos(GATE_TURN_RAD))
-      || counters.current.frame - g.frame >= GATE_MAX_FRAMES;
+      || counters.current.frame - g.frame >= GATE_MAX_FRAMES);
     if (runGate) {
       gateDirty.current = false;
       g.x = eye.x; g.z = eye.z;
@@ -1258,8 +1267,16 @@ export function Vegetation({
       // The distances are the ones this pass already computes, and the two
       // loops below are over the ~120 batches, not over their copies.
       for (const batch of batches.current.values()) batch.orderMin = Infinity;
-      gateSpecies(allSpecies.current, eye, fwd, gpuCull ? noFlip : enqueueTile,
-        gateStats.current, undefined, markOrder, view ?? undefined);
+      pass.start(eye, fwd, view ?? undefined);
+    }
+    // The pass is spread over frames (perf10 c9 F38b): about a quarter of
+    // the entries per frame, so a full regate costs a quarter of a frame's
+    // worth of gating at most and completes within four frames.
+    if (pass.running) {
+      const list = allSpecies.current;
+      const budget = Math.max(GATE_ENTRIES_PER_STEP_MIN, Math.ceil(list.length / 4));
+      if (pass.step(list, gpuCull ? noFlip : enqueueTile, gateStats.current, budget, markOrder)) {
+      const view = gateView.current;
       // The same nearest distance decides whether a casting batch draws into
       // the sun shadow map at all (diag9 C1): every casting batch is one
       // shadow draw whatever its copies' distance (the meshes are never
@@ -1277,6 +1294,7 @@ export function Vegetation({
         if (batch.renderOrder === next) continue;
         batch.renderOrder = next;
         for (const geo of batch.geoList) geo.mesh.renderOrder = next;
+      }
       }
     }
     const gatingMs = performance.now() - gateStart;

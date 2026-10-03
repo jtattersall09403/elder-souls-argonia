@@ -25,6 +25,7 @@ import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 const DEFAULT_CASCADE_ROTA = QUALITY_PRESETS.medium.shadowCascadeRota;
 import { isNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { adaptExposure, stepShadowSun } from "@elder-souls/game-core/render/lightAdaptation";
+import { ensureSinglePass } from "@elder-souls/game-core/render/singlePass";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import {
   aerialRasterLoaded,
@@ -408,6 +409,8 @@ export function WorldSky({
     const patchOne = (m: THREE.Material | undefined) => {
       if (!m || patched.current.has(m)) return;
       patched.current.add(m);
+      // kit glTFs (alphaMode BLEND + doubleSided) arrive transparent DoubleSide
+      ensureSinglePass(m);
       if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial, mipShare);
     };
     const visit = (obj: THREE.Object3D) => {

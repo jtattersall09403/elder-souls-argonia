@@ -6,7 +6,7 @@ import {
   worldToMapPx,
   type MapMeta,
 } from "@elder-souls/game-core/hud/minimap";
-import { drawMinimapOverlay, type MinimapOverlay } from "./minimapOverlay";
+import { drawMinimapOverlay, MINIMAP_HEADING_STEP_DEG, minimapView, type MinimapOverlay, type ToView } from "./minimapOverlay";
 
 /** Minimap panel size (CSS px) and zoomed-view span (world metres). */
 const VIEW_PX = 180;
@@ -53,16 +53,23 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overl
     metresPerPixel: (meta.metresPerPixel * meta.imageWidth) / DOWNSCALE_PX,
   }), [meta]);
 
+  // Redrawn only when the view moves a whole view pixel or a heading bucket.
+  const stepM = zoomed ? ZOOM_SPAN_M / VIEW_PX : (meta.imageWidth * meta.metresPerPixel) / VIEW_PX;
+  const view = minimapView(xKm * 1000, zKm * 1000, headingDeg, stepM);
+  const { cx, cz } = view;
+  const headingBucket = view.heading;
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !small) return;
     const ctx = canvas.getContext("2d")!;
-    const xM = xKm * 1000;
-    const zM = zKm * 1000;
+    const xM = cx * stepM;
+    const zM = cz * stepM;
+    const headingDeg = headingBucket * MINIMAP_HEADING_STEP_DEG;
     ctx.clearRect(0, 0, VIEW_PX, VIEW_PX);
     let dot: { x: number; y: number };
     // Map-raster pixel (full-res meta) → minimap canvas, for the overlay.
-    let toView: (px: number, py: number) => { x: number; y: number };
+    let toView: ToView;
     let metresPerViewPx: number;
     const fullToSmall = DOWNSCALE_PX / meta.imageWidth;
     if (zoomed) {
@@ -71,14 +78,14 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overl
       ctx.drawImage(small, crop.x, crop.y, crop.size, crop.size, 0, 0, VIEW_PX, VIEW_PX);
       dot = positionInCrop(xM, zM, crop, smallMeta, VIEW_PX);
       const k = VIEW_PX / crop.size;
-      toView = (px, py) => ({ x: (px * fullToSmall - crop.x) * k, y: (py * fullToSmall - crop.y) * k });
+      toView = (px, py, out) => { out.x = (px * fullToSmall - crop.x) * k; out.y = (py * fullToSmall - crop.y) * k; };
       metresPerViewPx = (crop.size * smallMeta.metresPerPixel) / VIEW_PX;
     } else {
       ctx.drawImage(small, 0, 0, VIEW_PX, VIEW_PX);
       const { px, py } = worldToMapPx(xM, zM, smallMeta);
       dot = { x: (px / DOWNSCALE_PX) * VIEW_PX, y: (py / DOWNSCALE_PX) * VIEW_PX };
       const k = VIEW_PX / meta.imageWidth;
-      toView = (qx, qy) => ({ x: qx * k, y: qy * k });
+      toView = (qx, qy, out) => { out.x = qx * k; out.y = qy * k; };
       metresPerViewPx = (meta.imageWidth * meta.metresPerPixel) / VIEW_PX;
     }
     if (overlay) drawMinimapOverlay(ctx, overlay, meta, toView, VIEW_PX, metresPerViewPx);
@@ -105,7 +112,7 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overl
     ctx.fillText("N", VIEW_PX / 2 + 1, 13);
     ctx.fillStyle = "#e6ecf5";
     ctx.fillText("N", VIEW_PX / 2, 12);
-  }, [small, smallMeta, meta, xKm, zKm, headingDeg, zoomed, overlay]);
+  }, [small, smallMeta, meta, cx, cz, stepM, headingBucket, zoomed, overlay]);
 
   if (!small) return null;
   return (

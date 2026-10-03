@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.imperial-penal-south.rose-bone-waystation",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-penal-south.json",
@@ -70,7 +70,11 @@
    "text": "A quest could start with a bone-tag returned for somebody who is demonstrably alive.",
    "confirmed": {
     "sha": "0e702170baa1",
-    "note": "Bone-tags hang as bone chimes in the shelter (s-chime1, s-chime2) and on the keeper's hut (k-tags); the ledger lies at the keeper's table."
+    "note": "Bone-tags hang as bone chimes in the shelter (s-chime1, s-chime2) and on the keeper's hut (k-tags); the ledger lies at the keeper's table.",
+    "ids": [
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-skull1",
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-spine"
+    ]
    }
   },
   {
@@ -83,7 +87,7 @@
    "text": "Formal and unhappy.",
    "confirmed": {
     "sha": "b487642dab4b",
-    "note": "A bare handover shelter, a waiting bench and brazier outside its west corner, a row of candles across its floor."
+    "note": "A bare handover shelter, a waiting bench and brazier outside its west corner, a row of candles across its floor, bone chimes hung under the shelter roof (s-tagrack) and at the keeper's hut eave by its door (k-tagrack), two skulls and a spine lying on the ground beside the shelter (s-bones-skull1, s-bones-skull2, s-bones-spine)."
    }
   },
   {
@@ -96,7 +100,11 @@
    "text": "Tag-bone white, cloth grey, trodden mud.",
    "confirmed": {
     "sha": "d88d888b7bae",
-    "note": "Bone chimes, grey wrapped bundles (miscsacklargeflat01), trodden earth on the levelled pads."
+    "note": "Bone chimes hung under the shelter roof and at the keeper's hut eave (s-tagrack, k-tagrack), skulls and a spine lying beside the shelter (s-bones-skull1, s-bones-skull2, s-bones-spine), grey wrapped bundles (miscsacklargeflat01), trodden earth on the levelled pads.",
+    "ids": [
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-skull1",
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-spine"
+    ]
    }
   },
   {
@@ -109,7 +117,10 @@
    "text": "A handover shelter on a dry rise, with the tag-keeper's hut beside it and a brazier between them.",
    "confirmed": {
     "sha": "ceea8d9b60aa",
-    "note": "The handover shelter (half awning) and the keeper's bamboo hut stand 21 m apart on the rise, the brazier at the shelter."
+    "note": "The handover shelter (half awning) and the keeper's bamboo hut stand 21 m apart on the rise, the brazier at the shelter.",
+    "ids": [
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.p-brazier"
+    ]
    }
   },
   {
@@ -122,7 +133,11 @@
    "text": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Prison road to receive them.",
    "confirmed": {
     "sha": "5b7cfb9fbcf6",
-    "note": "The shelter stands 189 m from the Prison road (dossier, routes.json)."
+    "note": "The shelter stands 189 m from the Prison road (dossier, routes.json).",
+    "ids": [
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-skull1",
+     "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-spine"
+    ]
    }
   },
   {
@@ -238,6 +253,33 @@
     "sha": "3718a3ff3ef1",
     "note": "Bone-tags hang as bone chimes on the keeper's hut eave (k-tags), the Tag House wall."
    }
+  },
+  {
+   "id": "promise.rose-bone-waystation.thing-bones",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].why.founding"
+   },
+   "text": "The Tag House shows the bones its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-skull1",
+    "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.s-bones-spine"
+   ]
+  },
+  {
+   "id": "promise.rose-bone-waystation.thing-fire",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.signatureFeature"
+   },
+   "text": "The Tag House shows the fire its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.imperial-penal-south.rose-bone-waystation.parcel.rose-bone-waystation.handover-shelter.assembly.p-brazier"
+   ]
   }
  ]
 }

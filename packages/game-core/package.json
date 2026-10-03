@@ -11,6 +11,7 @@
     "./air/AmbientAir": "./src/air/AmbientAir.tsx",
     "./water/render/WaterSurface": "./src/water/render/WaterSurface.tsx",
     "./water/render/WaterPipeline": "./src/water/render/WaterPipeline.tsx",
+    "./render/RenderWarmGate": "./src/render/RenderWarmGate.tsx",
     "./*": "./src/*.ts"
   },
   "scripts": {

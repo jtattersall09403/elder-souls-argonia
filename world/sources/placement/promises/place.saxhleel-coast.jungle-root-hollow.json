@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.saxhleel-coast.jungle-root-hollow",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-saxhleel-coast.json",
@@ -43,7 +43,14 @@
    "text": "A lair dug into the root layer west of the hiring camp. The bone scatter at its mouth holds three generations of tools taken from foragers.",
    "confirmed": {
     "sha": "da29154ca2eb",
-    "note": "The cave mouth (rockcaveentrance02) is built with its tool scatter (evidence socket); the camp lies east, so the lair is west of it."
+    "note": "The cave mouth (rockcaveentrance02) is built with its tool scatter (evidence socket); the camp lies east, so the lair is west of it.",
+    "ids": [
+     "s1-lb-ribs",
+     "s1-lb-skull",
+     "s1-lt-shovel",
+     "s1-lt-basket",
+     "s1-lt-net"
+    ]
    }
   },
   {
@@ -95,7 +102,15 @@
    "text": "root-walled rock, bone, dragged belongings",
    "confirmed": {
     "sha": "01ad693f4253",
-    "note": "rockcaveentrance02's mossy rock, the cell's Hist roots and cave rock, bones in and outside, the foragers' spade, basket and net."
+    "note": "rockcaveentrance02's mossy rock, the cell's Hist roots and cave rock, bones in and outside, the foragers' spade, baskets and net.",
+    "ids": [
+     "s1-lb-ribs",
+     "s1-lb-spine",
+     "s1-lt-shovel",
+     "s1-lt-basket",
+     "d-basket",
+     "s1-lt-net"
+    ]
    }
   },
   {
@@ -108,7 +123,14 @@
    "text": "unwelcoming",
    "confirmed": {
     "sha": "6c2217af5d3f",
-    "note": "No light, no path, no sign; bones at the threshold."
+    "note": "No path leads in and no sign names it. Bones lie at the threshold, and the hiring camp's warding stands at the mouth: a totem, a bone chime on the Hist vine and two candles.",
+    "ids": [
+     "d-totem",
+     "d-chime",
+     "l-candle-n",
+     "l-candle-s",
+     "s1-lb-ribs"
+    ]
    }
   },
   {
@@ -121,7 +143,12 @@
    "text": "black, bone white, root brown",
    "confirmed": {
     "sha": "6ed39fc14f05",
-    "note": "Dark mouth, bone-white scatter, root-brown Hist vines and the cell's roots."
+    "note": "Dark mouth, bone-white scatter, root-brown Hist vines and the cell's roots.",
+    "ids": [
+     "s1-lb-ribs",
+     "s1-lb-skull",
+     "r-vines"
+    ]
    }
   },
   {
@@ -147,7 +174,15 @@
    "text": "the bone scatter outside contains three generations of other people's tools",
    "confirmed": {
     "sha": "64efcf93f826",
-    "note": "The bone scatter (8 bones) and the tool scatter (spade, basket, net) lie together on the level ground in front of the mouth."
+    "note": "The bone scatter (8 bones) and the tool scatter (spade, basket, net) lie together on the level ground in front of the mouth.",
+    "ids": [
+     "s1-lb-ribs",
+     "s1-lb-arm",
+     "s1-lb-leg",
+     "s1-lt-shovel",
+     "s1-lt-basket",
+     "s1-lt-net"
+    ]
    }
   },
   {
@@ -160,7 +195,12 @@
    "text": "a cave mouth among the roots of the canopy giants, bones outside it",
    "confirmed": {
     "sha": "6aacc9b93460",
-    "note": "The cave mouth stands among canopy giants (anvil-canopy-tree 253, anvil-emergent-giant 5) with the bone and tool scatter outside."
+    "note": "The cave mouth stands among canopy giants (anvil-canopy-tree 253, anvil-emergent-giant 5) with the bone and tool scatter outside.",
+    "ids": [
+     "parcel.jungle-root-hollow.the-cave-mouth",
+     "s1-lb-ribs",
+     "s1-lb-skull"
+    ]
    }
   },
   {
@@ -240,6 +280,16 @@
     "sha": "4d75ce9984aa",
     "note": "The camp lies east of the lair, so its foragers went west into it; the mouth, its tool scatter (evidence socket) and the den's encounter socket are built."
    }
+  },
+  {
+   "id": "promise.jungle-root-hollow.thing-bones",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.silhouette"
+   },
+   "text": "Takes-The-Tools shows the bones its record names.",
+   "unfilled": null
   }
  ]
 }

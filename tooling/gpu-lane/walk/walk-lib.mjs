@@ -17,7 +17,7 @@ export const walkBudgetS = (distM, speedMps) => Math.max(2, (1.5 * distM) / spee
 export const cdpLost = (e) => /Target (page, context or browser )?(has been )?closed|Target closed|Browser has been closed|Session closed|WebSocket|ECONNRESET|ECONNREFUSED/i.test(String(e));
 
 export function parseArgs(argv) {
-  const o = { route: null, cdp: "127.0.0.1:9242", t: ["12", "22"], w: "clear", out: null, origin: "http://127.0.0.1:8099",
+  const o = { route: null, cdp: "127.0.0.1:9242", t: ["12", "22"], w: ["clear"], rate: 0.5, out: null, origin: "http://127.0.0.1:8099",
     base: "/elder-souls-argonia/studio/", width: 1280, height: 720, settle: 10, speed: 3.5, readyTimeout: 150, only: null, smoke: false, pod: null };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, ""), v = argv[i + 1];
@@ -25,10 +25,13 @@ export function parseArgs(argv) {
     if (k === "smoke") { o.smoke = true; continue; }
     i++;
     if (k === "t") o.t = v.split(",");
-    else if (["width", "height", "settle", "speed", "readyTimeout"].includes(k)) o[k] = Number(v);
+    else if (k === "w") o.w = v.split(",");
+    else if (["width", "height", "settle", "speed", "readyTimeout", "rate"].includes(k)) o[k] = Number(v);
     else o[k] = v;
   }
-  if (!o.route || !o.out) throw new Error("usage: walk_run.mjs --route <route.json> --out <dir> [--cdp host:port] [--t 12,22] [--w clear] [--smoke]");
+  if (!o.route || !o.out) throw new Error("usage: walk_run.mjs --route <route.json> --out <dir> [--cdp host:port] [--t 12,22] [--w clear,rain] [--rate 0.5] [--smoke]");
+  if (o.w.length !== 1 && o.w.length !== o.t.length) throw new Error(`walk_run: --w has ${o.w.length} values for ${o.t.length} passes (give one, or one per --t)`);
+  o.w = o.t.map((_, i) => o.w[o.w.length === 1 ? 0 : i]);
   return o;
 }
 

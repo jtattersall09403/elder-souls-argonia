@@ -43,3 +43,48 @@ def test_the_water_list_cannot_name_a_module_that_has_gone():
         assert "test_no_such_module.py" in str(exc)
     else:
         raise AssertionError("a stale WATER_SUITE row passed silently")
+
+
+# the perf lane's diff (416af0f0..ea36acd1): TS files under apps/world-studio and
+# packages/game-core, a doc and gpu-lane files
+PERF_DIFF = """apps/world-studio/src/sky/WorldSky.tsx apps/world-studio/src/sky/aerial.ts
+apps/world-studio/src/vegetation/Vegetation.tsx packages/game-core/src/render/terrainOcclusion.ts
+packages/game-core/src/water/index.ts packages/game-core/src/water/waves.ts
+packages/game-core/src/water/render/waterMaterial.ts docs/standards/engineering.md
+tooling/gpu-lane/checks.mjs tooling/gpu-lane/probes/uniforms.js tooling/gpu-lane/spots/perf10-c6.txt""".split()
+
+
+def test_a_directory_chain_in_a_module_does_not_select_every_test_for_its_tree():
+    """`REPO_ROOT / "packages" / "game-core" / "src"` (worldgen/coplanar.py) and the
+    prefixes of a longer chain are source-tree roots, not data paths: a TS change
+    under them selected 112 placement and 47 workbench test files."""
+    sel = _module()
+    for suite in ("placement", "workbench", "pipeline", "water"):
+        assert sel.select_changed(suite, PERF_DIFF)["selected"] == [], suite
+
+
+def test_a_changed_water_test_still_selects_the_water_suite():
+    changed = ["tooling/world-generation/worldgen/test_water_invariants.py"]
+    assert _module().select_changed("water", changed)["selected"] == changed
+
+
+def test_es_test_changed_accepts_newline_and_space_lists(monkeypatch, capsys):
+    sel = _module()
+    paths = ["tooling/world-generation/worldgen/test_water_invariants.py",
+             "tooling/world-generation/worldgen/test_known_red.py"]
+    out = []
+    for sep in ("\n", " "):
+        monkeypatch.setenv("ES_TEST_CHANGED", sep.join(paths))
+        monkeypatch.setattr(sys, "argv", ["select_tests.py", "placement"])
+        sel.main()
+        out.append(capsys.readouterr().out)
+    assert out[0] == out[1] and "test_known_red.py" in out[0]
+
+
+def test_an_empty_selection_prints_nothing_and_never_falls_back_to_the_suite(monkeypatch, capsys):
+    sel = _module()
+    assert sel.command_args("placement", ["README.md"]) == []
+    monkeypatch.setenv("ES_TEST_CHANGED", "README.md")
+    monkeypatch.setattr(sys, "argv", ["select_tests.py", "placement"])
+    sel.main()
+    assert capsys.readouterr().out == ""

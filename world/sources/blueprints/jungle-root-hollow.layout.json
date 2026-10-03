@@ -29,7 +29,7 @@
     {
       "op": "note",
       "uid": "b-mouth",
-      "text": "Takes-The-Tools: the King of the Murkmire root cave mouth as its plugin builds it (rockcaveentrance02 round its AutoLoadDoor01, hist_vines01 beside it, rockcliff08 and rockcliff02 behind), facing east to the hiring camp; bones and tools at the threshold. No light, no way, no sign."
+      "text": "Takes-The-Tools: the King of the Murkmire root cave mouth as its plugin builds it (rockcaveentrance02 round its AutoLoadDoor01, hist_vines01 beside it, rockcliff08 and rockcliff02 behind), facing east to the hiring camp; bones and tools at the threshold. No path leads in and no sign names it. The hiring camp's searchers keep two candles, a totem and a bone chime at the mouth as a warning."
     },
     {
       "op": "place",
@@ -173,6 +173,128 @@
       "layer": "clutter",
       "on": "ground",
       "evidence": "measured"
+    },
+    {
+      "op": "place",
+      "uid": "l-candle-n",
+      "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+      "at": [
+        3684.8,
+        4562.6
+      ],
+      "yaw": 96.0,
+      "settle": true
+    },
+    {
+      "op": "bind",
+      "uid": "l-candle-n",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "light",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "place",
+      "uid": "l-candle-s",
+      "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+      "at": [
+        3684.8,
+        4565.8
+      ],
+      "yaw": 96.0,
+      "settle": true
+    },
+    {
+      "op": "bind",
+      "uid": "l-candle-s",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "light",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "place",
+      "uid": "d-totem",
+      "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+      "at": [
+        3692.5,
+        4567.2
+      ],
+      "yaw": 96.0,
+      "settle": true
+    },
+    {
+      "op": "bind",
+      "uid": "d-totem",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "place",
+      "uid": "d-chime",
+      "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+      "at": [
+        3695.5,
+        4568.0
+      ],
+      "yaw": 96.0
+    },
+    {
+      "op": "mount",
+      "child": "d-chime",
+      "parent": "r-vines",
+      "hang": true,
+      "unmined": "reader-approved r29",
+      "max_h": 4.0
+    },
+    {
+      "op": "bind",
+      "uid": "d-chime",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "parent",
+      "evidence": "measured"
+    },
+    {
+      "op": "place",
+      "uid": "d-basket",
+      "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+      "at": [
+        3699.8,
+        4557.8
+      ],
+      "yaw": 40.0,
+      "settle": true
+    },
+    {
+      "op": "bind",
+      "uid": "d-basket",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.bone-scatter",
+      "kind": "marker",
+      "zone": "threshold",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "at": [
+        3697.4,
+        4559.6
+      ],
+      "fills": [
+        "promise.jungle-root-hollow.thing-bones"
+      ],
+      "why": "Bones that the beast drags out to its mouth, thickest by the door."
     },
     {
       "op": "socket",

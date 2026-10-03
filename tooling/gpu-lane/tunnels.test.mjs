@@ -20,4 +20,12 @@ test("closeTunnels kills only matching recorded live PIDs and prunes dead entrie
   assert.deepEqual(killed, [11]); assert.deepEqual(closed.map((t) => t.pid), [11]);
   assert.deepEqual(JSON.parse(readFileSync(reg, "utf8")).map((t) => t.pid), [12]);
 });
+test("closeTunnels --local closes only the tunnel on that local port", () => {
+  const reg = join(mkdtempSync(join(tmpdir(), "tun-")), "t.json");
+  writeFileSync(reg, JSON.stringify([{ pid: 21, purpose: "cdp", localPort: 9242 }, { pid: 22, purpose: "cdp", localPort: 9243 }, { pid: 23, purpose: "cdp", localPort: 9244 }]));
+  const killed = [];
+  closeTunnels({ localPort: 9243, reg, kill: (p) => killed.push(p), alive: () => true });
+  assert.deepEqual(killed, [22]);
+  assert.deepEqual(JSON.parse(readFileSync(reg, "utf8")).map((t) => t.pid), [21, 23]);
+});
 test("isOurSsh: this node process is not ssh", () => assert.equal(isOurSsh(process.pid), false));

@@ -105,9 +105,16 @@ would join an earlier walk's run is refused.
    **the checklist you start from, work through and end on**. It holds
    every claim of the record the build can keep or contradict: services,
    NPCs, sockets, the principal interior, underwater access, the travel
-   station, each `why`/`vibe`/hook line and each quest anchored here.
-   Fill a row with `fills: [id]` on a placed thing, or `unfilled` with a
-   0102 reason; prose and quest rows are `confirmed` against the built
+   station, each `why`/`vibe`/hook line, a `thing-<noun>` row for every
+   physical noun that prose names (shed, bones, steps, sign, seep, spring,
+   well, boat...) and each quest anchored here.
+   Fill a row with `fills: [id]` on the placed thing that shows it (the
+   layout `place` op, socket or pool; a `thing-` row is never kept by a
+   parcel named for it or by a confirmation), or `unfilled` with a 0102
+   reason. A prose row that names a physical noun is confirmed only with
+   `confirmed.ids: [<placement id>]`, the placements it rests on; the
+   gate (`python3 -m worldgen.promise_gate --place <id>`) fails any filler
+   or id not in the published bundle. Prose and quest rows are `confirmed` against the built
    place at step 5b. The entity map is [docs/world/98-data-model.md](../../../docs/world/98-data-model.md);
    the rules are [references/promise-ledger.md](references/promise-ledger.md).
 3b. **The place in its world (seams).** Read the route records that touch

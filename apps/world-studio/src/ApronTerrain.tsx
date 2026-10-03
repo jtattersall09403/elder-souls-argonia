@@ -56,8 +56,11 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
     () => new URLSearchParams(window.location.search).get("occl") !== "0", []);
   const heightAt = useMemo(
     () => makeChunkHeightSampler(store, manifest, scale), [store, manifest, scale]);
+  useEffect(() => () => heightAt.dispose(), [heightAt]);
   const sectorUnits = useRef(new Map<string, OcclusionUnit & { box: THREE.Box3 }>());
-  const occlusionDue = useRef(createOcclusionCadence());
+  // Out of step with the chunk sweep's cadence, so the two passes never
+  // start on the same frame (diag10 C1).
+  const occlusionDue = useRef(createOcclusionCadence({ phaseMs: 1000, delayFrames: 1 }));
   const occlusionSweep = useRef(createOcclusionSweep({ budgetMs: 0.5 }));
   const occlusion = useMemo<OcclusionRegistry | undefined>(() => {
     if (!occlusionOn) return undefined;
@@ -75,7 +78,6 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
   useFrame(({ camera }) => {
     if (!occlusion) return;
     if (occlusionDue.current(camera, performance.now())) {
-      heightAt.reset();
       occlusionSweep.current.start(camera.position, sectorUnits.current.values());
     }
     const hidden = occlusionSweep.current.step(heightAt);

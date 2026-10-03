@@ -1403,6 +1403,69 @@ def apply_size_collision(summary: dict, kit: dict) -> list[str]:
     return changed
 
 
+#: The clutter box rule (audit10, greenspring 327 parts x 1.55 = 507 over the
+#: place ceiling of 500): a `convex` piece collides as its own LOD0 triangles,
+#: one part per primitive (SettlementLayer TRIMESH_COLLISION_KINDS,
+#: export_settlement_bundle.resident_collision_parts), so a candle stand,
+#: basket or woven chair cost 4 parts each. A free-standing piece in these
+#: categories no wider than CLUTTER_BOX_MAX_PLAN_M and no taller than
+#: CLUTTER_BOX_MAX_HEIGHT_M collides as ONE measured box (`collision: box`,
+#: `collisionBox` in pivot-yup-v3, the shape the export copies as the
+#: placement's single part); one under SIZE_COLLIDER_MIN_HEIGHT_M tall is
+#: stepped over and gets none. Hanging pieces keep their triangles (a box
+#: would fill the cord's column).
+CLUTTER_BOX_CATEGORIES = frozenset({"clutter", "container", "furniture", "misc", "plant"})
+CLUTTER_BOX_MAX_PLAN_M = 1.0
+CLUTTER_BOX_MAX_HEIGHT_M = 2.5
+#: the Blender proxy's inset (blender/build_kit.py convex collisionBox)
+CLUTTER_BOX_INSET = 0.88
+
+
+def clutter_collision_box(record: dict) -> dict:
+    """The record's bounds box in the glTF Y-up pivot frame, inset, from
+    `sizeM` (NIF x, y plan, z up) and `originOffsetM` (= -NIF min corner)."""
+    size, origin = record["sizeM"], record["originOffsetM"]
+    lo = [-origin[i] for i in range(3)]
+    hi = [lo[i] + size[i] for i in range(3)]
+    return {
+        "halfExtentsM": [round(size[0] / 2 * CLUTTER_BOX_INSET, 3),
+                         round(size[2] / 2 * CLUTTER_BOX_INSET, 3),
+                         round(size[1] / 2 * CLUTTER_BOX_INSET, 3)],
+        "centreOffsetM": [round((lo[0] + hi[0]) / 2, 3), round((lo[2] + hi[2]) / 2, 3),
+                          round(-(lo[1] + hi[1]) / 2, 3)],
+    }
+
+
+def apply_clutter_box_collision(summary: dict, kit: dict) -> dict[str, list[str]]:
+    """The clutter box rule (CLUTTER_BOX_*) over the built summary. An
+    authored `collision` in the kit config wins. Returns {"box": ids,
+    "none": ids}."""
+    out: dict[str, list[str]] = {"box": [], "none": []}
+    # the vegetation kits collide through floraSolids, which knows no `box`
+    if kit["id"].startswith(("flora-", "groundcover-")):
+        return out
+    authored = {entry["asset"] for entry in kit.get("assets", []) if "collision" in entry}
+    for record in summary.get("assets", []):
+        size, origin = record.get("sizeM") or [], record.get("originOffsetM") or []
+        if (record.get("collision") != "convex" or record["id"] in authored
+                or record.get("category") not in CLUTTER_BOX_CATEGORIES
+                or record.get("anchorClass") == "hanging"
+                or len(size) != 3 or len(origin) != 3
+                or max(size[0], size[1]) > CLUTTER_BOX_MAX_PLAN_M
+                or size[2] > CLUTTER_BOX_MAX_HEIGHT_M):
+            continue
+        if size[2] < SIZE_COLLIDER_MIN_HEIGHT_M:
+            record["collision"] = "none"
+            record.pop("collisionBox", None)
+            out["none"].append(record["id"])
+            continue
+        record["collision"] = "box"
+        record.setdefault("collisionBox", clutter_collision_box(record))
+        record["collisionFrame"] = "pivot-yup-v3"
+        out["box"].append(record["id"])
+    return out
+
+
 def set_alpha_modes(glb: Path, summary: dict) -> dict:
     """Rewrite the exported glTF's alpha modes: **foliage is masked, never
     blended** (module 65 §111 — alpha-test overdraw is the #1 mobile killer,
@@ -1504,6 +1567,51 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
           f"{counts['BLEND']} additive blend; "
           f"{sum(1 for m in gltf.get('materials', []) if (m.get('extras') or {}).get('decal'))} decal")
     return counts
+
+
+def own_emit_maps(gltf: dict, emitting: set[str]) -> list[str]:
+    """Give each lighting-shader material that really emits (manifest
+    `emissiveMaterials`: NIF OWN_EMIT with a non-black emissive at a positive
+    multiple, nif_blocks.emitting_shapes) its own diffuse as the glTF
+    emissive map, factor white. Skyrim's OWN_EMIT draws the diffuse times the
+    emissive colour; the runtime keys every glow on an emissive map
+    (materials.ts isSettlementGlowMaterial) and scales it by night, so a
+    mud-hut amber window (kotm mudhuts/window01/02) that shipped with none
+    never glowed (audit10 B1). A material that already carries a Glow_Map
+    keeps it. Returns the materials changed."""
+    changed = []
+    for material in gltf.get("materials", []):
+        match = NIF_MATERIAL_NAME.match(material.get("name") or "")
+        if not match or f"{match['shape']}.Mat" not in emitting or "emissiveTexture" in material:
+            continue
+        base = (material.get("pbrMetallicRoughness") or {}).get("baseColorTexture")
+        if base is None:
+            continue
+        material["emissiveTexture"] = {k: v for k, v in base.items() if k in ("index", "texCoord")}
+        material["emissiveFactor"] = [1.0, 1.0, 1.0]
+        changed.append(material["name"])
+    return changed
+
+
+def apply_own_emit_maps(glb: Path, summary: dict) -> list[str]:
+    """`own_emit_maps` over the built GLB's JSON chunk, in place."""
+    emitting = {name for asset in summary.get("assets", [])
+                for name in asset.get("emissiveMaterials") or []}
+    if not emitting:
+        return []
+    data = bytearray(glb.read_bytes())
+    chunk_length, _ = struct.unpack_from("<I4s", data, 12)
+    gltf = json.loads(bytes(data[20:20 + chunk_length]))
+    changed = own_emit_maps(gltf, emitting)
+    if changed:
+        encoded = json.dumps(gltf, separators=(",", ":")).encode("utf-8")
+        encoded += b" " * (-len(encoded) % 4)
+        rebuilt = bytearray(data[:12])
+        rebuilt += struct.pack("<I4s", len(encoded), b"JSON") + encoded
+        rebuilt += data[20 + chunk_length:]
+        struct.pack_into("<I", rebuilt, 8, len(rebuilt))
+        glb.write_bytes(bytes(rebuilt))
+    return changed
 
 
 def remap_additive_vertex_colours(gltf: dict, additive: set[str]) -> int:
@@ -2161,11 +2269,18 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
                             texture_atlas_measurer(vault, tropicalised(kit)))
     if fire:
         print(f"[kit] flame and glow sprites: {fire}")
+    emit_maps = apply_own_emit_maps(output_glb, summary)
+    if emit_maps:
+        print(f"[kit] OWN_EMIT emissive maps: {len(emit_maps)} {sorted(emit_maps)}")
     unkinded = unkinded_fire_pieces(summary)
     if unkinded:
         raise RuntimeError(f"kit build refused ({kit_id}), light blocks with no fixtureKind "
                            "(set it in the kit config's light block):\n  " + "\n  ".join(unkinded))
     apply_placement_metadata(summary, kit["id"])
+    boxed = apply_clutter_box_collision(summary, kit)
+    if boxed["box"] or boxed["none"]:
+        print(f"[kit] clutter box rule: {len(boxed['box'])} one-box, "
+              f"{len(boxed['none'])} step-over none")
     apply_display_names(summary, kit)
     built_gltf = read_gltf_json(output_glb)
     untextured = (untextured_material_errors(built_gltf, summary, notes["texturesMissing"])

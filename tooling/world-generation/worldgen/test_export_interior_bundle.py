@@ -221,6 +221,19 @@ def test_the_plugin_hearth_fire_effect_stands_in_as_the_kit_fire_bed_and_no_othe
     assert any("only clutter or furniture" in p for p in ex.check(_gate_bundle(substitutions=[steam])))
 
 
+def test_a_fire_effect_left_as_a_drop_fails_the_gate():
+    """audit10: the HTBM huts' FXfireWithEmbersOut was a listed drop, the brazier burned nothing."""
+    fire = {"refId": "2", "reason": "listed-drop", "base": "FXfireWithEmbersOut", "class": "effect",
+            "model": "effects/fxfirewithembers03.nif", "positionM": [0.0, 0.3, 0.0]}
+    assert any("fire effect FXfireWithEmbersOut" in p for p in ex.check(_gate_bundle(drops=[fire])))
+    bed = {"id": "X.3", "refId": "3", "class": "effect", "standInCategory": "clutter",
+           "standInAsset": ex.HEARTH_FIRE_STAND_INS["FXfireWithEmbersOut"], "why": ex.HEARTH_FIRE_WHY,
+           "positionM": [0.5, 0.3, 0.0]}
+    assert ex.check(_gate_bundle(drops=[fire], substitutions=[bed], refCount=3)) == []  # a second fire stays a drop
+    dust = dict(fire, base="FXAmbBeamDust02", model="effects/fxambbeamdust02.nif")
+    assert ex.check(_gate_bundle(drops=[dust])) == []
+
+
 def test_piece_class_reads_the_base_record_then_the_sourced_absent_master_row():
     absent = {"cc.esm:00000001": {"class": "clutter", "source": "UESP"}}
     assert ex.piece_class(None, "cc.esm:00000001", None, absent) == ("clutter", "UESP")
@@ -708,13 +721,15 @@ def _xcll(ambient=(10, 20, 30), cube=((1, 1, 1),) * 6, fade=(256.0, 512.0), inhe
 
 def test_the_ambient_cube_is_read_in_game_axes():
     # Skyrim X+ X- Y+(north) Y-(south) Z+(up) Z-(down)
-    cube = ((255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 255, 255), (0, 0, 0))
+    # each colour names the direction light travels: Z- (down, the sky term) is the
+    # brighter one, as in Skyrim.esm's cells, and lands on the up-facing floor
+    cube = ((255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 0, 0), (255, 255, 255))
     got = ex.resolve_lighting(_xcll(cube=cube), None, None, None)
     c = got["ambientCube"]
-    assert c["px"] == [1.0, 0.0, 0.0] and c["nx"] == [0.0, 1.0, 0.0]
-    assert c["py"] == [1.0, 1.0, 1.0] and c["ny"] == [0.0, 0.0, 0.0]   # game up = Skyrim Z+
-    assert c["nz"] == [0.0, 0.0, 1.0] and c["pz"] == [1.0, 1.0, 0.0]   # game -z = north = Skyrim Y+
-    assert got["raw"]["ambientCubeSkyrimRGB"]["zp"] == [255, 255, 255]
+    assert c["px"] == [0.0, 1.0, 0.0] and c["nx"] == [1.0, 0.0, 0.0]   # east normal <- X- (travelling west)
+    assert c["py"] == [1.0, 1.0, 1.0] and c["ny"] == [0.0, 0.0, 0.0]   # floor <- Z-, ceiling <- Z+
+    assert c["pz"] == [0.0, 0.0, 1.0] and c["nz"] == [1.0, 1.0, 0.0]   # south normal <- Y+ (travelling north)
+    assert got["raw"]["ambientCubeSkyrimRGB"]["zn"] == [255, 255, 255]
     assert got["specularRGB"] == [5, 6, 7] and got["fresnelPower"] == 0.5
     assert (got["lightFadeBeginM"], got["lightFadeEndM"]) == (round(256 / ex.UNITS_PER_METRE, 3),
                                                              round(512 / ex.UNITS_PER_METRE, 3))

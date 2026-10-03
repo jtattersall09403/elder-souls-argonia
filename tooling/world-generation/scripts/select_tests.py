@@ -19,7 +19,7 @@ Usage: python3 scripts/select_tests.py placement|water   (from tooling/world-gen
 
 TEST SELECTION BY TOUCHED PATHS (speed lane 2, S3, 2026-09-27). Under
 `npm run preflight -- --paths`, preflight sets ES_TEST_CHANGED (the changed
-repo-relative files, one per line) and this script prints only the test
+repo-relative files, newline- or space-separated; paths hold no spaces) and this script prints only the test
 files a change can reach, for four suites: placement and water (cwd
 tooling/world-generation), pipeline (tooling/asset-pipeline) and workbench
 (tooling/placement-workbench). A test is selected when
@@ -193,8 +193,8 @@ def _norm_literal(text: str) -> str | None:
     lit = "/".join(parts)
     if len(parts) < 2 and not EXT.search(lit):
         return None
-    if len(parts) == 2 and parts[0] in BROAD_ROOTS and not EXT.search(lit):
-        return None                                       # "apps/world-studio", "tooling/world-generation"
+    if len(parts) <= 3 and parts[0] in BROAD_ROOTS and not EXT.search(lit):
+        return None           # "apps/world-studio", "packages/game-core/src": a source tree root, not a data path
     if lit == "apps/world-studio/public":
         return None
     return lit
@@ -246,6 +246,10 @@ def _scan(rel: str) -> tuple[frozenset, frozenset, bool]:
                 return ".".join([name, *d.relative_to(prel).parts])
         return None
 
+    inner: set[int] = set()                             # sub-chains of a longer `a / "b" / "c"` path
+    for node in ast.walk(tree):
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+            inner.add(id(node.left))
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for a in node.names:
@@ -269,7 +273,7 @@ def _scan(rel: str) -> tuple[frozenset, frozenset, bool]:
             for a in node.names:                        # `from pkg import module`
                 add_module(f"{mod}.{a.name}")
         elif isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
-            parts = _chain(node)
+            parts = None if id(node) in inner else _chain(node)   # outermost chain only: its prefixes are directories
             if parts:
                 lit = _norm_literal("/".join(parts))
                 if lit:
@@ -466,7 +470,7 @@ def command_args(suite: str, changed: list[str] | None) -> list[str]:
     result = select_changed(suite, changed)
     files = [os.path.relpath(REPO / t, REPO / SUITES[suite]) for t in result["selected"]]
     if not files:                                         # preflight skips such a gate; never run "everything"
-        files = [os.path.relpath(REPO / t, REPO / SUITES[suite]) for t in suite_tests(suite)]
+        return []
     return files + [f"--deselect={d}" for d in slow_deselects(suite, result)]
 
 
@@ -501,7 +505,7 @@ def main() -> None:
         i = args.index("--changed")
         changed = [a for a in args[i + 1:] if not a.startswith("--")]
     elif os.environ.get("ES_TEST_CHANGED") is not None:
-        changed = os.environ["ES_TEST_CHANGED"].split("\n")
+        changed = os.environ["ES_TEST_CHANGED"].split()   # newline- or space-separated
     else:
         changed = None
     if "--record-reads" in args:
@@ -513,7 +517,9 @@ def main() -> None:
         r["deselect"] = slow_deselects(suite, r)
         print(json.dumps(r))
         return
-    print(" ".join(command_args(suite, changed)))
+    out = command_args(suite, changed)
+    if out:                                               # an empty selection prints nothing
+        print(" ".join(out))
 
 
 if __name__ == "__main__":

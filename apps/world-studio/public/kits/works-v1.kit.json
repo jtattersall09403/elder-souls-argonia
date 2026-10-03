@@ -214,11 +214,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Crafting blacksmith forge STATIC",
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143,
-   "displayName": "Crafting blacksmith forge STATIC"
+   "pivotAboveBaseM": 0.143
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
@@ -302,11 +302,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Blacksmith bellows 01",
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.423,
-   "displayName": "Blacksmith bellows 01"
+   "pivotAboveBaseM": 0.423
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic",
@@ -383,11 +383,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Blacksmith sharpening wheel 01",
    "undersideClosed": true,
    "undersideCoverage": 0.736,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Blacksmith sharpening wheel 01"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithworkbench01",
@@ -472,11 +472,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Blacksmith workbench 01",
    "undersideClosed": true,
    "undersideCoverage": 0.689,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Blacksmith workbench 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/smelter/smelter01",
@@ -558,11 +558,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Resource object mine",
    "undersideClosed": true,
    "undersideCoverage": 0.692,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Resource object mine"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/smelter/smelter01coal01",
@@ -636,11 +636,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Smelter 01coal 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Smelter 01coal 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/smelter/coal01",
@@ -714,11 +714,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Coal 01",
    "undersideClosed": false,
    "undersideCoverage": 0.564,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Coal 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:furniture/smeltermarker",
@@ -1144,11 +1144,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Crafting smelter marker 1",
    "undersideClosed": false,
    "undersideCoverage": 0.027,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Crafting smelter marker 1"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:oaristys/forge/coalpile",
@@ -1239,11 +1239,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Coal pile STATIC",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Coal pile STATIC"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:oaristys/forge/orebucket_iron",
@@ -1266,7 +1266,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "bucket01.dds",
@@ -1332,11 +1332,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.32,
+     0.192,
+     0.331
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.218,
+     0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Orebucket iron",
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Orebucket iron"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:oaristys/forge/orestack_iron",
@@ -1359,7 +1372,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "oreiron01.dds"
@@ -1419,11 +1432,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.271,
+     0.138,
+     0.346
+    ],
+    "centreOffsetM": [
+     0.012,
+     0.155,
+     0.013
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Orestack iron",
    "undersideClosed": true,
    "undersideCoverage": 0.738,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "displayName": "Orestack iron"
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "kotm:oaristys/forge/ingotsiron01",
@@ -1489,11 +1515,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ingotsiron 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "displayName": "Ingotsiron 01"
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "vanilla:clutter/common/tanningrack01",
@@ -1566,11 +1592,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Tanning rack DONOTUSE",
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Tanning rack DONOTUSE"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01",
@@ -1656,11 +1682,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "WR herb drying rack 01",
    "undersideClosed": false,
    "undersideCoverage": 0.344,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "displayName": "WR herb drying rack 01"
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "vanilla:clutter/deadanimals/fishrack01",
@@ -1758,11 +1784,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Fish rack 01",
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228,
-   "displayName": "Fish rack 01"
+   "pivotAboveBaseM": -0.228
   },
   {
    "id": "vanilla:clutter/deadanimals/fishrack02",
@@ -1851,11 +1877,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Fish rack 02",
    "undersideClosed": false,
    "undersideCoverage": 0.377,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.226,
-   "displayName": "Fish rack 02"
+   "pivotAboveBaseM": -0.226
   },
   {
    "id": "vanilla:clutter/carts/handcart01",
@@ -1953,11 +1979,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Hand cart 01",
    "undersideClosed": false,
    "undersideCoverage": 0.529,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.464,
-   "displayName": "Hand cart 01"
+   "pivotAboveBaseM": 0.464
   },
   {
    "id": "vanilla:clutter/carts/handcart01wheel",
@@ -2061,11 +2087,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Hand cart 01 wheel",
    "undersideClosed": true,
    "undersideCoverage": 0.879,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.464,
-   "displayName": "Hand cart 01 wheel"
+   "pivotAboveBaseM": 0.464
   },
   {
    "id": "vanilla:clutter/carts/handcart02",
@@ -2162,11 +2188,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Hand cart 02",
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.469,
-   "displayName": "Hand cart 02"
+   "pivotAboveBaseM": 0.469
   },
   {
    "id": "vanilla:clutter/carts/handcartcanopy",
@@ -2257,11 +2283,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Hand cart canopy",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.63,
-   "displayName": "Hand cart canopy"
+   "pivotAboveBaseM": -0.63
   },
   {
    "id": "vanilla:clutter/carts/handcartcrate",
@@ -2341,11 +2367,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Hand cart crate",
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.124,
-   "displayName": "Hand cart crate"
+   "pivotAboveBaseM": -0.124
   },
   {
    "id": "vanilla:clutter/carts/vendorcartstatic01",
@@ -2434,11 +2460,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Vendor cart static 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.581,
-   "displayName": "Vendor cart static 01"
+   "pivotAboveBaseM": 0.581
   },
   {
    "id": "vanilla:clutter/common/wagonwheel01",
@@ -2525,11 +2551,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Wagon wheel",
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.689,
-   "displayName": "Wagon wheel"
+   "pivotAboveBaseM": 0.689
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -2552,7 +2578,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "firewood01.dds",
@@ -2635,11 +2661,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.344,
+     0.178,
+     0.421
+    ],
+    "centreOffsetM": [
+     -0.061,
+     0.185,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Firewood pile small 01",
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017,
-   "displayName": "Firewood pile small 01"
+   "pivotAboveBaseM": 0.017
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -2745,11 +2784,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Firewood pile medium 01",
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "displayName": "Firewood pile medium 01"
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -2855,11 +2894,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Firewood pile large 01",
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019,
-   "displayName": "Firewood pile large 01"
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilehuge01",
@@ -2938,11 +2977,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Firewood pile huge 1",
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "displayName": "Firewood pile huge 1"
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam01",
@@ -3033,11 +3072,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodbeam 01",
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Mine woodbeam 01"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam02",
@@ -3131,11 +3170,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodbeam 02",
    "undersideClosed": true,
    "undersideCoverage": 0.894,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Mine woodbeam 02"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam03",
@@ -3227,11 +3266,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodbeam 03",
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Mine woodbeam 03"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeamshort01",
@@ -3325,11 +3364,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodbeam short 01",
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.136,
-   "displayName": "Mine woodbeam short 01"
+   "pivotAboveBaseM": 0.136
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeamshort02",
@@ -3418,11 +3457,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodbeam short 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.136,
-   "displayName": "Mine woodbeam short 02"
+   "pivotAboveBaseM": 0.136
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks01",
@@ -3519,11 +3558,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodplanks 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.514,
-   "displayName": "Mine woodplanks 01"
+   "pivotAboveBaseM": 0.514
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks02",
@@ -3620,11 +3659,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodplanks 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.51,
-   "displayName": "Mine woodplanks 02"
+   "pivotAboveBaseM": 0.51
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks03",
@@ -3721,11 +3760,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodplanks 03",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.514,
-   "displayName": "Mine woodplanks 03"
+   "pivotAboveBaseM": 0.514
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks04",
@@ -3821,11 +3860,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine woodplanks 04",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.933,
-   "displayName": "Mine woodplanks 04"
+   "pivotAboveBaseM": 0.933
   },
   {
    "id": "vanilla:dungeons/mines/clutter/genericwell01",
@@ -3906,11 +3945,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Generic well 01",
    "undersideClosed": true,
    "undersideCoverage": 0.704,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.986,
-   "displayName": "Generic well 01"
+   "pivotAboveBaseM": 3.986
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldsupport01",
@@ -3996,11 +4035,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine scaffold support 01",
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205,
-   "displayName": "Mine scaffold support 01"
+   "pivotAboveBaseM": 0.205
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01",
@@ -4061,11 +4100,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Minescaffoldbasesupport 01",
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205,
-   "displayName": "Minescaffoldbasesupport 01"
+   "pivotAboveBaseM": 0.205
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01",
@@ -4157,11 +4196,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine scaffold base support w 01",
    "undersideClosed": false,
    "undersideCoverage": 0.182,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Mine scaffold base support w 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:dungeons/mines/ore/mineoreiron01",
@@ -4262,11 +4301,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mine ore iron 01",
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.725,
-   "displayName": "Mine ore iron 01"
+   "pivotAboveBaseM": 0.725
   },
   {
    "id": "vanilla:dungeons/mines/ore/mineoredepleted01",
@@ -4339,11 +4378,175 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Mineoredepleted 01",
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.725,
-   "displayName": "Mineoredepleted 01"
+   "pivotAboveBaseM": 0.725
+  },
+  {
+   "id": "vanilla:landscape/volcanic/mineralpoolsm01",
+   "node": "es|eb5426edc6|illa__landscape_volcanic_mineralpoolsm01",
+   "category": "terrain-feature",
+   "sizeM": [
+    8.287,
+    7.735,
+    2.37
+   ],
+   "originOffsetM": [
+    3.976,
+    3.786,
+    0.905
+   ],
+   "triangles": 898,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mineralpoolterrace.dds",
+    "volcanictundradirt02.dds",
+    "volcanictundraminerals01.dds"
+   ],
+   "materials": [
+    "Decals.Mat",
+    "MineralPoolSm01:12.Mat",
+    "MineralPoolSm01:9.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Decals.Mat": 0.102
+   },
+   "decalMaterials": [
+    "Decals.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     3.646,
+     1.043,
+     3.403
+    ],
+    "centreOffsetM": [
+     0.168,
+     0.28,
+     -0.081
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.905,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "displayName": "Mineralpoolsm 01",
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.905
+  },
+  {
+   "id": "vanilla:landscape/volcanic/mineralpoolbig01",
+   "node": "es|a890aa0fe1|lla__landscape_volcanic_mineralpoolbig01",
+   "category": "terrain-feature",
+   "sizeM": [
+    16.787,
+    17.855,
+    4.179
+   ],
+   "originOffsetM": [
+    8.991,
+    9.301,
+    1.462
+   ],
+   "triangles": 2854,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mineralpoolterrace.dds",
+    "volcanictundradirt02.dds",
+    "volcanictundragravel01.dds",
+    "volcanictundraminerals01.dds"
+   ],
+   "materials": [
+    "MineralPoolBig01:12.Mat",
+    "MineralPoolBig01:9.Mat",
+    "MineralPoolDecal:5.Mat",
+    "MineralPoolDecal:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "MineralPoolDecal:5.Mat": 0.102,
+    "MineralPoolDecal:8.Mat": 0.102
+   },
+   "decalMaterials": [
+    "MineralPoolDecal:5.Mat",
+    "MineralPoolDecal:8.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     7.386,
+     1.839,
+     7.856
+    ],
+    "centreOffsetM": [
+     -0.598,
+     0.628,
+     0.373
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.462,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "displayName": "Mineralpoolbig 01",
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.462
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase0sided01",
@@ -4440,11 +4643,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base 0 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 0 sided 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase1sided01",
@@ -4525,11 +4728,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base 1 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.333,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 1 sided 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
@@ -4612,11 +4815,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base 2 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.355,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 2 sided 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
@@ -4702,11 +4905,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Stockade scaffold base 3 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 3 sided 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
@@ -4792,11 +4995,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base 4 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 4 sided 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbasesupport01",
@@ -4867,11 +5070,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base support 01",
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205,
-   "displayName": "Stockade scaffold base support 01"
+   "pivotAboveBaseM": 0.205
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
@@ -4970,11 +5173,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold top 0 sided 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "displayName": "Stockade scaffold top 0 sided 01"
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop1sided01",
@@ -5059,11 +5262,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold top 1 sided 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "displayName": "Stockade scaffold top 1 sided 01"
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
@@ -5150,11 +5353,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold top 2 sided 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "displayName": "Stockade scaffold top 2 sided 01"
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
@@ -5242,11 +5445,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Stockade scaffold top 3 sided 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "displayName": "Stockade scaffold top 3 sided 01"
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop4sided01",
@@ -5316,11 +5519,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold top 4 sided 01",
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.12,
-   "displayName": "Stockade scaffold top 4 sided 01"
+   "pivotAboveBaseM": 0.12
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldramp01",
@@ -5410,11 +5613,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold ramp 01",
    "undersideClosed": true,
    "undersideCoverage": 0.908,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Stockade scaffold ramp 01"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
@@ -5503,11 +5706,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold stairs 01",
    "undersideClosed": true,
    "undersideCoverage": 0.843,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold stairs 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
@@ -5595,11 +5798,11 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
+   "displayName": "Stockade scaffold bridge 01",
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.546,
-   "displayName": "Stockade scaffold bridge 01"
+   "pivotAboveBaseM": 0.546
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
@@ -5686,11 +5889,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold bridge 02",
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.774,
-   "displayName": "Stockade scaffold bridge 02"
+   "pivotAboveBaseM": 0.774
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
@@ -5770,11 +5973,11 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
+   "displayName": "Stockade scaffold bridge narrow light SN",
    "undersideClosed": true,
    "undersideCoverage": 0.8,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.877,
-   "displayName": "Stockade scaffold bridge narrow light SN"
+   "pivotAboveBaseM": 0.877
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtoppost01",
@@ -5861,11 +6064,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold top post 01",
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.056,
-   "displayName": "Stockade scaffold top post 01"
+   "pivotAboveBaseM": -0.056
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtoppost02",
@@ -5953,11 +6156,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold top post 02",
    "undersideClosed": false,
    "undersideCoverage": 0.006,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.056,
-   "displayName": "Stockade scaffold top post 02"
+   "pivotAboveBaseM": -0.056
   },
   {
    "id": "vanilla:architecture/farmhouse/lumbermill01waterwheel01",
@@ -6060,11 +6263,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farm lumbermill 01 water wheel 01",
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92,
-   "displayName": "Farm lumbermill 01 water wheel 01"
+   "pivotAboveBaseM": 5.92
   },
   {
    "id": "vanilla:architecture/farmhouse/lumbermill01waterwheel02",
@@ -6161,11 +6364,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farm lumbermill 01 water wheel 02",
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92,
-   "displayName": "Farm lumbermill 01 water wheel 02"
+   "pivotAboveBaseM": 5.92
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01",
@@ -6266,11 +6469,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Walkway c wall gate 01",
    "undersideClosed": true,
    "undersideCoverage": 0.827,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Walkway c wall gate 01"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
@@ -6374,11 +6577,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Walkway c wall gate 02",
    "undersideClosed": true,
    "undersideCoverage": 0.84,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "displayName": "Walkway c wall gate 02"
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -6468,11 +6671,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Dock steps down 01",
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317,
-   "displayName": "Dock steps down 01"
+   "pivotAboveBaseM": 6.317
   },
   {
    "id": "vanilla:architecture/docks/dockstrent01",
@@ -6563,11 +6766,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Dock str ent 01",
    "undersideClosed": true,
    "undersideCoverage": 0.732,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233,
-   "displayName": "Dock str ent 01"
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:clutter/ingredients/saltpile",
@@ -6666,11 +6869,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "MS 03 black briar secret ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042,
-   "displayName": "MS 03 black briar secret ingredient"
+   "pivotAboveBaseM": 0.042
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -6693,7 +6896,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "barrel01.dds"
@@ -6784,11 +6987,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Barrel empty 01",
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Barrel empty 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/largerainbarrel01",
@@ -6863,11 +7066,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Large rain barrel 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Large rain barrel 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/chopping block/choppingblock01",
@@ -6890,7 +7093,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "choppingblock01.dds"
@@ -6962,11 +7165,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.33,
+     0.206,
+     0.33
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.234,
+     -0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Chopping block 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Chopping block 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/clutter/beehive",
@@ -7061,11 +7277,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Beehive",
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.074,
-   "displayName": "Beehive"
+   "pivotAboveBaseM": 0.074
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline",
@@ -7128,11 +7344,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Farmhouseline",
    "undersideClosed": false,
    "undersideCoverage": 0.142,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Farmhouseline"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01",
@@ -7230,11 +7446,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Exterior wooden table 01",
    "undersideClosed": true,
    "undersideCoverage": 0.669,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Exterior wooden table 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/burialcairn/burialcairn02",
@@ -7320,11 +7536,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Burial cairn 02",
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.479,
-   "displayName": "Burial cairn 02"
+   "pivotAboveBaseM": 0.479
   },
   {
    "id": "vanilla:architecture/riften/rtmarketstall01",
@@ -7408,11 +7624,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "RT market stall 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "RT market stall 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:furniture/tanningrackmarker",
@@ -7528,11 +7744,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Crafting tanning rack marker",
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Crafting tanning rack marker"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:clutter/common/cratesmall01",
@@ -7635,11 +7851,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Crate small 01",
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.345,
-   "displayName": "Crate small 01"
+   "pivotAboveBaseM": 0.345
   },
   {
    "id": "vanilla:clutter/common/cratesmalllong01",
@@ -7742,11 +7958,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Crate small long 01",
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.345,
-   "displayName": "Crate small long 01"
+   "pivotAboveBaseM": 0.345
   },
   {
    "id": "vanilla:clutter/basket01",
@@ -7769,7 +7985,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -7839,11 +8055,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.218,
+     0.194,
+     0.215
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.221,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Basket 01",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basket 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/basket03",
@@ -7866,7 +8095,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -7935,11 +8164,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.218,
+     0.198,
+     0.215
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.226,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Basket 03",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basket 03"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/basketclosed01",
@@ -7962,7 +8204,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -8040,11 +8282,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.218,
+     0.221,
+     0.215
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.252,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Basket closed 01",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basket closed 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -8067,7 +8322,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "bucket01.dds"
@@ -8145,11 +8400,24 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.22,
+     0.188,
+     0.237
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.213,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Bucket 01",
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Bucket 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/common/pitchfork01",
@@ -8241,11 +8509,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Pitchfork 001",
    "undersideClosed": false,
    "undersideCoverage": 0.233,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.68,
-   "displayName": "Pitchfork 001"
+   "pivotAboveBaseM": 0.68
   },
   {
    "id": "vanilla:clutter/common/shovel01",
@@ -8345,11 +8613,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shovel 01",
    "undersideClosed": false,
    "undersideCoverage": 0.536,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.762,
-   "displayName": "Shovel 01"
+   "pivotAboveBaseM": 0.762
   },
   {
    "id": "vanilla:clutter/containers/miscsacklarge",
@@ -8372,7 +8640,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "miscbag01.dds"
@@ -8463,11 +8731,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Misc sack large",
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403,
-   "displayName": "Misc sack large"
+   "pivotAboveBaseM": 0.403
   },
   {
    "id": "vanilla:clutter/containers/miscsacklargeflat01",
@@ -8490,7 +8758,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "miscbag01.dds"
@@ -8580,11 +8848,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Misc sack large flat 01",
    "undersideClosed": true,
    "undersideCoverage": 0.842,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403,
-   "displayName": "Misc sack large flat 01"
+   "pivotAboveBaseM": 0.403
   },
   {
    "id": "vanilla:clutter/horsetrough/horsetrough01",
@@ -8674,11 +8942,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Horse trough 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Horse trough 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -8754,11 +9022,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Fishracksmall",
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228,
-   "displayName": "Fishracksmall"
+   "pivotAboveBaseM": -0.228
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/carapaceoven",
@@ -8829,11 +9097,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Carapaceoven",
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016,
-   "displayName": "Carapaceoven"
+   "pivotAboveBaseM": 0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/ovennew",
@@ -8948,11 +9216,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Ovennew",
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Ovennew"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -8975,7 +9243,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "argonianbasket01.dds"
@@ -9042,11 +9310,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Basketfull",
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035,
-   "displayName": "Basketfull"
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -9120,11 +9388,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Basketsmall 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basketsmall 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -9147,7 +9415,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "paintedurn01.dds"
@@ -9212,11 +9480,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Paintedurn 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Paintedurn 01"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenfence01",
@@ -9301,11 +9569,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Wovenfence 01",
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155,
-   "displayName": "Wovenfence 01"
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence01",
@@ -9384,11 +9652,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Snakefence 01",
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155,
-   "displayName": "Snakefence 01"
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence02",
@@ -9462,11 +9730,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Snakefence 02",
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.196,
-   "displayName": "Snakefence 02"
+   "pivotAboveBaseM": 0.196
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cattail",
@@ -9535,11 +9803,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Cattail",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.857,
-   "displayName": "Cattail"
+   "pivotAboveBaseM": 0.857
   },
   {
    "id": "bmv:advertising_board",
@@ -9614,11 +9882,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "Advertising board",
    "undersideClosed": true,
    "undersideCoverage": 0.89,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "displayName": "Advertising board"
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "vanilla:clutter/woodfires/cookingstand01",
@@ -9704,11 +9972,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Cooking stand",
    "undersideClosed": false,
    "undersideCoverage": 0.427,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003,
-   "displayName": "Cooking stand"
+   "pivotAboveBaseM": -0.003
   },
   {
    "id": "vanilla:clutter/woodfires/spit01",
@@ -9807,11 +10075,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Spit 01",
    "undersideClosed": false,
    "undersideCoverage": 0.053,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Spit 01"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:clutter/imperial/impbrazier01",
@@ -9936,11 +10204,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Imp brazier 01",
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Imp brazier 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:roadsignsmall01l",
@@ -10006,11 +10274,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Roadsignsmall 01l",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143,
-   "displayName": "Roadsignsmall 01l"
+   "pivotAboveBaseM": 0.143
   },
   {
    "id": "bmv:roadsignsmall01r",
@@ -10076,11 +10344,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Roadsignsmall 01r",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.157,
-   "displayName": "Roadsignsmall 01r"
+   "pivotAboveBaseM": 0.157
   },
   {
    "id": "bmv:roadsignmedium01l",
@@ -10146,11 +10414,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Roadsignmedium 01l",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143,
-   "displayName": "Roadsignmedium 01l"
+   "pivotAboveBaseM": 0.143
   },
   {
    "id": "bmv:roadsignmedium01r",
@@ -10211,11 +10479,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Roadsignmedium 01r",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155,
-   "displayName": "Roadsignmedium 01r"
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "bmv:roadsignlarge01l",
@@ -10276,11 +10544,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Roadsignlarge 01l",
    "undersideClosed": false,
    "undersideCoverage": 0.501,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.164,
-   "displayName": "Roadsignlarge 01l"
+   "pivotAboveBaseM": 0.164
   },
   {
    "id": "bmv:roadsignlarge01r",
@@ -10346,11 +10614,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Roadsignlarge 01r",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.137,
-   "displayName": "Roadsignlarge 01r"
+   "pivotAboveBaseM": 0.137
   },
   {
    "id": "vanilla:effects/fxfirewithembers01",
@@ -10504,11 +10772,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "F xfire with embers heavy",
    "undersideClosed": false,
    "undersideCoverage": 0.056,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.003,
-   "displayName": "F xfire with embers heavy"
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "vanilla:clutter/woodfires/campfire01burning",
@@ -10714,11 +10982,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Campfire 01 burning",
    "undersideClosed": false,
    "undersideCoverage": 0.392,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052,
-   "displayName": "Campfire 01 burning"
+   "pivotAboveBaseM": 0.052
   },
   {
    "id": "vanilla:clutter/signage/roadsigns/roadsignpost",
@@ -10816,11 +11084,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Road sign post",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Road sign post"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "shores:shoresofskyrim/fishnet01",
@@ -10843,7 +11111,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "fishinggear01.dds"
@@ -10890,11 +11158,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.241,
+     0.202,
+     0.242
+    ],
+    "centreOffsetM": [
+     -0.001,
+     0.25,
+     0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Fishnet 01",
    "undersideClosed": true,
    "undersideCoverage": 0.915,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.021,
-   "displayName": "Fishnet 01"
+   "pivotAboveBaseM": -0.021
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopen01",
@@ -10995,11 +11276,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Spit pot open 01",
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.808,
-   "displayName": "Spit pot open 01"
+   "pivotAboveBaseM": -0.808
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopenloose01",
@@ -11091,11 +11372,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Spit pot open loose 01",
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.099,
-   "displayName": "Spit pot open loose 01"
+   "pivotAboveBaseM": 0.099
   },
   {
    "id": "vanilla:clutter/kitchen/castironpotmedium01",
@@ -11188,11 +11469,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Cast iron pot medium 01",
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Cast iron pot medium 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/clutter/saxhleelmetalpot01",
@@ -11282,11 +11563,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Saxhleel metal pot 01",
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.099,
-   "displayName": "Saxhleel metal pot 01"
+   "pivotAboveBaseM": 0.099
   },
   {
    "id": "vanilla:clutter/basket05",
@@ -11309,7 +11590,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -11378,11 +11659,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.317,
+     0.225,
+     0.312
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.256,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Basket 05",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basket 05"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/basket06",
@@ -11405,7 +11699,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -11470,11 +11764,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.382,
+     0.178,
+     0.226
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.203,
+     0.014
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Basket 06",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Basket 06"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/clutter/basket01",
@@ -11497,7 +11804,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -11566,11 +11873,24 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.18,
+     0.234,
+     0.204
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.004,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Basket 01",
    "undersideClosed": true,
    "undersideCoverage": 0.797,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.262,
-   "displayName": "Basket 01"
+   "pivotAboveBaseM": 0.262
   },
   {
    "id": "kotm:argonia/clutter/basket02",
@@ -11656,11 +11976,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Basket 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.262,
-   "displayName": "Basket 02"
+   "pivotAboveBaseM": 0.262
   },
   {
    "id": "kotm:argonia/clutter/basketcontainer",
@@ -11683,7 +12003,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "basket01.dds"
@@ -11764,11 +12084,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Basket coal",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.501,
-   "displayName": "Basket coal"
+   "pivotAboveBaseM": 0.501
   },
   {
    "id": "composite:works/stockade-scaffold-2stage",
@@ -11861,11 +12181,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base 4 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 4 sided 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:works/stockade-scaffold-3stage",
@@ -11960,11 +12280,11 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Stockade scaffold base 4 sided 01",
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stockade scaffold base 4 sided 01"
+   "pivotAboveBaseM": -0.0
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\works-v1.glb",
@@ -11988,8 +12308,8 @@
   "textures/landscape/trees/treepineforestcut01.dds": "textures/texturepack/landscape/trees/treepineforestcut01.dds"
  },
  "alphaModes": {
-  "MASK": 37,
-  "OPAQUE": 252,
+  "MASK": 40,
+  "OPAQUE": 256,
   "BLEND": 17
  },
  "effectTextures": {
@@ -12161,24 +12481,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48826144,
-  "bytesAfter": 23691616,
-  "images": 103,
-  "imageBytesAfter": 20666274,
+  "bytesBefore": 51517532,
+  "bytesAfter": 24876664,
+  "images": 107,
+  "imageBytesAfter": 21758192,
   "warnings": [],
-  "sha256": "ca5ced5f39a4f9196679cb32157d187fac3d8153b0d8cb3f9fb0a5763160383f",
+  "sha256": "cd378ecdd001d6d8a16c2fdfed77305bdf9422ca4c73eadd5c986a2723f1877b",
   "parts": {
    "parts": 11,
    "partBytes": 192348,
    "textureFiles": 11,
    "textureBytes": 1393228,
    "bytes": 1585576,
-   "sourceSha256": "ca5ced5f39a4f9196679cb32157d187fac3d8153b0d8cb3f9fb0a5763160383f"
+   "sourceSha256": "cd378ecdd001d6d8a16c2fdfed77305bdf9422ca4c73eadd5c986a2723f1877b"
   },
   "sidecarBytes": {
-   "connectors": 85341,
-   "footprints": 153981,
-   "interiors": 69607
+   "connectors": 86848,
+   "footprints": 158081,
+   "interiors": 70436
   }
  }
 }

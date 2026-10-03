@@ -62,7 +62,7 @@ from pathlib import Path
 from . import catalogue
 from .blueprint_files import blueprint_paths, parcel_services  # noqa: F401 — parcel_services is re-exported
 from .catalogue import SERVICES
-from .promise_gate import CONFIRMED_KINDS
+from .promise_gate import CONFIRMED_KINDS, noun_slug, thing_nouns
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
@@ -685,7 +685,11 @@ def claim_rows(rec: dict, place_slug: str, name: str, cat: str, at: str) -> list
       dock or station socket they leave from;
     * `prose` - each `why`, `vibe`, purpose hook and quest-opportunity line,
       CONFIRMED (not filled): the builder re-reads it against the built
-      place and records `confirmed: {sha, note}`; an edited text voids it;
+      place and records `confirmed: {sha, note, ids}`, `ids` naming the
+      placements a line with a physical noun rests on; an edited text voids it;
+    * `provision` `thing-<noun>` - each physical noun the prose names
+      (`promise_gate.PHYSICAL_NOUNS`), filled by `fills` on the placement,
+      socket or pool that shows it, never by a confirmation;
     * `quest` - each quest record that anchors on the place, confirmed the
       same way (the place serves the quest as built).
     The structure count is measured, not a row (`place_gates` gate
@@ -716,6 +720,21 @@ def claim_rows(rec: dict, place_slug: str, name: str, cat: str, at: str) -> list
             if isinstance(text, str) and text.strip():
                 rows.append(_row(place_slug, f"prose-{_slug(block)}-{_slug(field_)}", "prose", cat,
                                  f"{at}.{block}.{field_}", text.strip()))
+    # every physical noun the prose names is a thing a placement must show
+    # (audit10: a shed, bones, steps and a seep were promised, pinned
+    # `confirmed` and never built): a provision row filled by `fills` on the
+    # placement, socket or pool that shows it
+    named: dict[str, str] = {}
+    for row in [r for r in rows if r["kind"] == "prose"]:
+        for noun in thing_nouns(row["text"]):
+            named.setdefault(noun, row["source"]["path"])
+    # the asset plan promises things too (`signage-blank` is a sign)
+    for i, item in enumerate(rec.get("assetPlan") or []):
+        for noun in thing_nouns(str(item).replace("-", " ")):
+            named.setdefault(noun, f"{at}.assetPlan[{i}]")
+    for noun, path in sorted(named.items()):
+        rows.append(_row(place_slug, f"thing-{noun_slug(noun)}", "provision", cat, path,
+                         f"{name} shows the {noun} its record names."))
     for code, (file, premise) in sorted(quest_rows_for(rec["id"]).items()):
         rows.append(_row(place_slug, f"quest-{code.lower()}", "quest", file, f"quest[{code}]", premise))
     return rows
@@ -735,6 +754,8 @@ def ledger_record(rec: dict, services_doc: dict | None = None,
     rows = ledger_rows(rec, services_doc)
     for row in rows:
         row["unfilled"] = (prev.get(row["id"]) or {}).get("unfilled")
+        if (prev.get(row["id"]) or {}).get("filledBy") and row["kind"] not in CONFIRMED_KINDS:
+            row["filledBy"] = prev[row["id"]]["filledBy"]
         if row["kind"] in CONFIRMED_KINDS:
             # a confirmation holds only while its text is unchanged
             conf = (prev.get(row["id"]) or {}).get("confirmed")
@@ -744,8 +765,8 @@ def ledger_record(rec: dict, services_doc: dict | None = None,
     return {"schemaVersion": LEDGER_SCHEMA_VERSION,
             "placeId": rec["id"],
             "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write "
-                         "(decision 0104); never hand-edit a row but its `unfilled` or "
-                         "`confirmed` block",
+                         "(decision 0104); never hand-edit a row but its `unfilled`, "
+                         "`filledBy` or `confirmed` block",
             "derivedFrom": [{"file": f, "sha256": _sha(REPO_ROOT / f)} for f in files
                             if (REPO_ROOT / f).exists()],
             "promises": rows}
