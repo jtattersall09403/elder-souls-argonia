@@ -56,6 +56,7 @@ import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import type { KitProgramWarmReport } from "@elder-souls/game-core/settlement/kitProgramWarm";
 import { groundArrivalsOf } from "@elder-souls/game-core/settlement/groundPaint";
 import {
   FrameSegments, FrameSegmentsContext, useFrameSegments, useMarkedFrame,
@@ -328,6 +329,23 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
     settlementSolidsRef.current = solids;
   }, []);
+  // The boot program warm's proof numbers, refreshed into the perf summary
+  // once a second (the late links are counted live).
+  const programWarmTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  useEffect(() => () => { if (programWarmTimer.current) clearInterval(programWarmTimer.current); }, []);
+  const handleProgramWarm = useCallback((report: KitProgramWarmReport) => {
+    const write = () => {
+      const st = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__;
+      if (!st) return;
+      const late = report.linkedAfter();
+      st.programsWarmed = report.programsWarmed;
+      st.programsLinkedAfterWarm = late.length;
+      if (import.meta.env.DEV) st.programsLinkedAfterWarmKeys = late;
+    };
+    if (programWarmTimer.current) clearInterval(programWarmTimer.current);
+    write();
+    programWarmTimer.current = setInterval(write, 1000);
+  }, []);
   const waterSurfaceFocus = useCallback((): Vec3 | null => {
     const position = player.current?.body?.translation();
     return position ? { x: position.x, y: position.y / verticalScaleRef.current, z: position.z } : null;
@@ -574,6 +592,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 quality={quality}
                 environment={settlementEnvironment}
                 onSolids={handleSettlementSolids}
+                onProgramWarm={handleProgramWarm}
                 rebuildRef={settlementRebuildRef}
                 onDoors={setDoors}
                 kitCache={kitCache}
@@ -1048,6 +1067,12 @@ interface FrameGpuStats {
    * by the occlusion passes, which own the numbers; undefined until they run. */
   hiddenChunks?: number;
   hiddenSectors?: number;
+  /** Programs the settlement layer's boot warm linked (kitProgramWarm.ts),
+   * and programs first linked after it finished; the GPU lane reads both.
+   * The late programs' cache keys are listed in dev builds only. */
+  programsWarmed?: number;
+  programsLinkedAfterWarm?: number;
+  programsLinkedAfterWarmKeys?: string[];
 }
 
 /** Mean of a bounded sample ring; 0 when it is empty. */
