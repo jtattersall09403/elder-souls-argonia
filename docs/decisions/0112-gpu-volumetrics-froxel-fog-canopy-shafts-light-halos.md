@@ -75,21 +75,24 @@ colour comes from the light rig.
    rises by sunBurn × (0.5 × height above the basin floor / depth + (1 −
    moisture)) for the mist and 0.5 × sunBurn off water for the marsh fog, so
    rims, dry land and shores clear before water. Densities (`FOG_TERMS`,
-   CPU twin `fogTermsAt`): radiation mist peak 0.015 /m, its scale height
-   over water capped at 0.4 m (`mistWaterScaleM`), integrated only to
+   CPU twin `fogTermsAt`): radiation mist peak 0.015 /m; over water it is
+   measured from the water surface at 0.008 /m with a 3 m scale height
+   (`mistWaterPeakPerM`, `mistWaterScaleM`), integrated only to
    400 m from the camera (fading from 300 m) so a grazing ray never sums a
    white horizon band; the mist top moves ± 1 m (`mistReliefM`) and the
    marsh top ± 0.5 m (`marshReliefM`) with the lowest shape octave alone
-   (125 m features, `fogShapeAt` .z); marsh fog a thin dense bank, 0.27 /m
-   at the surface falling linearly to its 1.2 m top (`marshTopM`), so a
-   1.6 m eye stands above it and looks down on it; sea fog a 0.03 /m bank
+   (125 m features, `fogShapeAt` .z); marsh fog a knee-high bank, 0.12 /m
+   at the surface falling linearly to its 1.2 m top (`marshTopM`); sea fog a 0.03 /m bank
    with a top at 20 ± 6 m faded over 6 m; canopy haze 0.025 /m × the
    canopyHaze cover, and once the sun is above ~15° sunlit dust at
    0.028 /m (0.021 /m at the shape's median) whatever the humidity. Bar (dawn over marsh water, clear, CPU twin
    test `fogTerms.test.ts`): 100 m horizontal optical depth at 0.5 m ≥ 2
-   (4.9), horizontal transmittance over 400 m from a 1.6 m eye ≥ 0.9
-   (0.97; 0.99 over 100 m), and the layer top (density < 0.1 × marsh peak)
-   ≤ 1.5 m. The sun phase's forward share never falls under 0.35, so dawn
+   (2.32), horizontal transmittance over 400 m from a 1.6 m eye in
+   0.5..0.7 (0.60) and at 10 m ≥ 0.95 (1.00), density non-increasing from
+   the water to 6 m, and optical depth from the eye to the water 50 m off
+   ≤ 0.9 (0.78, the pier base stays readable). The layer rises past the
+   eye because a layer wholly below it reads as flat haze on the water
+   (vol10 c10). The sun phase's forward share never falls under 0.35, so dawn
    mist wears the sun's tint toward the sun; away from it, saturated fog
    is no brighter than the horizon sky: the horizon sky luminance already
    holds the sun's light scattered by the air, so the medium's sky term is
