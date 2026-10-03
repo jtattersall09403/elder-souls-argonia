@@ -40,5 +40,14 @@ def test_stale_file_ignored_fresh_file_done(tmp_path):
     os.utime(a, (old, old))
     r = run("--files", str(a), "--timeout", "1", "--poll", "1")
     assert r.stdout.splitlines() == [f"waiting {a}", "timeout: 0 of 1 done"]
+    # a file older than call minus timeout is waiting; written 100 s before a 540 s call it is done at once
+    b = tmp_path / "b.md"
+    b.write_text("x")
+    t = time.time() - 100
+    os.utime(b, (t, t))
+    start = time.time()
+    r = run("--files", str(b), "--timeout", "540", "--poll", "5")
+    assert r.stdout.splitlines() == [f"done {b}", "all done"]
+    assert time.time() - start < 5
     r = run("--files", str(a), "--timeout", "1", "--poll", "1", "--since", str(old - 10))
     assert r.stdout.splitlines() == [f"done {a}", "all done"]
