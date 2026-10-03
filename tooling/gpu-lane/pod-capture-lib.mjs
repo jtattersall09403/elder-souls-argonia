@@ -481,10 +481,10 @@ export function summariseView(r) {
   const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.stage ? m.set(h.stage, (m.get(h.stage) ?? 0) + h.ms) : m), new Map())));
   const s = (r.reads?.settled && !r.reads.settled.err ? r.reads.settled : r.final) ?? {}, g = s.gpuMs ?? {};
   return {
-    contaminated: r.contaminated ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
+    contaminated: r.contaminated ? `CONTAMINATED${r.contaminationReasons?.length ? ` (${r.contaminationReasons.join("; ")})` : ""}` : r.contaminated ?? null, vramStartMiB: r.vramStartMiB ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
     from, fps: wk?.wallFps ?? null, low1: wk?.low1 ?? null, gpuMs: wk?.gpuFrameMs?.mean ?? null, cpuMs: wk?.workMs?.mean ?? null,
     costMs: wk?.costMs?.mean ?? null, uncappedFps: wk?.uncappedFps ?? null,
-    calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
+    calls: g.calls ?? s.renderer?.calls ?? null, tris: trisInvalid(r) ? "tris invalid (cull read-back)" : g.tris ?? s.renderer?.triangles ?? null,
     heapMbPerMin: r.heapSlope?.mbPerMin ?? null,
     majorGCs: w.heap?.majorGCs ?? null, allocMBps: w.heap?.allocMBps ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
@@ -515,7 +515,7 @@ export function summariseView(r) {
 export function summaryTable(views, cap, prep = null) {
   const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null || typeof s.tris === "string" ? s.tris : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
   const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
   return [...(unpinned.length ? [`WEATHER UNPINNED in the views file (w=clear added; diag20 E7): ${unpinned.join(", ")}`] : []), `cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
@@ -1531,4 +1531,67 @@ export function loadLine(t) {
   const c = (x) => (x === null || x === undefined ? "-" : String(x));
   const tc = t.transcode?.unobservable && !t.transcode.count ? "unobs" : `${c(t.transcode?.ms)}ms/${c(t.transcode?.count)}`;
   return `${t.barFail ? "BAR FAIL " : ""}complete ${c(t.complete)} (fetch ${c(t.fetch?.at)}, transcode ${tc}, builds ${c(t.builds?.ms)}ms/${c(t.builds?.count)} last ${c(t.builds?.last)}, stream ${c(t.streamFirst)}-${c(t.streamQuiet)}, present ${c(t.present)})`;
+}
+
+/** diag22 C1 pre-capture data check: the loader's KIT_PARTS_SCHEMA_VERSION (read from the dist's own kitParts.ts source)
+ * against the schemaVersion of one kits/<kit>/parts/index.json as the pod serves it. fetchText(url) returns the body or
+ * throws. {ok, loader, served, url, why?}: not ok on a mismatch, an unreadable index or a loader with no constant. */
+export async function kitSchemaCheck({ loaderSrc, url, fetchText }) {
+  const m = /KIT_PARTS_SCHEMA_VERSION\s*=\s*(\d+)/.exec(String(loaderSrc ?? ""));
+  const loader = m ? Number(m[1]) : null;
+  if (loader === null) return { ok: false, loader, served: null, url, why: "no KIT_PARTS_SCHEMA_VERSION in the loader source" };
+  let served = null;
+  try { served = JSON.parse(await fetchText(url)).schemaVersion ?? null; } catch (e) { return { ok: false, loader, served, url, why: `index unreadable: ${String(e.message).slice(0, 120)}` }; }
+  return served === loader ? { ok: true, loader, served, url } : { ok: false, loader, served, url, why: `served schemaVersion ${served} != loader ${loader} (pod data not from the build's tree: pod-sync.sh --data)` };
+}
+
+/** Renderer processes from CDP SystemInfo.getProcessInfo, sampled twice dtS apart: [{pid, cpuPct}] (cpuTime is
+ * cumulative seconds). */
+export function rendererCpu(first, second, dtS) {
+  const t0 = new Map((first ?? []).filter((p) => p.type === "renderer").map((p) => [p.id, p.cpuTime]));
+  return (second ?? []).filter((p) => p.type === "renderer").map((p) => ({ pid: p.id, cpuPct: t0.has(p.id) && dtS > 0 ? Math.round(((p.cpuTime - t0.get(p.id)) / dtS) * 100) : null }));
+}
+
+/** diag22 C3: a view's start state against the run's post-launch baseline. contaminated when the pod GPU holds more than
+ * vramMiB over the baseline (a previous page's memory still resident) or a renderer burns over cpuPct (a runaway page). */
+export function startContamination({ vramStartMiB, vramBaselineMiB, renderers }, { vramMiB = 1024, cpuPct = 50 } = {}) {
+  const reasons = [];
+  if (Number.isFinite(vramStartMiB) && Number.isFinite(vramBaselineMiB) && vramStartMiB - vramBaselineMiB > vramMiB) reasons.push(`VRAM ${vramStartMiB} MiB > baseline ${vramBaselineMiB} + ${vramMiB}`);
+  for (const r of renderers ?? []) if (r.cpuPct > cpuPct) reasons.push(`renderer ${r.pid} at ${r.cpuPct}% CPU`);
+  return { contaminated: reasons.length > 0, reasons };
+}
+
+/** Poll check() (async, true = done) every stepMs until it holds or timeoutMs passes; resolves whether it held. */
+export async function waitFor(check, { timeoutMs = 10_000, stepMs = 500, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), now = Date.now } = {}) {
+  const end = now() + timeoutMs;
+  for (;;) {
+    if (await check().catch(() => false)) return true;
+    if (now() >= end) return false;
+    await sleep(stepMs);
+  }
+}
+
+/** diag22 C3 close path: after closeTarget/disposeBrowserContext, the view's renderer processes (pids not alive before the
+ * view opened) must exit within timeoutMs; survivors are killed (kill(pids)), checked again, and a survivor of that asks
+ * the caller to restart Chrome. listRenderers() -> pids. Returns {survivors, killed, restart}. */
+export async function reapViewRenderers({ before, listRenderers, kill, timeoutMs = 10_000, sleep, now }) {
+  const pre = new Set(before ?? []);
+  let left = [];
+  const gone = async () => { left = (await listRenderers()).filter((p) => !pre.has(p)); return left.length === 0; };
+  if (await waitFor(gone, { timeoutMs, sleep, now })) return { survivors: [], killed: [], restart: false };
+  const killed = [...left];
+  await kill(killed).catch(() => {});
+  const ok = await waitFor(gone, { timeoutMs: 3000, sleep, now });
+  return { survivors: ok ? [] : left, killed, restart: !ok };
+}
+
+/** diag22 C4: renderer.info counts an esIndirect draw at the last kept GPU-cull read-back (mesh.count); when the window
+ * saw GPU errors (failed buffers, so failed read-backs) on a page with indirect draws, that count is stale and the
+ * view's tris are invalid. hasIndirect: census indirect draws > 0, or a webgpu backend with no census. */
+export function trisInvalid(r) {
+  const c = r.window?.drawCensus, errs = r.gpuErrors?.length ?? 0;
+  if (!errs) return false;
+  if (c && !c.err) return Object.values(c.trisByPass ?? {}).some((v) => v.indirectDrawsPerFrame > 0);
+  const b = r.final?.backend ?? r.reads?.settled?.backend;
+  return b === "webgpu";
 }

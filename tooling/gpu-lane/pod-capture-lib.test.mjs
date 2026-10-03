@@ -1002,3 +1002,51 @@ test("c10 harness2: kits arrived -> last pipeline build", async () => {
   assert.match(readyGateLine({ poseAt: 9.1, kitsArrivedS: 6.8, loadAfterKits: dev }), /builds after kits n\/a/);
   assert.match(readyGateLine({ poseAt: null, poseTimedOut: true, framesBeforePose: true }), /FRAMES BEFORE POSE/);
 });
+
+// ---- diag22 C1/C3/C4 ----
+test("kitSchemaCheck: a served schema 2 against loader 3 fails the run; equal passes; unreadable fails", async () => {
+  const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
+  const loaderSrc = "export const KIT_PARTS_SCHEMA_VERSION = 3;";
+  const bad = await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => '{"schemaVersion":2}' });
+  assert.equal(bad.ok, false); assert.match(bad.why, /served schemaVersion 2 != loader 3/);
+  assert.equal((await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => '{"schemaVersion":3}' })).ok, true);
+  assert.equal((await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => { throw new Error("HTTP 404"); } })).ok, false);
+  assert.equal((await kitSchemaCheck({ loaderSrc: "", url: "u", fetchText: async () => '{"schemaVersion":3}' })).ok, false);
+});
+test("kitSchemaCheck reads the real loader constant", async () => {
+  const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
+  const src = (await import("node:fs")).readFileSync(new URL("../../packages/game-core/src/assets/kitParts.ts", import.meta.url), "utf8");
+  const c = await kitSchemaCheck({ loaderSrc: src, url: "u", fetchText: async () => '{"schemaVersion":-1}' });
+  assert.ok(Number.isInteger(c.loader)); assert.equal(c.ok, false);
+});
+test("startContamination: VRAM over baseline + 1 GiB or a renderer over 50% CPU marks the view", async () => {
+  const { startContamination, rendererCpu } = await import("./pod-capture-lib.mjs");
+  assert.deepEqual(startContamination({ vramStartMiB: 1500, vramBaselineMiB: 600, renderers: [{ pid: 1, cpuPct: 3 }] }), { contaminated: false, reasons: [] });
+  assert.equal(startContamination({ vramStartMiB: 4998, vramBaselineMiB: 600, renderers: [] }).contaminated, true);
+  const r = rendererCpu([{ type: "renderer", id: 7, cpuTime: 10 }, { type: "gpu", id: 2, cpuTime: 1 }], [{ type: "renderer", id: 7, cpuTime: 11 }, { type: "gpu", id: 2, cpuTime: 5 }], 1);
+  assert.deepEqual(r, [{ pid: 7, cpuPct: 100 }]);
+  assert.deepEqual(startContamination({ vramStartMiB: null, vramBaselineMiB: 600, renderers: r }).reasons, ["renderer 7 at 100% CPU"]);
+});
+test("reapViewRenderers: exits clean; a survivor is killed; a survivor of the kill asks for a Chrome restart", async () => {
+  const { reapViewRenderers } = await import("./pod-capture-lib.mjs");
+  let t = 0; const clock = { sleep: async (ms) => { t += ms; }, now: () => t };
+  let alive = [1, 9];
+  assert.deepEqual(await reapViewRenderers({ before: [1], listRenderers: async () => (t >= 1000 ? [1] : alive), kill: async () => {}, ...clock }), { survivors: [], killed: [], restart: false });
+  t = 0; const killed = [];
+  const r1 = await reapViewRenderers({ before: [1], listRenderers: async () => alive, kill: async (p) => { killed.push(...p); alive = [1]; }, ...clock });
+  assert.deepEqual(r1, { survivors: [], killed: [9], restart: false }); assert.deepEqual(killed, [9]);
+  t = 0; alive = [1, 9];
+  assert.deepEqual(await reapViewRenderers({ before: [1], listRenderers: async () => alive, kill: async () => {}, ...clock }), { survivors: [9], killed: [9], restart: true });
+});
+test("summariseView: CONTAMINATED cell; tris invalid when GPU errors hit indirect draws", async () => {
+  const { summariseView, summaryTable } = await import("./pod-capture-lib.mjs");
+  const census = { trisByPass: { main: { indirectDrawsPerFrame: 3 } } };
+  const base = { final: { gpuMs: { tris: 89e6 }, backend: "webgpu" }, window: { drawCensus: census } };
+  const bad = summariseView({ ...base, gpuErrors: [["OOM", 1990]], contaminated: true, contaminationReasons: ["VRAM 4998 MiB > baseline 600 + 1024"] });
+  assert.equal(bad.tris, "tris invalid (cull read-back)");
+  assert.match(bad.contaminated, /^CONTAMINATED \(VRAM 4998/);
+  assert.equal(summariseView({ ...base, gpuErrors: [] }).tris, 89e6);
+  assert.equal(summariseView({ final: { gpuMs: { tris: 5e6 }, backend: "webgpu" }, gpuErrors: [["x", 1]] }).tris, "tris invalid (cull read-back)");
+  assert.equal(summariseView({ final: { gpuMs: { tris: 5e6 }, backend: "webgl2" }, gpuErrors: [["x", 1]] }).tris, 5e6);
+  assert.match(summaryTable([{ name: "N", summary: bad }], null), /\| tris invalid \(cull read-back\) \|/);
+});

@@ -6,8 +6,10 @@
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh --check <lane> [webgl|webgpu]               (before build/sync)
 # --check: the pod's Chrome must answer 127.0.0.1:9222/json/version; when it does not, pod-setup.sh is re-run on the pod
 #   (default webgpu flags) and the check repeated; exits non-zero if Chrome is still down (iter7 lost 10 min to this).
-# --data: the main tree's apps/world-studio/public (kits, province, textures: ~600 MB) to /root/site/public, skipped when
-#   its listing hash (path, size, mtime) equals the pod's /root/site/public/.hash.
+# --data: apps/world-studio/public (~600 MB) to /root/site/public: git-tracked files (kits/ and the tracked json) from
+#   THIS worktree (run it from the tree the dist was built from), untracked generated data (province rasters) from the
+#   main worktree; refuses, listing the paths, while this tree has uncommitted changes under kits/ (diag22 C1). Skipped
+#   when the listing hash (path, size, mtime) equals the pod's /root/site/public/.hash.
 # Each dist also carries the server's own files (serve-lib.mjs serveFiles), so serve.mjs starts on the pod's node.
 # <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its key (build-dist's source key in
 #   .srchash plus the serve*.mjs it starts, no hash over the built files) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
@@ -34,15 +36,26 @@ fi
 DATA_EXCL=(--exclude /kits/ --exclude /province/ --exclude /textures/)
 
 if [ "${1:-}" = --data ]; then
-  lane=${2:?lane}; t0=$(date +%s)
-  pub=$(node -e 'import("./apps/world-studio/scripts/lib/webgpu-static.mjs").then((m) => console.log(m.dataPublicDir()))')
-  h=$(cd "$pub" && find . -type f -printf '%P %s %T@\n' | sort | sha1sum | cut -c1-40)
+  # Data source (diag22 C1): git-TRACKED public files (kits/, tracked province/textures json) from THIS worktree, the
+  # tree the dist is built from; only untracked generated data (province rasters, vegetation) from the main worktree
+  # (git common dir), which another lane may leave mid-republish. Refuses while this tree's tracked public data is dirty.
+  lane=${2:?lane}; t0=$(date +%s); P=apps/world-studio/public
+  dirty=$(git status --porcelain -- "$P/kits" | cut -c4-)
+  [ -z "$dirty" ] || { echo "pod-sync: refusing --data: uncommitted kit data in $(pwd)/$P/kits (commit it or build from a clean tree):" >&2; echo "$dirty" | head -40 >&2; exit 1; }
+  main=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+  lst=$(mktemp); trap 'rm -f "$lst"' EXIT
+  { git ls-files -- "$P"; git -C "$main" ls-files -- "$P"; } | sed "s#^$P/##" | sort -u > "$lst"
+  h=$({ git ls-files -z -- "$P" | xargs -0 -r stat -c '%n %s %Y'
+        (cd "$main/$P" && find . -type f -printf '%P %s %T@\n') | awk 'NR==FNR { t[$0] = 1; next } !($1 in t)' "$lst" -; } | sort | sha1sum | cut -c1-40)
   if [ "$($S "$t" "cat /root/site/public/.hash 2>/dev/null" || true)" = "$h" ]; then
     echo "pod-sync: data unchanged ($h), skipped"; note sync:data 0 1; exit 0; fi
   $S "$t" "mkdir -p /root/site/public"
-  b=$(rsync -a --stats --delete --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/" | sent)
+  # untracked data from the main tree (tracked paths excluded, so --delete leaves them to the second pass)
+  b1=$(rsync -a --stats --delete --exclude /.hash --exclude-from=<(sed 's#^#/#' "$lst") -e "$S" "$main/$P/" "$t:/root/site/public/" | sent)
+  # tracked data from this tree
+  b2=$(git ls-files -- "$P" | sed "s#^$P/##" | rsync -a --stats --ignore-missing-args --files-from=- -e "$S" "$P/" "$t:/root/site/public/" | sent)
   $S "$t" "echo $h > /root/site/public/.hash"
-  s=$(( $(date +%s) - t0 )); echo "pod-sync: data synced in $s s, $b bytes sent"; note sync:data "$s" "" "$b"; exit 0
+  s=$(( $(date +%s) - t0 )); echo "pod-sync: data synced in $s s ($b1 + $b2 bytes sent; tracked from $(pwd), untracked from $main)"; note sync:data "$s" "" "$((b1 + b2))"; exit 0
 fi
 
 d=${1:?dist dir}; n=${2:?name}; lane=${3:?lane}; t0=$(date +%s)

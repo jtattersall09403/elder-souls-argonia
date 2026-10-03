@@ -87,7 +87,8 @@ import {
   MAX_RENDER_DISTANCE_M, REBUILD_MOVE_M, placementDrawCapM, placementsInReachKey, settlementPassKind,
   type FullPassInputs,
 } from "./settlementReach";
-import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "../assets/kitParts";
+import { kitPartsDir, type KitPartsIndex } from "../assets/kitParts";
+import { loadExteriorPartsIndex } from "./partsIndexFetch";
 import { SharedKtx2Textures } from "../assets/sharedTextures";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 
@@ -780,12 +781,8 @@ export function SettlementLayer({
         // The whole-GLB path below stays ONLY for kits whose parts are not yet
         // published for exteriors (0120 S1); S2 republishes every kit as parts and deletes it.
         pendingIndexes.current.add(id);
-        fetch(`${baseUrl}${kitPartsDir(kit)}index.json`, { priority: "high" })
-          .then((r) => (r.ok ? r.json() : null))
-          .then((raw) => {
-            const index = raw ? parseKitPartsIndex(raw, id, kitPartsDir(kit)) : null;
-            return index?.exterior ? index : null;
-          }, () => null)
+        // a failed index (network, schema) is stored as null: logged once, never refetched (diag22 C1)
+        loadExteriorPartsIndex(`${baseUrl}${kitPartsDir(kit)}index.json`, id, kitPartsDir(kit))
           .then((index) => setPartIndexes((current) => new Map(current).set(id, index)))
           .finally(() => pendingIndexes.current.delete(id));
       }
