@@ -514,7 +514,7 @@ describe("InteriorEnvironment", () => {
     expect(sun.visible).toBe(false);
     expect(scene.environment).toBeNull();
     expect(scene.fog).toBe(cell.fog);
-    expect(gl.toneMappingExposure).toBe(1);
+    expect(gl.toneMappingExposure).toBe(inside.exposure);
     expect(cell.group.children.filter((c) => (c as THREE.Light).isLight).every((l) => l.visible)).toBe(true);
     gl.toneMappingExposure = 2.5;     // the sky rig wrote while inside
     inside.frame();

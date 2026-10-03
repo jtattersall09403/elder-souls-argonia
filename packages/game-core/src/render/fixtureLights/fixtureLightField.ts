@@ -51,6 +51,17 @@ export function fixtureLightsPerObject(material: THREE.Material): number {
 /** three's PointLight decay the fixture lights reproduce unless a lamp names its own. */
 export const FIXTURE_LIGHT_DECAY = 2;
 const CACHE_KEY = "es-fixture-lights-v1";
+/**
+ * A lamp's SCREEN gain (perf10 c12 A): the field's colour is multiplied by
+ * `FIXTURE_SCREEN_GAIN / toneMappingExposure` (the shared `esFxScreen`
+ * uniform, never a define), so a lit wall reaches the same screen-linear value
+ * at any exposure, as the F41 window emissive does (settlement/windowGlow.ts).
+ * Unanchored, night exposure ~22 turned a wall 1 m from a 2 cd lantern into a
+ * flat orange slab. Screen-linear for a Lambert receiver of albedo a at d m
+ * from I cd is I x a / pi / d^2 x 1.5: 2 cd, a 0.3, 1 m gives 0.29; 3 m 0.032;
+ * a 6 cd torch at the 0.8 m clamp 1.34.
+ */
+export const FIXTURE_SCREEN_GAIN = 1.5;
 
 export interface FixtureLightInput {
   position: THREE.Vector3;
@@ -86,7 +97,7 @@ for ( int esFxI = 0; esFxI < ${n}; esFxI ++ ) {
 	IncidentLight esFxLight;
 	esFxLight.direction = esFxV / max( esFxD, 1e-4 );
 	vec4 esFxC = texelFetch( esFxData, ivec2( esFxL, 1 ), 0 );
-	esFxLight.color = esFxC.rgb * getDistanceAttenuation( max( esFxD, 0.8 ), esFxP.w, esFxC.a );
+	esFxLight.color = esFxC.rgb * esFxScreen * getDistanceAttenuation( max( esFxD, 0.8 ), esFxP.w, esFxC.a );
 	esFxLight.visible = true;
 	RE_Direct( esFxLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
 }
@@ -98,6 +109,7 @@ const FIXTURE_LIGHTS_PARS = /* glsl */ `
 ${FIXTURE_LIGHTS_MARK}
 uniform int esFxIdx[ ${FIXTURE_LIGHTS_PER_OBJECT_MAX} ];
 uniform int esFxCount;
+uniform float esFxScreen;
 `;
 
 /** A material three lights (the ones whose fragment runs `RE_Direct`). */
@@ -114,6 +126,7 @@ export class FixtureLightField {
     esFxData: THREE.IUniform<THREE.DataTexture>;
     esFxIdx: THREE.IUniform<Int32Array>;
     esFxCount: THREE.IUniform<number>;
+    esFxScreen: THREE.IUniform<number>;
   };
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
   epoch = 0;
@@ -143,7 +156,19 @@ export class FixtureLightField {
       esFxData: { value: this.texture },
       esFxIdx: { value: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX) },
       esFxCount: { value: 0 },
+      esFxScreen: { value: FIXTURE_SCREEN_GAIN },
     };
+  }
+
+  /** The renderer exposure the screen gain is anchored to (held here, per scene). */
+  exposure = 1;
+
+  /** Anchor the lamps to `exposure` (toneMappingExposure): `esFxScreen = FIXTURE_SCREEN_GAIN / exposure`.
+   * Set on every draw from the renderer; the uniform is shared, so no program changes. */
+  setExposure(exposure: number): void {
+    const e = exposure > 1e-3 ? exposure : 1e-3;
+    this.exposure = e;
+    this.uniforms.esFxScreen.value = FIXTURE_SCREEN_GAIN / e;
   }
 
   /** Lamps held now. */
@@ -261,6 +286,7 @@ export class FixtureLightField {
       shader.uniforms.esFxData = uniforms.esFxData;
       shader.uniforms.esFxIdx = uniforms.esFxIdx;
       shader.uniforms.esFxCount = uniforms.esFxCount;
+      shader.uniforms.esFxScreen = uniforms.esFxScreen;
       shader.fragmentShader = shader.fragmentShader
         .replace("#include <common>", `#include <common>\n${FIXTURE_LIGHTS_PARS}`)
         .replace("#include <lights_fragment_begin>", `#include <lights_fragment_begin>\n${fixtureLightsFragment(perObject)}`);
@@ -375,6 +401,7 @@ export class FixtureLightField {
     renderer: THREE.WebGLRenderer, object: THREE.Object3D, geometry: THREE.BufferGeometry, material: THREE.Material,
   ): void {
     if (!this.installed(material)) return;
+    this.setExposure(renderer.toneMappingExposure);
     const s = this.refresh(object, geometry, fixtureLightsPerObject(material));
     this.uniforms.esFxIdx.value.set(s.idx);
     this.uniforms.esFxCount.value = s.count;

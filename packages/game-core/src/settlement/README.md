@@ -110,7 +110,9 @@ Load-bearing contracts:
   within 200 m (`LIGHTS_CAP`, `LIGHTS_ACTIVE_M`, faded over the last 20 m)
   go into the scene's `FixtureLightField` (render/fixtureLights), re-chosen
   once a second, and each drawn object is lit by its 8 nearest (one program
-  for any count); the rest glow only. The manager is the layer's own or
+  for any count), its colour times `FIXTURE_SCREEN_GAIN / exposure` (the
+  shared `esFxScreen` uniform, so a lit wall reads the same on screen at any
+  exposure, as the F41 windows do); the rest glow only. The manager is the layer's own or
   injected (`lightFixtures` prop). Batches are split per 48 m square
   (`SETTLEMENT_CHUNK_M`), so off-screen parts are culled and each batch's
   bounds pick its own lamps, and per kit level and ladder class
