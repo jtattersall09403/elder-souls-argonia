@@ -662,9 +662,11 @@ describe("water debug views (wdbg=)", () => {
       expect(frag).not.toMatch(/#define ES_DEBUG|#ifdef ES_DEBUG/);
       expect(frag).toContain("#include <opaque_fragment>\nesDbgMix = gl_FragColor.rgb;");
       for (const m of [13, 14, 15]) expect(frag).toContain(`esDm == ${m}`);
-      // HDR views are compressed, never raw
-      expect(frag).toContain("esDc = esDbgSky / (1.0 + esDbgSky);");
-      expect(frag).toContain("esDc = esDbgRefr / (1.0 + esDbgRefr);");
+      // HDR views 6, 7, 14 go through the scene tone map and output encoding, never raw or c/(1+c)
+      expect(frag).not.toContain("/ (1.0 + esDbg");
+      const hdr = frag.indexOf("if (esDm == 6 || esDm == 7 || esDm == 14)");
+      expect(hdr).toBeGreaterThan(frag.indexOf("else if (esDm == 15)"));
+      expect(frag.indexOf("linearToOutputTexel(vec4(esDc, 1.0))", hdr)).toBeGreaterThan(hdr);
     }
   });
 
