@@ -1728,35 +1728,64 @@ def sill(cat, scene, uids=None) -> dict:
     return piece_rule("sill", cat, scene, uids)
 
 
-@lru_cache(maxsize=1)
-def _published_roads() -> tuple:
-    """Every published route (`routes.json`) as metre polylines: macro px
-    (x, z) x (px + 0.5) x the macro texel (the extent over 1345), the
-    registration the compile and the street router use."""
-    doc = json.loads((paths.PROVINCE / "routes.json").read_text())
+@lru_cache(maxsize=2)
+def _published_lines(name: str = "routes.json") -> tuple:
+    """(id, from slug, to slug, metre polyline) of every published way in
+    ``name``: the trunk roads (`routes.json` `routes`) or the minor tracks
+    (`routes-minor.json` `tracks`, their ids the registry's `track.*`).
+    Macro px (x, z) x (px + 0.5) x the macro texel (the extent over 1345),
+    the registration the compile and the street router use; an end is the
+    last segment of its place id (a road's `gideon`, a track's
+    `place.imperial-fringe.mile-house-of-the-eagle`), `network` for a
+    track's open end."""
+    key = "tracks" if name == "routes-minor.json" else "routes"
+    doc = json.loads((paths.PROVINCE / name).read_text())
     meta = json.loads((paths.PROVINCE / "refined" / "meta.json").read_text())
     step = float(meta["extentKm"][0]) * 1000.0 / 1345.0
-    return tuple((r["id"], tuple(((x + 0.5) * step, (z + 0.5) * step) for x, z in r["px"]))
-                 for r in doc.get("routes") or [] if len(r.get("px") or []) >= 2)
+    end = lambda v: None if v is None else str(v).rsplit(".", 1)[-1]    # noqa: E731
+    return tuple((r["id"], end(r.get("from")), end(r.get("to")),
+                  tuple(((x + 0.5) * step, (z + 0.5) * step) for x, z in r["px"]))
+                 for r in doc.get(key) or [] if len(r.get("px") or []) >= 2)
+
+
+def _nearest_segment(pts, x: float, z: float) -> tuple[float, float] | None:
+    """(distance, bearing mod 180) of the polyline's segment nearest (x, z)."""
+    best = None
+    for (ax, az), (bx, bz) in zip(pts, pts[1:]):
+        vx, vz = bx - ax, bz - az
+        ll = vx * vx + vz * vz
+        if ll <= 0:
+            continue
+        t = max(0.0, min(1.0, ((x - ax) * vx + (z - az) * vz) / ll))
+        dist = math.hypot(ax + t * vx - x, az + t * vz - z)
+        if best is None or dist < best[0]:
+            best = (dist, math.degrees(math.atan2(vx, -vz)) % 180.0)
+    return best
+
+
+def _sign_lines(x: float, z: float) -> tuple:
+    """The published ways a sign at (x, z) is measured against: the trunk
+    roads, and the minor tracks too when no road passes within
+    SIGN_ROUTE_REACH_M (an off-road camp's waymark stands on its track:
+    The Broke Column, 207 m off the Gideon roads on the Mile House track)."""
+    roads = _published_lines("routes.json")
+    if any((d := _nearest_segment(pts, x, z)) and d[0] <= SIGN_ROUTE_REACH_M
+           for _rid, _f, _t, pts in roads):
+        return roads
+    return roads + _published_lines("routes-minor.json")
 
 
 def _road_bearing(scene, x: float, z: float) -> tuple[float, float, str] | None:
-    """(bearing mod 180, distance, road id) of the nearest road segment: the
-    published routes and the scene's road/street paths."""
-    lines = list(_published_roads()) + [(q["id"], tuple(map(tuple, q["pointsM"])))
-                                        for q in scene.paths if len(q["pointsM"]) >= 2
-                                        and q.get("kind") in ("road", "street")]
+    """(bearing mod 180, distance, way id) of the nearest way segment: the
+    published ways of `_sign_lines` and the scene's road/street paths."""
+    lines = [(rid, pts) for rid, _f, _t, pts in _sign_lines(x, z)] + [
+        (q["id"], tuple(map(tuple, q["pointsM"]))) for q in scene.paths
+        if len(q["pointsM"]) >= 2 and q.get("kind") in ("road", "street")]
     best = None
     for rid, pts in lines:
-        for (ax, az), (bx, bz) in zip(pts, pts[1:]):
-            vx, vz = bx - ax, bz - az
-            ll = vx * vx + vz * vz
-            if ll <= 0:
-                continue
-            t = max(0.0, min(1.0, ((x - ax) * vx + (z - az) * vz) / ll))
-            dist = math.hypot(ax + t * vx - x, az + t * vz - z)
-            if best is None or dist < best[1]:
-                best = (math.degrees(math.atan2(vx, -vz)) % 180.0, dist, rid)
+        got = _nearest_segment(pts, x, z)
+        if got is not None and (best is None or got[0] < best[1]):
+            best = (got[1], got[0], rid)
     return best
 
 
@@ -1831,13 +1860,6 @@ def board_tip_bearing(cat, p) -> float | None:
     return (p.yaw + local) % 360.0
 
 
-def _route_lines() -> tuple:
-    """(id, from, to, metre polyline) of every published route (routes.json)."""
-    doc = json.loads((paths.PROVINCE / "routes.json").read_text())
-    ends = {r["id"]: (r.get("from"), r.get("to")) for r in doc.get("routes") or []}
-    return tuple((rid, *ends.get(rid, (None, None)), pts) for rid, pts in _published_roads())
-
-
 def _along(pts, x: float, z: float, forward: bool, leg: float) -> tuple[float, float] | None:
     """(bearing, distance to the route) walking ``leg`` metres along the
     polyline from its nearest point to (x, z), toward its last point when
@@ -1872,15 +1894,17 @@ def _along(pts, x: float, z: float, forward: bool, leg: float) -> tuple[float, f
 
 
 def destination_bearing(x: float, z: float, dest: str) -> tuple[float, str] | None:
-    """(bearing, route id) a board naming ``dest`` should point from (x, z):
-    along the route graph's leg toward it. A route id: along that route
-    toward its `to` end, the way the road leads (Claywater's board naming
-    route.road.gideon-blackwood-road points north-west toward Blackwood,
-    its socket's why). A place id: along the nearest
-    route ending at that place (`from`/`to` = its last id segment), toward
-    that end. None when no such route passes within SIGN_ROUTE_REACH_M."""
-    lines = _route_lines()
-    if dest.startswith("route."):
+    """(bearing, way id) a board naming ``dest`` should point from (x, z):
+    along the route graph's leg toward it, over the ways of `_sign_lines`
+    (the minor tracks join when no road is in reach). A route or track id:
+    along that way toward its `to` end, the way it leads (Claywater's board
+    naming route.road.gideon-blackwood-road points north-west toward
+    Blackwood, its socket's why; a track leads to its `network` end). A
+    place id: along the nearest way ending at that place (`from`/`to` = its
+    last id segment), toward that end. None when no such way passes within
+    SIGN_ROUTE_REACH_M."""
+    lines = _sign_lines(x, z)
+    if dest.startswith(("route.", "track.")):
         cands = [(rid, pts, None) for rid, _f, _t, pts in lines if rid == dest]
     else:
         slug = dest.rsplit(".", 1)[-1]
@@ -1926,7 +1950,7 @@ def _post_arms(cat, scene, g, post: str, boards: list, sock: dict | None) -> tup
                                 "route": w and w[1]} for d, w in zip(dests, want)]
         for d, w in zip(dests, want):
             if w is None:
-                fails.append(f"{post}: no published route toward {d} passes within "
+                fails.append(f"{post}: no published road or track toward {d} passes within "
                              f"{SIGN_ROUTE_REACH_M:.0f} m of the post")
         pairs = [(i, j) for i in range(len(arms)) for j in range(len(dests))
                  if arms[i][2] is not None and want[j] is not None]
@@ -2188,7 +2212,8 @@ def warm() -> None:
     published roads) once in the parent, so the forked workers inherit
     them instead of each reading them again."""
     _road_paint()
-    _published_roads()
+    _published_lines("routes.json")
+    _published_lines("routes-minor.json")
 
 
 def piece_targets(key: str, cat, scene) -> list[str]:

@@ -251,3 +251,7 @@ def test_idioms_are_no_things():
     assert pg.thing_nouns("The yards are well kept, the boatmen came as well, in the spring") == []
     assert pg.thing_nouns("A stone well and a spring-fed tarn and Bones on the path") == [
         "bones", "spring", "tarn", "well"]
+    # The Broke Column's approach: a man who steps out is no flight of steps
+    assert pg.thing_nouns("The track narrows at a barricade below the tents. A man steps out "
+                          "and asks for the levy.") == []
+    assert pg.thing_nouns("Stone steps climb to the shrine; she steps aside.") == ["shrine", "steps"]

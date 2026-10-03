@@ -50,7 +50,8 @@ PHYSICAL_NOUNS: dict[str, tuple[str, tuple[str, ...]]] = {
     "boat": (r"\b(?:boats?|canoes?|rafts?|skiffs?)\b", ("boat", "canoe", "raft", "skiff", "ship")),
     "ferry": (r"\bferry\b|\bferries\b", ("ferry",)),
     "sign": (r"\b(?:signs?|signposts?|signboards?)\b(?!\s+of\b)", ("sign",)),
-    "steps": (r"\b(?:steps|stairs?|stairways?)\b", ("step", "stair")),
+    "steps": (r"(?<!\bman )(?<!\bwoman )(?<!\bhe )(?<!\bshe )(?<!\bwho )(?<!\bone )"
+              r"(?<!\bsomeone )\bsteps\b|\b(?:stairs?|stairways?)\b", ("step", "stair")),
     "plank crossing": (r"\bplanks?\b|\bboardwalks?\b",
                        ("plank", "dock", "boardwalk", "walkway", "bridge", "timber")),
     "well": (r"(?<!\bas )\bwells?\b(?![-,])"

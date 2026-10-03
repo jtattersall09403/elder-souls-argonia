@@ -901,6 +901,57 @@
             "yMeasured": 75.6694
           },
           {
+            "id": "s-board1",
+            "asset": "bmv:roadsignmedium01l",
+            "atM": [
+              0.0,
+              0.0
+            ],
+            "yaw": 180.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "points",
+              "mountedOn": "s-post",
+              "n": 2
+            },
+            "upM": 2.1407,
+            "host": "s-post"
+          },
+          {
+            "id": "s-board2",
+            "asset": "bmv:roadsignmedium01r",
+            "atM": [
+              0.0,
+              0.0
+            ],
+            "yaw": 0.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "points",
+              "mountedOn": "s-post",
+              "n": 1
+            },
+            "upM": 1.7849,
+            "host": "s-post"
+          },
+          {
+            "id": "s-post",
+            "asset": "vanilla:clutter/signage/roadsigns/roadsignpost",
+            "atM": [
+              -16.9,
+              4.2
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 74.8421
+          },
+          {
             "id": "t3-lantern",
             "asset": "vanilla:clutter/common/candlelanternwithcandle01",
             "atM": [
@@ -1410,11 +1461,12 @@
         "enclosure-v1": "2b9bf92118e3ed8729c35b95db2d05b203527aa5b081062c85052836463743ea",
         "htbm-hut-int": "409bfa969e465a361d68dce3673eee1634f442eb97bde201a68ebf03896961c6",
         "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
-        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1"
+        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
+        "works-v1": "6067e40071c5a2dcba94d0420411ae0cd400ce480ebe42ab6f55ef063fbfda09"
       },
       "layout": {
         "path": "world/sources/blueprints/the-broke-column.layout.json",
-        "sha256": "8bc4613b6e573df52749a4ab365727e7ab0b4b52a74ff056c38653e5a68c023a"
+        "sha256": "c44ca4aa748098f7ddfb3138c35ee2c05cc63dd61226fc14c68fa3158d39d324"
       }
     },
     "walkRoutes": {
@@ -2134,83 +2186,93 @@
               3071.9
             ],
             [
-              1188.99,
-              76.31,
-              3072.9
+              1188.49,
+              76.28,
+              3072.4
             ],
             [
-              1189.99,
-              76.39,
-              3073.9
+              1189.49,
+              76.1,
+              3072.4
             ],
             [
               1190.49,
-              76.44,
-              3074.4
+              75.94,
+              3072.4
             ],
             [
               1190.99,
-              76.37,
-              3074.4
+              75.85,
+              3072.4
             ],
             [
-              1191.49,
-              76.29,
-              3074.4
-            ],
-            [
-              1192.49,
-              76.15,
-              3074.4
+              1191.99,
+              75.69,
+              3072.4
             ],
             [
               1192.99,
-              76.07,
-              3074.4
-            ],
-            [
-              1193.49,
-              76.0,
-              3074.4
+              75.55,
+              3072.4
             ],
             [
               1193.99,
-              75.94,
-              3074.4
+              75.39,
+              3072.4
             ],
             [
               1194.49,
-              75.87,
+              75.36,
+              3072.9
+            ],
+            [
+              1195.49,
+              75.2,
+              3073.9
+            ],
+            [
+              1195.99,
+              75.22,
               3074.4
             ],
             [
               1196.49,
-              75.63,
+              75.17,
               3074.4
             ],
             [
               1196.99,
-              75.58,
+              75.13,
               3074.4
             ],
             [
               1197.49,
-              75.52,
+              75.1,
               3074.4
             ],
             [
-              1198.49,
-              75.42,
+              1197.99,
+              75.1,
               3074.4
             ],
             [
               1198.99,
-              75.38,
+              75.2,
               3074.4
             ],
             [
               1199.49,
-              75.33,
+              75.24,
+              3074.4
+            ],
+            [
+              1199.99,
+              75.26,
+              3074.4
+            ],
+            [
+              1200.49,
+              75.25,
               3074.4
             ],
             [
@@ -2229,8 +2291,8 @@
               3074.4
             ]
           ],
-          "routeM": 15.62,
-          "steepestDeg": 8.6,
+          "routeM": 15.63,
+          "steepestDeg": 9.8,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },

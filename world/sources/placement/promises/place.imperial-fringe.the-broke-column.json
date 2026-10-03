@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
-   "sha256": "966ecbef7029d82fb5f6f70d85993c6868692f0430664107988ee1ed77008143"
+   "sha256": "ba6060de09a0b20db21385fe93a716f36b793a14894a6850d8fdf5a2bc9898ea"
   },
   {
    "file": "world/sources/quests/local-imperial-fringe.json",
@@ -230,7 +230,8 @@
    "text": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
    "confirmed": {
     "sha": "1a40819d9fd9",
-    "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents (b-command, b-tent1..3) stand on the bench. The tarn is frozen water, not a placement: its nearest tarn-upland cell is 22 m north of the tent line at (1205, 3065), level 72.53 m, up to 2.1 m deep (water kind grid, audit10 fix-places-1)."
+    "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents (b-command, b-tent1..3) stand on the bench. The tarn is frozen water, not a placement: its nearest tarn-upland cell is 22 m north of the tent line at (1205, 3065), level 72.53 m, up to 2.1 m deep (water kind grid, audit10 fix-places-1). The scene marker at its dry south-west edge (1203, 3068) holds the spring and the tarn.",
+    "ids": ["socket.the-broke-column.scene-spring-tarn"]
    }
   },
   {
@@ -313,6 +314,26 @@
     "path": "places[place.imperial-fringe.the-broke-column].sockets.scene[scene.the-broke-column.the-roster-tree]"
    },
    "text": "The Broke Column has the scene socket scene.the-broke-column.the-roster-tree.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.thing-spring",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.siteAdvantages"
+   },
+   "text": "The Broke Column shows the spring its record names.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.thing-tarn",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.siteAdvantages"
+   },
+   "text": "The Broke Column shows the tarn its record names.",
    "unfilled": null
   }
  ]
