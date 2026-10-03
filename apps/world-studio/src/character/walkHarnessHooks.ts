@@ -48,19 +48,56 @@ export interface WalkHarnessDoors {
   fade: number;
 }
 
-export function walkHarnessHooks(d: WalkHarnessDeps) {
-  // Snapshot the offers each resolve weighs: wraps this one arbiter instance (the harness's own), never the class.
-  const arb = d.interaction;
+/** `?walkharness=1` (walk_run.mjs passes it): the agent-walk harness is driving this page. */
+export const walkHarnessActive = (): boolean =>
+  new URLSearchParams(window.location.search).get("walkharness") === "1";
+
+export interface OfferTap {
+  /** The candidates offered before the arbiter's last resolve. */
+  offered(): WalkHarnessDoors["offered"];
+  /** Put the arbiter's own `offer` and `resolve` back. */
+  restore(): void;
+}
+
+const taps = new WeakMap<InteractionArbiter, OfferTap>();
+
+/**
+ * Snapshot the offers each resolve weighs, on this one arbiter instance (never
+ * the class). Installed once per arbiter: a second call returns the live tap.
+ * The caller installs it only when the walk harness drives the page, so the
+ * normal path keeps the arbiter's own methods and allocates nothing per offer.
+ */
+export function tapArbiterOffers(arb: InteractionArbiter): OfferTap {
+  const existing = taps.get(arb);
+  if (existing) return existing;
   let pending: WalkHarnessDoors["offered"] = [];
   let lastOffered: WalkHarnessDoors["offered"] = [];
-  const offer = arb.offer.bind(arb), resolve = arb.resolve.bind(arb);
+  const own = { offer: arb.offer, resolve: arb.resolve };
+  const offer = own.offer.bind(arb), resolve = own.resolve.bind(arb);
   arb.offer = (c) => { pending.push({ id: c.id, kind: c.kind, xz: [c.positionM[0], c.positionM[1]], reachM: c.reachM }); offer(c); };
   arb.resolve = (p, a) => { lastOffered = pending; pending = []; resolve(p, a); };
+  const tap: OfferTap = {
+    offered: () => lastOffered,
+    restore: () => {
+      if (taps.get(arb) !== tap) return;
+      taps.delete(arb);
+      // the instance had no own methods before the tap: drop the wrappers so the prototype's show through
+      delete (arb as Partial<Pick<InteractionArbiter, "offer" | "resolve">>).offer;
+      delete (arb as Partial<Pick<InteractionArbiter, "offer" | "resolve">>).resolve;
+      if (arb.offer !== own.offer) arb.offer = own.offer;
+      if (arb.resolve !== own.resolve) arb.resolve = own.resolve;
+    },
+  };
+  taps.set(arb, tap);
+  return tap;
+}
+
+export function walkHarnessHooks(d: WalkHarnessDeps & { offers?: OfferTap | null }) {
   return {
-    /** The candidates the arbiter weighed at its last resolve and the door transition's state. */
+    /** The candidates the arbiter weighed at its last resolve (empty unless the harness tap is on) and the door transition's state. */
     doors: (): WalkHarnessDoors => {
       const probe = d.interior();
-      return { offered: lastOffered, candidate: probe?.candidate ?? null, fade: probe?.fade ?? 0 };
+      return { offered: d.offers?.offered() ?? [], candidate: probe?.candidate ?? null, fade: probe?.fade ?? 0 };
     },
     /** Put the body on the ground at (xM, zM); optionally set the camera yaw. */
     teleport: (xM: number, zM: number, yawRad?: number): boolean => {

@@ -280,7 +280,7 @@ async function main() {
     const resumeAt = P.waypoints.length;
     try {
       const w0 = route.waypoints[0];
-      const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w[ti]}&rate=${o.rate}&markers=0`;
+      const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w[ti]}&rate=${o.rate}&markers=0&walkharness=1`;
       P.url = url;
       const ld = await load(url, w0);
       P.ready = ld.ready; P.readyS = ld.readyS;

@@ -96,7 +96,8 @@ caller's job; they read only the images and the brief.
 - `state()` returns `{schemaVersion 1, pos, yaw, cameraYaw, insideInterior, cellId, transitioning,
   focus}`; `focus` is what one activate press would go to.
 - `doors()` returns `{offered, candidate, fade}`: every candidate the interaction arbiter weighed at its
-  last resolve (id, kind, xz, reachM) and the door transition's own candidate and fade.
+  last resolve (id, kind, xz, reachM; recorded only on a page loaded with `walkharness=1`, which `walk_run.mjs`
+  adds to every URL) and the door transition's own candidate and fade.
 - `aimCamera(yaw, pitch)` (existing) points the follow camera.
 
 Movement and activation are real keys: the runner clicks the canvas, then sends W and E through CDP
