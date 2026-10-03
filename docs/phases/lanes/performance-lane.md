@@ -104,6 +104,10 @@ Walk-10 results converted with this r: [0108 § 7d](../../decisions/0108-perform
 3. Prove it on the harness, ship it, and the owner's next walk gives the
    fps verdict; delete its row here when shipped and list it under Done.
 
+Load under 10 s ([0120](../../decisions/0120-kits-stream-per-piece-spawn-ring-first.md)):
+fetch kits per piece, spawn ring first, in `SettlementLayer.tsx` and the kit
+loader; the webgpu branch bakes the shader signature list.
+
 ## Done (awaiting the owner's fps verdict)
 
 - Walk 9: terrain splat samples −48 % per near fragment (0108 § 7c).
