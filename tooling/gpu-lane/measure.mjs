@@ -122,6 +122,17 @@ export function isReady(samples, { stableMs = 5000, tol = 0.02, minMs = 20000, q
   return (Math.max(...tris) - Math.min(...tris)) / Math.max(...tris) <= tol;
 }
 
+/**
+ * The ready gate's triangle count: the exact whole-frame figure the HUD keeps (CharacterMode's
+ * `__STUDIO_GPU_MS__.tris`), the HUD text only when that is absent. The text rounds to 0.1 M, so a small
+ * interior read "tris 0.0M" and never got ready (perf-diag23 Q3).
+ */
+export function readyTris(exact, text) {
+  if (typeof exact === "number" && Number.isFinite(exact)) return exact;
+  const m = /(?:^|\n)tris ([\d.]+)M/.exec(text ?? "");
+  return m ? Number(m[1]) * 1e6 : 0;
+}
+
 /** Frame-time stats from rAF timestamps (ms). 1 % low = fps of the mean of the slowest 1 % of frames. */
 export function frameStats(ts) {
   const dt = [];
@@ -786,14 +797,14 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   while (Date.now() - t0 < o.readyTimeout * 1000) {
     const s = await hl.wrap("evaluate:ready-poll", () => page.evaluate(() => {
       const text = document.body.innerText;
-      const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
       const el = document.querySelector("[data-es-view]");
       const marks = performance.getEntriesByType("mark").filter((e) => e.name.startsWith("es:load:"));
       const v = { view: el?.getAttribute("data-es-view") ?? null, shown: !!el?.checkVisibility?.(), canvas: !!el?.querySelector("canvas"),
         lastMark: marks.length ? marks[marks.length - 1].name : null };
-      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text, v };
-    })).catch(() => ({ fps: 0, tris: 0, loading: true, text: "", v: null }));
-    const { text, v, ...rest } = s;
+      return { fps: window.__STUDIO_FPS__ ?? 0, exact: window.__STUDIO_GPU_MS__?.tris, loading: text.includes("Loading"), text, v };
+    })).catch(() => ({ fps: 0, exact: undefined, loading: true, text: "", v: null }));
+    const { text, v, exact, ...polled } = s;
+    const rest = { ...polled, tris: readyTris(exact, text) };
     // Fail fast when the page is not in the view its URL asked for (checks.mjs viewProblem names the stage).
     viewStall = v ? viewProblem({ ...v, inFlight: inFlight() }, expectedView, Math.round((Date.now() - t0) / 100) / 10) : null;
     if (viewStall) { consoleErrors.push(viewStall); break; }

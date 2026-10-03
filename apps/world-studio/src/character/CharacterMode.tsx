@@ -893,6 +893,8 @@ function flipPerfOpen(was: boolean): boolean {
 /** Fired with the new open state on every flip: the in-canvas probe installs
  * its per-draw triangle attribution only while the section is open. */
 const PERF_OPEN_EVENT = "es-perf-hud-open";
+/** The per-draw bucket wrapper runs on one frame in this many (perf-diag23 Q1). */
+const BUCKET_SAMPLE_EVERY = 30;
 
 function readPerfOpen(): boolean {
   try { return window.localStorage.getItem(PERF_OPEN_KEY) === "1"; } catch { return false; }
@@ -1169,9 +1171,12 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   }, [gl, segments]);
 
   // The per-draw triangle attribution (HUD line 3) wraps the call every draw
-  // goes through, ~0.3 ms a frame (perf10 O7): installed only while the perf
-  // section is open, removed when it closes (its buckets then read zero).
+  // goes through: installed only while the perf section is open (perf10 O7),
+  // and then on one sampled frame in BUCKET_SAMPLE_EVERY, the HUD holding the
+  // mean of the sampled rows between samples.
   const [bucketsOn, setBucketsOn] = useState(readPerfOpen);
+  const bucketHook = useRef<{ direct: typeof gl.renderBufferDirect; wrapped: typeof gl.renderBufferDirect;
+    n: number; sampled: boolean } | null>(null);
   useEffect(() => {
     const onFlip = (e: Event) => setBucketsOn((e as CustomEvent<boolean>).detail);
     window.addEventListener(PERF_OPEN_EVENT, onFlip);
@@ -1184,7 +1189,7 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     // Named parameters, not a rest array: this runs once per DRAW, and a
     // `...args` array per draw was hundreds of arrays a frame.
     const direct = renderBufferDirect as (a: unknown, b: unknown, c: unknown, d: unknown, e: unknown, f: unknown) => unknown;
-    gl.renderBufferDirect = function wrapped(this: unknown, camera: unknown, scene: unknown, geometry: unknown,
+    const wrapped = function wrapped(this: unknown, camera: unknown, scene: unknown, geometry: unknown,
       material: unknown, object: unknown, group: unknown) {
       const before = gl.info.render.triangles;
       const out = direct.call(gl, camera, scene, geometry, material, object, group);
@@ -1192,7 +1197,10 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
         gl.info.render.triangles - before;
       return out;
     } as typeof gl.renderBufferDirect;
-    return () => { gl.renderBufferDirect = renderBufferDirect; };
+    // Installed on one frame in BUCKET_SAMPLE_EVERY by the -100 hook (perf-diag23
+    // Q1: wrapped on every draw it held 10.8 of 21.4 s of a walk profile).
+    bucketHook.current = { direct: renderBufferDirect, wrapped, n: 0, sampled: false };
+    return () => { gl.renderBufferDirect = renderBufferDirect; bucketHook.current = null; };
   }, [gl, bucketsOn]);
 
   useFrame((_, delta) => {
@@ -1217,12 +1225,21 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     if (tris > 0) {
       g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
       g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
+    }
+    // Bucket rows come from sampled frames only (the wrapper ran on them).
+    const hook = bucketHook.current;
+    if (tris > 0 && hook?.sampled) {
       // Recycle the row that leaves the window: no per-frame array.
       const row = g.bucketSamples.length >= 60 ? g.bucketSamples.shift()! : new Array<number>(g.frameBuckets.length);
       for (let i = 0; i < g.frameBuckets.length; i++) row[i] = g.frameBuckets[i];
       g.bucketSamples.push(row);
     }
     g.frameBuckets.fill(0);
+    if (hook) {
+      hook.n += 1;
+      hook.sampled = hook.n % BUCKET_SAMPLE_EVERY === 0;
+      gl.renderBufferDirect = hook.sampled ? hook.wrapped : hook.direct;
+    }
     gl.info.reset();
 
     const seg = segments?.gpuSummary(g.segSummary);

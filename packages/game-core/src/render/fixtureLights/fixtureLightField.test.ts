@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import {
-  FIXTURE_LIGHTS_MAX, FIXTURE_LIGHTS_PER_OBJECT, FIXTURE_SCREEN_GAIN, FixtureLightField, fixtureLightFieldOf, isFixtureLitMaterial,
+  FIXTURE_LIGHTS_MAX, FIXTURE_LIGHTS_PER_OBJECT, FIXTURE_KNEE, FIXTURE_SCREEN_GAIN, FixtureLightField, fixtureScreenValue, fixtureLightFieldOf, isFixtureLitMaterial,
 } from "./fixtureLightField";
 
 const lamps = (n: number, spacingM = 3, radiusM = 6) =>
@@ -176,7 +176,9 @@ describe("per-material list length", () => {
     field.install(material);
     const { fragment, key, uniforms } = compiled(material);
     expect(fragment).toContain("esFxC.rgb * esFxScreen * getDistanceAttenuation");
+    expect(fragment).toContain("esFxKnee * tanh( esFxM / esFxKnee )");
     expect(uniforms.esFxScreen).toBe(field.uniforms.esFxScreen);
+    expect(uniforms.esFxKnee).toBe(field.uniforms.esFxKnee);
     field.setLights(lamps(1));
     field.setIntensity(0, new THREE.Color(1, 1, 1), 2); // hanging lantern, 2 cd
     // three's Lambert term for a 0.3-albedo wall 1 m away, times the exposure ACES sees
@@ -187,6 +189,17 @@ describe("per-material list length", () => {
     const night = screen(22);
     expect(screen(1)).toBeCloseTo(night, 6);
     expect(night).toBeCloseTo(2 * 0.3 / Math.PI * FIXTURE_SCREEN_GAIN, 6);
+    // the knee scales with exposure too, so its argument is exposure-free
+    field.setExposure(22);
+    expect(field.uniforms.esFxKnee.value * 22).toBeCloseTo(FIXTURE_KNEE, 9);
     expect(material.customProgramCacheKey()).toBe(key);
+  });
+
+  it("the soft knee: lantern wall at 1 m ~0.68 sRGB, torch at the 0.8 m clamp ~0.76 linear (perf-diag23 Q5)", () => {
+    const lantern = fixtureScreenValue(2, 1, 0.3);
+    expect(lantern).toBeCloseTo(0.424, 2);
+    expect(Math.pow(lantern, 1 / 2.4) * 1.055 - 0.055).toBeCloseTo(0.68, 1);
+    expect(fixtureScreenValue(6, 0.5, 0.3)).toBeCloseTo(0.761, 2);
+    expect(fixtureScreenValue(2, 3, 0.3)).toBeCloseTo(0.0531, 3); // E 0.56: the knee barely moves it
   });
 });

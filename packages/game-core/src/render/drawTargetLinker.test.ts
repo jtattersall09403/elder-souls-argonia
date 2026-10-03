@@ -166,4 +166,24 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     await link;
     expect([uniforms, attributes]).toEqual([1, 1]);
   });
+
+  it("looks up each uniform block index at warm, so the first draw's bind finds it cached (perf-diag23 Q1)", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    const material = new THREE.MeshBasicMaterial();
+    const aerial = { name: "EsAerial" };
+    (material as unknown as { uniformsGroups: unknown[] }).uniformsGroups = [aerial];
+    const raw = {};
+    const lookups: unknown[][] = [];
+    const program = { isReady: () => true, program: raw };
+    const gl = {
+      getRenderTarget: () => null, setRenderTarget: () => undefined,
+      compile: () => new Set([material]),
+      properties: { get: () => ({ currentProgram: program }) },
+      extensions: { has: () => true },
+      state: { updateUBOMapping: (g: unknown, p: unknown) => { lookups.push([g, p]); } },
+    } as unknown as THREE.WebGLRenderer;
+    await new DrawTargetLinker(gl, scene, 4000, 10_000).link({ object: new THREE.Mesh() }, camera);
+    expect(lookups).toEqual([[aerial, raw]]);
+  });
 });

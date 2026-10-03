@@ -16,6 +16,8 @@ export interface LinkedProgram {
   isReady(): boolean;
   getUniforms?(): unknown;
   getAttributes?(): unknown;
+  /** The raw WebGLProgram the uniform-block lookups key on. */
+  program?: unknown;
 }
 
 /**
@@ -23,11 +25,23 @@ export interface LinkedProgram {
  * `getAttributes` run the program info log and the uniform and attribute
  * reflection (5-36 ms) on the first draw frame, the hitch of perf10 diag 22
  * row G-e. Called once per program once it reports ready, so the first draw
- * finds both cached.
+ * finds both cached. The material's uniform blocks (`uniformsGroups`, e.g.
+ * the sky's EsAerial block) get their block index looked up here too: three
+ * runs `gl.getUniformBlockIndex` on the first bind of a group per program,
+ * a synchronous GPU round trip (`CommandBufferHelper::Finish`, 14-21 ms in
+ * perf-diag23 Q1); `state.updateUBOMapping` caches it so the draw's bind
+ * finds it.
  */
-export function runFirstUse(program: LinkedProgram): void {
+export function runFirstUse(program: LinkedProgram, material?: THREE.Material,
+  state?: unknown): void {
   program.getUniforms?.();
   program.getAttributes?.();
+  const groups = (material as { uniformsGroups?: unknown[] } | undefined)?.uniformsGroups;
+  // three's WebGLState carries updateUBOMapping at runtime; its d.ts does not declare it
+  const ubo = state as { updateUBOMapping?(group: unknown, program: unknown): void } | undefined;
+  if (groups?.length && program.program && ubo?.updateUBOMapping) {
+    for (const group of groups) ubo.updateUBOMapping(group, program.program);
+  }
 }
 
 /**
@@ -164,7 +178,7 @@ export class DrawTargetLinker {
         for (const m of waiting) {
           const program = (gl.properties.get(m) as { currentProgram?: LinkedProgram }).currentProgram;
           if (!program) waiting.delete(m);
-          else if (program.isReady()) { runFirstUse(program); waiting.delete(m); }
+          else if (program.isReady()) { runFirstUse(program, m, gl.state); waiting.delete(m); }
         }
         if (waiting.size === 0 || performance.now() >= deadline) {
           for (const m of all) m.removeEventListener("dispose", gone);

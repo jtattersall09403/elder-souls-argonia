@@ -57,11 +57,23 @@ const CACHE_KEY = "es-fixture-lights-v1";
  * uniform, never a define), so a lit wall reaches the same screen-linear value
  * at any exposure, as the F41 window emissive does (settlement/windowGlow.ts).
  * Unanchored, night exposure ~22 turned a wall 1 m from a 2 cd lantern into a
- * flat orange slab. Screen-linear for a Lambert receiver of albedo a at d m
- * from I cd is I x a / pi / d^2 x 1.5: 2 cd, a 0.3, 1 m gives 0.29; 3 m 0.032;
- * a 6 cd torch at the 0.8 m clamp 1.34.
+ * flat orange slab. Each lamp's irradiance E = I x gain / d^2 passes a soft
+ * knee per light, E' = K tanh(E / K) with K = `FIXTURE_KNEE` (both scaled by
+ * 1 / exposure on the GPU), then screen-linear for a Lambert receiver of
+ * albedo a is E' x a / pi (perf-diag23 Q5): a 2 cd lantern, a 0.3, 1 m gives
+ * E 5.0 -> 4.44, 0.42 (sRGB ~0.68); 3 m E 0.56, ~unchanged; a 6 cd torch at
+ * the 0.8 m clamp E 23.4 -> 7.97, 0.76, not blown.
  */
-export const FIXTURE_SCREEN_GAIN = 1.5;
+export const FIXTURE_SCREEN_GAIN = 2.5;
+/** The per-light soft knee, in exposure-1 screen-irradiance units (see FIXTURE_SCREEN_GAIN). */
+export const FIXTURE_KNEE = 8;
+
+/** Exposure-1 screen-linear Lambert value of one lamp, as the shader computes it (gain, knee, a / pi). */
+export function fixtureScreenValue(candela: number, distanceM: number, albedo: number): number {
+  const d = Math.max(distanceM, 0.8);
+  const e = (candela * FIXTURE_SCREEN_GAIN) / (d * d);
+  return FIXTURE_KNEE * Math.tanh(e / FIXTURE_KNEE) * albedo / Math.PI;
+}
 
 export interface FixtureLightInput {
   position: THREE.Vector3;
@@ -97,7 +109,9 @@ for ( int esFxI = 0; esFxI < ${n}; esFxI ++ ) {
 	IncidentLight esFxLight;
 	esFxLight.direction = esFxV / max( esFxD, 1e-4 );
 	vec4 esFxC = texelFetch( esFxData, ivec2( esFxL, 1 ), 0 );
-	esFxLight.color = esFxC.rgb * esFxScreen * getDistanceAttenuation( max( esFxD, 0.8 ), esFxP.w, esFxC.a );
+	vec3 esFxE = esFxC.rgb * esFxScreen * getDistanceAttenuation( max( esFxD, 0.8 ), esFxP.w, esFxC.a );
+	float esFxM = max( max( esFxE.r, esFxE.g ), esFxE.b );
+	esFxLight.color = esFxM > 0.0 ? esFxE * ( esFxKnee * tanh( esFxM / esFxKnee ) / esFxM ) : esFxE;
 	esFxLight.visible = true;
 	RE_Direct( esFxLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
 }
@@ -110,6 +124,7 @@ ${FIXTURE_LIGHTS_MARK}
 uniform int esFxIdx[ ${FIXTURE_LIGHTS_PER_OBJECT_MAX} ];
 uniform int esFxCount;
 uniform float esFxScreen;
+uniform float esFxKnee;
 `;
 
 /** A material three lights (the ones whose fragment runs `RE_Direct`). */
@@ -127,6 +142,7 @@ export class FixtureLightField {
     esFxIdx: THREE.IUniform<Int32Array>;
     esFxCount: THREE.IUniform<number>;
     esFxScreen: THREE.IUniform<number>;
+    esFxKnee: THREE.IUniform<number>;
   };
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
   epoch = 0;
@@ -157,6 +173,7 @@ export class FixtureLightField {
       esFxIdx: { value: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX) },
       esFxCount: { value: 0 },
       esFxScreen: { value: FIXTURE_SCREEN_GAIN },
+      esFxKnee: { value: FIXTURE_KNEE },
     };
   }
 
@@ -169,6 +186,7 @@ export class FixtureLightField {
     const e = exposure > 1e-3 ? exposure : 1e-3;
     this.exposure = e;
     this.uniforms.esFxScreen.value = FIXTURE_SCREEN_GAIN / e;
+    this.uniforms.esFxKnee.value = FIXTURE_KNEE / e;
   }
 
   /** Lamps held now. */
@@ -287,6 +305,7 @@ export class FixtureLightField {
       shader.uniforms.esFxIdx = uniforms.esFxIdx;
       shader.uniforms.esFxCount = uniforms.esFxCount;
       shader.uniforms.esFxScreen = uniforms.esFxScreen;
+      shader.uniforms.esFxKnee = uniforms.esFxKnee;
       shader.fragmentShader = shader.fragmentShader
         .replace("#include <common>", `#include <common>\n${FIXTURE_LIGHTS_PARS}`)
         .replace("#include <lights_fragment_begin>", `#include <lights_fragment_begin>\n${fixtureLightsFragment(perObject)}`);
