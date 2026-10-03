@@ -88,6 +88,23 @@ def test_a_cut_never_goes_below_the_water():
     assert len(low) == 1                     # a surface under the line still cuts
 
 
+def test_the_callers_pass_the_water_surface():
+    """place_overlays (the export's caller) hands the surface to the run pads:
+    a 0.3 m surface over the 0.18 line skips the cut, which the ground-only
+    fallback (highest wet ground 0.0) would have kept. survey_water_at reads
+    the survey's level raster in place."""
+    import numpy as np
+    from types import SimpleNamespace
+    rows, ground, wet = _riverwalk()
+    assert len(pad_overlay.place_overlays(rows, "place.rw", ground, wet)) == 1
+    assert pad_overlay.place_overlays(rows, "place.rw", ground, wet, lambda x, z: 0.3) == []
+    level = np.full((4, 4), 0.3)
+    level[1, 2] = 0.9
+    water_at = pad_overlay.survey_water_at(SimpleNamespace(water_level_m=level, height_px_m=2.0))
+    assert water_at(5.0, 3.0) == 0.9 and water_at(0.0, 0.0) == 0.3
+    assert pad_overlay.survey_water_at(SimpleNamespace()) is None
+
+
 def test_a_cut_feathers_over_at_least_four_metres():
     """Riverwalk lw13: a 0.138 m cut with the default 3.0 m blend left a
     13.6 deg slope at the run end."""

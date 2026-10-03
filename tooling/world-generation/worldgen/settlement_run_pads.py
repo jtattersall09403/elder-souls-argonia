@@ -156,8 +156,9 @@ def run_pad_patches(rows: list[dict], place_id: str, height_at, is_wet=None,
             dry = [q for q, w in zip(foot, wet) if not w]
             if p["id"] in ends and len(dry) >= 3:
                 high = max(height_at(x, z) for x, z in dry)
-                level = max((float(water_at(x, z)) for (x, z), w in zip(foot, wet)
-                             if w and water_at is not None), default=None)
+                levels = [water_at(x, z) for (x, z), w in zip(foot, wet)
+                          if w and water_at is not None]
+                level = max((float(v) for v in levels if v is not None), default=None)
                 if level is None:
                     level = max(height_at(x, z) for (x, z), w in zip(foot, wet) if w)
                 if high - line > SEAT_BAR_M and line >= level:

@@ -2313,6 +2313,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         if survey is None:
             raise ValueError("ground overlays: the province survey rasters are unavailable")
     is_wet = depth_is_wet(survey.water_signed_depth_m, survey.extent_m)
+    water_at = pad_overlay.survey_water_at(survey)
     scope = _place_scope(places) if places is not None else None
     by_id = {p["id"]: p for p in bundle["placements"]}
     missing: list[str] = []
@@ -2323,7 +2324,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         pool_ops = site.pop("poolOps", [])
         site["groundOverlays"] = {"schemaVersion": pad_overlay.SCHEMA_VERSION,
                                   "pads": pad_overlay.apply_order(pad_overlay.place_overlays(
-                                      rows, site["id"], survey.height_at, is_wet) + [
+                                      rows, site["id"], survey.height_at, is_wet, water_at) + [
                                       pad_overlay.pool_overlay(op, site["id"], survey.height_at)
                                       for op in pool_ops])}
         site.pop("pools", None)

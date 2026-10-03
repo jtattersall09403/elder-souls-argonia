@@ -70,6 +70,17 @@ def test_shells_come_from_blueprint_and_layout_and_only_linked_ones(world):
         bpp.batch_shells(["place.nowhere"], LINKS, world["dir"])
 
 
+def test_a_slug_resolves_to_its_one_place_id(world):
+    assert bpp.resolve_places(["fixture"], world["dir"]) == [PLACE]
+    assert bpp.resolve_places([PLACE], world["dir"]) == [PLACE]
+    with pytest.raises(SystemExit):
+        bpp.resolve_places(["nowhere"], world["dir"])
+    (world["dir"] / "other.layout.json").write_text(json.dumps(
+        {"schemaVersion": 1, "placeId": "place.other.fixture", "ops": []}))
+    with pytest.raises(SystemExit):          # two ids end `.fixture`
+        bpp.resolve_places(["fixture"], world["dir"])
+
+
 @pytest.mark.parametrize("services", [["lodging"], ["trader"], ["smith"], []])
 def test_lookup_claims_equal_the_plugin_read_claims(world, services):
     doc = _table(world)

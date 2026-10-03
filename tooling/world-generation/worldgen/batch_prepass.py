@@ -223,6 +223,27 @@ def place_sources(place_id: str, blueprints_dir: Path = BLUEPRINTS_DIR) -> tuple
     return blueprint, layout
 
 
+def resolve_places(names: list[str], blueprints_dir: Path = BLUEPRINTS_DIR) -> list[str]:
+    """Full place ids for ids or slugs: a name that is not a known place id
+    resolves to the one place id ending `.<slug>`; none or several is an error."""
+    from .blueprint_files import blueprint_paths
+    ids = {(json.loads(p.read_text()).get("blueprint") or {}).get("id")
+           for p in blueprint_paths(blueprints_dir)}
+    ids |= {json.loads(p.read_text()).get("placeId") for p in blueprints_dir.glob("*.layout.json")}
+    ids.discard(None)
+    out = []
+    for name in names:
+        if name in ids:
+            out.append(name)
+            continue
+        found = sorted(i for i in ids if i.endswith("." + name))
+        if len(found) != 1:
+            raise SystemExit(f"batch_prepass: slug {name} matches {len(found)} place ids"
+                             + (f" ({', '.join(found)})" if found else ""))
+        out.append(found[0])
+    return out
+
+
 def _asset_refs(doc) -> list[str]:
     out = []
     if isinstance(doc, dict):
@@ -518,7 +539,7 @@ def build_table(places: list[str], links: dict, plugins: dict[str, str], profile
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--places", required=True, help="comma-separated place ids")
+    ap.add_argument("--places", required=True, help="comma-separated place ids or slugs")
     ap.add_argument("--no-build", action="store_true",
                     help="list the kits the batch needs and would build; build nothing")
     ap.add_argument("--site-dir", default=str(SITE_DIR))
@@ -526,7 +547,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     t0 = time.monotonic()
     from . import blueprint_interiors as bi
-    places = sorted({p for p in args.places.split(",") if p})
+    places = sorted(set(resolve_places([p for p in args.places.split(",") if p])))
     links = bi.linked_shells()
     plugins = discovered_plugins()
     table_path = Path(args.table)
