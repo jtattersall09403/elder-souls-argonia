@@ -1,29 +1,33 @@
 #!/usr/bin/env node
 /**
- * Publish a kit's PARTS folder beside its whole GLB (16k walk 4, lane
- * INTERIOR2): one glTF per asset holding only that asset's LOD0 meshes and
- * the materials they use, so an interior cell fetches the 53 pieces it draws
- * instead of the seven whole kits that hold them (KeebaHouseFisher: 108.9 MB).
+ * Publish a kit's PARTS folder beside its whole GLB (16k walk 4; schema 3 by
+ * decision 0120): one glTF per asset holding that asset's root node and every
+ * LOD mesh node with the materials they use, so a loader fetches the pieces it
+ * draws instead of the whole kits that hold them.
  *
  *   node tooling/asset-pipeline/pipeline/kit_parts.mjs --kit works-v1 [--kit …]
  *   node tooling/asset-pipeline/pipeline/kit_parts.mjs --all            # every SCOPED kit; prunes the rest
- *   node tooling/asset-pipeline/pipeline/kit_parts.mjs --all --check    # exit 1 if any part is stale or out of scope
+ *   node tooling/asset-pipeline/pipeline/kit_parts.mjs --all --check    # exit 1 if a part or pool file is stale
  *
- * Scope (16k walk 4, lane PARTS; review 5536a1d9): only the interior loader
- * reads parts, so a kit publishes parts only when a published interior cell
- * bundle (public/province/interiors/<cell>.json) names it in its `kits`
- * table, and then only for the assets those cells DRAW (`drawnAssets`). A kit
- * no cell names has its parts folder deleted: parts are a second copy of the
- * kit's LOD0 geometry, and every scoped megabyte ships to Pages.
+ * Scope: a kit a published interior cell bundle (public/province/interiors/
+ * <cell>.json) names in its `kits` table publishes parts for the assets those
+ * cells DRAW (`drawnAssets`); a kit in EXTERIOR_PARTS_KITS publishes a part for
+ * EVERY asset of its manifest (`partsAssets`). Any other kit's parts folder is
+ * deleted.
  *
- * Layout, under apps/world-studio/public/kits/<kit>/parts/:
- *   index.json        schemaVersion 2, the source GLB's sha256, one row per asset,
- *                     and `fires` (the drawn assets' fire rows from the kit manifest)
- *                     (file, bytes, vertices, triangles, texture hashes)
- *   <file>.glb        one asset: its root node (transform + extras) and LOD0
- *                     mesh nodes; geometry meshopt-encoded, textures by URI
- *   tex/<sha16>.ktx2  every KTX2 image of the kit's parts, once, named by the
- *                     sha256 of its bytes (a texture several assets use is one file)
+ * Layout, under apps/world-studio/public/kits/:
+ *   <kit>/parts/index.json  schemaVersion 3, the source GLB's sha256, `exterior`,
+ *                           one row per asset (file, bytes, vertices/triangles of
+ *                           LOD0, `lods` [{lod, vertices, triangles}], texture
+ *                           hashes) and `fires` (the assets' fire rows)
+ *   <kit>/parts/<file>.glb  one asset, read exactly as the whole kit GLB is
+ *                           (settlement/kit.ts buildArchitectureKit): the scene
+ *                           child is the asset root with extras.assetId, LOD from
+ *                           child extras.lod; geometry meshopt, textures by URI
+ *                           `../../tex/<sha16>.ktx2`
+ *   tex/<sha16>.ktx2        ONE province-wide texture pool named by the sha256 of
+ *                           the bytes (shared across kits); a pool file no parts
+ *                           index references is deleted (`prunePool`)
  *
  * Written from the PUBLISHED (gltfpack) GLB, never a second Blender run. The
  * KTX2 bytes are the published bytes. Geometry: gltfpack packs many accessors
@@ -32,7 +36,7 @@
  * quantised KHR_mesh_quantization form, so this is lossless). Deterministic
  * and idempotent: a re-run over the same GLB changes no byte, a file whose
  * bytes are unchanged is not rewritten, and a file no longer produced is
- * deleted. The whole-kit GLB stays for exteriors (settlement layer).
+ * deleted.
  */
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -40,7 +44,9 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MeshoptDecoder, MeshoptEncoder } from "meshoptimizer";
 
-export const PARTS_SCHEMA_VERSION = 2;
+export const PARTS_SCHEMA_VERSION = 3;
+// S1 sample of decision 0120; S2 replaces this set with every kit and deletes the whole GLBs.
+export const EXTERIOR_PARTS_KITS = ["settlement-mud-v1", "works-v1"];
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 export const PUBLIC_KITS = join(REPO_ROOT, "apps/world-studio/public/kits");
 export const PUBLIC_INTERIORS = join(REPO_ROOT, "apps/world-studio/public/province/interiors");
@@ -92,11 +98,12 @@ export function partFileName(assetId) {
 const lodOf = (node) => (typeof node.extras?.lod === "number" ? node.extras.lod : 0);
 
 /**
- * Split one published kit GLB into parts. Returns { index, files: Map<relPath, Buffer> }.
- * `only` (a Set of asset ids): split just those, the assets the interior cells
- * draw (`drawnAssets`); every one must be in the GLB. Absent: every asset.
+ * Split one published kit GLB into parts. Returns { index, files: Map<relPath, Buffer>,
+ * textures: Map<sha16, Buffer> } (textures go to the pool `<kits>/tex/`).
+ * `only` (a Set of asset ids): split just those; every one must be in the GLB.
+ * Absent: every asset.
  */
-export function splitKit(kitId, glbBytes, only = null, manifest = null) {
+export function splitKit(kitId, glbBytes, only = null, manifest = null, exterior = false) {
   const { json, bin } = readGlb(glbBytes);
   const decoded = new Map(); // bufferView index -> decoded bytes
   const viewBytes = (bvIndex) => {
@@ -146,19 +153,24 @@ export function splitKit(kitId, glbBytes, only = null, manifest = null) {
     const glb = writeGlb(part.json, part.bin);
     files.set(file, glb);
     assets[assetId] = {
-      file, bytes: glb.length, vertices: part.vertices, triangles: part.triangles,
+      file, bytes: glb.length,
+      vertices: part.lods[0]?.lod === 0 ? part.lods[0].vertices : 0,
+      triangles: part.lods[0]?.lod === 0 ? part.lods[0].triangles : 0,
+      lods: part.lods,
       textures: [...new Set(imageHashes)].sort(),
     };
   }
   let textureBytes = 0;
+  const textures = new Map();
   for (const hash of [...texBytes.keys()].sort()) {
-    files.set(`tex/${hash}.ktx2`, Buffer.from(texBytes.get(hash)));
+    textures.set(hash, Buffer.from(texBytes.get(hash)));
     textureBytes += texBytes.get(hash).length;
   }
   const partBytes = Object.values(assets).reduce((s, a) => s + a.bytes, 0);
   const index = {
     schemaVersion: PARTS_SCHEMA_VERSION,
     kit: kitId,
+    exterior,
     writer: "tooling/asset-pipeline/pipeline/kit_parts.mjs",
     source: { bytes: glbBytes.length, sha256: sha256(glbBytes) },
     totals: {
@@ -169,7 +181,7 @@ export function splitKit(kitId, glbBytes, only = null, manifest = null) {
     fires: firesOf(manifest, Object.keys(assets)),
   };
   files.set("index.json", Buffer.from(`${JSON.stringify(index, null, 1)}\n`));
-  return { index, files };
+  return { index, files, textures };
 }
 
 /**
@@ -229,8 +241,9 @@ function buildPart(src, rootIndex, viewBytes) {
     const bytes = viewBytes(img.bufferView);
     const hash = sha256(bytes).slice(0, 16);
     images.push({ hash, bytes });
-    const ext = img.mimeType === "image/ktx2" ? "ktx2" : img.mimeType === "image/png" ? "png" : "jpg";
-    return { ...(img.name ? { name: img.name } : {}), uri: `tex/${hash}.${ext}`, mimeType: img.mimeType };
+    // The pool holds published (KTX2) bytes only; an uncompressed kit cannot publish parts.
+    if (img.mimeType !== "image/ktx2") throw new Error(`image ${i} is ${img.mimeType}, not image/ktx2`);
+    return { ...(img.name ? { name: img.name } : {}), uri: `../../tex/${hash}.ktx2`, mimeType: img.mimeType };
   });
   const texture = remap("textures", (i) => {
     const t = src.textures[i];
@@ -255,8 +268,7 @@ function buildPart(src, rootIndex, viewBytes) {
     return copy;
   };
   const material = remap("materials", (i) => remapTextureRefs(src.materials[i]));
-  let vertices = 0;
-  let triangles = 0;
+  const lodStats = new Map(); // lod -> { lod, vertices, triangles }
   const accessor = remap("accessors", (i) => {
     const a = src.accessors[i];
     if (a.sparse) throw new Error(`accessor ${i} is sparse`);
@@ -313,28 +325,22 @@ function buildPart(src, rootIndex, viewBytes) {
     delete copy.children; delete copy.mesh;
     if (n.skin !== undefined || n.camera !== undefined) throw new Error(`node ${index} has a skin/camera`);
     const slot = out.nodes.push(copy) - 1;
-    if (n.mesh !== undefined && lodOf(n) === 0) {
+    if (n.mesh !== undefined) {
       copy.mesh = mesh(n.mesh);
-      const m = src.meshes[n.mesh];
-      for (const p of m.primitives) {
-        vertices += src.accessors[p.attributes.POSITION].count;
-        triangles += (p.indices !== undefined ? src.accessors[p.indices].count : src.accessors[p.attributes.POSITION].count) / 3;
+      const lod = lodOf(n);
+      if (!lodStats.has(lod)) lodStats.set(lod, { lod, vertices: 0, triangles: 0 });
+      const stat = lodStats.get(lod);
+      for (const p of src.meshes[n.mesh].primitives) {
+        stat.vertices += src.accessors[p.attributes.POSITION].count;
+        stat.triangles += (p.indices !== undefined ? src.accessors[p.indices].count : src.accessors[p.attributes.POSITION].count) / 3;
       }
     }
-    const children = [];
-    for (const c of n.children ?? []) {
-      const kept = keeps(c);
-      if (kept) children.push(copyNode(c));
-    }
+    const children = (n.children ?? []).map(copyNode);
     if (children.length) copy.children = children;
     return slot;
   };
-  // A node survives if it, or a descendant, carries a LOD0 mesh.
-  const keeps = (index) => {
-    const n = src.nodes[index];
-    return (n.mesh !== undefined && lodOf(n) === 0) || (n.children ?? []).some(keeps);
-  };
   copyNode(rootIndex);
+  const lods = [...lodStats.values()].sort((a, b) => a.lod - b.lod);
 
   if (usesMeshopt) {
     out.buffers.push({ byteLength: binLength });
@@ -353,22 +359,31 @@ function buildPart(src, rootIndex, viewBytes) {
   const bin = new Uint8Array(binLength);
   let o = 0;
   for (const c of chunks) { bin.set(c, o); o += c.length; }
-  return { json: out, bin, images, vertices, triangles };
+  return { json: out, bin, images, lods };
 }
 
 /** Write (or check) one kit's parts folder. Returns { changed: [rel], removed: [rel], index }. */
-export function publishParts(kitId, { kitsDir = PUBLIC_KITS, check = false, assets = drawnAssets().get(kitId) } = {}) {
+export function publishParts(kitId, { kitsDir = PUBLIC_KITS, check = false, interiorsDir = PUBLIC_INTERIORS } = {}) {
   const glbPath = join(kitsDir, `${kitId}.glb`);
-  if (!assets?.size) throw new Error(`kit_parts: no published interior cell draws an asset of ${kitId}`);
   const manifestPath = join(kitsDir, `${kitId}.kit.json`);
   const manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : null;
-  const { index, files } = splitKit(kitId, new Uint8Array(readFileSync(glbPath)), assets, manifest);
+  const exterior = EXTERIOR_PARTS_KITS.includes(kitId);
+  const assets = partsAssets(kitId, manifest, interiorsDir);
+  if (!assets.size) throw new Error(`kit_parts: ${kitId} is in no parts scope (no interior cell draws it, not in EXTERIOR_PARTS_KITS)`);
+  const { index, files, textures } = splitKit(kitId, new Uint8Array(readFileSync(glbPath)), assets, manifest, exterior);
   const dir = join(kitsDir, kitId, "parts");
   const changed = [];
   for (const [rel, bytes] of files) {
     const p = join(dir, rel);
     if (existsSync(p) && Buffer.compare(readFileSync(p), bytes) === 0) continue;
     changed.push(rel);
+    if (!check) { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, bytes); }
+  }
+  // Pool files are content-named: an existing file of that name holds these bytes.
+  for (const [hash, bytes] of textures) {
+    const p = join(kitsDir, "tex", `${hash}.ktx2`);
+    if (existsSync(p)) continue;
+    changed.push(`../../tex/${hash}.ktx2`);
     if (!check) { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, bytes); }
   }
   const removed = [];
@@ -381,10 +396,35 @@ export function publishParts(kitId, { kitsDir = PUBLIC_KITS, check = false, asse
   return { changed, removed, index };
 }
 
-/** The kits a published interior cell names (the parts scope), sorted. */
+/**
+ * The assets of `kitId` that get a part: every manifest asset for an
+ * EXTERIOR_PARTS_KITS kit, else the assets the interior cells draw.
+ */
+export function partsAssets(kitId, manifest, interiorsDir = PUBLIC_INTERIORS) {
+  if (!EXTERIOR_PARTS_KITS.includes(kitId)) return drawnAssets(interiorsDir).get(kitId) ?? new Set();
+  if (!Array.isArray(manifest?.assets)) throw new Error(`kit_parts: ${kitId} manifest has no assets list`);
+  return new Set(manifest.assets.map((a) => a.id));
+}
+
+/** Pool file names (`<sha16>.ktx2`) no `<kit>/parts/index.json` under kitsDir references, sorted. */
+export function orphanPoolFiles(kitsDir = PUBLIC_KITS) {
+  const pool = join(kitsDir, "tex");
+  if (!existsSync(pool)) return [];
+  const used = new Set();
+  for (const e of readdirSync(kitsDir, { withFileTypes: true })) {
+    const p = join(kitsDir, e.name, "parts", "index.json");
+    if (!e.isDirectory() || !existsSync(p)) continue;
+    for (const row of Object.values(JSON.parse(readFileSync(p, "utf8")).assets ?? {})) {
+      for (const h of row.textures ?? []) used.add(`${h}.ktx2`);
+    }
+  }
+  return readdirSync(pool).filter((f) => !used.has(f)).sort();
+}
+
+/** The kits that publish parts: those a published interior cell names, plus EXTERIOR_PARTS_KITS; sorted. */
 export function scopedKits(interiorsDir = PUBLIC_INTERIORS) {
-  if (!existsSync(interiorsDir)) return [];
-  const ids = new Set();
+  const ids = new Set(EXTERIOR_PARTS_KITS);
+  if (!existsSync(interiorsDir)) return [...ids].sort();
   for (const f of readdirSync(interiorsDir).filter((n) => n.endsWith(".json"))) {
     const cell = JSON.parse(readFileSync(join(interiorsDir, f), "utf8"));
     for (const id of Object.keys(cell.kits ?? {})) ids.add(id);
@@ -396,8 +436,8 @@ export function scopedKits(interiorsDir = PUBLIC_INTERIORS) {
  * kit -> Set of asset ids the published interior cells DRAW: their placements,
  * their stand-ins (`substitutions[].standInAsset`) and their swing doors,
  * the set interiorLoader.ts fetches (`drawnPlacements`, `swingDoorAssets`).
- * A part is a second copy of its asset's LOD0 geometry, so no other asset of
- * a named kit publishes one (review 5536a1d9).
+ * A part is a second copy of its asset's geometry, so no other asset of an
+ * interior-only kit publishes one (review 5536a1d9).
  */
 export function drawnAssets(interiorsDir = PUBLIC_INTERIORS) {
   const drawn = new Map();
@@ -420,7 +460,7 @@ export function drawnAssets(interiorsDir = PUBLIC_INTERIORS) {
 export function unscopedPartsDirs(kitsDir = PUBLIC_KITS, interiorsDir = PUBLIC_INTERIORS) {
   const scope = new Set(scopedKits(interiorsDir));
   return readdirSync(kitsDir, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && !scope.has(e.name) && existsSync(join(kitsDir, e.name, "parts")))
+    .filter((e) => e.isDirectory() && e.name !== "tex" && !scope.has(e.name) && existsSync(join(kitsDir, e.name, "parts")))
     .map((e) => e.name).sort();
 }
 
@@ -438,9 +478,9 @@ async function main() {
   const published = new Set(publishedKits());
   const named = args.flatMap((a, i) => (args[i - 1] === "--kit" ? [a] : []));
   const skipped = named.filter((k) => !scope.includes(k));
-  for (const k of skipped) console.error(`kit_parts: skipping ${k}: no interior cell names it (public/province/interiors/*.json kits), so it publishes no parts`);
+  for (const k of skipped) console.error(`kit_parts: skipping ${k}: no interior cell names it and it is not in EXTERIOR_PARTS_KITS, so it publishes no parts`);
   const missing = scope.filter((k) => !published.has(k));
-  if (all && missing.length) { console.error(`kit_parts: interior cells name unpublished kit(s): ${missing.join(", ")}`); process.exit(1); }
+  if (all && missing.length) { console.error(`kit_parts: parts scope names unpublished kit(s): ${missing.join(", ")}`); process.exit(1); }
   const kits = all ? scope : named.filter((k) => scope.includes(k));
   if (!kits.length) { if (skipped.length) return; console.error("usage: kit_parts.mjs (--kit <id>)... | --all [--check]"); process.exit(2); }
   await MeshoptDecoder.ready;
@@ -462,7 +502,13 @@ async function main() {
       + ` = ${t.bytes} B (whole GLB ${index.source.bytes} B); ${check ? "stale" : "written"} ${changed.length}, `
       + `${check ? "orphan" : "removed"} ${removed.length}; ${Date.now() - t0} ms`);
   }
-  if (check && stale) { console.error(`kit_parts: ${stale} kit(s) have stale or out-of-scope parts; run --all without --check`); process.exit(1); }
+  const orphans = orphanPoolFiles();
+  if (orphans.length) {
+    stale += 1;
+    console.log(`kit_parts tex pool: ${orphans.length} file(s) no parts index references; ${check ? "orphan" : "deleted"}`);
+    if (!check) for (const f of orphans) rmSync(join(PUBLIC_KITS, "tex", f));
+  }
+  if (check && stale) { console.error(`kit_parts: ${stale} kit(s) or the tex pool are stale or out of scope; run --all without --check`); process.exit(1); }
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

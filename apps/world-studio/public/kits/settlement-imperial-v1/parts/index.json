@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "settlement-imperial-v1",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 14132180,
@@ -8,17 +9,34 @@
  },
  "totals": {
   "parts": 7,
-  "partBytes": 102652,
+  "partBytes": 157468,
   "textureFiles": 8,
   "textureBytes": 1182169,
-  "bytes": 1284821
+  "bytes": 1339637
  },
  "assets": {
   "vanilla:architecture/farmhouse/fencewoven01": {
    "file": "vanilla_architecture_farmhouse_fencewoven01-9232825e.glb",
-   "bytes": 12204,
+   "bytes": 19764,
    "vertices": 428,
    "triangles": 446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 428,
+     "triangles": 446
+    },
+    {
+     "lod": 1,
+     "vertices": 359,
+     "triangles": 347
+    },
+    {
+     "lod": 2,
+     "vertices": 359,
+     "triangles": 347
+    }
+   ],
    "textures": [
     "ab2b57bb8d2ac6f9",
     "be9d386a886e9cc7"
@@ -26,9 +44,26 @@
   },
   "vanilla:architecture/farmhouse/fencewoven02": {
    "file": "vanilla_architecture_farmhouse_fencewoven02-d687ca5a.glb",
-   "bytes": 9912,
+   "bytes": 11652,
    "vertices": 272,
    "triangles": 258,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 272,
+     "triangles": 258
+    },
+    {
+     "lod": 1,
+     "vertices": 272,
+     "triangles": 258
+    },
+    {
+     "lod": 2,
+     "vertices": 272,
+     "triangles": 258
+    }
+   ],
    "textures": [
     "ab2b57bb8d2ac6f9",
     "be9d386a886e9cc7"
@@ -36,27 +71,78 @@
   },
   "vanilla:clutter/barrel02": {
    "file": "vanilla_clutter_barrel02-fb5c7fcd.glb",
-   "bytes": 7116,
+   "bytes": 12820,
    "vertices": 286,
    "triangles": 396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 286,
+     "triangles": 396
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "422fe83eac860373"
    ]
   },
   "vanilla:clutter/bucket01": {
    "file": "vanilla_clutter_bucket01-cfff19d7.glb",
-   "bytes": 13936,
+   "bytes": 21924,
    "vertices": 690,
    "triangles": 764,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 690,
+     "triangles": 764
+    },
+    {
+     "lod": 1,
+     "vertices": 356,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 356,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "a3cc35ebb0f81c80"
    ]
   },
   "vanilla:clutter/common/candlelanternwithcandle01": {
    "file": "vanilla_clutter_common_candlelanternwithcandle01-1e5326ce.glb",
-   "bytes": 21292,
+   "bytes": 33104,
    "vertices": 922,
    "triangles": 670,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 922,
+     "triangles": 670
+    },
+    {
+     "lod": 1,
+     "vertices": 635,
+     "triangles": 406
+    },
+    {
+     "lod": 2,
+     "vertices": 635,
+     "triangles": 406
+    }
+   ],
    "textures": [
     "77c47ded97ff9a2f",
     "e08eeabdc4f3aa5a"
@@ -64,9 +150,26 @@
   },
   "vanilla:clutter/firewood/firewoodpilelarge01": {
    "file": "vanilla_clutter_firewood_firewoodpilelarge01-9d094964.glb",
-   "bytes": 22624,
+   "bytes": 41096,
    "vertices": 1142,
    "triangles": 852,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1142,
+     "triangles": 852
+    },
+    {
+     "lod": 1,
+     "vertices": 939,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 939,
+     "triangles": 600
+    }
+   ],
    "textures": [
     "07e7b99d7dae4849",
     "0a72978517779dfb"
@@ -74,9 +177,26 @@
   },
   "vanilla:clutter/firewood/firewoodpilemedium01": {
    "file": "vanilla_clutter_firewood_firewoodpilemedium01-a5d3c503.glb",
-   "bytes": 15568,
+   "bytes": 17108,
    "vertices": 596,
    "triangles": 472,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 596,
+     "triangles": 472
+    },
+    {
+     "lod": 1,
+     "vertices": 596,
+     "triangles": 472
+    },
+    {
+     "lod": 2,
+     "vertices": 596,
+     "triangles": 472
+    }
+   ],
    "textures": [
     "07e7b99d7dae4849",
     "0a72978517779dfb"

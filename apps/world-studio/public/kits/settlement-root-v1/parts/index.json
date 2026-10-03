@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "settlement-root-v1",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 20027212,
@@ -8,80 +9,216 @@
  },
  "totals": {
   "parts": 8,
-  "partBytes": 136740,
+  "partBytes": 227940,
   "textureFiles": 4,
   "textureBytes": 792618,
-  "bytes": 929358
+  "bytes": 1020558
  },
  "assets": {
   "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": {
    "file": "kotm_issgard_clutter_bones_issgard_boneargonianskullfull-f12a814d.glb",
-   "bytes": 32924,
+   "bytes": 55288,
    "vertices": 1807,
    "triangles": 2594,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1807,
+     "triangles": 2594
+    },
+    {
+     "lod": 1,
+     "vertices": 777,
+     "triangles": 908
+    },
+    {
+     "lod": 2,
+     "vertices": 529,
+     "triangles": 600
+    }
+   ],
    "textures": [
     "f67b9b6722952f8c"
    ]
   },
   "vanilla:clutter/basket01": {
    "file": "vanilla_clutter_basket01-31268527.glb",
-   "bytes": 8456,
+   "bytes": 14684,
    "vertices": 321,
    "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 321,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "9a27911525728b4f"
    ]
   },
   "vanilla:clutter/bones/bloodybone": {
    "file": "vanilla_clutter_bones_bloodybone-d0683d16.glb",
-   "bytes": 4456,
+   "bytes": 5196,
    "vertices": 69,
    "triangles": 104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 69,
+     "triangles": 104
+    },
+    {
+     "lod": 1,
+     "vertices": 69,
+     "triangles": 104
+    },
+    {
+     "lod": 2,
+     "vertices": 69,
+     "triangles": 104
+    }
+   ],
    "textures": [
     "2c57d63a940c0e8a"
    ]
   },
   "vanilla:clutter/bones/bloodyribs": {
    "file": "vanilla_clutter_bones_bloodyribs-7fa5dc4b.glb",
-   "bytes": 32204,
+   "bytes": 54464,
    "vertices": 1731,
    "triangles": 2559,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1731,
+     "triangles": 2559
+    },
+    {
+     "lod": 1,
+     "vertices": 722,
+     "triangles": 894
+    },
+    {
+     "lod": 2,
+     "vertices": 304,
+     "triangles": 306
+    }
+   ],
    "textures": [
     "2c57d63a940c0e8a"
    ]
   },
   "vanilla:clutter/bones/humanarmleft": {
    "file": "vanilla_clutter_bones_humanarmleft-d5732ba3.glb",
-   "bytes": 5968,
+   "bytes": 6704,
    "vertices": 167,
    "triangles": 250,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 167,
+     "triangles": 250
+    },
+    {
+     "lod": 1,
+     "vertices": 167,
+     "triangles": 250
+    },
+    {
+     "lod": 2,
+     "vertices": 167,
+     "triangles": 250
+    }
+   ],
    "textures": [
     "63d644afaac283a8"
    ]
   },
   "vanilla:clutter/bones/humanlegleft": {
    "file": "vanilla_clutter_bones_humanlegleft-ed10a743.glb",
-   "bytes": 7388,
+   "bytes": 12812,
    "vertices": 260,
    "triangles": 398,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 260,
+     "triangles": 398
+    },
+    {
+     "lod": 1,
+     "vertices": 205,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 205,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "63d644afaac283a8"
    ]
   },
   "vanilla:clutter/bones/humanribcage": {
    "file": "vanilla_clutter_bones_humanribcage-06796cd8.glb",
-   "bytes": 33748,
+   "bytes": 56996,
    "vertices": 1838,
    "triangles": 2704,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1838,
+     "triangles": 2704
+    },
+    {
+     "lod": 1,
+     "vertices": 772,
+     "triangles": 946
+    },
+    {
+     "lod": 2,
+     "vertices": 314,
+     "triangles": 324
+    }
+   ],
    "textures": [
     "63d644afaac283a8"
    ]
   },
   "vanilla:clutter/bones/humanspine": {
    "file": "vanilla_clutter_bones_humanspine-cc167c1d.glb",
-   "bytes": 11596,
+   "bytes": 21796,
    "vertices": 483,
    "triangles": 934,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 483,
+     "triangles": 934
+    },
+    {
+     "lod": 1,
+     "vertices": 174,
+     "triangles": 325
+    },
+    {
+     "lod": 2,
+     "vertices": 161,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "63d644afaac283a8"
    ]

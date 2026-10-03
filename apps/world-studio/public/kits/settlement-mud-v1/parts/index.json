@@ -1,54 +1,1090 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "settlement-mud-v1",
+ "exterior": true,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 20167696,
   "sha256": "51ac55b6848ac92578ddd11069972fd0943af845c0bb5699e2f010585277909a"
  },
  "totals": {
-  "parts": 6,
-  "partBytes": 92436,
-  "textureFiles": 8,
-  "textureBytes": 1808323,
-  "bytes": 1900759
+  "parts": 70,
+  "partBytes": 6011376,
+  "textureFiles": 73,
+  "textureBytes": 15352893,
+  "bytes": 21364269
  },
  "assets": {
+  "bmv:architecture/huts/exterior/hutdecking": {
+   "file": "bmv_architecture_huts_exterior_hutdecking-afd5d589.glb",
+   "bytes": 101616,
+   "vertices": 3096,
+   "triangles": 4708,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3096,
+     "triangles": 4708
+    },
+    {
+     "lod": 1,
+     "vertices": 1344,
+     "triangles": 1671
+    },
+    {
+     "lod": 2,
+     "vertices": 788,
+     "triangles": 936
+    }
+   ],
+   "textures": [
+    "3e8c5d1081542a95",
+    "71b14b13d64f9fdb",
+    "80ca1f54cb84d8af",
+    "a222dff599a2411a"
+   ]
+  },
+  "bmv:architecture/huts/exterior/hutexterior": {
+   "file": "bmv_architecture_huts_exterior_hutexterior-1fbc3e6c.glb",
+   "bytes": 75800,
+   "vertices": 2211,
+   "triangles": 3680,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2211,
+     "triangles": 3680
+    },
+    {
+     "lod": 1,
+     "vertices": 1102,
+     "triangles": 1484
+    },
+    {
+     "lod": 2,
+     "vertices": 880,
+     "triangles": 1160
+    }
+   ],
+   "textures": [
+    "6dd8d649edb567a7",
+    "80ca1f54cb84d8af",
+    "a222dff599a2411a",
+    "ce096552cac87f10"
+   ]
+  },
+  "canoe:actors/sfss/canoe/canoe1": {
+   "file": "canoe_actors_sfss_canoe_canoe1-7525535c.glb",
+   "bytes": 379736,
+   "vertices": 13754,
+   "triangles": 9788,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13754,
+     "triangles": 9788
+    },
+    {
+     "lod": 1,
+     "vertices": 7341,
+     "triangles": 5035
+    },
+    {
+     "lod": 2,
+     "vertices": 5913,
+     "triangles": 4283
+    }
+   ],
+   "textures": [
+    "3dee5fd66dce8c0a",
+    "4aa6b2df8b9813ce",
+    "5ced709f1880dd4c",
+    "6210191d543cd15b",
+    "6dc005f6d00197e5",
+    "7db75a65070b2a7f",
+    "84e860a3ea484090",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "dc9bb44de37c4b8c"
+   ]
+  },
+  "composite:mud/hut-with-entrance": {
+   "file": "composite_mud_hut-with-entrance-3f2068ff.glb",
+   "bytes": 373164,
+   "vertices": 10427,
+   "triangles": 16130,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10427,
+     "triangles": 16130
+    },
+    {
+     "lod": 1,
+     "vertices": 5376,
+     "triangles": 6711
+    },
+    {
+     "lod": 2,
+     "vertices": 4540,
+     "triangles": 5338
+    }
+   ],
+   "textures": [
+    "172263ac81537a4f",
+    "6dd8d649edb567a7",
+    "71b14b13d64f9fdb",
+    "7f951a4a6fd2bbda",
+    "80ca1f54cb84d8af",
+    "a222dff599a2411a",
+    "ce096552cac87f10"
+   ]
+  },
+  "composite:mud/kotm-house-pod": {
+   "file": "composite_mud_kotm-house-pod-8c432988.glb",
+   "bytes": 48188,
+   "vertices": 1038,
+   "triangles": 1507,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1038,
+     "triangles": 1507
+    },
+    {
+     "lod": 1,
+     "vertices": 750,
+     "triangles": 954
+    },
+    {
+     "lod": 2,
+     "vertices": 750,
+     "triangles": 954
+    }
+   ],
+   "textures": [
+    "3ccb8ac9f2e67d61",
+    "872a0b33fb5c44f3",
+    "e78a7407be3f3a1e",
+    "f5c46ae922ce5177"
+   ]
+  },
+  "composite:mud/pod-as-placed": {
+   "file": "composite_mud_pod-as-placed-a026dd05.glb",
+   "bytes": 16824,
+   "vertices": 478,
+   "triangles": 852,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 478,
+     "triangles": 852
+    },
+    {
+     "lod": 1,
+     "vertices": 190,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 190,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "f5c46ae922ce5177"
+   ]
+  },
+  "ferries:yamadori/ferries/plank_ferry_swamp_01": {
+   "file": "ferries_yamadori_ferries_plank_ferry_swamp_01-8e940901.glb",
+   "bytes": 30988,
+   "vertices": 806,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 806,
+     "triangles": 588
+    },
+    {
+     "lod": 1,
+     "vertices": 722,
+     "triangles": 504
+    },
+    {
+     "lod": 2,
+     "vertices": 722,
+     "triangles": 504
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": {
+   "file": "ferries_yamadori_ferries_rowboat_ferry_swamp_01-d8123e0b.glb",
+   "bytes": 107432,
+   "vertices": 4100,
+   "triangles": 3542,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4100,
+     "triangles": 3542
+    },
+    {
+     "lod": 1,
+     "vertices": 2274,
+     "triangles": 1414
+    },
+    {
+     "lod": 2,
+     "vertices": 1114,
+     "triangles": 899
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "file": "ferryraft_snt_ferry_ferryraft01-6eb95622.glb",
+   "bytes": 157632,
+   "vertices": 5112,
+   "triangles": 3592,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5112,
+     "triangles": 3592
+    },
+    {
+     "lod": 1,
+     "vertices": 4257,
+     "triangles": 2578
+    },
+    {
+     "lod": 2,
+     "vertices": 4257,
+     "triangles": 2578
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "77c47ded97ff9a2f",
+    "8d8c9f84eae22a9d",
+    "a0b9b6ed3bfdd573",
+    "c849674e11618091",
+    "e08eeabdc4f3aa5a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_ancient_sleeping_tree-fa601a83.glb",
+   "bytes": 1027944,
+   "vertices": 39355,
+   "triangles": 38018,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39355,
+     "triangles": 38018
+    },
+    {
+     "lod": 1,
+     "vertices": 19802,
+     "triangles": 13302
+    },
+    {
+     "lod": 2,
+     "vertices": 8900,
+     "triangles": 5001
+    }
+   ],
+   "textures": [
+    "13cfdddbcd2ca2d7",
+    "2c7cd8889faa352f",
+    "7b7c1c5ed1e0f45e"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_ancient-sleeping-tree-sick-36338e21.glb",
+   "bytes": 1028108,
+   "vertices": 39355,
+   "triangles": 38018,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39355,
+     "triangles": 38018
+    },
+    {
+     "lod": 1,
+     "vertices": 19802,
+     "triangles": 13302
+    },
+    {
+     "lod": 2,
+     "vertices": 8900,
+     "triangles": 5001
+    }
+   ],
+   "textures": [
+    "70b2143e0015dad6",
+    "9245ca87e851d273",
+    "9a1309ce8d044603"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_histflower01-ec210007.glb",
+   "bytes": 30604,
+   "vertices": 711,
+   "triangles": 949,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 711,
+     "triangles": 949
+    },
+    {
+     "lod": 1,
+     "vertices": 337,
+     "triangles": 332
+    },
+    {
+     "lod": 2,
+     "vertices": 314,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "5e5ae48043b74b2e",
+    "d843cf70d5b98c28"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01-sick": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_histflower01-sick-ddc4babe.glb",
+   "bytes": 30632,
+   "vertices": 711,
+   "triangles": 949,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 711,
+     "triangles": 949
+    },
+    {
+     "lod": 1,
+     "vertices": 337,
+     "triangles": 332
+    },
+    {
+     "lod": 2,
+     "vertices": 314,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "a550354d33097cd7",
+    "fc5320f9df94842e"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_histflower02-b2f7ee53.glb",
+   "bytes": 31080,
+   "vertices": 739,
+   "triangles": 1006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 739,
+     "triangles": 1006
+    },
+    {
+     "lod": 1,
+     "vertices": 350,
+     "triangles": 352
+    },
+    {
+     "lod": 2,
+     "vertices": 311,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "5e5ae48043b74b2e",
+    "d843cf70d5b98c28"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02-sick": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_histflower02-sick-f9ebc2c5.glb",
+   "bytes": 31096,
+   "vertices": 739,
+   "triangles": 1006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 739,
+     "triangles": 1006
+    },
+    {
+     "lod": 1,
+     "vertices": 350,
+     "triangles": 352
+    },
+    {
+     "lod": 2,
+     "vertices": 311,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "a550354d33097cd7",
+    "fc5320f9df94842e"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn01": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn01-973e6d02.glb",
+   "bytes": 81688,
+   "vertices": 3063,
+   "triangles": 5642,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3063,
+     "triangles": 5642
+    },
+    {
+     "lod": 1,
+     "vertices": 1201,
+     "triangles": 1973
+    },
+    {
+     "lod": 2,
+     "vertices": 490,
+     "triangles": 676
+    }
+   ],
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn02": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn02-81d77a7d.glb",
+   "bytes": 67672,
+   "vertices": 2441,
+   "triangles": 4321,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2441,
+     "triangles": 4321
+    },
+    {
+     "lod": 1,
+     "vertices": 987,
+     "triangles": 1512
+    },
+    {
+     "lod": 2,
+     "vertices": 407,
+     "triangles": 518
+    }
+   ],
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn03": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn03-af148076.glb",
+   "bytes": 59508,
+   "vertices": 2112,
+   "triangles": 3802,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2112,
+     "triangles": 3802
+    },
+    {
+     "lod": 1,
+     "vertices": 834,
+     "triangles": 1329
+    },
+    {
+     "lod": 2,
+     "vertices": 340,
+     "triangles": 455
+    }
+   ],
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn04": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn04-bd1e865e.glb",
+   "bytes": 41452,
+   "vertices": 1329,
+   "triangles": 2352,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1329,
+     "triangles": 2352
+    },
+    {
+     "lod": 1,
+     "vertices": 544,
+     "triangles": 823
+    },
+    {
+     "lod": 2,
+     "vertices": 235,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rune circle": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rune_circle-08099992.glb",
+   "bytes": 32792,
+   "vertices": 825,
+   "triangles": 860,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 825,
+     "triangles": 860
+    },
+    {
+     "lod": 1,
+     "vertices": 406,
+     "triangles": 301
+    },
+    {
+     "lod": 2,
+     "vertices": 406,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_windchimehavok-f0e4e99d.glb",
+   "bytes": 92840,
+   "vertices": 1672,
+   "triangles": 1716,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1672,
+     "triangles": 1716
+    },
+    {
+     "lod": 1,
+     "vertices": 1672,
+     "triangles": 1716
+    },
+    {
+     "lod": 2,
+     "vertices": 1672,
+     "triangles": 1716
+    }
+   ],
+   "textures": [
+    "0191be27727d4301",
+    "2c51eb8deaf8c6aa",
+    "fdacae5de90656fb"
+   ]
+  },
+  "kotm:argonia/blackwood/sign": {
+   "file": "kotm_argonia_blackwood_sign-c0c16110.glb",
+   "bytes": 41184,
+   "vertices": 675,
+   "triangles": 760,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 675,
+     "triangles": 760
+    },
+    {
+     "lod": 1,
+     "vertices": 550,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 550,
+     "triangles": 544
+    }
+   ],
+   "textures": [
+    "30ea7a2677571646",
+    "d378708332c901b0"
+   ]
+  },
   "kotm:argonia/mudhuts/door01": {
    "file": "kotm_argonia_mudhuts_door01-e9bbdee4.glb",
-   "bytes": 19140,
+   "bytes": 23252,
    "vertices": 388,
    "triangles": 445,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 388,
+     "triangles": 445
+    },
+    {
+     "lod": 1,
+     "vertices": 388,
+     "triangles": 445
+    },
+    {
+     "lod": 2,
+     "vertices": 388,
+     "triangles": 445
+    }
+   ],
    "textures": [
     "3ccb8ac9f2e67d61",
     "e78a7407be3f3a1e"
    ]
   },
+  "kotm:argonia/mudhuts/door02": {
+   "file": "kotm_argonia_mudhuts_door02-cfaeda04.glb",
+   "bytes": 20052,
+   "vertices": 587,
+   "triangles": 395,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 587,
+     "triangles": 395
+    },
+    {
+     "lod": 1,
+     "vertices": 587,
+     "triangles": 395
+    },
+    {
+     "lod": 2,
+     "vertices": 587,
+     "triangles": 395
+    }
+   ],
+   "textures": [
+    "3ccb8ac9f2e67d61",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/mudhuts/lizardhouse": {
+   "file": "kotm_argonia_mudhuts_lizardhouse-2678bfbd.glb",
+   "bytes": 110316,
+   "vertices": 3100,
+   "triangles": 3875,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3100,
+     "triangles": 3875
+    },
+    {
+     "lod": 1,
+     "vertices": 1700,
+     "triangles": 1748
+    },
+    {
+     "lod": 2,
+     "vertices": 1422,
+     "triangles": 1424
+    }
+   ],
+   "textures": [
+    "8d8c9f84eae22a9d",
+    "9a27911525728b4f",
+    "cfe50bff00ff75d4",
+    "e78a7407be3f3a1e",
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/manorext": {
+   "file": "kotm_argonia_mudhuts_manorext-675344e5.glb",
+   "bytes": 33212,
+   "vertices": 887,
+   "triangles": 1022,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 887,
+     "triangles": 1022
+    },
+    {
+     "lod": 1,
+     "vertices": 414,
+     "triangles": 357
+    },
+    {
+     "lod": 2,
+     "vertices": 361,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/mudhut01": {
+   "file": "kotm_argonia_mudhuts_mudhut01-14424c04.glb",
+   "bytes": 47400,
+   "vertices": 1162,
+   "triangles": 1430,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1162,
+     "triangles": 1430
+    },
+    {
+     "lod": 1,
+     "vertices": 701,
+     "triangles": 651
+    },
+    {
+     "lod": 2,
+     "vertices": 658,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "e78a7407be3f3a1e",
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/mudhut02": {
+   "file": "kotm_argonia_mudhuts_mudhut02-aec01200.glb",
+   "bytes": 14900,
+   "vertices": 297,
+   "triangles": 512,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 297,
+     "triangles": 512
+    },
+    {
+     "lod": 1,
+     "vertices": 183,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 183,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/mudhut03": {
+   "file": "kotm_argonia_mudhuts_mudhut03-7e45e2bb.glb",
+   "bytes": 16772,
+   "vertices": 402,
+   "triangles": 667,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 402,
+     "triangles": 667
+    },
+    {
+     "lod": 1,
+     "vertices": 211,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 211,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "f5c46ae922ce5177"
+   ]
+  },
   "kotm:argonia/mudhuts/mudhutchimney": {
    "file": "kotm_argonia_mudhuts_mudhutchimney-13f1eada.glb",
-   "bytes": 9676,
+   "bytes": 11584,
    "vertices": 172,
    "triangles": 200,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 172,
+     "triangles": 200
+    },
+    {
+     "lod": 1,
+     "vertices": 172,
+     "triangles": 200
+    },
+    {
+     "lod": 2,
+     "vertices": 172,
+     "triangles": 200
+    }
+   ],
    "textures": [
     "872a0b33fb5c44f3",
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/overhang01": {
+   "file": "kotm_argonia_mudhuts_overhang01-597988a8.glb",
+   "bytes": 31472,
+   "vertices": 677,
+   "triangles": 836,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 677,
+     "triangles": 836
+    },
+    {
+     "lod": 1,
+     "vertices": 476,
+     "triangles": 512
+    },
+    {
+     "lod": 2,
+     "vertices": 476,
+     "triangles": 512
+    }
+   ],
+   "textures": [
+    "6d781d3d5d9be51d",
+    "8d8c9f84eae22a9d",
+    "e78a7407be3f3a1e",
+    "f29a6eca1a3a1fd0"
+   ]
+  },
+  "kotm:argonia/mudhuts/overhang03": {
+   "file": "kotm_argonia_mudhuts_overhang03-087abd8a.glb",
+   "bytes": 20396,
+   "vertices": 336,
+   "triangles": 424,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 336,
+     "triangles": 424
+    },
+    {
+     "lod": 1,
+     "vertices": 336,
+     "triangles": 424
+    },
+    {
+     "lod": 2,
+     "vertices": 336,
+     "triangles": 424
+    }
+   ],
+   "textures": [
+    "6d781d3d5d9be51d",
+    "8d8c9f84eae22a9d",
+    "e78a7407be3f3a1e",
+    "f29a6eca1a3a1fd0"
+   ]
+  },
+  "kotm:argonia/mudhuts/shed": {
+   "file": "kotm_argonia_mudhuts_shed-9e46505a.glb",
+   "bytes": 15376,
+   "vertices": 275,
+   "triangles": 366,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 275,
+     "triangles": 366
+    },
+    {
+     "lod": 1,
+     "vertices": 275,
+     "triangles": 366
+    },
+    {
+     "lod": 2,
+     "vertices": 275,
+     "triangles": 366
+    }
+   ],
+   "textures": [
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/smpodext01": {
+   "file": "kotm_argonia_mudhuts_smpodext01-69558715.glb",
+   "bytes": 14852,
+   "vertices": 362,
+   "triangles": 638,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 362,
+     "triangles": 638
+    },
+    {
+     "lod": 1,
+     "vertices": 184,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 184,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "f5c46ae922ce5177"
+   ]
+  },
+  "kotm:argonia/mudhuts/smpodext02": {
+   "file": "kotm_argonia_mudhuts_smpodext02-851be667.glb",
+   "bytes": 16804,
+   "vertices": 477,
+   "triangles": 852,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 477,
+     "triangles": 852
+    },
+    {
+     "lod": 1,
+     "vertices": 190,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 190,
+     "triangles": 299
+    }
+   ],
+   "textures": [
     "f5c46ae922ce5177"
    ]
   },
   "kotm:argonia/mudhuts/smpodextdoor": {
    "file": "kotm_argonia_mudhuts_smpodextdoor-6c7814cf.glb",
-   "bytes": 8744,
+   "bytes": 10488,
    "vertices": 172,
    "triangles": 210,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 172,
+     "triangles": 210
+    },
+    {
+     "lod": 1,
+     "vertices": 172,
+     "triangles": 210
+    },
+    {
+     "lod": 2,
+     "vertices": 172,
+     "triangles": 210
+    }
+   ],
    "textures": [
     "872a0b33fb5c44f3",
     "f5c46ae922ce5177"
    ]
   },
+  "kotm:argonia/mudhuts/stairs01": {
+   "file": "kotm_argonia_mudhuts_stairs01-33fd2324.glb",
+   "bytes": 7596,
+   "vertices": 228,
+   "triangles": 164,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 228,
+     "triangles": 164
+    },
+    {
+     "lod": 1,
+     "vertices": 228,
+     "triangles": 164
+    },
+    {
+     "lod": 2,
+     "vertices": 228,
+     "triangles": 164
+    }
+   ],
+   "textures": [
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/mudhuts/stairs02": {
+   "file": "kotm_argonia_mudhuts_stairs02-116e04f8.glb",
+   "bytes": 26500,
+   "vertices": 881,
+   "triangles": 861,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 881,
+     "triangles": 861
+    },
+    {
+     "lod": 1,
+     "vertices": 392,
+     "triangles": 308
+    },
+    {
+     "lod": 2,
+     "vertices": 392,
+     "triangles": 308
+    }
+   ],
+   "textures": [
+    "8d8c9f84eae22a9d"
+   ]
+  },
   "kotm:argonia/mudhuts/window01": {
    "file": "kotm_argonia_mudhuts_window01-3826ad7f.glb",
-   "bytes": 11844,
+   "bytes": 13664,
    "vertices": 292,
    "triangles": 432,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 292,
+     "triangles": 432
+    },
+    {
+     "lod": 1,
+     "vertices": 292,
+     "triangles": 432
+    },
+    {
+     "lod": 2,
+     "vertices": 292,
+     "triangles": 432
+    }
+   ],
    "textures": [
     "bd557728b5417a4b",
     "f5c46ae922ce5177"
@@ -56,27 +1092,922 @@
   },
   "kotm:argonia/mudhuts/window02": {
    "file": "kotm_argonia_mudhuts_window02-abd84865.glb",
-   "bytes": 12500,
+   "bytes": 14324,
    "vertices": 330,
    "triangles": 492,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 330,
+     "triangles": 492
+    },
+    {
+     "lod": 1,
+     "vertices": 330,
+     "triangles": 492
+    },
+    {
+     "lod": 2,
+     "vertices": 330,
+     "triangles": 492
+    }
+   ],
    "textures": [
     "bd557728b5417a4b",
     "f5c46ae922ce5177"
    ]
   },
+  "mudmother:gv_meshes/argoniannest/archwaysticks": {
+   "file": "mudmother_gv_meshes_argoniannest_archwaysticks-ecd4f6b3.glb",
+   "bytes": 24776,
+   "vertices": 574,
+   "triangles": 422,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 574,
+     "triangles": 422
+    },
+    {
+     "lod": 1,
+     "vertices": 570,
+     "triangles": 418
+    },
+    {
+     "lod": 2,
+     "vertices": 570,
+     "triangles": 418
+    }
+   ],
+   "textures": [
+    "be9d386a886e9cc7"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbonechime01-e7904aea.glb",
+   "bytes": 152228,
+   "vertices": 3483,
+   "triangles": 5132,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3483,
+     "triangles": 5132
+    },
+    {
+     "lod": 1,
+     "vertices": 2526,
+     "triangles": 3348
+    },
+    {
+     "lod": 2,
+     "vertices": 2526,
+     "triangles": 3348
+    }
+   ],
+   "textures": [
+    "514659983becd199",
+    "c2340d176a740498",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridge": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbridge-abf8ee0b.glb",
+   "bytes": 294156,
+   "vertices": 11183,
+   "triangles": 15764,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 11183,
+     "triangles": 15764
+    },
+    {
+     "lod": 1,
+     "vertices": 5366,
+     "triangles": 5670
+    },
+    {
+     "lod": 2,
+     "vertices": 2539,
+     "triangles": 2099
+    }
+   ],
+   "textures": [
+    "514659983becd199",
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridgestart": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbridgestart-e12fa82e.glb",
+   "bytes": 92336,
+   "vertices": 2678,
+   "triangles": 3802,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2678,
+     "triangles": 3802
+    },
+    {
+     "lod": 1,
+     "vertices": 1293,
+     "triangles": 1414
+    },
+    {
+     "lod": 2,
+     "vertices": 785,
+     "triangles": 729
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199",
+    "c2340d176a740498"
+   ]
+  },
   "mudmother:gv_meshes/argoniannest/argoniancandle01": {
    "file": "mudmother_gv_meshes_argoniannest_argoniancandle01-9ced16a4.glb",
-   "bytes": 30532,
+   "bytes": 50996,
    "vertices": 1262,
    "triangles": 1548,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1262,
+     "triangles": 1548
+    },
+    {
+     "lod": 1,
+     "vertices": 1044,
+     "triangles": 1164
+    },
+    {
+     "lod": 2,
+     "vertices": 1044,
+     "triangles": 1164
+    }
+   ],
    "textures": [
     "514659983becd199",
     "7f17626834ecc499",
     "9166ed5cf28c02f1"
    ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfence01-f2895adb.glb",
+   "bytes": 34540,
+   "vertices": 826,
+   "triangles": 1084,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 826,
+     "triangles": 1084
+    },
+    {
+     "lod": 1,
+     "vertices": 410,
+     "triangles": 382
+    },
+    {
+     "lod": 2,
+     "vertices": 351,
+     "triangles": 304
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfence02-89397cea.glb",
+   "bytes": 18992,
+   "vertices": 337,
+   "triangles": 370,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 337,
+     "triangles": 370
+    },
+    {
+     "lod": 1,
+     "vertices": 301,
+     "triangles": 308
+    },
+    {
+     "lod": 2,
+     "vertices": 301,
+     "triangles": 308
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfenceend-30c4fe9d.glb",
+   "bytes": 33556,
+   "vertices": 810,
+   "triangles": 1035,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 810,
+     "triangles": 1035
+    },
+    {
+     "lod": 1,
+     "vertices": 401,
+     "triangles": 374
+    },
+    {
+     "lod": 2,
+     "vertices": 359,
+     "triangles": 318
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns02-bd1d6aac.glb",
+   "bytes": 60488,
+   "vertices": 1413,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1413,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 781,
+     "triangles": 622
+    },
+    {
+     "lod": 2,
+     "vertices": 767,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns03-fa5e0740.glb",
+   "bytes": 60464,
+   "vertices": 1411,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1411,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 780,
+     "triangles": 622
+    },
+    {
+     "lod": 2,
+     "vertices": 766,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns04-ba4e1af6.glb",
+   "bytes": 44188,
+   "vertices": 1157,
+   "triangles": 1080,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1157,
+     "triangles": 1080
+    },
+    {
+     "lod": 1,
+     "vertices": 643,
+     "triangles": 482
+    },
+    {
+     "lod": 2,
+     "vertices": 637,
+     "triangles": 460
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatform": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianplatform-f3644bcb.glb",
+   "bytes": 23412,
+   "vertices": 514,
+   "triangles": 902,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 514,
+     "triangles": 902
+    },
+    {
+     "lod": 1,
+     "vertices": 205,
+     "triangles": 314
+    },
+    {
+     "lod": 2,
+     "vertices": 197,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatformsmall": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianplatformsmall-dab71ab7.glb",
+   "bytes": 7280,
+   "vertices": 173,
+   "triangles": 212,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 173,
+     "triangles": 212
+    },
+    {
+     "lod": 1,
+     "vertices": 173,
+     "triangles": 212
+    },
+    {
+     "lod": 2,
+     "vertices": 173,
+     "triangles": 212
+    }
+   ],
+   "textures": [
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianskull01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianskull01-5df55527.glb",
+   "bytes": 17276,
+   "vertices": 487,
+   "triangles": 746,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 487,
+     "triangles": 746
+    },
+    {
+     "lod": 1,
+     "vertices": 239,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 239,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent01": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantent01-ab3d697e.glb",
+   "bytes": 74324,
+   "vertices": 1901,
+   "triangles": 2388,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1901,
+     "triangles": 2388
+    },
+    {
+     "lod": 1,
+     "vertices": 1009,
+     "triangles": 1025
+    },
+    {
+     "lod": 2,
+     "vertices": 760,
+     "triangles": 711
+    }
+   ],
+   "textures": [
+    "91fa583b2076b5ef",
+    "b399f4d05b9e27fd",
+    "be9d386a886e9cc7"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent02": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantent02-62eb0eb3.glb",
+   "bytes": 48816,
+   "vertices": 1164,
+   "triangles": 1509,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1164,
+     "triangles": 1509
+    },
+    {
+     "lod": 1,
+     "vertices": 638,
+     "triangles": 668
+    },
+    {
+     "lod": 2,
+     "vertices": 584,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "7bce63df5220db53",
+    "91fa583b2076b5ef"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantotem01-ded592da.glb",
+   "bytes": 24384,
+   "vertices": 698,
+   "triangles": 836,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 698,
+     "triangles": 836
+    },
+    {
+     "lod": 1,
+     "vertices": 540,
+     "triangles": 565
+    },
+    {
+     "lod": 2,
+     "vertices": 540,
+     "triangles": 565
+    }
+   ],
+   "textures": [
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/basketfull": {
+   "file": "mudmother_gv_meshes_argoniannest_basketfull-c42dbcb2.glb",
+   "bytes": 45840,
+   "vertices": 1111,
+   "triangles": 1466,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1111,
+     "triangles": 1466
+    },
+    {
+     "lod": 1,
+     "vertices": 944,
+     "triangles": 1174
+    },
+    {
+     "lod": 2,
+     "vertices": 944,
+     "triangles": 1174
+    }
+   ],
+   "textures": [
+    "7871bf2b4e5484c5"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/basketsmall01": {
+   "file": "mudmother_gv_meshes_argoniannest_basketsmall01-3b43e8d1.glb",
+   "bytes": 12884,
+   "vertices": 243,
+   "triangles": 354,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 243,
+     "triangles": 354
+    },
+    {
+     "lod": 1,
+     "vertices": 215,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 215,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "d8600deb7927b2d5"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/carapaceoven": {
+   "file": "mudmother_gv_meshes_argoniannest_carapaceoven-4bf4ce7e.glb",
+   "bytes": 83028,
+   "vertices": 1806,
+   "triangles": 2764,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1806,
+     "triangles": 2764
+    },
+    {
+     "lod": 1,
+     "vertices": 1263,
+     "triangles": 1804
+    },
+    {
+     "lod": 2,
+     "vertices": 1260,
+     "triangles": 1800
+    }
+   ],
+   "textures": [
+    "8b66f61176f00086"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/fishracksmall": {
+   "file": "mudmother_gv_meshes_argoniannest_fishracksmall-a5fbdb96.glb",
+   "bytes": 32620,
+   "vertices": 828,
+   "triangles": 1136,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 828,
+     "triangles": 1136
+    },
+    {
+     "lod": 1,
+     "vertices": 504,
+     "triangles": 599
+    },
+    {
+     "lod": 2,
+     "vertices": 504,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/histtree": {
+   "file": "mudmother_gv_meshes_argoniannest_histtree-3801a71e.glb",
+   "bytes": 144400,
+   "vertices": 4420,
+   "triangles": 5224,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4420,
+     "triangles": 5224
+    },
+    {
+     "lod": 1,
+     "vertices": 2081,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 1136,
+     "triangles": 765
+    }
+   ],
+   "textures": [
+    "12f59a45ee0e0dc5",
+    "9166ed5cf28c02f1"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/mudhut01": {
+   "file": "mudmother_gv_meshes_argoniannest_mudhut01-e3a8ad1f.glb",
+   "bytes": 55040,
+   "vertices": 1953,
+   "triangles": 2529,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1953,
+     "triangles": 2529
+    },
+    {
+     "lod": 1,
+     "vertices": 944,
+     "triangles": 885
+    },
+    {
+     "lod": 2,
+     "vertices": 362,
+     "triangles": 303
+    }
+   ],
+   "textures": [
+    "b6f45c075fda8717"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/paintedurn01": {
+   "file": "mudmother_gv_meshes_argoniannest_paintedurn01-9ef89b29.glb",
+   "bytes": 42300,
+   "vertices": 918,
+   "triangles": 1202,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 918,
+     "triangles": 1202
+    },
+    {
+     "lod": 1,
+     "vertices": 557,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 496,
+     "triangles": 481
+    }
+   ],
+   "textures": [
+    "5132b15d996b9ffa"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/roundfloor01": {
+   "file": "mudmother_gv_meshes_argoniannest_roundfloor01-d53db449.glb",
+   "bytes": 64200,
+   "vertices": 1425,
+   "triangles": 1536,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1425,
+     "triangles": 1536
+    },
+    {
+     "lod": 1,
+     "vertices": 1248,
+     "triangles": 1219
+    },
+    {
+     "lod": 2,
+     "vertices": 1248,
+     "triangles": 1219
+    }
+   ],
+   "textures": [
+    "3073c6832a8ac479",
+    "b6f45c075fda8717"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "file": "mudmother_gv_meshes_argoniannest_sithisshrine-6912fb1d.glb",
+   "bytes": 40020,
+   "vertices": 1060,
+   "triangles": 1308,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1060,
+     "triangles": 1308
+    },
+    {
+     "lod": 1,
+     "vertices": 499,
+     "triangles": 609
+    },
+    {
+     "lod": 2,
+     "vertices": 482,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "100a2e87bd8a08af",
+    "c44e76606c7f02e9"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/snakefence01": {
+   "file": "mudmother_gv_meshes_argoniannest_snakefence01-134a6fc1.glb",
+   "bytes": 11056,
+   "vertices": 152,
+   "triangles": 192,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 152,
+     "triangles": 192
+    },
+    {
+     "lod": 1,
+     "vertices": 152,
+     "triangles": 192
+    },
+    {
+     "lod": 2,
+     "vertices": 152,
+     "triangles": 192
+    }
+   ],
+   "textures": [
+    "91fa583b2076b5ef",
+    "9f27a5d292da1646"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/thatchroofing": {
+   "file": "mudmother_gv_meshes_argoniannest_thatchroofing-2b4425c1.glb",
+   "bytes": 4772,
+   "vertices": 25,
+   "triangles": 24,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 25,
+     "triangles": 24
+    },
+    {
+     "lod": 1,
+     "vertices": 25,
+     "triangles": 24
+    },
+    {
+     "lod": 2,
+     "vertices": 25,
+     "triangles": 24
+    }
+   ],
+   "textures": [
+    "d0ea8af8344c8c57"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/wovenchair01": {
+   "file": "mudmother_gv_meshes_argoniannest_wovenchair01-bb40a3d2.glb",
+   "bytes": 43672,
+   "vertices": 983,
+   "triangles": 1246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 983,
+     "triangles": 1246
+    },
+    {
+     "lod": 1,
+     "vertices": 801,
+     "triangles": 954
+    },
+    {
+     "lod": 2,
+     "vertices": 801,
+     "triangles": 954
+    }
+   ],
+   "textures": [
+    "4a0508e107aa424d",
+    "8b3bbba470aa5599"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/woventable01": {
+   "file": "mudmother_gv_meshes_argoniannest_woventable01-b5085651.glb",
+   "bytes": 32392,
+   "vertices": 936,
+   "triangles": 1006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 936,
+     "triangles": 1006
+    },
+    {
+     "lod": 1,
+     "vertices": 588,
+     "triangles": 518
+    },
+    {
+     "lod": 2,
+     "vertices": 588,
+     "triangles": 518
+    }
+   ],
+   "textures": [
+    "4a0508e107aa424d",
+    "8b3bbba470aa5599"
+   ]
   }
  },
  "fires": {
+  "canoe:actors/sfss/canoe/canoe1": {
+   "id": "canoe:actors/sfss/canoe/canoe1",
+   "category": "creature",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.981,
+    6.762,
+    2.125
+   ],
+   "originOffsetM": [
+    0.99,
+    2.986,
+    0.166
+   ],
+   "emissiveMaterials": [
+    "Object009:2.Mat"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "id": "ferryraft:snt/ferry/ferryraft01",
+   "category": "misc",
+   "anchorClass": "water",
+   "flames": [
+    {
+     "offsetM": [
+      -1.2176,
+      0.5342,
+      0.1451
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -1.2375,
+      0.5085,
+      0.0868
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    3.236,
+    4.104,
+    1.711
+   ],
+   "originOffsetM": [
+    1.59,
+    2.016,
+    0.473
+   ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01": {
+   "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.164,
+    0.678,
+    3.459
+   ],
+   "originOffsetM": [
+    0.649,
+    0.25,
+    -5.854
+   ],
+   "emissiveMaterials": [
+    "Cylinder.Mat"
+   ]
+  },
   "kotm:argonia/mudhuts/window01": {
    "id": "kotm:argonia/mudhuts/window01",
    "category": "misc",
@@ -179,6 +2110,90 @@
    ],
    "emissiveMaterials": [
     "RieklingCandle:0.Mat"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": {
+   "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "category": "misc",
+   "anchorClass": "hanging",
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1,
+     "movementAmplitude": 1
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     0,
+     -1.81,
+     0
+    ],
+    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): SLightStreetStreet01 (Skyrim.esm LIGH 000d0e40) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 4 argonianlanterns03 refs the mod places; mine_kit_lights finds it under MIN_HITS (NO LIGH, 2026-10-03), so the record is kept as the lit fixture every Argonian lantern is (walk 3 L7) and its light sits at its own lantern body, 1.81 m below the pivot (0.34 m above the base, the body height of the short-cord sibling argonianlanterns04), where the hanging fallback flame burns. The single ref's offset (-0.17, -2.57, 0.28) put the light 0.42 m under the lantern (audit10 B2)."
+   },
+   "sizeM": [
+    0.655,
+    0.639,
+    2.236
+   ],
+   "originOffsetM": [
+    0.317,
+    0.317,
+    2.149
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "category": "misc",
+   "anchorClass": "hanging",
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1,
+     "movementAmplitude": 1
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     0,
+     -0.55,
+     0
+    ],
+    "evidence": "The mod places its 3 argonianlanterns04 refs with no LIGH within 200 units (none 3). It is the short-cord sibling of argonianlanterns03 (same lantern body, 0.89 m cord against 2.15 m), so it takes 03's mined record (SLightStreetStreet01, n 1) with the light at its own lantern body, 0.55 m below the pivot; every Argonian lantern a place hangs is a lit fixture (planner brief L7 item 2, walk 3). Lane L16 2026-09-28."
+   },
+   "sizeM": [
+    0.655,
+    0.639,
+    1.025
+   ],
+   "originOffsetM": [
+    0.317,
+    0.317,
+    0.889
    ]
   }
  }

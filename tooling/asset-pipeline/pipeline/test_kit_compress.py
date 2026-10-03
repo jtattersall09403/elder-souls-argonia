@@ -131,18 +131,42 @@ def test_parts_problems_name_a_missing_folder_another_glb_and_a_missing_file(tmp
     (tmp_path / "k.glb").write_bytes(b"glb-bytes")
     assert "no parts folder" in kit_compress.parts_problems("k")[0]
     parts = tmp_path / "k" / "parts"
-    (parts / "tex").mkdir(parents=True)
+    parts.mkdir(parents=True)
+    (tmp_path / "tex").mkdir()
     (parts / "a.glb").write_bytes(b"12345")
-    (parts / "tex" / "abcd.ktx2").write_bytes(b"t")
-    index = {"source": {"sha256": "0" * 64},
+    (tmp_path / "tex" / "abcd.ktx2").write_bytes(b"t")
+    index = {"schemaVersion": 2, "source": {"sha256": "0" * 64},
              "assets": {"x:a": {"file": "a.glb", "bytes": 5, "textures": ["abcd"]}}}
+    (parts / "index.json").write_text(json.dumps(index))
+    assert "schemaVersion 2" in kit_compress.parts_problems("k")[0]
+    index["schemaVersion"] = 3
     (parts / "index.json").write_text(json.dumps(index))
     assert "cut from another GLB" in kit_compress.parts_problems("k")[0]
     index["source"]["sha256"] = hashlib.sha256(b"glb-bytes").hexdigest()
     (parts / "index.json").write_text(json.dumps(index))
     assert kit_compress.parts_problems("k") == []
-    (parts / "tex" / "abcd.ktx2").unlink()
+    assert kit_compress.pool_problems() == []
+    (tmp_path / "tex" / "orphan.ktx2").write_bytes(b"o")
+    assert "orphan.ktx2" in kit_compress.pool_problems()[0]
+    (tmp_path / "tex" / "abcd.ktx2").unlink()
     assert "tex/abcd.ktx2" in kit_compress.parts_problems("k")[0]
+
+
+def test_exterior_parts_kits_cover_every_manifest_asset_and_match_the_writer(tmp_path, monkeypatch):
+    """Decision 0120 S1: an EXTERIOR_PARTS_KITS kit is in scope with no cell and
+    gets a part for every manifest asset; the set equals kit_parts.mjs's."""
+    import re
+    from . import kit_compress
+    monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", tmp_path / "none")
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
+    kit = kit_compress.EXTERIOR_PARTS_KITS[0]
+    (tmp_path / f"{kit}.kit.json").write_text(json.dumps({"assets": [{"id": "e:a"}, {"id": "e:b"}]}))
+    assert kit_compress.parts_scope() == set(kit_compress.EXTERIOR_PARTS_KITS)
+    assert kit_compress.parts_drawn(kit) == {"e:a", "e:b"}
+    js = kit_compress.PARTS_WRITER.read_text()
+    assert tuple(json.loads(re.search(r"EXTERIOR_PARTS_KITS = (\[[^\]]*\])", js).group(1))) \
+        == kit_compress.EXTERIOR_PARTS_KITS
+    assert f"PARTS_SCHEMA_VERSION = {kit_compress.PARTS_SCHEMA_VERSION};" in js
 
 
 def test_parts_cover_exactly_the_assets_the_cells_draw(tmp_path, monkeypatch):
@@ -167,7 +191,7 @@ def test_parts_cover_exactly_the_assets_the_cells_draw(tmp_path, monkeypatch):
     for row in rows.values():
         (parts / row["file"]).write_bytes(b"1")
     (parts / "index.json").write_text(json.dumps(
-        {"source": {"sha256": hashlib.sha256(b"g").hexdigest()}, "assets": rows}))
+        {"schemaVersion": 3, "source": {"sha256": hashlib.sha256(b"g").hexdigest()}, "assets": rows}))
     problem = kit_compress.parts_problems("k")[0]
     assert "x:door" in problem and "x:extra" in problem
 
@@ -182,7 +206,7 @@ def test_parts_scope_is_the_kits_published_cells_name(tmp_path, monkeypatch):
     (cells / "C.json").write_text(json.dumps({"kits": {"in-cell": {"id": "in-cell"}}}))
     monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", cells)
     monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
-    assert kit_compress.parts_scope() == {"in-cell"}
+    assert kit_compress.parts_scope() == {"in-cell", *kit_compress.EXTERIOR_PARTS_KITS}
     (tmp_path / "exterior-only.glb").write_bytes(b"g")
     assert kit_compress.parts_problems("exterior-only") == []
     (tmp_path / "exterior-only" / "parts").mkdir(parents=True)
