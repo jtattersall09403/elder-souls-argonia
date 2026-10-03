@@ -847,7 +847,9 @@ def undecaled_materials(bundle: dict, place: str) -> list[str]:
     (the NIF's SLSF1 Decal / Dynamic_Decal overlay) ships with the glTF
     material extra `decal: true`, the field the settlement runtime biases
     (`materials.ts applySettlementDecal`). The skirting flicker was
-    impfreewall01's ImpDirt overlay z-fighting its band with no flag."""
+    impfreewall01's ImpDirt overlay z-fighting its band with no flag.
+    Reads the shipped parts (decision 0120)."""
+    from pipeline.kit_compress import published_gltf
     public = PROVINCE_DIR.parent
     kits = {p["kit"] for p in _place_rows(bundle, place)}
     out = []
@@ -855,7 +857,7 @@ def undecaled_materials(bundle: dict, place: str) -> list[str]:
         kit = bundle["kits"][kit_id]
         manifest = json.loads((public / kit["manifest"]).read_text())
         wanted = {m for a in manifest["assets"] for m in a.get("decalMaterials", [])}
-        flagged = {m.get("name") for m in _glb_json(public / kit["glb"]).get("materials", [])
+        flagged = {m.get("name") for m in published_gltf(kit_id).get("materials", [])
                    if (m.get("extras") or {}).get("decal")}
         out += [f"{kit_id} {m}" for m in sorted(wanted - flagged)]
     return out
