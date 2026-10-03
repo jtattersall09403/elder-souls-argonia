@@ -72,6 +72,12 @@ are there.
 The rule passes and lists a pool with no family in its row, so the gap
 stays visible without blocking the place.
 
+**Shooting a junction signpost** (audit10, opening-work-camp): `front:<post>`
+defaults to bearing 180 and a 4 m span, so on a north-south road both boards
+render edge-on and the foot is cropped, and the reader cannot judge them. Shoot
+`front:<post>/6/<B>` with `B` = the road bearing `check` reports on the board
+row (`roadBearingDeg`) plus 90, and once more at `B`+180.
+
 ## 4. Yard dressing by type (walk-8 review, placed walk 9)
 
 Each row is a 16k checklist row ("Yard dressing breadth, walk 8"). A new

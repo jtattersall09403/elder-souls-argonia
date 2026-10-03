@@ -300,6 +300,57 @@
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 17.6393
+          },
+          {
+            "id": "r-board1",
+            "asset": "bmv:roadsignmedium01l",
+            "atM": [
+              0.0,
+              0.0
+            ],
+            "yaw": 279.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "points",
+              "mountedOn": "r-post",
+              "n": 2
+            },
+            "upM": 2.1407,
+            "host": "r-post"
+          },
+          {
+            "id": "r-board2",
+            "asset": "bmv:roadsignmedium01r",
+            "atM": [
+              0.0,
+              0.0
+            ],
+            "yaw": 90.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "points",
+              "mountedOn": "r-post",
+              "n": 1
+            },
+            "upM": 1.7849,
+            "host": "r-post"
+          },
+          {
+            "id": "r-post",
+            "asset": "vanilla:clutter/signage/roadsigns/roadsignpost",
+            "atM": [
+              7.5263,
+              -8.9641
+            ],
+            "yaw": 330.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 19.7371
           }
         ],
         "footprint": [
@@ -2037,7 +2088,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/opening-work-camp.layout.json",
-        "sha256": "0626ced9023a55cb271db457a3bc82eb045ffd0eef0116d0a5899eeafb58d1d3"
+        "sha256": "21030c34bcb41302528cf6befc4826fad8ab606a5d1bfb04ff5c2c881d48ed5d"
       }
     },
     "walkRoutes": {

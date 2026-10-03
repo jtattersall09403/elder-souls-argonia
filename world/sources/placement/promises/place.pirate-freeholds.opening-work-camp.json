@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-pirate-freeholds.json",
-   "sha256": "e4743ea13f68542f4748ae7e68ce03a0568ef25ccfc9439c9c6af142ca894189"
+   "sha256": "8331151fc3ffaf805c38db89c5d365d3438857e2a060656fe1a15faa1b8a1612"
   },
   {
    "file": "world/sources/quests/quests-main.json",
@@ -126,7 +126,7 @@
    "text": "the way in drops from the Border road to the hatching shed door; the yard way steps down the terraces from there",
    "confirmed": {
     "sha": "d7056361131c",
-    "note": "the-road-way runs from the Border road to the hatching shed door; the yard way runs down the terraces from it."
+    "note": "the-road-way runs from the Border road to the hatching shed door (b-hatch), where the road sign post r-post stands with boards to Stormhold and Thorn; the yard way runs down the terraces from it."
    }
   },
   {
@@ -204,7 +204,7 @@
    "text": "the hatching shed, kept warmer and cleaner than the sleeping sheds",
    "confirmed": {
     "sha": "20dfa34eee9b",
-    "note": "The hatching shed sits on its own top terrace with two lanterns, a candle and a totem at the door."
+    "note": "The hatching shed (b-hatch) sits on its own top terrace with two lanterns, a candle and a totem at the door."
    }
   },
   {
