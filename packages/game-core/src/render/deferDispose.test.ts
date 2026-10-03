@@ -68,3 +68,29 @@ describe("tagGeometryBuffers", () => {
     expect(g.index!.name).toBe("fire:index");
   });
 });
+
+describe("deferDisposeReplaced", () => {
+  it("deletes only the replaced geometry's own buffers at the drain, never the live one's", async () => {
+    const THREE = await import("three");
+    const { deferDisposeReplaced } = await import("./deferDispose");
+    const deleted = new Set<object>();
+    const r = { ...fakeRenderer(), _attributes: { delete: (a: object) => { deleted.add(a); } } };
+    const make = () => {
+      const g = new THREE.BufferGeometry();
+      g.setIndex([0, 1, 2]);
+      g.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(9), 3));
+      return g;
+    };
+    const g0 = make(), g1 = make(), g2 = make();
+    const disposed = vi.fn();
+    for (const g of [g0, g1, g2]) g.addEventListener("dispose", disposed);
+    deferDisposeReplaced(r, g0); // frame 1: rebind g0 -> g1
+    r.info.reset();
+    deferDisposeReplaced(r, g1); // frame 2: rebind g1 -> g2
+    r.info.reset();
+    expect(disposed).not.toHaveBeenCalled(); // three's handler (reads the live render object) never fires
+    for (const g of [g0, g1]) { expect(deleted.has(g.index!)).toBe(true); expect(deleted.has(g.attributes.position)).toBe(true); }
+    expect(deleted.has(g2.index!)).toBe(false);
+    expect(deleted.has(g2.attributes.position)).toBe(false);
+  });
+});

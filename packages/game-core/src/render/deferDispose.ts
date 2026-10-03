@@ -12,6 +12,15 @@
  * every render call of the previous frame has been submitted. A renderer
  * without `info.reset` (tests, a stub) disposes at once.
  *
+ * Only for an object no live draw will keep: a geometry whose mesh was
+ * removed or disposed. A geometry REPLACED on a still-drawn mesh goes through
+ * `deferDisposeReplaced`: three r0.184's geometry dispose handler
+ * (Geometries.initGeometry onDispose) deletes `renderObject.getAttributes()`,
+ * read from the render object's CURRENT geometry; once the mesh has drawn
+ * its new geometry, a plain deferred dispose of the old one destroys the new
+ * one's buffers (webgpu10 c10 fix E: "fire-embers:iPosSeed used in submit
+ * while destroyed" 7123x).
+ *
  * Per-renderer state lives in a WeakMap keyed on the renderer (standard 8):
  * it dies with the renderer. Enqueueing one object twice disposes it once.
  */
@@ -46,6 +55,27 @@ export function deferDispose(renderer: object | null | undefined, d: Disposable)
   const queue = renderer ? queueFor(renderer as RendererLike) : null;
   if (queue) queue.pending.add(d);
   else d.dispose();
+}
+
+interface AttributesLike { delete(attribute: object): unknown }
+
+/**
+ * Free a geometry REPLACED on a mesh that keeps drawing, at the next frame
+ * start: its own index and attribute buffers are deleted through the
+ * WebGPURenderer's attribute store, never through `geometry.dispose()` (whose
+ * handler deletes the mesh's current, live attributes; see the header). A
+ * renderer without that store (WebGLRenderer, a stub) frees by
+ * `geometry.dispose()`, whose handler reads the geometry's own attributes.
+ */
+export function deferDisposeReplaced(renderer: object | null | undefined, geometry: THREE.BufferGeometry): void {
+  const store = (renderer as { _attributes?: AttributesLike | null } | null | undefined)?._attributes;
+  if (!store || typeof store.delete !== "function") { deferDispose(renderer, geometry); return; }
+  deferDispose(renderer, {
+    dispose: () => {
+      if (geometry.index) store.delete(geometry.index);
+      for (const attribute of Object.values(geometry.attributes)) store.delete(attribute);
+    },
+  });
 }
 
 /** Dispose everything queued on `renderer` now (the frame hook; unmounts may call it). */

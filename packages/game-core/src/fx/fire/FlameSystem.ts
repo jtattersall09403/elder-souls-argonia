@@ -45,7 +45,7 @@ import {
 import {
   FIRE_VOLUME_REACH_M, makeEmberMaterial, makeFireUniforms, makeFlameMaterial, makeFlameQuad, type FireUniforms,
 } from "./flameMaterial";
-import { deferDispose, tagGeometryBuffers } from "../../render/deferDispose";
+import { deferDispose, deferDisposeReplaced, tagGeometryBuffers } from "../../render/deferDispose";
 import { acquireFireCurl, makeVolumeBox, makeVolumeMaterial, releaseFireCurl, VolumeFireField } from "./volumeFire";
 
 export interface FireEmitter {
@@ -527,7 +527,8 @@ export class FlameSystem {
  * previous rows' buffer with the new instance count, and on WebGPU the
  * overrun invalidated the whole pass (walk 9 pod run: 54 rows bound, 60
  * drawn, everything in renderContext_4 gone for the frame). Disposing the old
- * geometry frees its buffers (review 2026-09-30: a rebind without it leaked).
+ * geometry frees its buffers (review 2026-09-30: a rebind without it leaked),
+ * through `deferDisposeReplaced` (webgpu10 c10 fix E).
  */
 function bindInterleaved(renderer: object | null, mesh: THREE.Mesh<THREE.InstancedBufferGeometry>, data: Float32Array, stride: number,
   columns: [string, number][]): void {
@@ -549,7 +550,9 @@ function bindInterleaved(renderer: object | null, mesh: THREE.Mesh<THREE.Instanc
   if (old.boundingBox) geometry.boundingBox = old.boundingBox.clone();
   mesh.geometry = geometry;
   tagGeometryBuffers(geometry, mesh.name);
-  deferDispose(renderer, old); // never mid-pass: a draw already encoded may hold its buffers
+  // never mid-pass (a draw already encoded may hold its buffers), and never by old.dispose():
+  // three's handler would delete the mesh's live attributes once it has drawn the new geometry
+  deferDisposeReplaced(renderer, old);
 }
 
 function markDirty(geometry: THREE.InstancedBufferGeometry): void {

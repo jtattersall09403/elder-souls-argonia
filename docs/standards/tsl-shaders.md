@@ -130,6 +130,10 @@ with an object that must not have it: clone first (the old rule, unchanged).
   buffers an encoded pass still draws ("used in submit while destroyed"). Name owned buffers with
   `tagGeometryBuffers(geometry, tag)`: three passes `attribute.name` as the GPUBuffer label, so a
   validation error names the owner (webgpu10 c10).
+- A geometry REPLACED on a mesh that keeps drawing (`mesh.geometry = next`) is freed with
+  `deferDisposeReplaced(renderer, old)`, never `deferDispose`/`old.dispose()` after the swap: three's
+  dispose handler deletes the render object's CURRENT attributes, so once the mesh drew `next` it
+  destroys `next`'s buffers ("fire-embers:iPosSeed used in submit while destroyed" 7123x, c10 fix E).
 - The GPU-cull pool is WebGPU-backend only (`GpuCullSystem.supported` reads `backend.isWebGPUBackend`
   and the `indirect-first-instance` feature): on WebGL2 its storage reads become vertex attributes
   (`nodeAttribute*`, one location each, a mat4 taking four) and WebGL2 has 16 attribute slots. Never
