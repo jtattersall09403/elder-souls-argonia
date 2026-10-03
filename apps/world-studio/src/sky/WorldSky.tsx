@@ -186,6 +186,8 @@ export interface SkyDebugState {
    * present each species is right now — so the layer
    * can be checked by reading a number instead of squinting at the frame. */
   volumetricBand: string;
+  /** DEV only (vol10 diag7): the froxel fog state, the aerial fog terms and the sun elevation. */
+  volProbe?: () => Record<string, unknown>;
   airAmounts: Record<string, number>;
 }
 
@@ -1045,6 +1047,14 @@ export function WorldSky({
       camFog: camFogNow,
       cloudSunsetAmt: rig.cloudSunsetAmt,
       volumetricBand: volumetrics.band,
+      // dev-only fog probe (vol10 diag7): call it from a capture; computed on demand, never per frame
+      ...(import.meta.env.DEV ? {
+        volProbe: () => ({
+          ...volumetrics.debugProbe(camera.position),
+          aerialMistStrength: a.uMistStrength.value, aerialAdvectionFog: a.uAdvectionFog.value,
+          aerialWhiteout: a.uWhiteout.value.w, sunElevationDeg: rig.sun.altitude / DEG,
+        }),
+      } : {}),
       airAmounts: lastAirAmounts.current,
       // Whole-frame total published by the DEV frame probe (CharacterMode):
       // `info.autoReset` is off there, so the live counter is mid-frame.

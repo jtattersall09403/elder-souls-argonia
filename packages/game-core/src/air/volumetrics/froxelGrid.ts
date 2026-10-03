@@ -19,7 +19,7 @@ import { FOG_NOISE, FogDrift, FogShapeBake, bakeFogWarp } from "./fogNoise";
 import { VOLUMETRIC_BANDS, bandSpec, type BandSpec, type VolumetricTier } from "./bandGovernor";
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
-import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
+import { CanopyMap, CANOPY_SIZE_M, CANOPY_TEXELS, type Crown } from "./canopyMap";
 import { FIRE_HALO_SIGMA_PER_M, lampHalo, type VolumetricsSampler } from "./volumetricNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
@@ -318,6 +318,29 @@ export class Volumetrics implements VolumetricsSampler {
   sampleIntegrated(uvw: TslNode): TslNode {
     if (!this.integ) return texture3D(this.clear, uvw, 0);
     return mix(vec4(0, 0, 0, 1), texture3D(this.integ, subUvw(uvw, this.gridSize), 0), this.on);
+  }
+
+  /** Dev probe (vol10 diag7): the medium's state for a capture to confirm each fog row. Called on
+   * demand (never per frame): eased cover (x mist, y steam, z marsh, w sea, canopy haze), the last
+   * regimes, halo sigma and the share of canopy-map texels with r > 0.4 within 100 m of `at`. */
+  debugProbe(at: { x: number; z: number }): {
+    band: VolumetricBand; cover: number[]; capCover: number; mistDepthM: number; mistBurn: number; wetHaze: number;
+    regimes: FogRegimes; haloSigma: number; canopyCover100m: number;
+  } {
+    const u = this.u, c = u.cover.value;
+    const d = this.canopy.data, o = this.canopy.origin, k = CANOPY_TEXELS / CANOPY_SIZE_M;
+    let n = 0, hit = 0;
+    for (let j = 0; j < CANOPY_TEXELS; j++) for (let i = 0; i < CANOPY_TEXELS; i++) {
+      const x = o.x + (i + 0.5) / k - at.x, z = o.y + (j + 0.5) / k - at.z;
+      if (x * x + z * z > 100 * 100) continue;
+      n++; if (d[(j * CANOPY_TEXELS + i) * 4] > 0.4) hit++;
+    }
+    return {
+      band: this.band, cover: [c.x, c.y, c.z, c.w, u.canopyHaze.value], capCover: u.capCover.value,
+      mistDepthM: u.mistDepth.value, mistBurn: u.mistBurn.value, wetHaze: u.wetHaze.value,
+      regimes: { ...this.regimes, windXZ: [this.regimes.windXZ[0], this.regimes.windXZ[1]] },
+      haloSigma: u.haloSigma.value, canopyCover100m: n ? hit / n : 0,
+    };
   }
 
   setBand(band: VolumetricBand): void {
