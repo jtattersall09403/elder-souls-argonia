@@ -5,7 +5,7 @@
  */
 import * as THREE from "three";
 import { describe, expect, it, vi } from "vitest";
-import { buildStartMark, flameManifestPath, groundArrivalResolves, swapInBuild } from "./SettlementLayer";
+import { buildStartMark, flameManifestPath, groundArrivalResolves, releaseSpawnRingIfStuck, swapInBuild } from "./SettlementLayer";
 
 describe("settlement build swap", () => {
   it("swaps an empty build in without three's 'not an instance' error", () => {
@@ -40,5 +40,16 @@ describe("settlement build swap", () => {
       .toBe("kits/works-v1.kit.json");
     expect(flameManifestPath({ "settlement-mud-v1": { manifest: "kits/settlement-mud-v1.kit.json" } }))
       .toBe("kits/works-v1.kit.json");
+  });
+  it("releases the spawn ring on a fatal error or a failed bundle so the warm gate opens", () => {
+    const ring = { current: 1 };
+    releaseSpawnRingIfStuck(ring, false, false);
+    expect(ring.current).toBe(1);
+    releaseSpawnRingIfStuck(ring, true, false);
+    expect(ring.current).toBe(0);
+    ring.current = 3;
+    releaseSpawnRingIfStuck(ring, false, true);
+    expect(ring.current).toBe(0);
+    expect(() => releaseSpawnRingIfStuck(undefined, true, true)).not.toThrow();
   });
 });

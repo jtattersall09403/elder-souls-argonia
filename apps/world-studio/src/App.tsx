@@ -408,6 +408,9 @@ export function App() {
   // repaint re-runs when one finishes loading (overlayGen).
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const pendingOverlaysRef = useRef<Set<string>>(new Set());
+  const failedOverlaysRef = useRef<Set<string>>(new Set());
+  const layersRef = useRef(layers);
+  layersRef.current = layers;
   const [overlayGen, setOverlayGen] = useState(0);
   const decodedPxRef = useRef<Record<string, Uint8Array>>({});
   const climateRef = useRef<Record<string, { humidity: number; mist: number; rain: string; visibility: number }>>({});
@@ -508,7 +511,7 @@ export function App() {
   // is first switched on, released (src cleared) when it is switched off.
   useEffect(() => {
     const base = import.meta.env.BASE_URL;
-    const plan = overlayLoadPlan(layers, Object.keys(overlaysRef.current), pendingOverlaysRef.current, Object.keys(OVERLAY_FILES));
+    const plan = overlayLoadPlan(layers, Object.keys(overlaysRef.current), pendingOverlaysRef.current, Object.keys(OVERLAY_FILES), failedOverlaysRef.current);
     for (const name of plan.release) {
       overlaysRef.current[name].src = "";
       delete overlaysRef.current[name];
@@ -518,8 +521,12 @@ export function App() {
       const img = new Image();
       img.src = `${base}province/${OVERLAY_FILES[name]}`;
       img.decode().then(
-        () => { overlaysRef.current[name] = img; setOverlayGen((g) => g + 1); },
-        () => { /* layer not generated yet */ },
+        () => {
+          // switched off while it decoded: release it rather than hold it until a later toggle
+          if (!layersRef.current[name]) { img.src = ""; return; }
+          overlaysRef.current[name] = img; setOverlayGen((g) => g + 1);
+        },
+        () => { failedOverlaysRef.current.add(name); /* layer not generated yet: never refetched */ },
       ).finally(() => pendingOverlaysRef.current.delete(name));
     }
   }, [layers]);

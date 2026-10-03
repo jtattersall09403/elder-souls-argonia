@@ -12,6 +12,9 @@ describe("overlayLoadPlan", () => {
     expect(overlayLoadPlan({ rivers: false, mist: true }, ["rivers", "mist"], [], known))
       .toEqual({ load: [], release: ["rivers"] });
   });
+  it("never refetches an overlay whose PNG failed", () => {
+    expect(overlayLoadPlan({ danger: true, mist: true }, [], [], known, ["danger"]).load).toEqual(["mist"]);
+  });
   it("loads nothing on mount when every layer is off", () => {
     expect(overlayLoadPlan({}, [], [], known)).toEqual({ load: [], release: [] });
   });

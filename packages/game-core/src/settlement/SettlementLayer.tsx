@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import { createKitLoader } from "../assets/kitLoader";
+import { createKitPartLoader } from "../assets/kitLoader";
 import { useFrameWork } from "../scheduling/frameWorkContext";
 import type { FrameJobHandle } from "../scheduling/frameWork";
 import { useKitDecoders } from "../assets/useKitDecoders";
@@ -88,8 +88,6 @@ import {
   type FullPassInputs,
 } from "./settlementReach";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "../assets/kitParts";
-import { SharedKtx2Textures } from "../assets/sharedTextures";
-import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 
 interface DrawBucket {
   part: ArchitecturePart;
@@ -193,6 +191,16 @@ export const MISSING_GROUND_MARGIN_M = 64;
  * retry is still deferred while a build runs: retrying cancelled it (walk 9:
  * Gang Ground, 300 s at `loading`).
  */
+/**
+ * The spawn ring's hold on the warm gate (0120 rule 5) is released when the
+ * layer cannot build: a fatal settlement error, or a bundle that failed to
+ * load. Otherwise the gate waits for a build that never comes.
+ */
+export function releaseSpawnRingIfStuck(ring: { current: number } | undefined,
+  fatal: boolean, bundleFailed: boolean): void {
+  if (ring && (fatal || bundleFailed)) ring.current = 0;
+}
+
 export function groundArrivalResolves(area: readonly [number, number, number, number],
   missing: readonly (readonly [number, number])[]): boolean {
   const m = MISSING_GROUND_MARGIN_M;
@@ -585,6 +593,8 @@ export function SettlementLayer({
   /** A kit or kit manifest that failed after its retries (reported, retried after KIT_RETRY_MS). */
   const [kitError, setKitError] = useState<string | null>(null);
   const [bundleError, setBundleError] = useState<string | null>(null);
+  useEffect(() => releaseSpawnRingIfStuck(ringPendingRef, fatalError !== null, bundleError !== null),
+    [ringPendingRef, fatalError, bundleError]);
   const [kitRetry, setKitRetry] = useState(0);
   const kitRetryTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const pendingManifests = useRef(new Set<string>());
@@ -748,8 +758,7 @@ export function SettlementLayer({
   // when its placed references can actually be drawn.
   // Parts share the province texture pool by URI: each texture is transcoded
   // and uploaded once however many parts name it (sharedTextures.ts).
-  const partLoader = useMemo(() => createKitLoader(decoders)
-    .setKTX2Loader(new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader), [decoders]);
+  const partLoader = useMemo(() => createKitPartLoader(decoders), [decoders]);
   useEffect(() => {
     if (!bundle) return;
     const focus = focusRef.current;
@@ -1162,7 +1171,11 @@ export function SettlementLayer({
         const asset = kits.get(placement.kit)?.get(placement.assetId);
         if (!asset) continue;
         const here = resolvePlaced(placement);
-        if (!here) { unresolved(placement); continue; }
+        // A placement beyond its draw range and the collision ring waits for
+        // the build that brings it in range, never for a ground arrival:
+        // groundHeight is null outside the decoded chunk ring, and tracking
+        // far ones would turn every chunk arrival into a full rebuild.
+        if (!here) { if (inDrawRange || collisionResident) unresolved(placement); continue; }
         const { matrix: transform, anchored } = here;
         if (anchored) placementGrounding.push(placementGroundAudit(placement, anchored));
         if (placement.run) {

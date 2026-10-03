@@ -11,17 +11,14 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import type * as THREE from "three";
-import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
-import { createKitLoader, type KitDecoders } from "@elder-souls/game-core/assets/kitLoader";
+import { createKitPartLoader, type KitDecoders } from "@elder-souls/game-core/assets/kitLoader";
 import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
-import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 
 export function useKitParts(baseUrl: string, kitId: string, decoders: KitDecoders, kitCache: KitCache,
   options: { enabled?: boolean; priority?: RequestPriority } = {}): { scene: THREE.Group } | null {
   const { enabled = true, priority } = options;
-  const loader = useMemo(() => createKitLoader(decoders)
-    .setKTX2Loader(new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader), [decoders]);
+  const loader = useMemo(() => createKitPartLoader(decoders), [decoders]);
   const [gltf, setGltf] = useState<{ scene: THREE.Group } | null>(null);
   useEffect(() => {
     if (!enabled) return undefined;

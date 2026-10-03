@@ -15,11 +15,9 @@
  * Results land on `window.__WIND_HARNESS__` for scripts/probe-wind.mjs.
  */
 import * as THREE from "three";
-import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { RenderTarget, type WebGPURenderer } from "three/webgpu";
-import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
+import { createKitPartLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
-import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { createRenderer, requestedBackend } from "@elder-souls/game-core/render/createRenderer";
 import { toNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
@@ -61,7 +59,7 @@ async function main(): Promise<void> {
     assets: { id: string; node: string; sizeM: number[] }[];
   };
   const decoders = kitDecodersFor(renderer, "/");
-  const loader = createKitLoader(decoders).setKTX2Loader(new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader);
+  const loader = createKitPartLoader(decoders);
   const gltf = await loadKitParts("flora-province-v1", "all", { baseUrl: "/", kitCache: new KitCache(), loader });
   gltf.scene.updateMatrixWorld(true);
 

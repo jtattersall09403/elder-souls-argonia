@@ -80,25 +80,32 @@ function ChunkMesh({ grid, geometry, material, meshRef }: {
  * ~13.6 s). All tiles of one material share one program, so only the first
  * tile mounted per material is linked; `link` is DrawTargetLinker `link`,
  * which runs the lit preparer (CSM, fixture lights) first, so the warm key is
- * the draw key. While a first link is pending `setHeld(true)` hides the
- * terrain group; it is released when every link settles, failed or not, and
- * the linker's settle timeout bounds a hung compile.
+ * the draw key. Only the tiles drawing a material whose link is pending are
+ * hidden (an apron tile or a rebuilt ground material never blanks the rest of
+ * the terrain); they show, and `shown` runs, when that link settles, failed
+ * or not, and the linker's settle timeout bounds a hung compile. `shown`
+ * runs at once for a tile whose material is already linked.
  */
-export function createTerrainLinkGate(
-  link: (object: THREE.Object3D) => Promise<unknown>,
-  setHeld: (held: boolean) => void,
-) {
-  const seen = new WeakSet<object>();
+export function createTerrainLinkGate(link: (object: THREE.Object3D) => Promise<unknown>) {
+  const states = new WeakMap<object, { waiting: [THREE.Mesh, (() => void) | undefined][] | null }>();
   let pending = 0;
   return {
     get held() { return pending > 0; },
-    onMesh(mesh: THREE.Mesh) {
+    onMesh(mesh: THREE.Mesh, shown?: () => void) {
       const material = mesh.material as THREE.Material;
-      if (seen.has(material)) return;
-      seen.add(material);
+      const state = states.get(material);
+      if (state && !state.waiting) { shown?.(); return; }
+      mesh.visible = false;
+      if (state) { state.waiting!.push([mesh, shown]); return; }
+      const fresh = { waiting: [[mesh, shown]] as [THREE.Mesh, (() => void) | undefined][] | null };
+      states.set(material, fresh);
       pending++;
-      setHeld(true);
-      const done = () => { if (--pending === 0) setHeld(false); };
+      const done = () => {
+        pending--;
+        const waiting = fresh.waiting!;
+        fresh.waiting = null;
+        for (const [m, cb] of waiting) { m.visible = true; cb?.(); }
+      };
       let settled: Promise<unknown>;
       try { settled = link(mesh); } catch (err) { settled = Promise.reject(err); }
       settled.then(done, done);
@@ -149,10 +156,8 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const { gl, scene, camera } = useThree();
   const linker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
   useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
-  const groupRef = useRef<THREE.Group | null>(null);
   const linkGate = useMemo(() => createTerrainLinkGate(
-    (object) => linker.link({ object }, camera),
-    (held) => { if (groupRef.current) groupRef.current.visible = !held; }),
+    (object) => linker.link({ object }, camera)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [linker]);
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
@@ -431,9 +436,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
         geometry={geometry}
         material={isApron && apron ? apron.material : material}
         meshRef={(mesh) => {
-          if (mesh) linkGate.onMesh(mesh);
-          if (mesh && box) occluded.set(key, { mesh, corners: topCornersOfBox(box) });
-          else occluded.delete(key);
+          occluded.delete(key);
+          // a held tile joins the occlusion sweep only once it shows (the sweep writes `visible`)
+          if (mesh) linkGate.onMesh(mesh, box ? () => { if (mesh.parent) occluded.set(key, { mesh, corners: topCornersOfBox(box) }); } : undefined);
         }}
       />
     );
@@ -443,9 +448,6 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // draw it beneath detail meshes.
   if (!provinceDrawn) return <>{loadingFallback ?? null}</>;
   return (
-    <group
-      ref={(g) => { groupRef.current = g; if (g) g.visible = !linkGate.held; }}
-      matrixAutoUpdate={false}
-    >{meshes}</group>
+    <group matrixAutoUpdate={false}>{meshes}</group>
   );
 }

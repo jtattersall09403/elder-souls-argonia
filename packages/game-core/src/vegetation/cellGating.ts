@@ -397,6 +397,8 @@ export class GatePass {
   private marginM = GATE_MARGIN_M;
   private next = 0;
   private active = false;
+  /** The list the pass resolves, taken at its first step: a list the caller swaps mid-pass (a cell built or dropped) waits for the next pass. */
+  private list: readonly GateSpecies[] | null = null;
   private readonly acc: GateStats = { visibleCopies: 0, visibleTriangles: 0, checksCell: 0, checksTile: 0 };
 
   get running(): boolean { return this.active; }
@@ -414,18 +416,20 @@ export class GatePass {
     this.marginM = marginM;
     this.next = 0;
     this.active = true;
+    this.list = null;
     resetGateStats(this.acc);
   }
 
   /** Resolve up to `budget` entries; true when the pass is complete. */
   step(
-    list: readonly GateSpecies[],
+    given: readonly GateSpecies[],
     apply: (rung: GateRung, tile: number, visible: boolean) => void,
     stats: GateStats,
     budget: number,
     order?: (rung: GateRung, tile: number, d: number) => void,
   ): boolean {
     if (!this.active) return true;
+    const list = (this.list ??= given);
     const end = Math.min(list.length, this.next + Math.max(1, budget));
     for (let e = this.next; e < end; e++) {
       gateEntry(list[e], this.eye, this.forward, apply, this.acc, this.marginM, order, this.view);
@@ -433,6 +437,7 @@ export class GatePass {
     this.next = end;
     if (end < list.length) return false;
     this.active = false;
+    this.list = null;
     stats.visibleCopies = this.acc.visibleCopies;
     stats.visibleTriangles = this.acc.visibleTriangles;
     stats.checksCell = this.acc.checksCell;

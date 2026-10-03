@@ -8,8 +8,8 @@ import type * as THREE from "three";
  * would fetch, transcode and upload its own copy. This transcodes each URL
  * once and hands each caller a clone: clones share the `Source`, so three
  * uploads it to the GPU once, and a caller's sampler or colour-space settings
- * never reach another's texture. Owned by whoever builds the part loader (the
- * studio: one per interior loader); no module state.
+ * never reach another's texture. One per renderer, on its `KitDecoders` (`decoders.textures`,
+ * kitLoader.ts), shared by every part loader; no module state.
  */
 /** A URL with its `..` segments resolved, kept relative to the origin if it came that way. */
 function normalisedUrl(url: string): string {

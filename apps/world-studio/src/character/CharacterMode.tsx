@@ -84,7 +84,7 @@ import { SoundEventBus } from "@elder-souls/audio";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
-import { walkHarnessHooks } from "./walkHarnessHooks";
+import { tapArbiterOffers, walkHarnessActive, walkHarnessHooks } from "./walkHarnessHooks";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -1685,6 +1685,8 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
   // Validation hook for headless probes: compare the live physics world
   // against the CPU-side environment query.
   useEffect(() => {
+    // The arbiter offer tap only when the walk harness drives the page (idempotent per arbiter).
+    const offers = STUDIO_TOOLS && walkHarnessActive() ? tapArbiterOffers(interaction) : null;
     window.__STUDIO_CHARACTER_DEBUG__ = {
       frames: () => frameCount.current,
       movement: () => JSON.stringify(input.movement),
@@ -1765,9 +1767,9 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
         bodyCentreHeight: CHARACTER_BODY_CENTER_HEIGHT, focusRef, camera: camera3P,
         cameraPos: () => [camera.position.x, camera.position.y, camera.position.z],
         player: () => (adapter.ready ? (adapter.position(new THREE.Vector3()).toArray() as [number, number, number]) : null),
-        interior: () => interiorProbeRef?.current?.() ?? null, interaction, playerHidden: playerHiddenRef }),
+        interior: () => interiorProbeRef?.current?.() ?? null, interaction, playerHidden: playerHiddenRef, offers }),
     };
-    return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
+    return () => { offers?.restore(); delete window.__STUDIO_CHARACTER_DEBUG__; };
   }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene, focusRef, interaction]);
 
   useEffect(() => {

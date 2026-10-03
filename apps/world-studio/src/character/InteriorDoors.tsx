@@ -7,7 +7,7 @@ import type { WebGPURenderer } from "three/webgpu";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import type { SettlementDoor } from "@elder-souls/game-core/settlement/types";
 import { buildArchitectureKit } from "@elder-souls/game-core/settlement/kit";
-import { createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { createKitPartLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
@@ -17,11 +17,9 @@ import {
 } from "@elder-souls/game-core/interior/interiorLoader";
 import { markStaticDraws } from "@elder-souls/game-core/render/staticRefresh";
 import { drawnLightRigOf } from "../sky/lightRig";
-import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/assets/kitParts";
 import { loadKitPart } from "@elder-souls/game-core/assets/loadKitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
-import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
 import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import { fixtureLightFieldOf } from "@elder-souls/game-core/render/fixtureLights/index";
@@ -180,8 +178,7 @@ export function InteriorDoors({
   const opened = useRef(false);
 
   // Parts share a kit's textures by URI: each is transcoded and uploaded once (sharedTextures.ts).
-  const partLoader = useMemo(() => createKitLoader(decoders)
-    .setKTX2Loader(new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader), [decoders]);
+  const partLoader = useMemo(() => createKitPartLoader(decoders), [decoders]);
   const loader = useMemo(() => new InteriorLoader(baseUrl, {
     fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
     // One part GLB per (kit, asset) the cell draws (assets/kitParts.ts), kept in the scene's cache.

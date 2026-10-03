@@ -7,15 +7,16 @@
  */
 import { decodePng } from "@elder-souls/game-core/terrain/groundRasters";
 
-/** Which overlays to start loading and which to release for this layer set. */
+/** Which overlays to start loading and which to release for this layer set. A `failed` overlay (its PNG missing) is never fetched again. */
 export function overlayLoadPlan(
   layers: Record<string, boolean>,
   loaded: Iterable<string>,
   pending: Iterable<string>,
   known: Iterable<string>,
+  failed: Iterable<string> = [],
 ): { load: string[]; release: string[] } {
   const have = new Set(loaded);
-  const busy = new Set(pending);
+  const busy = new Set([...pending, ...failed]);
   const load: string[] = [];
   const release: string[] = [];
   for (const name of known) {
