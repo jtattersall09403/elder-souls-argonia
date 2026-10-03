@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   BEHIND_MIN_M,
+  casterCascadeMask,
   casterReachesCascade,
   GATE_MARGIN_M,
   GATE_TILE_COUNT,
@@ -323,5 +324,17 @@ describe("GatePass (perf10 c9 F38b: one regate spread over frames)", () => {
     pass.start({ x: 0, y: 0, z: 0 }, NORTH);
     expect(pass.step(build(), () => undefined, s, 2)).toBe(false);
     expect(s.visibleCopies).toBe(-7);
+  });
+});
+
+describe("casterCascadeMask (diag20 E5c)", () => {
+  it("a batch enters only the cascades its nearest copy can shadow", () => {
+    const noon = { perM: 0.1 };
+    const fars = [40, 400, 6000];
+    expect(casterCascadeMask(6, fars, 3, noon)).toBe(0b111);
+    expect(casterCascadeMask(300, fars, 3, noon)).toBe(0b110);
+    expect(casterCascadeMask(2000, fars, 3, noon)).toBe(0b100);
+    expect(casterCascadeMask(20000, fars, 3, noon)).toBe(0);
+    expect(casterCascadeMask(6, fars, 3, null)).toBe(0);
   });
 });

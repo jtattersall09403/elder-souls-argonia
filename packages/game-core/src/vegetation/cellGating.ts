@@ -228,6 +228,26 @@ export function casterReachesCascade(
   return nearestM <= reach;
 }
 
+/**
+ * The cascades a casting batch reaches (diag20 E5c): bit i set when the batch
+ * can shadow inside cascade i, whose view depth ends at `cascadeFarsM[i]`
+ * (ascending; `count` of them). The far cascades take the batch the near
+ * ones cannot, so a batch past the first cascade's reach is drawn into the
+ * later cascades only. 0: it casts into none.
+ */
+export function casterCascadeMask(
+  nearestM: number,
+  cascadeFarsM: ArrayLike<number>,
+  count: number,
+  shadow: { perM: number } | null,
+): number {
+  let mask = 0;
+  for (let i = 0; i < count; i++) {
+    if (casterReachesCascade(nearestM, cascadeFarsM[i], shadow)) mask |= 1 << i;
+  }
+  return mask;
+}
+
 /** What `viewPlanesFor` reads: a THREE.PerspectiveCamera fits it. */
 export interface GateCamera {
   position: { x: number; y: number; z: number };

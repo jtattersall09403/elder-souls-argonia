@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { setMeshHidden } from "./meshVisibility";
 import { headMeshes } from "./headMeshes";
 import { RIG_SOCKETS } from "../anim/animationManifest";
+import { setCastShadow } from "../render/shadowCasters";
 
 /**
  * Wearing armour on a skinned actor.
@@ -146,7 +147,7 @@ export function mountArmour(
     }
 
     for (const mesh of mounted) {
-      mesh.castShadow = true;
+      setCastShadow(mesh, true);
       mesh.receiveShadow = true;
       // Skinned bounds are recomputed per frame by the hurtbox pass; a stale
       // authored sphere would cull the piece the moment the actor moves.

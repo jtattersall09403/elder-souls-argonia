@@ -12,6 +12,7 @@ import { FIRST_PERSON_BOW_MANIFEST, firstPersonBowAsset, type FirstPersonBowClip
 import { DEFAULT_BUILD, characterBuild, type CharacterBuildId } from "@elder-souls/game-core/actors/races";
 import { applyAppearance } from "@elder-souls/game-core/actors/appearance";
 import type { WeaponVisualProfile } from "@elder-souls/game-core/core/types";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 
 /**
  * Skyrim's first-person bow rig (round 7, decision 0040).
@@ -94,7 +95,7 @@ export function FirstPersonBow({
     const skinMeshes: string[] = [];
     instance.traverse((object) => {
       if (object instanceof THREE.Mesh) {
-        object.castShadow = false;
+        setCastShadow(object, false);
         object.receiveShadow = false;
         object.frustumCulled = false;
         skinMeshes.push(object.name);

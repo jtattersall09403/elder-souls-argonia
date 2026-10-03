@@ -466,6 +466,18 @@ headless.
   switch a light or its shadow off with `intensity` / `shadow.intensity`
   (`render/lightSwitch`: `setShadowShown`, `LIGHT_HELD_OFF`; test
   `apps/world-studio/src/sky/lightCacheKeys.test.ts`).
+- A shadow caster is set through `render/shadowCasters`: `setCastShadow`
+  (flag and caster layer together) or `setCastShadowCascades` (only the
+  cascades it reaches), never a bare `castShadow = true` or a JSX
+  `castShadow` prop. The sun's cascade cameras see only the caster layers,
+  so three never projects and sorts a non-caster per cascade; a bare flag
+  casts nothing (`window.__CASTERS_MISSING_LAYER__()` in the studio counts
+  them; 0 expected).
+- One whole-scene matrix walk a frame: `WaterPipeline` calls
+  `scene.updateMatrixWorld()` once before the scene pass and holds
+  `matrixWorldAutoUpdate` off for every render of the frame (scene, shadow
+  cascades, water, precipitation, overlay). An object moved after that
+  point in the frame updates its own `matrixWorld`.
 - Decoders (KTX2, meshopt) are owned by the renderer for its life and
   injected; a component never creates or disposes one
   (`assets/kitLoader`: `installKitDecoders` in createRenderer,

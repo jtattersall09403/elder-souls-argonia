@@ -72,6 +72,7 @@ import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
+import { aimShadowCameraAtCasters, countCastersMissingLayer } from "@elder-souls/game-core/render/shadowCasters";
 import { climateAirAt } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
@@ -298,6 +299,9 @@ export function WorldSky({
     (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
     (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
     (window as unknown as { __AERIAL__?: AerialUniforms }).__AERIAL__ = sharedAerialUniforms;
+    // castShadow objects no caster layer carries: they cast nothing (0 expected)
+    (window as unknown as { __CASTERS_MISSING_LAYER__?: () => number }).__CASTERS_MISSING_LAYER__ =
+      () => countCastersMissingLayer(scene);
   }
 
   // Climate rasters as GPU textures for the haze term (shared uniforms):
@@ -708,6 +712,12 @@ export function WorldSky({
       // Re-split after a projection change (fov/aspect/far); the node is
       // initialised at its first shadow render, so skip until then.
       if (csm.camera) csm.updateFrustums();
+    }
+    // Each cascade camera sees the caster layer and its own cascade bit only
+    // (render/shadowCasters.ts): non-casters are never walked per cascade.
+    for (let i = 0; i < csm.lights.length; i++) {
+      const cam = csm.lights[i].shadow?.camera;
+      if (cam) aimShadowCameraAtCasters(cam, i);
     }
 
     // Moonlight: Masser as a cool, weak key (no shadows at Tier 1).

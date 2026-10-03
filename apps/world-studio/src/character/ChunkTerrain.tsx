@@ -11,6 +11,7 @@ import {
   type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest,
 } from "./chunkStore";
 import { useHiddenLayers } from "../ladder";
+import { setCastShadow } from "@elder-souls/game-core/render/shadowCasters";
 import { buildTerrainGridGeometry, subGrid } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { GroundRasterLoader, groundRasterKey } from "@elder-souls/game-core/terrain/groundRasters";
@@ -59,12 +60,12 @@ function ChunkMesh({ grid, geometry, material, meshRef }: {
   // (HUD line 3, apps/world-studio/src/character/triangleBuckets.ts).
   return (
     <mesh
-      ref={meshRef}
+      // the caster flag and the caster layer together (render/shadowCasters.ts)
+      ref={(m: THREE.Mesh | null) => { if (m) setCastShadow(m, casts); meshRef?.(m); }}
       // world-space geometry at identity: no per-frame matrix recompose (perf10 O4)
       matrixAutoUpdate={false}
       geometry={geometry}
       material={material}
-      castShadow={casts}
       receiveShadow
       // esStatic: reads only shared or constant uniforms (groundMaterial.ts), skips the node refresh (render/staticRefresh.ts)
       userData={{ perfTag: "terrain", esStatic: true }}

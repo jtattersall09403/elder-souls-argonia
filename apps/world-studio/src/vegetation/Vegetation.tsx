@@ -85,6 +85,7 @@ import {
   type CellSpeciesSource,
 } from "@elder-souls/game-core/vegetation/cellBuild";
 import {
+  casterCascadeMask,
   casterReachesCascade,
   GATE_ENTRIES_PER_STEP_MIN,
   GatePass,
@@ -119,6 +120,7 @@ import {
   type ShadowRung,
 } from "./shadowRule";
 import { lastWeatherSample } from "../weather/weatherState";
+import { setCastShadow, setCastShadowCascades, MAX_CASCADE_LAYERS } from "@elder-souls/game-core/render/shadowCasters";
 import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
@@ -597,6 +599,10 @@ export function Vegetation({
   const { csm } = useContext(SkyContext);
   const cascadeFarM = useRef(Infinity);
   cascadeFarM.current = csm?.maxFar ?? Infinity;
+  /** Each cascade's far view depth (CSM breaks × its far), refreshed per gate
+   * pass once the node has initialised: a casting batch enters only the
+   * cascades it can shadow (diag20 E5c). */
+  const cascadeFars = useRef(new Float64Array(MAX_CASCADE_LAYERS));
   /** Camera state at the last gate pass, and whether a build or drop has
    * invalidated it. */
   const lastGate = useRef({ x: NaN, z: NaN, fx: 0, fy: 0, fz: -1, frame: -1e9 });
@@ -912,7 +918,7 @@ export function Vegetation({
     // Shadows come from the casting rung only — see `batchKeyFor`'s shadow
     // rule. Before it the near (full-mesh) rung cast, and the shadow cascades
     // drew nearly as many triangles as the whole main pass.
-    mesh.castShadow = batch.casts;
+    setCastShadow(mesh, batch.casts);
     mesh.receiveShadow = !batch.isCard;
     mesh.userData.perfTag = "veg";
     mesh.renderOrder = batch.renderOrder;
@@ -1283,11 +1289,25 @@ export function Vegetation({
       // frustum-culled), so a batch whose nearest copy cannot cast into the
       // cascade is dropped from the shadow pass.
       const shadow = view ? view.shadow ?? null : undefined;
+      const fars = cascadeFars.current;
+      const csmCam = csm?.camera as THREE.PerspectiveCamera | null | undefined;
+      const nCascades = csm && csmCam && shadow !== undefined
+        ? Math.min(csm.breaks.length, MAX_CASCADE_LAYERS) : 0;
+      if (csm && csmCam && nCascades > 0) {
+        const far = Math.min(csmCam.far, csm.maxFar);
+        for (let i = 0; i < nCascades; i++) fars[i] = csm.breaks[i] * far;
+      }
       for (const batch of batches.current.values()) {
         if (batch.casts) {
-          const cast = VEG_CAST_SHADOW && (shadow === undefined
-            || casterReachesCascade(batch.orderMin, cascadeFarM.current, shadow));
-          for (const geo of batch.geoList) geo.mesh.castShadow = cast;
+          if (nCascades > 0) {
+            const mask = VEG_CAST_SHADOW
+              ? casterCascadeMask(batch.orderMin, fars, nCascades, shadow ?? null) : 0;
+            for (const geo of batch.geoList) setCastShadowCascades(geo.mesh, mask);
+          } else {
+            const cast = VEG_CAST_SHADOW && (shadow === undefined
+              || casterReachesCascade(batch.orderMin, cascadeFarM.current, shadow));
+            for (const geo of batch.geoList) setCastShadow(geo.mesh, cast);
+          }
         }
         if (!VEG_ORDER_ENABLED || batch.orderMin === Infinity) continue;
         const next = Math.round(batch.orderMin);

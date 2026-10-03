@@ -30,6 +30,7 @@ import { GpuCullSystem, type GpuCullDraw, type GpuCullDrawOptions } from "./GpuC
 import { INDIRECT_STRIDE, sphereSweptInFrustum, type SunSweep } from "./cullMath";
 import { applyVisibility, type VisibleRule } from "../../vegetation/drawCount";
 import { LOD_OPEN_M } from "../../fx/lodFade";
+import { setCastShadow } from "../shadowCasters";
 
 /** Metres the CPU submit test widens a member's bounds and band edges by, on
  * top of the GPU cull's own: the LOD history and a read-back's lag move the
@@ -136,12 +137,6 @@ function emptyBounds(b: Float32Array): void {
   b.fill(-Infinity, 3, 6);
 }
 
-/** Stand-in for a detached mesh's instance matrix: the mesh is out of the
- * scene or about to be disposed, so it never draws from it. */
-function placeholderMatrix(): THREE.InstancedBufferAttribute {
-  return new THREE.InstancedBufferAttribute(new Float32Array(16), 16);
-}
-
 /**
  * The object-space sphere the cull tests a draw's copies with. A mesh part
  * is its geometry's bounding sphere; an octahedral IMPOSTOR (a material with
@@ -161,6 +156,11 @@ interface AttributeStore { delete(attribute: object): unknown; esPageGuard?: boo
 
 /** Marks a page buffer; the guarded store will not delete a marked buffer. */
 const PAGE_OWNED = "esPageOwned";
+
+function markPageOwned<T extends object>(b: T): T {
+  (b as Record<string, unknown>)[PAGE_OWNED] = true;
+  return b;
+}
 
 /**
  * Make this renderer's attribute store refuse to delete a page-owned buffer
@@ -204,6 +204,11 @@ export class GpuCullPool {
   private idle = false;
   /** The guarded attribute store, set by the first `update`. */
   private store: AttributeStore | null = null;
+  /** The ONE stand-in instance matrix every released member gets, owned by
+   * this pool and page-marked: a released mesh's dispose (three deletes its
+   * cached attribute list) cannot destroy it while a shadow pass still
+   * submits that mesh (webgpu10 diag20 E3). Freed in `dispose`. */
+  readonly standIn = markPageOwned(new THREE.InstancedBufferAttribute(new Float32Array(16), 16));
   /** Per-frame scratch, made once: the compute nodes and the CPU frustum. */
   private readonly nodes: unknown[] = [];
   private readonly projView = new THREE.Matrix4();
@@ -233,7 +238,7 @@ export class GpuCullPool {
       lodFade: this.options.lodFade,
       payloads: this.options.payloads,
     });
-    for (const b of system.sharedBuffers) (b as unknown as Record<string, unknown>)[PAGE_OWNED] = true;
+    for (const b of system.sharedBuffers) markPageOwned(b);
     this.pages.push(system);
     this.draws.set(system, new Set());
     const draw = system.addDraw(mesh, opts);
@@ -322,7 +327,8 @@ export class GpuCullPool {
     const geometry = d.mesh.geometry;
     if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) detachSharedAttribute(geometry, "esSlot");
     geometry.setIndirect(null);
-    d.mesh.instanceMatrix = placeholderMatrix();
+    d.mesh.instanceMatrix = this.standIn;
+    setCastShadow(d.mesh, false);
     d.mesh.frustumCulled = false;
     d.mesh.boundingSphere = null;
     const set = this.draws.get(d.system);
@@ -486,5 +492,7 @@ export class GpuCullPool {
     this.pages.length = 0;
     this.draws.clear();
     this.members.length = 0;
+    delete (this.standIn as unknown as Record<string, unknown>)[PAGE_OWNED];
+    this.store?.delete(this.standIn);
   }
 }

@@ -77,6 +77,7 @@ import {
   effectTextureFile, isSmokeColumnPlacement, SMOKE_CALM_WIND, SMOKE_COLUMN_ASSET_ID,
   SMOKE_MAX_DISTANCE_M, SmokeColumns, type SmokeAnchor,
 } from "./smokeColumn";
+import { setCastShadow } from "../render/shadowCasters";
 
 interface DrawBucket {
   part: ArchitecturePart;
@@ -1170,7 +1171,7 @@ export function SettlementLayer({
         farKept.set(batchKey, { signature: batchSignature, geometry });
         const mesh = new THREE.Mesh(geometry, batch.material);
         // the cell's own bounds: culled with its square, lit by its lamps
-        mesh.castShadow = batch.drawFlags.castShadow; mesh.receiveShadow = true;
+        setCastShadow(mesh, batch.drawFlags.castShadow); mesh.receiveShadow = true;
         mesh.renderOrder = batch.drawFlags.renderOrder;
         mesh.userData.esSettlementBatch = true;
         // never moves and reads only shared or constant uniforms: skips three's
