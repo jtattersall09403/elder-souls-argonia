@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { viewDeadlineS, onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, POSE_READY_JS } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, POSE_READY_JS, recordSkippedFrame } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -816,4 +816,14 @@ test("heap alloc top5, veg tris by rung and fetch before ready: filled from a fi
   assert.equal(e.vegTrisByRung, null); assert.equal(e.heapAllocTop5, null); assert.equal(e.fetchBeforeReady, null);
   const t = summaryTable([{ name: "a", summary: s }, { name: "b", summary: e }], null);
   assert.match(t, /heap alloc top5 \| veg tris by rung \| fetch before ready \|/); assert.match(t, /\| - \| - \| - \|\n?$/m);
+});
+
+test("recordSkippedFrame keeps every failed frame shot with its time and reason (vol10 diag9 S6)", () => {
+  const r = { frames: 0, skippedFrames: [] };
+  assert.equal(recordSkippedFrame(r, 12.34, new Error("Page.captureScreenshot timed out")), 1);
+  assert.equal(recordSkippedFrame({ frames: 0 }, 1, "busy"), 1);
+  recordSkippedFrame(r, 13, undefined);
+  assert.equal(summariseView(r).skippedFrames, 2);
+  assert.equal(summariseView({}).skippedFrames, 0);
+  assert.deepEqual(r.skippedFrames, [{ s: 12.3, reason: "Page.captureScreenshot timed out" }, { s: 13, reason: "unknown" }]);
 });

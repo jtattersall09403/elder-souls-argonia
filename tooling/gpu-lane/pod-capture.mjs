@@ -95,7 +95,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS, duplicateKeyViews } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame } from "./pod-capture-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit, heapTopAllocators } from "./checks.mjs";
@@ -464,7 +464,7 @@ async function captureView(view) {
   const readsAt = readsSpec.split(",").map(Number).filter((s) => s < totalS);
   const steps = [...view.steps];
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
-  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, readyS: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null, ...(view.weatherPinAdded ? { weatherPinAdded: true } : {}) };
+  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, skippedFrames: [], reads: {}, settledAt: null, readyS: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null, ...(view.weatherPinAdded ? { weatherPinAdded: true } : {}) };
   const ctl = { page: null };
   const body = viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl);
   let timer;
@@ -589,7 +589,7 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
           const clock = hudClock(await evaluate(HUD_TEXT_JS, 5_000));
           writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++;
           result.frameClocks.push({ s: r1(s), clock });
-        } catch { /* busy page: skip this frame */ }
+        } catch (e) { recordSkippedFrame(result, s, e); }
       }
       if (ri < readsAt.length && s >= readsAt[ri]) { ri++; result.reads[readsAt[ri - 1]] = { t: r1(sec()), ...(await fullRead()) }; }
       if (steps.length && s >= steps[0].at) {

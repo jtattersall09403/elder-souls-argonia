@@ -381,7 +381,7 @@ export function summariseView(r) {
   const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.stage ? m.set(h.stage, (m.get(h.stage) ?? 0) + h.ms) : m), new Map())));
   const s = (r.reads?.settled && !r.reads.settled.err ? r.reads.settled : r.final) ?? {}, g = s.gpuMs ?? {};
   return {
-    contaminated: r.contaminated ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
+    contaminated: r.contaminated ?? null, skippedFrames: r.skippedFrames?.length ?? 0, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
     from, fps: wk?.wallFps ?? null, low1: wk?.low1 ?? null, gpuMs: wk?.gpuFrameMs?.mean ?? null, cpuMs: wk?.workMs?.mean ?? null,
     costMs: wk?.costMs?.mean ?? null, uncappedFps: wk?.uncappedFps ?? null,
     calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
@@ -1341,4 +1341,12 @@ export function loadLine(t) {
   const c = (x) => (x === null || x === undefined ? "-" : String(x));
   const tc = t.transcode?.unobservable && !t.transcode.count ? "unobs" : `${c(t.transcode?.ms)}ms/${c(t.transcode?.count)}`;
   return `${t.barFail ? "BAR FAIL " : ""}complete ${c(t.complete)} (fetch ${c(t.fetch?.at)}, transcode ${tc}, builds ${c(t.builds?.ms)}ms/${c(t.builds?.count)} last ${c(t.builds?.last)}, stream ${c(t.streamFirst)}-${c(t.streamQuiet)}, present ${c(t.present)})`;
+}
+
+/** A frame the capture meant to take and could not (vol10 diag9 S6: a busy page during the settle gate
+ * dropped every frame silently): recorded in the view's result with its time and reason, never swallowed. */
+export function recordSkippedFrame(result, s, err) {
+  const reason = String(err?.message ?? err ?? "unknown").slice(0, 200);
+  (result.skippedFrames ??= []).push({ s: Math.round(s * 10) / 10, reason });
+  return result.skippedFrames.length;
 }
