@@ -17,7 +17,7 @@ import {
 } from "../fx/fire/interiorFires";
 
 import { interiorLightOf } from "../air/volumetrics/windowApertures";
-import { CellSunShadowNode, cellSunOccluder } from "./cellSunOccluder";
+import { CellSunOccluder, CellSunShadowNode } from "./cellSunOccluder";
 import { applyLanternShell, isLanternShellMaterial } from "../settlement/fixtureGlow";
 import { applySettlementDecal, settlementMeshDrawFlags } from "../settlement/materials";
 
@@ -126,10 +126,26 @@ export const INTERIOR_SUN_SHADOW_MAP = 1024;
 export const INTERIOR_SUN_NORMAL_BIAS = 0.02;
 export const INTERIOR_SUN_BIAS = -0.0005;
 /**
- * The placement categories that are the cell's shell: they never cast the cell sun's shadow (solid at
- * their windows, vol10 diag4 D2); the cell's `cellSunOccluder` gives the walls and their openings.
+ * A cell mesh casts the cell sun's shadow only when each placement's world bounding box is smaller
+ * than this on every axis (vol10 diag5 E1): props (chairs, barrels, tables) cast; shell pieces, floors
+ * and pod skins (walls 3-6 m, solid at their windows whatever their category says) never do, and the
+ * cell's `CellSunOccluder` gives the walls with their openings. Decided on the measured geometry.
  */
-export const INTERIOR_SHELL_CATEGORIES: ReadonlySet<string> = new Set(["architecture", "dungeon-kit", "rock", "terrain-feature"]);
+export const CELL_SUN_CASTER_MAX_M = 2.5;
+
+const _casterBox = new THREE.Box3();
+const _casterMatrix = new THREE.Matrix4();
+const _casterSize = new THREE.Vector3();
+/** True when every instance of `mesh` measures under `CELL_SUN_CASTER_MAX_M` on its largest world axis. */
+export function castsCellSun(mesh: THREE.InstancedMesh): boolean {
+  if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+  for (let i = 0; i < mesh.count; i++) {
+    mesh.getMatrixAt(i, _casterMatrix);
+    _casterBox.copy(mesh.geometry.boundingBox!).applyMatrix4(_casterMatrix).getSize(_casterSize);
+    if (Math.max(_casterSize.x, _casterSize.y, _casterSize.z) >= CELL_SUN_CASTER_MAX_M) return false;
+  }
+  return mesh.count > 0;
+}
 
 /** Share of a clear day's window light an overcast sky (no direct sun) still gives: the sky's diffuse light. */
 export const WINDOW_OVERCAST_SHARE = 0.5;
@@ -208,6 +224,8 @@ export class InteriorDaylight {
     readonly bounds: THREE.Sphere = new THREE.Sphere(new THREE.Vector3(), 1),
     /** Each record light paired with its fire, built once per cell (`CellLightFlicker`); null: all steady. */
     private readonly flicker: CellLightFlicker | null = null,
+    /** The windowed cell's occluder: its holes follow the sun (`setSun`); null when windowless. */
+    private readonly occluder: CellSunOccluder | null = null,
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
@@ -268,12 +286,16 @@ export class InteriorDaylight {
    * (windowApertures; 0 or a null direction when none faces it: the record
    * light stands). `colour` is the sky rig's linear sun colour and `intensity`
    * the exterior sun's intensity in the cell's exposure-1 frame (lightRig
-   * `sunIntensity x exposureTarget`). Allocation-free; the light count and
+   * `sunIntensity x exposureTarget`). Allocation-free but for the occluder's rebuild when the sun
+   * has turned over 1 deg (`CellSunOccluder.aim`); the light count and
    * `castShadow` never change.
    */
   setSun(toSunCell: THREE.Vector3 | null, sunShare: number, colour: THREE.Color, intensity: number): void {
     this.sunShare = toSunCell && sunShare > 0 ? sunShare : 0;
-    if (toSunCell) this.toSun.copy(toSunCell).normalize();
+    if (toSunCell) {
+      this.toSun.copy(toSunCell).normalize();
+      this.occluder?.aim(this.toSun);
+    }
     this.sunColour.copy(colour);
     this.sunIntensity = intensity;
     this.set(this.share, this.colour);
@@ -384,9 +406,9 @@ export function interiorAmbient(bundle: InteriorBundle): THREE.Light {
  * placements of their stand-in asset), a point light per record light, the cell's
  * ambient and directional light, its fog. A cell with windows gives its
  * directional one `INTERIOR_SUN_SHADOW_MAP` shadow map over the cell's
- * bounds: the props cast, the shell (`INTERIOR_SHELL_CATEGORIES`) does not,
+ * bounds: small props cast (`castsCellSun`), the shell does not,
  * the record's apertures open holes in a shadow-only box over the bounds
- * (`cellSunOccluder`), every mesh receives, fixed for the cell's lifetime (0108 §1); a windowless cell has
+ * (`CellSunOccluder`, re-aimed by `setSun`), every mesh receives (0108 §1); a windowless cell has
  * no shadow. No terrain, sky or water: none exists inside.
  * A placement whose asset is not in its kit is a named error, never a gap
  * drawn as nothing (the exporter lists gaps; the bundle carries none).
@@ -414,7 +436,7 @@ export function instantiateInterior(
   const inside = new THREE.Vector3();
   for (const p of drawn) inside.add(new THREE.Vector3(...p.positionM));
   if (drawn.length) inside.divideScalar(drawn.length);
-  const built: { mesh: THREE.InstancedMesh; category: string; pane: boolean }[] = [];
+  const built: { mesh: THREE.InstancedMesh; pane: boolean }[] = [];
   for (const { asset, placements } of byAsset.values()) {
     const parts = asset.levels[0] ?? [];
     const fireRow = fireRows.get(placements[0].kit)?.get(placements[0].assetId);
@@ -443,7 +465,7 @@ export function instantiateInterior(
           panes.windows.push(paneLightSeat(part.geometry.boundingBox!, m, inside));
         });
       }
-      built.push({ mesh, category: placements[0].category, pane });
+      built.push({ mesh, pane });
       group.add(mesh);
       meshes += 1;
     }
@@ -479,6 +501,7 @@ export function instantiateInterior(
   if (bounds.isEmpty()) bounds.set(inside, 1);
   const windowed = panes.windows.length + panes.materials.size > 0;
   directional.castShadow = windowed;
+  let occluder: CellSunOccluder | null = null;
   if (windowed) {
     directional.shadow.mapSize.set(INTERIOR_SUN_SHADOW_MAP, INTERIOR_SUN_SHADOW_MAP);
     directional.shadow.normalBias = INTERIOR_SUN_NORMAL_BIAS;
@@ -495,11 +518,14 @@ export function instantiateInterior(
       outward: new THREE.Vector3(a.outward[0], 0, a.outward[2]).normalize(),
       halfSideM: a.radiusM,
     }));
-    if (!box.isEmpty()) group.add(cellSunOccluder(box, apertures));
+    if (!box.isEmpty()) {
+      occluder = new CellSunOccluder(box, apertures);
+      group.add(occluder.mesh);
+    }
   }
   // a pane never casts: the sun it lets in would stop at its own glass (vol10 diag3 Q2)
-  for (const { mesh, category, pane } of built) {
-    mesh.castShadow = windowed && !pane && !INTERIOR_SHELL_CATEGORIES.has(category);
+  for (const { mesh, pane } of built) {
+    mesh.castShadow = windowed && !pane && castsCellSun(mesh);
     mesh.receiveShadow = windowed;
   }
   directional.position.copy(bounds.center).addScaledVector(_UP, bounds.radius);
@@ -518,7 +544,7 @@ export function instantiateInterior(
   return {
     bundle, group, solids, background, loadS: null, swingDoors, fire,
     daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows,
-      cellLights, bounds, new CellLightFlicker(cellLights, emitters)),
+      cellLights, bounds, new CellLightFlicker(cellLights, emitters), occluder),
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,

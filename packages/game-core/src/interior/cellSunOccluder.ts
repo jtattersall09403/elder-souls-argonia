@@ -5,10 +5,10 @@ import { ShadowNode } from "three/webgpu";
  * The windowed cell's sun caster (vol10 diag4 D2): the cell's shells are
  * solid at their windows, so the sun's shadow map gets its openings from one
  * shadow-only box over the room's bounds with a square hole per plugin
- * aperture (windowApertures, interiorLight.json), every aperture whatever the
- * sun does now (the sun moves). Built once per cell from the record's
- * apertures and the cell bounds only (std 6); owned by the cell's group and
- * its geometry disposed with it (std 8). The shell no longer casts.
+ * aperture (windowApertures, interiorLight.json) that faces the sun. Built from the record's
+ * apertures and the cell bounds (std 6), its holes re-aimed as the sun turns
+ * (vol10 diag5 E2); owned by the cell's group and its geometry disposed with
+ * it (std 8). Only small props cast besides it (`CELL_SUN_CASTER_MAX_M`).
  */
 export interface OccluderAperture {
   /** Centre, cell frame. */
@@ -21,25 +21,36 @@ export interface OccluderAperture {
 
 /** Holes keep this far inside their face's edges so the face outline stays a simple polygon. */
 const EDGE_M = 1e-3;
+/** A hole grows by 1/|toSun . faceNormal| for an oblique sun, at most this many times the aperture's radius. */
+export const OCCLUDER_OBLIQUE_GROWTH_MAX = 3;
+/** The occluder is rebuilt when the sun's travel turns more than this from the last build (vol10 diag5 E2). */
+export const OCCLUDER_REBUILD_DEG = 1;
 
 /**
- * The aperture's hole: which x/z face of `box` it opens in (axis 0 = x,
- * 2 = z; sign of the face) and its centre on that face, reached from the
- * aperture centre along its outward normal (the face it exits by; a centre
- * outside the box projects back onto the face it lies beyond).
+ * The aperture's hole for a sun toward `toSun` (cell-frame unit): the face of
+ * `box` that the ray from the aperture centre toward the sun exits through
+ * (axis, sign), the crossing point (the hole's centre) and the hole's half
+ * side, grown by the obliquity. Null when the aperture faces away from the
+ * sun (outward . toSun <= 0): no sun comes in by it.
  */
-export function apertureFace(box: THREE.Box3, a: OccluderAperture): { axis: 0 | 2; max: boolean; centre: THREE.Vector3 } {
-  let best: { axis: 0 | 2; max: boolean; t: number } | null = null;
-  for (const axis of [0, 2] as const) {
-    const o = a.outward.getComponent(axis);
-    if (Math.abs(o) < 1e-6) continue;
-    const max = o > 0;
-    const plane = (max ? box.max : box.min).getComponent(axis);
-    const t = (plane - a.centre.getComponent(axis)) / o;
+export function apertureHole(box: THREE.Box3, a: OccluderAperture, toSun: THREE.Vector3):
+  { axis: 0 | 1 | 2; max: boolean; centre: THREE.Vector3; halfSideM: number } | null {
+  if (a.outward.dot(toSun) <= 0) return null;
+  let best: { axis: 0 | 1 | 2; max: boolean; t: number } | null = null;
+  for (const axis of [0, 1, 2] as const) {
+    const d = toSun.getComponent(axis);
+    if (Math.abs(d) < 1e-9) continue;
+    const max = d > 0;
+    const t = ((max ? box.max : box.min).getComponent(axis) - a.centre.getComponent(axis)) / d;
     if (!best || t < best.t) best = { axis, max, t };
   }
-  if (!best) throw new Error("aperture outward normal is not horizontal");
-  return { axis: best.axis, max: best.max, centre: a.centre.clone().addScaledVector(a.outward, best.t) };
+  if (!best) return null;
+  const facing = Math.abs(toSun.getComponent(best.axis));
+  return {
+    axis: best.axis, max: best.max,
+    centre: a.centre.clone().addScaledVector(toSun, Math.max(0, best.t)),
+    halfSideM: a.halfSideM * Math.min(1 / facing, OCCLUDER_OBLIQUE_GROWTH_MAX),
+  };
 }
 
 type Rect = [number, number, number, number]; // u0 v0 u1 v1
@@ -63,25 +74,26 @@ function mergeOverlaps(rects: Rect[]): Rect[] {
 }
 
 /**
- * The occluder's geometry: the six faces of `box`, each x/z wall face
- * punched with a square hole per aperture opening in it (overlapping holes
+ * The occluder's geometry for a sun toward `toSun`: the six faces of `box`,
+ * each punched with a square hole per sun-facing aperture whose sun ray exits by it (`apertureHole`) (overlapping holes
  * merge into their bounding square). One indexed, non-interleaved
  * BufferGeometry; drawn double-sided.
  */
-export function cellSunOccluderGeometry(box: THREE.Box3, apertures: readonly OccluderAperture[]): THREE.BufferGeometry {
+export function cellSunOccluderGeometry(box: THREE.Box3, apertures: readonly OccluderAperture[], toSun: THREE.Vector3): THREE.BufferGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
   const faces: { axis: 0 | 1 | 2; max: boolean }[] = [];
   for (const axis of [0, 1, 2] as const) for (const max of [false, true]) faces.push({ axis, max });
   const holes = new Map<string, Rect[]>();
   for (const a of apertures) {
-    const f = apertureFace(box, a);
-    const [ua, va] = f.axis === 0 ? [2, 1] : [0, 1];
+    const f = apertureHole(box, a, toSun);
+    if (!f) continue;
+    const [ua, va] = f.axis === 0 ? [2, 1] : f.axis === 1 ? [0, 2] : [0, 1];
     const cu = f.centre.getComponent(ua), cv = f.centre.getComponent(va);
     const lo = box.min, hi = box.max;
     const r: Rect = [
-      Math.max(cu - a.halfSideM, lo.getComponent(ua) + EDGE_M), Math.max(cv - a.halfSideM, lo.getComponent(va) + EDGE_M),
-      Math.min(cu + a.halfSideM, hi.getComponent(ua) - EDGE_M), Math.min(cv + a.halfSideM, hi.getComponent(va) - EDGE_M),
+      Math.max(cu - f.halfSideM, lo.getComponent(ua) + EDGE_M), Math.max(cv - f.halfSideM, lo.getComponent(va) + EDGE_M),
+      Math.min(cu + f.halfSideM, hi.getComponent(ua) - EDGE_M), Math.min(cv + f.halfSideM, hi.getComponent(va) - EDGE_M),
     ];
     if (r[2] <= r[0] || r[3] <= r[1]) continue;
     const key = `${f.axis}${f.max}`;
@@ -124,13 +136,34 @@ export const CELL_SUN_OCCLUDER_MATERIAL: THREE.Material = new THREE.MeshBasicMat
   colorWrite: false, depthWrite: false, side: THREE.DoubleSide, name: "cellSunOccluder",
 });
 
-/** The cell's occluder mesh: casts the cell sun's shadow, draws nothing. */
-export function cellSunOccluder(box: THREE.Box3, apertures: readonly OccluderAperture[]): THREE.Mesh {
-  const mesh = new THREE.Mesh(cellSunOccluderGeometry(box, apertures), CELL_SUN_OCCLUDER_MATERIAL);
-  mesh.name = "cellSunOccluder";
-  mesh.castShadow = true;
-  mesh.receiveShadow = false;
-  return mesh;
+/**
+ * The cell's occluder: one mesh that casts the cell sun's shadow and draws
+ * nothing, its holes on the sun rays through the apertures. `aim` rebuilds
+ * the geometry only when the sun's direction has turned more than
+ * `OCCLUDER_REBUILD_DEG` since the last build (old geometry disposed, the
+ * shared material untouched). State lives on the instance (std 8).
+ */
+export class CellSunOccluder {
+  readonly mesh: THREE.Mesh;
+  /** Cell-frame unit direction toward the sun at the last build. */
+  private readonly builtToSun = new THREE.Vector3(0, 1, 0);
+  private readonly cosRebuild = Math.cos(THREE.MathUtils.degToRad(OCCLUDER_REBUILD_DEG));
+  constructor(readonly box: THREE.Box3, readonly apertures: readonly OccluderAperture[], toSun = new THREE.Vector3(0, 1, 0)) {
+    this.builtToSun.copy(toSun).normalize();
+    this.mesh = new THREE.Mesh(cellSunOccluderGeometry(box, apertures, this.builtToSun), CELL_SUN_OCCLUDER_MATERIAL);
+    this.mesh.name = "cellSunOccluder";
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = false;
+  }
+  /** Aim the holes at a sun toward `toSun` (unit, cell frame); true when the geometry was rebuilt. */
+  aim(toSun: THREE.Vector3): boolean {
+    if (toSun.dot(this.builtToSun) >= this.cosRebuild) return false;
+    this.builtToSun.copy(toSun);
+    const old = this.mesh.geometry;
+    this.mesh.geometry = cellSunOccluderGeometry(this.box, this.apertures, this.builtToSun);
+    old.dispose();
+    return true;
+  }
 }
 
 /**

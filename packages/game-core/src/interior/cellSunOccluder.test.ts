@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { apertureFace, CELL_SUN_OCCLUDER_MATERIAL, cellSunOccluder } from "./cellSunOccluder";
+import { apertureHole, CELL_SUN_OCCLUDER_MATERIAL, CellSunOccluder } from "./cellSunOccluder";
+
+const cellSunOccluder = (b: THREE.Box3, a: Parameters<typeof apertureHole>[1][], toSun?: THREE.Vector3) => new CellSunOccluder(b, a, toSun).mesh;
 
 const box = new THREE.Box3(new THREE.Vector3(-4, 0, -3), new THREE.Vector3(4, 3, 3));
 // one window in the +x wall, centre 0.3 m inside it (the Brinas case), 0.5 m radius
@@ -13,12 +15,11 @@ function hits(mesh: THREE.Mesh, from: THREE.Vector3, to: THREE.Vector3): boolean
 }
 
 describe("cellSunOccluder (vol10 diag4 D2)", () => {
-  const mesh = cellSunOccluder(box, [window]);
-  mesh.updateMatrixWorld();
   const floor = new THREE.Vector3(1.7, 0.01, 0);
-  // the sun low in the east, beyond the +x window: aim through the hole centre
-  const throughHole = new THREE.Vector3(4, 1.5 + (1.5 - 0.01) * (0.3 / 2), 0);
-  const sunDir = throughHole.clone().sub(floor).normalize();
+  // the sun low in the east, beyond the +x window, its ray through the window centre to the floor
+  const sunDir = window.centre.clone().sub(floor).normalize();
+  const mesh = cellSunOccluder(box, [window], sunDir);
+  mesh.updateMatrixWorld();
 
   it("opens the window: a floor point sees the sun through the hole", () => {
     expect(hits(mesh, floor, floor.clone().addScaledVector(sunDir, 20))).toBe(false);
@@ -29,18 +30,52 @@ describe("cellSunOccluder (vol10 diag4 D2)", () => {
     const noon = new THREE.Vector3(0, 0.01, 0);
     expect(hits(mesh, noon, new THREE.Vector3(0, 20, 0))).toBe(true);
   });
-  it("projects an aperture centre onto the face it exits by", () => {
-    const f = apertureFace(box, window);
+  it("centres the hole where the sun ray from the aperture exits the bounds", () => {
+    const f = apertureHole(box, window, sunDir)!;
     expect([f.axis, f.max, f.centre.x]).toEqual([0, true, 4]);
+    expect(f.centre.y).toBeCloseTo(1.5 + 0.3 * sunDir.y / sunDir.x, 9);
+    expect(apertureHole(box, window, new THREE.Vector3(-1, 1, 0).normalize())).toBeNull();
+  });
+
+  // vol10 diag5 E2: a 6x3x6 room, an aperture 1 m inside the +x wall, sun at alt 34 deg facing 0.77
+  const room = new THREE.Box3(new THREE.Vector3(-3, 0, -3), new THREE.Vector3(3, 3, 3));
+  const deep = { centre: new THREE.Vector3(2, 1.2, 0), outward: new THREE.Vector3(1, 0, 0), halfSideM: 0.4 };
+  const sunAt = (altDeg: number, facing: number) => {
+    const alt = THREE.MathUtils.degToRad(altDeg), az = Math.acos(facing);
+    return new THREE.Vector3(Math.cos(alt) * Math.cos(az), Math.sin(alt), Math.cos(alt) * Math.sin(az));
+  };
+  it("lets the sun ray through a deep aperture; the old centre + normal placement would miss it", () => {
+    const toSun = sunAt(34, 0.77);
+    const occ = new CellSunOccluder(room, [deep], toSun);
+    occ.mesh.updateMatrixWorld();
+    expect(hits(occ.mesh, deep.centre, deep.centre.clone().addScaledVector(toSun, 20))).toBe(false);
+    const hole = apertureHole(room, deep, toSun)!;
+    const old = new THREE.Vector3(3, 1.2, 0);
+    expect(hole.centre.distanceTo(old)).toBeGreaterThan(deep.halfSideM);
+    expect(hole.halfSideM).toBeCloseTo(deep.halfSideM / Math.abs(toSun.x), 9);
+    // the old hole's centre square alone: the ray crosses the face outside it
+    const cross = hole.centre;
+    expect(Math.max(Math.abs(cross.y - old.y), Math.abs(cross.z - old.z))).toBeGreaterThan(deep.halfSideM);
+  });
+  it("rebuilds its geometry when the sun turns over 1 deg, not under", () => {
+    const base = sunAt(34, 0.77);
+    const occ = new CellSunOccluder(room, [deep], base);
+    const turn = (deg: number) => base.clone().applyAxisAngle(base.clone().cross(new THREE.Vector3(0, 1, 0)).normalize(), THREE.MathUtils.degToRad(deg));
+    const g0 = occ.mesh.geometry;
+    expect(occ.aim(turn(0.5))).toBe(false);
+    expect(occ.mesh.geometry).toBe(g0);
+    expect(occ.aim(turn(1.1))).toBe(true);
+    expect(occ.mesh.geometry).not.toBe(g0);
+    expect(occ.mesh.material).toBe(CELL_SUN_OCCLUDER_MATERIAL);
   });
   it("is shadow-only and shares one material", () => {
     expect(mesh.castShadow).toBe(true);
     expect(CELL_SUN_OCCLUDER_MATERIAL.colorWrite).toBe(false);
     expect(CELL_SUN_OCCLUDER_MATERIAL.depthWrite).toBe(false);
-    expect(cellSunOccluder(box, []).material).toBe(mesh.material);
+    expect(cellSunOccluder(box, [], sunDir).material).toBe(mesh.material);
   });
   it("is deterministic in its inputs", () => {
-    const a = cellSunOccluder(box, [window]).geometry.getAttribute("position").array;
+    const a = cellSunOccluder(box, [window], sunDir).geometry.getAttribute("position").array;
     expect(Array.from(a)).toEqual(Array.from(mesh.geometry.getAttribute("position").array));
   });
 });

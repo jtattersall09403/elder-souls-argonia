@@ -861,4 +861,16 @@ describe("sun through the openings (vol10 F1, F5)", () => {
     expect(lit.group.children.filter((c) => (c as THREE.Light).isLight).length).toBe(lights);
     expect(dir(lit).castShadow).toBe(true);
   });
+  it("a mesh casts the cell sun by its measured size: a 6 m wall does not, a 1 m chair does (diag5 E1)", async () => {
+    const { castsCellSun, CELL_SUN_CASTER_MAX_M } = await import("./interiorLoader");
+    const inst = (g: THREE.BufferGeometry) => {
+      const m = new THREE.InstancedMesh(g, new THREE.MeshBasicMaterial(), 2);
+      m.setMatrixAt(0, new THREE.Matrix4());
+      m.setMatrixAt(1, new THREE.Matrix4().makeTranslation(10, 0, 10));
+      return m;
+    };
+    expect(CELL_SUN_CASTER_MAX_M).toBe(2.5);
+    expect(castsCellSun(inst(new THREE.BoxGeometry(6, 3, 0.2)))).toBe(false);
+    expect(castsCellSun(inst(new THREE.BoxGeometry(1, 1, 1)))).toBe(true);
+  });
 });
