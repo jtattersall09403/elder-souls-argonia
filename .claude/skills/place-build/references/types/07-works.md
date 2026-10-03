@@ -81,9 +81,8 @@ in, the machine that changes it, what goes out, and the crew that runs it.
   (an unbound `place` op is never compiled, so its `fills` fail
   `promises.built`). A clutter cluster on ground over 2 degrees takes one
   pad on one member (scan it first, R31) and the others stand on the pad's
-  apron; the pad's owner settles on the datum, about 3 cm above the padded
-  surface, so give it `y` at the surface its neighbours settle to, or
-  `propSeatRule` fails it.
+  apron; `settle` seats the pad's owner on the padded surface like its
+  neighbours (`measure.seat`: only a pad's building takes the datum).
 - **Pieces that failed:** `smelter01`, `smelter01coal01` (unplaced),
   `mineoreiron01` as the seep (dug in, 0.3-0.6 m shows: readers saw a dark
   boulder, no ore; the iron tint lives in an env cubemap the runtime does
