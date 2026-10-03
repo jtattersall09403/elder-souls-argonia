@@ -221,6 +221,20 @@ turn, snapped face to face by geometry, then walked.
     the step. Read a deck's height from `describe` `floors[].zM` (the
     walked floor; dockstrent02 0.0 = the pivot), never `boundsM` max (the
     rail-post tops, +0.92: audit10 read a 0.40 m drop as 1.3 m).
+29b. **A climb (a stair up a bank) is chosen by the mined pair's rise**
+    (audit10 c5, border-road crossings): pieces = ceil((climb - top
+    piece's tread span) / pair rise) + 1, the surplus buried at the foot.
+    Timber: KotM `mudhuts/stairs02` (pair -x > +x, offset [-2.47, 0.03,
+    2.92], both faces run AND terminal: `snap --by evidence
+    --allow-terminal`; climbs toward its -x, yaw = bearing - 270). Read
+    the treads off the mesh, not bounds: top tread pivot -0.29, bottom
+    tread +1.6 m along at -3.51, 0.29 m a tread (3 pieces = 9.06 m of
+    treads). Set the bottom piece's `y` by hand so the top tread meets the
+    bank-top ground within 0.05 m. Not yet layable (open, see
+    `tooling/.reports/16k/walk10/audit10-c5/pb-border-road-greenspring-crossings.md`):
+    its manifest fit `pad` gives the run a `settlement_run_pads` fill
+    (2.9 m of ground raised under the stair) and slopeRule, and the
+    mined-pose joint (penetration 0.234 m, crossing) fails run-jointPair.
 30. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
     joints in the record (no run pair). King of the Murkmire's plugin places
     its `argonia/blackwood` docks and walkways; the KotM set in
