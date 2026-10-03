@@ -116,6 +116,17 @@ describe("fog noise (vol10 A)", () => {
   });
 });
 
+describe("coverage ease (vol10 diag9 S1)", () => {
+  it("a term more than 0.5 from its target snaps; a small change still eases", () => {
+    const d = new FogDrift(0);
+    d.ease([0, 0, 0, 0.19, 0], 0, 420, "fog");
+    d.ease([0, 0, 0, 1, 0.1], 1, 420.5, "fog");
+    expect(d.cover[3]).toBe(1);
+    const k = 1 - Math.exp(-1 / FOG_NOISE.coverage.tauS);
+    expect(d.cover[4]).toBeCloseTo(0.1 * k, 9);
+  });
+});
+
 describe("fog shape bake over frames", () => {
   it("writes the mean until done, then the whole bake at once, byte-identical to bakeFogShape", () => {
     const b = new FogShapeBake(16);

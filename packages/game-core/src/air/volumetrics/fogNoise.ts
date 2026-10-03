@@ -53,6 +53,8 @@ export const FOG_NOISE = {
     /** Eased toward its target with this time constant (s), within one weather state; a change of
      * weather state snaps it (a fog weather arrives as a bank, never a 3-minute fade; vol10 diag8 F-5). */
     tauS: 180,
+    /** A term this far from its target snaps instead of easing. */
+    snapGap: 0.5,
     /** Sun elevation (deg) over which the sun burns the mist off. */
     sunBurnDeg: [4, 25] as const,
     /** Slow day-to-day patchiness: CPU sines (minutes) with a per-day phase. */
@@ -308,14 +310,19 @@ export class FogDrift {
 
   /** Ease the coverage toward `target` (COVER_REGIMES order) over `deltaS`; snaps on the first call or
    * when the game minute jumps by more than `FOG_NOISE.coverage.snapMin` (a scrub or a ?t= instant) or
-   * the weather state `weather` differs from the last call's. */
+   * the weather state `weather` differs from the last call's; a term whose target is more than
+   * `FOG_NOISE.coverage.snapGap` from its eased value snaps on its own (a regime that arrives after the
+   * load snap, e.g. a weather override, forms at once; vol10 diag9 S1). */
   ease(target: ArrayLike<number>, deltaS: number, minuteOfDay: number, weather?: string): void {
     let jump = Math.abs(minuteOfDay - this.lastMinute);
     jump = Math.min(jump, 1440 - jump);
     const snap = !this.covered || !(jump <= FOG_NOISE.coverage.snapMin) || weather !== this.lastWeather;
     this.lastWeather = weather;
     const k = snap ? 1 : 1 - Math.exp(-Math.max(0, deltaS) / FOG_NOISE.coverage.tauS);
-    for (let i = 0; i < 5; i++) this.cover[i] += (target[i] - this.cover[i]) * k;
+    for (let i = 0; i < 5; i++) {
+      const gap = target[i] - this.cover[i];
+      this.cover[i] += Math.abs(gap) > FOG_NOISE.coverage.snapGap ? gap : gap * k;
+    }
     this.covered = true;
     this.lastMinute = minuteOfDay;
   }
