@@ -885,6 +885,7 @@ varying vec3 vEsNormalW; // the vertex wave normal: debug view 1 only (the fragm
 varying vec2 vEsSurf;   // fetch exposure, surf energy
 varying vec2 vEsRestXZ;  // rest world xz: per-pixel shore frame and crest phase (diag14 V1, V2)
 varying vec3 vEsWaveIn;  // vertex wave amp (the crest height swap), fetch, standing
+varying float vEsFlowH;  // vertex along-flow undulation height (m): the crest swaps it per pixel (perf10 D11)
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands, tier.gridCellM)}
 ${crestPx ? `varying float vEsCrestV;  // crest bands' vertex height (diag11 W1, diag12 Q2)
@@ -1041,6 +1042,7 @@ vec3 objectNormal = esW.normal;`,
       .replace(
         "#include <begin_vertex>",
         /* glsl */ `
+vEsFlowH = esFlowH;
 vec3 transformed = vec3(
   position.x + esW.disp.x,
   (esStill + esW.disp.y + esFlowH) * uVerticalScale,
@@ -1069,6 +1071,7 @@ ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BL
 ${MENISCUS_GLSL}
 varying vec2 vEsRestXZ;
 varying vec3 vEsWaveIn;
+varying float vEsFlowH;
 ${gerstnerSumGlsl(tier.waveBands, tier.gridCellM)}
 ${gerstnerFragGlsl(tier.waveBands, tier.gridCellM)}
 ${crestPx ? `varying float vEsCrestV;
@@ -1270,6 +1273,7 @@ if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uR
 // pixel, faded out where a pixel spans several of their wavelengths; z is
 // their height, which makes the foam crest non-planar inside a triangle
 vec3 esWaveF = vec3(0.0);
+float esFlowHPx = vEsFlowH;   // along-flow undulation height at this pixel (set below where it flows)
 if (esAmpPx > 0.0005 && esNPxW > 0.0)
   esWaveF = esWaveFrag(vEsRestXZ, esAmpPx, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) * esNPxW;
 // the tier's crest bands (its sharpest, by curvature): exact minus
@@ -1290,8 +1294,9 @@ ${strip ? "" : /* glsl */ `
 // same two small-slope fields)
 if (esFlowing) {
   vec3 esFlowN;
-  esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN);
-  esWaveG -= (esFlowN.xz / max(esFlowN.y, 1e-3)) * (1.0 - smoothstep(150.0, 400.0, esDist));
+  float esFlowFadePx = 1.0 - smoothstep(150.0, 400.0, esDist);
+  esFlowHPx = esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN) * esFlowFadePx;
+  esWaveG -= (esFlowN.xz / max(esFlowN.y, 1e-3)) * esFlowFadePx;
 }
 // the shore swell (the frame and dH/dd come from the prelude); height slope = dH/dd * grad(d)
 // = -shoreDir * dH/dd. The old shore < 90 m gate is gone: a hard cut on a
@@ -1439,8 +1444,13 @@ float esFoamE;
 // The crest per pixel: the mesh crest is one plane per triangle (vertex
 // height minus vertex still level, both interpolated), so the short bands'
 // own height rides on top of it (perf-diag4 V2), and the crest bands'
-// per-pixel height swap (esCrestD, diag11 W1 / diag12 Q2).
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z + esCrestD;
+// per-pixel height swap (esCrestD, diag11 W1 / diag12 Q2). The along-flow
+// undulation (1.6 m wavelength, under the grid) is swapped the same way:
+// interpolated per vertex it aliased into one tilted plane per triangle, and
+// the whitecap threshold cut it into straight-edged pale wedges that changed
+// every frame on rivers (perf10 D11).
+float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z + esCrestD
+              - vEsFlowH + esFlowHPx;
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 esDbgCrest = esCrest;
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);

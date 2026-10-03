@@ -58,6 +58,16 @@ function compile(mode: "field" | "strip", a: WaterAssets = assets, tier = WATER_
 /** Strip comments so a test cannot pass on a sentence in a comment. */
 const code = (src: string) => src.replace(/\/\/[^\n]*/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
 
+describe("foam crest is per pixel (perf10 D11)", () => {
+  it("swaps the vertex along-flow undulation height for its per-pixel value in the crest", () => {
+    const vert = code(compile("field").shader.vertexShader);
+    expect(vert).toContain("vEsFlowH = esFlowH;");
+    const frag = code(compile("field").shader.fragmentShader);
+    expect(frag).toContain("esFlowHPx = esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN) * esFlowFadePx;");
+    expect(frag).toMatch(/float esCrest = [^;]*- vEsFlowH \+ esFlowHPx;/);
+  });
+});
+
 describe("signed depth in the shader (decision 0047)", () => {
   it("decodes v2 signed depth and v1 unsigned depth from the same uniforms", () => {
     const v2 = compile("field", assetsFor(2)).uniforms;
@@ -510,7 +520,7 @@ describe("foam, depth tint, shore and exposure per pixel (perf-diag4 V2)", () =>
         expect(frag).toContain("float esColDepth = min(esThick, max(esDepthPx, 0.05) * 4.0);");
         expect(frag).toContain("float esShoreD = esShorePx;");
         expect(frag).toContain("float esExpo = esExpoPx;");
-        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z \+ esCrestD;/);
+        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z \+ esCrestD\s*- vEsFlowH \+ esFlowHPx;/);
         // the per-pixel inputs are declared before the colour block reads them
         expect(frag.indexOf("float esExpoPx")).toBeLessThan(frag.indexOf("float esDetStrength"));
       }
@@ -578,7 +588,7 @@ describe("crest bands per pixel (perf-diag11 W1, diag12 Q2)", () => {
     expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime).z;");
     expect(frag).toMatch(/esCrestD = \(esWaveCrestH\(vEsRestXZ,[^;]*\.z - vEsCrestV\)/);
     expect(frag).toContain("vec2 esWaveG = esWaveF.xy;");
-    expect(frag).toMatch(/float esCrest = [^;]*\+ esCrestD;/);
+    expect(frag).toMatch(/float esCrest = [^;]*\+ esCrestD\s*- vEsFlowH/);
     for (const b of picked) expect(frag).toContain(`${b.freq}, ${b.phaseSpeed}, ${b.phase0});`);
     // no crest work where nothing reads it: the strips
     for (const s of [compile("strip", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {
@@ -620,7 +630,7 @@ describe("water fragment per pixel throughout (f33 audit)", () => {
     const vert = code(shader.vertexShader);
     const frag = code(shader.fragmentShader);
     expect(vert).not.toMatch(/esW\.normal = normalize\(vec3\(esSlope/);
-    expect(frag).toContain("esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN);");
+    expect(frag).toContain("esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN) * esFlowFadePx;");
   });
   it("vEsNormalW reaches the shading only through esNBase, and every fresnel/sparkle/SSR reads esNW", () => {
     for (const mode of ["field", "strip"] as const) for (const variant of ["above", "below"] as const) {
