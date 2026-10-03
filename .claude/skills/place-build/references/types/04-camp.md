@@ -1,5 +1,7 @@
 # Type 4: camp or hold (sheet written by slice 5, The Broke Column; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), row Camp.
+
 Hostile camps (27), civil and expedition camps (17) and pirate anchorages:
 44 active `camp` records. A camp is a few open shelters, a fire and its
 stores on whatever ground the occupants could hold; nothing in it is meant

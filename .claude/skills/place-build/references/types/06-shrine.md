@@ -1,5 +1,7 @@
 # Type 6: Shrine or sacred site (sheet written by slice walk 9, the Tag House; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), row Shrine.
+
 Covers the `sacred` catalogue class (16k § The type list, row 6): 45 active
 records in five families: `the-dead` 17 (bone-repatriation waystations,
 urn vaults, mass-grave memorials, hammock-crown terraces), `hist` 10

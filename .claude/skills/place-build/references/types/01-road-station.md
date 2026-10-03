@@ -1,5 +1,7 @@
 # Type 1: road station or hamlet (skeleton; the rest is written from Claywater Station in slice 1c)
 
+Feel: [type-feel.md](../type-feel.md), row Road station.
+
 Covers the road-station village, the road stage and the flood-high hamlet
 (16k § The type list, row 1). First place: Claywater Station
 (`place.imperial-fringe.claywater-station`), an Imperial well and an
