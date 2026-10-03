@@ -51,7 +51,7 @@ How you work:
   registries) never runs beside publishing lanes, and commits in the step
   that writes it.
 - Pods: `tooling/gpu-lane/` is the one harness for WebGL and WebGPU; a lane never writes its own capture scripts.
-- After every wave returns run `python3 tooling/repo-standards/lane_status.py --agent <your own id>`; when your context passes 150k, finish the current iteration, write your note and hand back (the planner relaunches a successor).
+- After every wave returns run `python3 tooling/repo-standards/lane_status.py --agent <your own id>`; when your context passes 150k, finish the current iteration, write your note and hand back (the planner relaunches a successor). A lead over the trigger writes its hand-off note NOW and returns while its measuring child keeps running; the note names the child's report file and the successor picks it up with `lane_wait.py --any-mtime --files <that file>`; never idle over the trigger waiting for a child.
 - Your report names every pod you leave up by id, with who owns it next
   and when it is deleted, and every agent of yours still running; it has
   no "queued", "not done" or "later" line (settle it, or brief it and
@@ -152,7 +152,10 @@ Rules of the road:
   the studio pauses the clock, and `rate=30` runs it 60x too fast); a row
   captured without a running clock is not a performance measurement and
   never a bar row;
-  (g) one pod per lane for iteration loops; a fan-out job (the agent walks
+  (g) before any pod capture the run brief checks Chrome is alive on the pod
+  (one curl to the DevTools /json/version through the tunnel) and restarts it
+  via pod-setup if not;
+  one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);
   a job that drives a remote pod (pod-capture, measure, walk_run, hud-capture)
