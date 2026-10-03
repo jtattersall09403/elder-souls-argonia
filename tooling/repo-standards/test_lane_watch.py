@@ -84,6 +84,15 @@ def test_orphan_job(tmp_path):
     assert lane_watch.orphans(procs, [live]) == []
 
 
+def test_orphan_exempts_cron_backup():
+    procs = [_p(5, "/usr/sbin/CRON -f", ppid=1),
+             _p(6, "/bin/sh -c backup_changed.sh", ppid=5),
+             _p(7, "bash tooling/repo-standards/job_guard.sh backup -- snapshot-vault.sh", ppid=6),
+             _p(8, "bash tooling/repo-standards/job_guard.sh gpu10 -- node pod-capture.mjs", ppid=1)]
+    got = lane_watch.orphans(procs, [])
+    assert len(got) == 1 and "pid 8" in got[0]
+
+
 def test_unguarded_heavy():
     procs = [_p(20, "/usr/bin/python3 big.py", rss=3 * 1048576), _p(21, "python3 guarded.py", rss=3 * 1048576),
              _p(22, "python3 small.py", rss=1048576), _p(23, "/usr/bin/java big", rss=5 * 1048576)]
