@@ -729,6 +729,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               probeRef={interiorProbeRef}
               fireTier={fireTierRef}
               sounds={sounds}
+              quality={quality}
+              touch={touch}
             />
             {/* 16e: operator sockets, the talk prompt and the travel menu.
                 16g: `travel_services` is the stage that sites them, so they

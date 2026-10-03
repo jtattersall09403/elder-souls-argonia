@@ -47,7 +47,10 @@ import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { settlementColliderDesc } from "./SettlementColliders";
 import type { DoorOverlayChannel } from "./doorOverlay";
 import { InteriorPlayerFill, preparePlayerFill } from "./InteriorPlayerFill";
-import { interiorPlayerFillK, parseQuality } from "@elder-souls/game-core/core/quality";
+import { interiorPlayerFillK, type QualitySettings } from "@elder-souls/game-core/core/quality";
+import {
+  PLAYER_FILL_TOWARD_CAMERA_M, cellAmbientLuminance, playerFillIntensity,
+} from "@elder-souls/game-core/interior/playerFill";
 
 /** Scratch: the sun's colour handed to the shown cell's daylight each frame. */
 const daylightColour = new THREE.Color();
@@ -114,7 +117,7 @@ export interface InteriorDoorsProbe {
  */
 export function InteriorDoors({
   baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, directYawDeg = null, onInside, interaction, kitCache,
-  overlay, probeRef, sounds, onShown, fireTier, onExteriorNeededChange,
+  overlay, probeRef, sounds, onShown, fireTier, onExteriorNeededChange, quality, touch,
 }: {
   baseUrl: string;
   controller: PlayerMovementController;
@@ -147,6 +150,9 @@ export function InteriorDoors({
    * return point is loaded) and stays true; true from the start without a deep link (vol10 diag6 L1).
    */
   onExteriorNeededChange?: (needed: boolean) => void;
+  /** The live quality preset and the touch test (CharacterMode's): they set the player fill k. */
+  quality: QualitySettings;
+  touch: boolean;
 }) {
   const decoders = useKitDecoders(baseUrl);
   const { world, rapier } = useRapier();
@@ -188,16 +194,17 @@ export function InteriorDoors({
   // inside's lighting (`InteriorLinker.warm`), so entering finds it compiled.
   // Set on the cell before its first link, so its program set is compiled once with it: the player fill (vol10 c9
   // I2; k from the quality preset, the mobile value on a touch device, `?playerfill=0` off) and the dev-capture
-  // switch `?cellsunshadow=0` (the cell sun casts no shadow; vol10 c9 I1 twin). Read like CharacterMode's `?q=`.
+  // switch `?cellsunshadow=0` (the cell sun casts no shadow; vol10 c9 I1 twin). A quality change only retunes the
+  // shown cell's light intensity (below); the light is never added or removed, so program keys stay fixed.
+  const playerFillOff = useMemo(() => new URLSearchParams(window.location.search).get("playerfill") === "0", []);
+  const fillK = playerFillOff ? 0 : interiorPlayerFillK(quality, touch);
+  const fillKRef = useRef(fillK);
+  fillKRef.current = fillK;
   const prepareCell = useMemo(() => {
-    const params = new URLSearchParams(window.location.search);
-    const touch = window.matchMedia?.("(pointer: coarse)").matches ?? false;
-    const k = params.get("playerfill") === "0" ? 0
-      : interiorPlayerFillK(parseQuality(params.get("quality") ?? params.get("q")), touch);
-    const cellSunShadow = params.get("cellsunshadow") !== "0";
+    const cellSunShadow = new URLSearchParams(window.location.search).get("cellsunshadow") !== "0";
     return (interior: LoadedInterior) => {
       if (!cellSunShadow && interior.daylight.directional) interior.daylight.directional.castShadow = false;
-      preparePlayerFill(interior, k);
+      preparePlayerFill(interior, fillKRef.current);
     };
   }, []);
   const interiors = useMemo<InteriorSource>(() => ({
@@ -222,6 +229,11 @@ export function InteriorDoors({
   }), [controller, interiors, bodyCentreHeightM, groundAt]);
 
   useEffect(() => { transition.setDoors(doors); }, [transition, doors]);
+  // Quality or touch changed inside a cell: retune the shown cell's fill intensity only.
+  useEffect(() => {
+    const light = shown?.interior.group.getObjectByName("player-fill") as THREE.PointLight | undefined;
+    if (shown && light) light.intensity = playerFillIntensity(cellAmbientLuminance(shown.interior.bundle), fillK, PLAYER_FILL_TOWARD_CAMERA_M);
+  }, [shown, fillK]);
   // a deep-linked cell is fetched on mount, not after the controller mounts: it opens on bundle resident
   useEffect(() => { if (directCellId) interiors.request(directCellId).catch(() => undefined); }, [interiors, directCellId]);
   const exteriorNeeded = useRef<boolean | null>(null);
