@@ -5,7 +5,7 @@
 import { spawnSync } from "node:child_process";
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, extname, join, resolve } from "node:path";
+import { dirname, extname, join, resolve, sep } from "node:path";
 
 const appDir = resolve(new URL("../..", import.meta.url).pathname);
 export const MIME = { ".js": "text/javascript", ".html": "text/html", ".json": "application/json", ".css": "text/css",
@@ -27,7 +27,9 @@ export function staticHandler(roots, { intercept, onMissing } = {}) {
   let basisDir = null;
   try { basisDir = dirname(createRequire(join(appDir, "package.json")).resolve("three/examples/jsm/libs/basis/basis_transcoder.js")); } catch { /* served from the dist */ }
   return (req, res) => {
-    const path = decodeURIComponent(req.url.split("?")[0]);
+    // The pod serves this on a public proxy URL: a malformed escape is a 400, never a crash.
+    let path;
+    try { path = decodeURIComponent(req.url.split("?")[0]); } catch { res.writeHead(400); res.end(); return; }
     const basis = basisDir && /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
     if (basis) { res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] }); createReadStream(join(basisDir, basis[1])).pipe(res); return; }
     if (intercept?.(path, res)) return;
@@ -35,7 +37,10 @@ export function staticHandler(roots, { intercept, onMissing } = {}) {
     // first matching root's index.html (SPA fallback).
     const hits = roots.filter(([prefix]) => path.startsWith(prefix));
     const isFile = (f) => existsSync(f) && !statSync(f).isDirectory();
-    const file = hits.map(([prefix, root]) => join(root, path.slice(prefix.length) || "index.html")).find(isFile)
+    const targets = hits.map(([prefix, root]) => [resolve(root), resolve(root, `.${sep}${path.slice(prefix.length) || "index.html"}`)]);
+    // a decoded `..` (`%2e%2e`) that leaves its root is refused, never served
+    if (targets.some(([root, f]) => f !== root && !f.startsWith(root + sep))) { res.writeHead(403); res.end(); return; }
+    const file = targets.map(([, f]) => f).find(isFile)
       ?? hits.map(([, root]) => join(root, "index.html")).find(isFile);
     if (file) {
       res.writeHead(200, { "Content-Type": MIME[extname(file)] ?? "application/octet-stream" });
