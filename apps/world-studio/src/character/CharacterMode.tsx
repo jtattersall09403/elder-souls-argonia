@@ -624,9 +624,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               />
             )}
           </Suspense>
+          {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
+          </group>}
           {/* Phase 8b water: the compiled province surface + shared pipeline;
-              the wading player feeds a churn ring for contact foam. */}
+              the wading player feeds a churn ring for contact foam. Outside the
+              exterior group: its WaterPipeline is the frame's renderer (priority 1;
+              FrameRateProbe's priority-1000 hook stops r3f's own render), so a
+              deep-linked cell with no exterior mounted still draws (vol10 diag7). */}
           {!hiddenLayers.has("water") && waterPipelineEnabled && (
+            <group visible={!insideInterior && exteriorNeeded}>
             <StudioWater
               base={DATA_BASE}
               verticalScale={verticalScale}
@@ -635,9 +641,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               bloom={bloom}
               fireVolumes={fireVolumes}
             />
+            </group>
           )}
-          {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
-          </group>}
           {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
           {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
             startAt={focusRef.current} shown={shownCell} />}

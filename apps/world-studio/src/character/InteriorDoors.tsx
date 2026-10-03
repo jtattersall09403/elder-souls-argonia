@@ -72,6 +72,10 @@ export interface InteriorDoorsProbe {
   linkS: number | null;
   /** Shader programs the shown cell's link added (`renderer.info.programs`, at prefetch or entry). */
   programs: number | null;
+  /** Page times (performance.now, ms) of a cell's stages, for the harness to time a deep link:
+   * `opened` the controller was ready and the cell was asked for, `shown` the cell attached,
+   * `clear` the first frame the fade was fully lifted with the cell shown. Null until reached. */
+  stagesMs: { opened: number | null; shown: number | null; clear: number | null };
   /** Bytes the shown cell's load fetched over the network (resource timing; cached files count 0). */
   bytes: number | null;
   /** Requests the shown cell's load made (resource timing, cached included). */
@@ -169,10 +173,12 @@ export function InteriorDoors({
     failure: (cellId) => loader.failure(cellId),
   }), [loader, linker, camera, interiorFog]);
 
+  const stagesMs = useRef<InteriorDoorsProbe["stagesMs"]>({ opened: null, shown: null, clear: null });
   const transition = useMemo(() => new DoorTransition({
     controller, interiors, bodyCentreHeightM, groundAt,
     showInterior: (interior, originM) => {
       collidersIn.current = false; drawn.current = false; setShown({ interior, originM });
+      stagesMs.current.shown = performance.now(); stagesMs.current.clear = null;
     },
     showExterior: () => setShown(null),
     interiorResident: () => collidersIn.current && drawn.current,
@@ -372,6 +378,7 @@ export function InteriorDoors({
     shown?.interior.daylight.updateFlicker(state.clock.elapsedTime);
     if (directCellId && !opened.current && controller.ready) {
       opened.current = true;
+      stagesMs.current.opened = performance.now();
       // The body's own pose: `position()` is the controller's per-frame copy,
       // still (0, 0, 0) on the first frame, which put the cell over the world
       // origin, 3 km from the door it belongs to (walk 2 D2 probe).
@@ -380,6 +387,7 @@ export function InteriorDoors({
       transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z }, directYawDeg);
     }
     transition.update(Math.min(delta, 0.1), answers);
+    if (shown && transition.fade === 0 && stagesMs.current.clear === null) stagesMs.current.clear = performance.now();
     const needed = !directCellId || exteriorNeeded.current === true || (opened.current && transition.leaving);
     if (needed !== exteriorNeeded.current) { exteriorNeeded.current = needed; onExteriorNeededChange?.(needed); }
     if (transition.candidate) interaction.offer(transition.candidate);
@@ -486,7 +494,7 @@ export function InteriorDoors({
     if (!probeRef) return undefined;
     probeRef.current = () => probeState(shown, transition,
       transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay, linkS.current,
-      shown ? linker.programsOf(shown.interior) ?? null : null, loadNet.current);
+      shown ? linker.programsOf(shown.interior) ?? null : null, loadNet.current, stagesMs.current);
     return () => { probeRef.current = null; };
   }, [probeRef, shown, transition, interaction, overlay]);
 
@@ -588,6 +596,7 @@ const INTERIOR_LINK_WAIT_MS = 4000;
 function probeState(
   shown: Shown | null, transition: DoorTransition, focused: boolean, overlay: DoorOverlayChannel,
   linkS: number | null, programs: number | null, net: { bytes: number; requests: number } | null,
+  stagesMs: InteriorDoorsProbe["stagesMs"],
 ): InteriorDoorsProbe {
   let boundsM: InteriorDoorsProbe["boundsM"] = null;
   if (shown) {
@@ -606,6 +615,7 @@ function probeState(
     prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
     loadS: shown?.interior.loadS ?? null,
     linkS, enterS: transition.enterS, programs, bytes: net?.bytes ?? null, requests: net?.requests ?? null,
+    stagesMs: { ...stagesMs },
   };
 }
 
