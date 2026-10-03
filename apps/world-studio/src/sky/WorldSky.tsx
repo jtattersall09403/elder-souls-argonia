@@ -162,6 +162,8 @@ export interface SkyDebugState {
   dayPhase: string;
   sunAltitudeDeg: number;
   sunAzimuthDeg: number;
+  /** Each moon's altitude and azimuth (degrees, as the sun's) and whether its disc is drawn. */
+  moons: { name: string; altitudeDeg: number; azimuthDeg: number; visible: boolean }[];
   exposure: number;
   exposureTarget: number;
   sceneIlluminance: number;
@@ -1043,6 +1045,9 @@ export function WorldSky({
       dayPhase: dayPhaseAt(epochMinutes),
       sunAltitudeDeg: rig.sun.altitude / DEG,
       sunAzimuthDeg: rig.sun.azimuth / DEG,
+      moons: rig.moons.map((m: MoonState) => ({
+        name: m.name, altitudeDeg: m.altitude / DEG, azimuthDeg: m.azimuth / DEG, visible: m.altitude > -0.1,
+      })),
       exposure: gl.toneMappingExposure,
       exposureTarget: rig.exposureTarget,
       sceneIlluminance: rig.sceneIlluminance,

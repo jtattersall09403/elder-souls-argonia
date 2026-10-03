@@ -83,6 +83,11 @@ export interface InteriorDoorsProbe {
    * the scene environment texture it reads, and the cell ambient's intensity. Null with no cell shown. */
   lightingIn: {
     playerEnvMapIntensity: { mean: number; min: number; materials: number } | null;
+    /** Mean metalness / roughness over the same materials; null with none. */
+    playerMetalnessMean: number | null;
+    playerRoughnessMean: number | null;
+    /** Most fixture light slots the fixture field gives any of those meshes; null with no meshes. */
+    playerFixtureSlots: number | null;
     environment: { uuid: string; name: string } | null;
     cellAmbientIntensity: number;
   } | null;
@@ -641,19 +646,26 @@ function probeState(
 /** What lights a body standing in the cell (vol10 diag8 I-2): the envMapIntensity of the skinned meshes outside
  * the cell (the character), the scene environment the cell inherits, and the cell ambient. Probe-time only. */
 function lightingIn(interior: LoadedInterior, scene: THREE.Scene): NonNullable<InteriorDoorsProbe["lightingIn"]> {
-  let sum = 0, n = 0, min = Infinity;
+  let sum = 0, n = 0, min = Infinity, metal = 0, rough = 0, mn = 0, slots = -1;
+  const field = fixtureLightFieldOf(scene);
   scene.traverse((o) => {
     if (!(o as THREE.SkinnedMesh).isSkinnedMesh) return;
     for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === interior.group) return;
     const mats = (o as THREE.SkinnedMesh).material;
+    slots = Math.max(slots, field.slotsOf(o).count);
     for (const m of Array.isArray(mats) ? mats : [mats]) {
-      const v = (m as THREE.MeshStandardMaterial).envMapIntensity;
+      const sm = m as THREE.MeshStandardMaterial;
+      const v = sm.envMapIntensity;
       if (typeof v === "number") { sum += v; n++; min = Math.min(min, v); }
+      if (typeof sm.metalness === "number" && typeof sm.roughness === "number") { metal += sm.metalness; rough += sm.roughness; mn++; }
     }
   });
   const env = scene.environment;
   return {
     playerEnvMapIntensity: n ? { mean: sum / n, min, materials: n } : null,
+    playerMetalnessMean: mn ? metal / mn : null,
+    playerRoughnessMean: mn ? rough / mn : null,
+    playerFixtureSlots: slots >= 0 ? slots : null,
     environment: env ? { uuid: env.uuid, name: env.name } : null,
     cellAmbientIntensity: interior.daylight.ambient.intensity,
   };
