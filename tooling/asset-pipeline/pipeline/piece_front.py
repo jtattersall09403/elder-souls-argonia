@@ -55,6 +55,11 @@ COPLACEMENT_MIN_SHARE = 0.4       # of all weight, in the winning bin
 ASYMMETRY_BIN_DEG = 30.0
 ASYMMETRY_MIN_TRIANGLES = 24      # in the winning band
 ASYMMETRY_MIN_RATIO = 1.35        # its density against the median band's
+#: Hand-held loot has no show face: a blade or a haft is detailed all round, so
+#: its densest band is mesh noise that moves whenever the GLB is rebuilt (the
+#: farmhouse rebuild of 2026-10-03 turned five weapon fronts and nulled two).
+#: These never take an asymmetry front; co-placement evidence still counts.
+NO_SHOW_FACE_CATEGORIES = frozenset({"weapon", "armour"})
 #: A slab piece — a wall, a gate span — has two broad faces and two ends, and
 #: only a broad face can be its front. Above this length-to-width ratio the
 #: search is confined to bands whose bearing is off the long axis: on a ruined
@@ -246,7 +251,7 @@ def asymmetry_front(triangles) -> tuple[float, float] | None:
 # --------------------------------------------------------------------------- #
 def derive_front(asset_id: str, triangles=None,
                  coplacements: dict[str, list[tuple[float, float]]] | None = None,
-                 ) -> dict | None:
+                 category: str | None = None) -> dict | None:
     """`{deg, evidence, outside, why}` for a piece, or None when it is symmetric.
 
     `outside` says the derived bearing is the face that must look AWAY from
@@ -264,6 +269,8 @@ def derive_front(asset_id: str, triangles=None,
                         f"statics to one side; the side they left open, at {deg:.0f}° in "
                         f"its own frame, is the front — and on an enclosure edge that open "
                         f"side is the outside")}
+    if category in NO_SHOW_FACE_CATEGORIES:
+        return None
     shape = asymmetry_front(triangles)
     if shape is not None:
         deg, ratio = shape
