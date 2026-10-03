@@ -3,10 +3,10 @@ import * as THREE from "three";
 import { FOLLOW_CAMERA, FollowCamera, type CameraObstructionQuery } from "./followCamera";
 import {
   CAMERA_BLOCKING_GROUPS, CAMERA_PIVOT_QUERY_GROUPS, CAMERA_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS,
-  TERRAIN_HEIGHTFIELD_GROUPS, PLAYER_FADE_END_ARM_M,
-  PLAYER_FADE_START_ARM_M, playerOpacityForArm,
+  TERRAIN_HEIGHTFIELD_GROUPS, PLAYER_FADE_START_SURFACE_M, distanceToCapsuleSurface,
+  playerOpacityForSurfaceDistance,
 } from "./cameraCollision";
-import { CHARACTER_CAPSULE_RADIUS } from "../physics/characterPhysics";
+import { CHARACTER_CAPSULE_HALF_HEIGHT, CHARACTER_CAPSULE_RADIUS } from "../physics/characterPhysics";
 
 // 16h check-in 2 item 3: the arm collides with an injected world query.
 // A wall is a plane at z = wallZ: the ball stops `radius` short of it.
@@ -142,24 +142,26 @@ describe("camera collision groups", () => {
     expect(passes(CAMERA_QUERY_GROUPS, TERRAIN_HEIGHTFIELD_GROUPS)).toBe(true);
     expect(passes(0xffffffff, TERRAIN_HEIGHTFIELD_GROUPS)).toBe(true);
   });
-  it("fades the player linearly between the fade start and end arms", () => {
-    expect(playerOpacityForArm(5.8)).toBe(1);
-    expect(playerOpacityForArm(PLAYER_FADE_START_ARM_M)).toBe(1);
-    expect(playerOpacityForArm((PLAYER_FADE_START_ARM_M + PLAYER_FADE_END_ARM_M) / 2)).toBeCloseTo(0.5, 5);
-    expect(playerOpacityForArm(PLAYER_FADE_END_ARM_M)).toBe(0);
+  // vol10 diag6 C1: the fade is the camera's distance to the body capsule, not the arm.
+  it("fades the player only when the camera is about to enter the body capsule", () => {
+    const fade = (x: number, y: number, z: number) => playerOpacityForSurfaceDistance(distanceToCapsuleSurface(
+      x, y, z, 0, 0, 0, CHARACTER_CAPSULE_HALF_HEIGHT, CHARACTER_CAPSULE_RADIUS));
+    // beside the chest, beyond the start: opaque
+    expect(fade(CHARACTER_CAPSULE_RADIUS + PLAYER_FADE_START_SURFACE_M + 0.01, 0.2, 0)).toBe(1);
+    // over the head at the pivot height (2.05 m over the feet) with a short arm: opaque (the old arm fade gave 0.133)
+    expect(fade(0, CHARACTER_CAPSULE_HALF_HEIGHT + CHARACTER_CAPSULE_RADIUS + 0.4, 0.3)).toBe(1);
+    // halfway into the fade band beside the hips
+    expect(fade(CHARACTER_CAPSULE_RADIUS + PLAYER_FADE_START_SURFACE_M / 2, -0.3, 0)).toBeCloseTo(0.5, 5);
+    // at or inside the body: gone
+    expect(fade(CHARACTER_CAPSULE_RADIUS, 0, 0)).toBe(0);
+    expect(fade(0, 0, 0)).toBe(0);
   });
 });
 
 // Planner ruling on walk 2 RB rec 1: the starting overlap is tested with a
 // ball of the capsule's radius at the pivot, the arm is swept with the
-// camera's ball ignoring where it starts, and a pinned arm never erases the
-// player.
+// camera's ball ignoring where it starts.
 describe("follow camera against a wall the player hugs", () => {
-  it("fades the player fully only below the shortest arm", () => {
-    expect(PLAYER_FADE_END_ARM_M).toBeLessThan(FOLLOW_CAMERA.minArm);
-    expect(playerOpacityForArm(FOLLOW_CAMERA.minArm)).toBeGreaterThan(0);
-  });
-
   it("tests the start overlap with the capsule's radius, never the camera ball's", () => {
     expect(FOLLOW_CAMERA.pivotRadius).toBe(CHARACTER_CAPSULE_RADIUS);
     const seen: number[] = [];
@@ -168,5 +170,35 @@ describe("follow camera against a wall the player hugs", () => {
     camera.reset(player, Math.PI);
     expect(seen.length).toBeGreaterThan(0);
     expect(seen.every((r) => r === CHARACTER_CAPSULE_RADIUS)).toBe(true);
+  });
+});
+
+// vol10 diag6 C1: a cell ceiling 3.2 m over the feet met the rising arm and
+// collapsed it onto the head; the arm now slides along under the ceiling.
+describe("follow camera under a low ceiling", () => {
+  // body centre at 1.17 m (feet 0): the pivot is 2.05 m over the feet
+  const body = new THREE.Vector3(0, 1.17, 0);
+  const ceilingAt = (ceilingY: number): CameraObstructionQuery => (from, to, radius) => {
+    const limit = ceilingY - radius;
+    if (to.y <= limit) return null;
+    const dy = to.y - from.y;
+    const t = (limit - from.y) / dy;
+    return t <= 0 ? 0 : t * from.distanceTo(to);
+  };
+  it("keeps its distance by lowering the camera instead of pulling it onto the head", () => {
+    const camera = new FollowCamera();
+    camera.setObstruction(ceilingAt(3.2));
+    camera.reset(body, Math.PI);
+    camera.pitch = FOLLOW_CAMERA.maxPitch; // looking down from above: the arm rises steeply
+    for (let i = 0; i < 240; i++) camera.update({ x: 0, y: 0 }, body, 1 / 60);
+    expect(camera.position.y).toBeLessThanOrEqual(3.2 - FOLLOW_CAMERA.collisionRadius + 1e-6);
+    expect(camera.arm).toBeGreaterThan(3);
+  });
+  it("a wall behind the player still pulls the arm in (no lowering through it)", () => {
+    const camera = new FollowCamera();
+    camera.setObstruction(wallAt(1.5));
+    camera.reset(body, Math.PI);
+    for (let i = 0; i < 120; i++) camera.update({ x: 0, y: 0 }, body, 1 / 60);
+    expect(camera.position.z).toBeLessThanOrEqual(1.5 - FOLLOW_CAMERA.collisionRadius + 1e-6);
   });
 });

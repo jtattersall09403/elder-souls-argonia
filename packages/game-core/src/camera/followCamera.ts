@@ -7,6 +7,9 @@ import {
 /** The follow camera's pivot and look target over the FEET, metres. */
 const PIVOT_ABOVE_FEET_M = 2.05;
 const LOOK_ABOVE_FEET_M = 1.45;
+/** The lowered arm is taken only when it is this much (m) longer than the
+ * hit along the orbit's own arm: no flip-flop on a marginal gain. */
+const LOWERED_ARM_GAIN_M = 0.25;
 
 /**
  * The third-person free-orbit follow camera, extracted from the combat
@@ -93,6 +96,8 @@ export class FollowCamera {
   private readonly pivot = new THREE.Vector3();
   private readonly lastPlayer = new THREE.Vector3();
   private readonly scratch = new THREE.Vector3();
+  /** The arm lowered under a ceiling (applyObstruction). */
+  private readonly lowered = new THREE.Vector3();
   private readonly cfg: Record<keyof typeof FOLLOW_CAMERA, number>;
   private obstruction: CameraObstructionQuery | null = null;
   /** How long the arm may be: shortened at once by an obstruction, grown
@@ -162,22 +167,45 @@ export class FollowCamera {
    * the first camera-blocking hit, at once; let it grow back gradually and
    * only while the player gives input. With no query injected the camera is
    * the smoothed orbit, exactly as before.
+   *
+   * Under a ceiling (vol10 diag6 C1): an arm rising from the pivot (camera
+   * above the head, looking down) meets a cell's ceiling within a metre or
+   * so and collapsed onto the head. When the sweep stops on its way UP, the
+   * arm is also tried at the height the ball reached (same yaw, same
+   * horizontal reach, lower): the camera slides along under the ceiling and
+   * keeps its distance. The view direction is `aim` either way, so the
+   * framing pitch does not change; a wall behind the player shortens the
+   * lowered arm too, so it is not taken there.
    */
   private applyObstruction(playerPosition: THREE.Vector3, delta: number, input: boolean): void {
     this.pivot.set(playerPosition.x, playerPosition.y + this.cfg.heightOffset, playerPosition.z);
     this.position.copy(this.orbit);
     if (!this.obstruction) return;
-    const full = this.orbit.distanceTo(this.pivot);
+    let target = this.orbit;
+    let full = this.orbit.distanceTo(this.pivot);
     if (full < 1e-4) return;
-    const hit = this.obstruction(this.pivot, this.orbit, this.cfg.collisionRadius, this.cfg.pivotRadius);
+    let hit = this.obstruction(this.pivot, this.orbit, this.cfg.collisionRadius, this.cfg.pivotRadius);
+    const rise = this.orbit.y - this.pivot.y;
+    if (hit !== null && hit > 0 && hit < full && rise > 0) {
+      this.lowered.copy(this.orbit);
+      this.lowered.y = this.pivot.y + rise * (hit / full);
+      const loweredFull = this.lowered.distanceTo(this.pivot);
+      const loweredHit = this.obstruction(this.pivot, this.lowered, this.cfg.collisionRadius, this.cfg.pivotRadius);
+      if (Math.min(loweredFull, loweredHit ?? loweredFull) > hit + LOWERED_ARM_GAIN_M) {
+        target = this.lowered;
+        full = loweredFull;
+        hit = loweredHit;
+      }
+    }
     const allowed = Math.max(this.cfg.minArm, Math.min(full, hit ?? full));
     if (allowed < this.armLimit) this.armLimit = allowed;
     else if (input) this.armLimit = Math.min(allowed, this.armLimit + this.cfg.returnRate * delta);
     if (this.armLimit >= full) {
-      this.armLimit = Number.POSITIVE_INFINITY;
+      if (target === this.orbit) this.armLimit = Number.POSITIVE_INFINITY;
+      this.position.copy(target);
       return;
     }
-    this.scratch.subVectors(this.orbit, this.pivot).multiplyScalar(this.armLimit / full);
+    this.scratch.subVectors(target, this.pivot).multiplyScalar(this.armLimit / full);
     this.position.addVectors(this.pivot, this.scratch);
   }
 

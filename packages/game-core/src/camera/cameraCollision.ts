@@ -34,18 +34,28 @@ export const CAMERA_QUERY_GROUPS = interactionGroups(CAMERA_BLOCKING_BIT, CAMERA
 /** The pivot start-overlap test: camera-blocking colliders minus terrain. */
 export const CAMERA_PIVOT_QUERY_GROUPS = interactionGroups(CAMERA_PIVOT_BIT, CAMERA_PIVOT_BIT);
 
-/** Arm length (m) under which the player model starts to fade, and the
- * length at which it is gone: Skyrim blends the player out when the camera
- * is too close (research camera.md §b). The end sits below the follow
- * camera's shortest arm (minArm 0.42), at the capsule radius, so an arm
- * pinned by a wall dims the player but never erases it (planner ruling on
- * walk 2 RB rec 1; followCamera.test.ts holds the order). */
-export const PLAYER_FADE_START_ARM_M = 1.2;
-export const PLAYER_FADE_END_ARM_M = 0.3;
+/** The player fades only when the camera is about to enter the body (vol10
+ * diag6 C1: a fade keyed on the pivot arm, whose pivot sits 2.05 m over the
+ * feet, faded a body the camera was nowhere near whenever a cell's ceiling
+ * shortened the arm). Distances are from the camera to the SURFACE of the
+ * controller's capsule: fully opaque at or beyond the start, gone at or
+ * inside the end, linear between (Skyrim's blend-out, research camera.md §b). */
+export const PLAYER_FADE_START_SURFACE_M = 0.35;
+export const PLAYER_FADE_END_SURFACE_M = 0;
 
-/** Player model opacity for an arm length: 1 at or beyond the fade start,
- * 0 at or inside the fade end, linear between. */
-export function playerOpacityForArm(armM: number): number {
-  const t = (armM - PLAYER_FADE_END_ARM_M) / (PLAYER_FADE_START_ARM_M - PLAYER_FADE_END_ARM_M);
+/** Distance (m) from a point to the surface of a vertical capsule (negative
+ * inside it): `centre` is the body centre, the segment runs `halfHeight`
+ * above and below it, `radius` is the capsule's. Allocation-free. */
+export function distanceToCapsuleSurface(
+  px: number, py: number, pz: number, cx: number, cy: number, cz: number,
+  halfHeight: number, radius: number,
+): number {
+  const sy = Math.min(cy + halfHeight, Math.max(cy - halfHeight, py));
+  return Math.hypot(px - cx, py - sy, pz - cz) - radius;
+}
+
+/** Player model opacity for the camera's distance to the body capsule's surface. */
+export function playerOpacityForSurfaceDistance(surfaceM: number): number {
+  const t = (surfaceM - PLAYER_FADE_END_SURFACE_M) / (PLAYER_FADE_START_SURFACE_M - PLAYER_FADE_END_SURFACE_M);
   return Math.min(1, Math.max(0, t));
 }

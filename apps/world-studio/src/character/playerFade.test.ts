@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { gatePlayerFirstShow, warmPlayerFadePrograms } from "./playerFade";
+import { fadePlayerModel, gatePlayerFirstShow, warmPlayerFadePrograms } from "./playerFade";
 
 describe("warmPlayerFadePrograms (16k walk 10: first fade linked every player material mid-walk)", () => {
   it("compiles each new material transparent then as drawn, once", () => {
@@ -44,5 +44,30 @@ describe("gatePlayerFirstShow (perf10 diag 6 C3: the warm ran after the player's
     finish(); await linked; await Promise.resolve(); await Promise.resolve();
     expect(group.visible).toBe(true);
     expect(gatePlayerFirstShow(group, true, compile)).toBe(true);
+  });
+});
+
+describe("fadePlayerModel (vol10 diag6 C2: armour swapped in mid-fade stayed opaque)", () => {
+  it("a material swapped in mid-fade takes the current opacity at once and is restored after", () => {
+    const group = new THREE.Group();
+    const body = new THREE.MeshStandardMaterial({ opacity: 0.9 });
+    const mesh = new THREE.Mesh(new THREE.BufferGeometry(), body);
+    group.add(mesh);
+    fadePlayerModel(group, 0.5);
+    expect(body.opacity).toBeCloseTo(0.45, 6);
+    const armour = new THREE.MeshStandardMaterial();
+    group.add(new THREE.Mesh(new THREE.BufferGeometry(), armour));
+    fadePlayerModel(group, 0.5); // same opacity: the old early return skipped the new mesh
+    expect(armour.transparent).toBe(true);
+    expect(armour.opacity).toBeCloseTo(0.5, 6);
+    fadePlayerModel(group, 1);
+    expect(body.opacity).toBeCloseTo(0.9, 6);
+    expect(body.transparent).toBe(false);
+    expect(armour.opacity).toBe(1);
+    expect(armour.transparent).toBe(false);
+    // a faded material taken off mid-fade and put back at full opacity is restored
+    mesh.material = armour; fadePlayerModel(group, 0.3);
+    mesh.material = body; fadePlayerModel(group, 1);
+    expect(body.opacity).toBeCloseTo(0.9, 6);
   });
 });

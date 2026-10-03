@@ -59,43 +59,57 @@ export function gatePlayerFirstShow(group: THREE.Object3D, observed: boolean,
   void warmPlayerFadePrograms(group, compile).linked.then(() => {
     group.userData.esPlayerShow = "shown";
     group.visible = true;
-    delete group.userData.esPlayerFade; // fadePlayerModel re-applies the arm's opacity
   });
   return false;
 }
 
 /**
- * Fade the player model when the follow camera's arm is short (16h check-in
- * 2 item 3; Skyrim's blend-out). Works on the wrapper group only: `visible`
- * on the group, material opacity on its meshes, each material's own values
- * kept in userData and restored at full opacity. Per-mesh `visible` stays
- * the armour and first-person systems' (actors/meshVisibility.ts).
- * Idempotent: a repeated opacity costs one comparison.
+ * Fade the player model when the camera is about to enter the body (16h
+ * check-in 2 item 3; Skyrim's blend-out; vol10 diag6 C1 keyed it on the
+ * camera's distance to the body capsule). Works on the wrapper group only:
+ * `visible` on the group, material opacity on its meshes, each material's
+ * own values kept in userData and restored at full opacity. Per-mesh
+ * `visible` stays the armour and first-person systems' (actors/meshVisibility.ts).
+ * Every material is checked every call (vol10 diag6 C2: a group-level
+ * early return skipped armour swapped in mid-fade, which stayed opaque while
+ * the body faded): a material already at this opacity costs one comparison,
+ * one swapped in takes the current opacity at once. Allocation-free.
  */
 export function fadePlayerModel(group: THREE.Group, opacity: number): void {
-  const last = group.userData.esPlayerFade as number | undefined;
-  if (last === opacity || (last === undefined && opacity >= 1)) return;
-  group.userData.esPlayerFade = opacity;
-  group.visible = opacity > 0;
-  group.traverse((object) => {
-    const mesh = object as THREE.Mesh;
-    if (!mesh.isMesh) return;
-    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-    for (const material of materials) {
-      const base = (material.userData.esPlayerFadeBase ??= {
-        transparent: material.transparent, opacity: material.opacity, depthWrite: material.depthWrite,
-      }) as FadeBase;
-      const fading = opacity < 1;
-      const transparent = fading || base.transparent;
-      // `transparent` is compiled into the program (three's OPAQUE define
-      // forces alpha to 1), so a change needs a recompile to fade at all.
-      if (material.transparent !== transparent) {
-        material.transparent = transparent;
-        material.needsUpdate = true;
-      }
-      material.opacity = base.opacity * opacity;
-      // Keep writing depth: the body hides its own far side, not a ghost.
-      material.depthWrite = base.depthWrite;
-    }
-  });
+  const visible = opacity > 0;
+  if (group.visible !== visible) group.visible = visible;
+  fadeTree(group, opacity);
+}
+
+function fadeTree(object: THREE.Object3D, opacity: number): void {
+  const mesh = object as THREE.Mesh;
+  if (mesh.isMesh) {
+    const material = mesh.material;
+    if (Array.isArray(material)) for (let i = 0; i < material.length; i++) fadeMaterial(material[i], opacity);
+    else fadeMaterial(material, opacity);
+  }
+  const children = object.children;
+  for (let i = 0; i < children.length; i++) fadeTree(children[i], opacity);
+}
+
+function fadeMaterial(material: THREE.Material, opacity: number): void {
+  const data = material.userData;
+  const at = data.esPlayerFadeAt as number | undefined;
+  if (at === opacity || (at === undefined && opacity >= 1)) return;
+  // The material's own values, taken the first time it fades (at that
+  // moment it is still drawn as authored) and restored at full opacity.
+  const base = (data.esPlayerFadeBase ??= {
+    transparent: material.transparent, opacity: material.opacity, depthWrite: material.depthWrite,
+  }) as FadeBase;
+  data.esPlayerFadeAt = opacity;
+  const transparent = opacity < 1 || base.transparent;
+  // `transparent` is compiled into the program (three's OPAQUE define
+  // forces alpha to 1), so a change needs a recompile to fade at all.
+  if (material.transparent !== transparent) {
+    material.transparent = transparent;
+    material.needsUpdate = true;
+  }
+  material.opacity = base.opacity * opacity;
+  // Keep writing depth: the body hides its own far side, not a ghost.
+  material.depthWrite = base.depthWrite;
 }

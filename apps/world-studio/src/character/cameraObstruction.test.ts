@@ -5,7 +5,6 @@ import {
   CAMERA_BLOCKING_GROUPS, CAMERA_PIVOT_QUERY_GROUPS, CAMERA_QUERY_GROUPS, TERRAIN_HEIGHTFIELD_GROUPS,
 } from "@elder-souls/game-core/camera/cameraCollision";
 import { FOLLOW_CAMERA, FollowCamera } from "@elder-souls/game-core/camera/followCamera";
-import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
 import { rapierCameraObstruction } from "./cameraObstruction";
 
 // Walk 2 D3: a pivot ball that STARTS inside a lintel or eave must stop the
@@ -38,7 +37,7 @@ describe("studio camera obstruction (Rapier ball cast)", () => {
 
   // Planner ruling on RB rec 1: the start overlap is the capsule's own ball
   // (0.3 m) at the pivot; the 0.42 m camera ball sweeps ignoring where it starts.
-  it("a player whose capsule touches the wall keeps a long arm pointing away from it, and is not faded out", () => {
+  it("a player whose capsule touches the wall keeps a long arm pointing away from it", () => {
     // Wall face at z = 0.1; the capsule (radius 0.3) touches it from +z.
     // Body centre 1.2 m up: the pivot (2.08 m) is mid-wall, its 0.42 m ball 0.115 m inside it.
     const body = new THREE.Vector3(0, 1.2, 0.1 + FOLLOW_CAMERA.pivotRadius + 0.005);
@@ -47,7 +46,6 @@ describe("studio camera obstruction (Rapier ball cast)", () => {
     camera.reset(body, Math.PI); // yaw 2π: the camera sits on +z, the arm points away from the wall
     for (let i = 0; i < 120; i++) camera.update({ x: 0, y: 0 }, body, 1 / 60);
     expect(camera.arm).toBeGreaterThan(FOLLOW_CAMERA.minArm + 1);
-    expect(playerOpacityForArm(camera.arm)).toBeGreaterThan(0);
   });
 
   // perf10 Q1: the pivot test skips terrain heightfields (brute-force ball

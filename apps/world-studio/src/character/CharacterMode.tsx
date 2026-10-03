@@ -16,7 +16,7 @@ import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
-import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
+import { distanceToCapsuleSurface, playerOpacityForSurfaceDistance } from "@elder-souls/game-core/camera/cameraCollision";
 import { rapierCameraObstruction } from "./cameraObstruction";
 import { fadePlayerModel, gatePlayerFirstShow, warmPlayerFadePrograms } from "./playerFade";
 import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
@@ -304,6 +304,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // the shown cell's sockets, for the socket overlay (16k walk 6)
   const [shownCell, setShownCell] = useState<ShownCellSockets | null>(null);
   const directInterior = useMemo(() => new URLSearchParams(window.location.search).get("interior"), []);
+  // vol10 diag6 L1: a deep-linked cell mounts no exterior (terrain, places,
+  // settlements, water, drawn sky) until the player leaves it; a door entry
+  // from outside keeps the exterior mounted. InteriorDoors says when.
+  const [exteriorNeeded, setExteriorNeeded] = useState(() => !directInterior);
   // `?yaw=` (compass degrees, the fly view's meaning): the spawn facing, outdoors and at `?interior=`
   const spawnYawDeg = useMemo(() => parseSpawnYaw(new URLSearchParams(window.location.search).get("yaw")), []);
   // Black from the first frame when a cell is opened directly (the fade lifts once it is resident).
@@ -559,8 +563,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky sunLightingOut={sunLightingRef} tier={volumetricTier(quality.name, touch)} fireTierOut={fireTierRef} mode="character" shadowMapSize={quality.shadowMapSize} shadowCascadeRota={quality.shadowCascadeRota} extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
-          <group visible={!insideInterior}>
+          <WorldSky sunLightingOut={sunLightingRef} tier={volumetricTier(quality.name, touch)} fireTierOut={fireTierRef} mode="character" shadowMapSize={quality.shadowMapSize} shadowCascadeRota={quality.shadowCascadeRota} extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior || !exteriorNeeded} groundHeight={settlementGroundAt} crowns={crownsRef}>
+          {exteriorNeeded && <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain
               store={store}
@@ -633,7 +637,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
-          </group>
+          </group>}
           {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
           {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
             startAt={focusRef.current} shown={shownCell} />}
@@ -701,6 +705,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               directCellId={directInterior}
               directYawDeg={spawnYawDeg}
               onInside={setInsideInterior}
+              onExteriorNeededChange={setExteriorNeeded}
               onShown={setShownCell}
               interaction={interaction}
               kitCache={kitCache}
@@ -1892,7 +1897,11 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
         fadePinFrame.current = 60;
         warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
       }
-      fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+      // the camera's distance to the body capsule, never the arm (vol10 diag6 C1)
+      const cam = camera3P.position;
+      fadePlayerModel(playerModelRef.current, playerOpacityForSurfaceDistance(distanceToCapsuleSurface(
+        cam.x, cam.y, cam.z, visualPos.x, visualPos.y, visualPos.z,
+        CHARACTER_CAPSULE_HALF_HEIGHT, CHARACTER_CAPSULE_RADIUS)));
     }
     focusRef.current = { x: position.x, z: position.z };
     poseTimer.current += rawDelta;
