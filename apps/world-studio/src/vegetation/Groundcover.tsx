@@ -126,6 +126,7 @@ import {
   RangeTracker,
   SlotAllocator,
   slotCapacity,
+  grownCapacity,
   stickySector,
   takeRanges,
   applyPieces,
@@ -2015,10 +2016,12 @@ export function Groundcover({
               const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
               placeStart.push(slots.alloc.alloc(farN + restN));
             }
-            if (slots.alloc.highWater > mesh.instanceMatrix.count) {
+            // Capacity is kept across refills and grows only past it (G6).
+            const grownTo = grownCapacity(mesh.instanceMatrix.count, slots.alloc.highWater);
+            if (grownTo !== mesh.instanceMatrix.count) {
               const allocT0 = performance.now();
               const previous = mesh;
-              mesh = createPoolMesh(part.geometry, part.material, slotCapacity(slots.alloc.highWater), slots);
+              mesh = createPoolMesh(part.geometry, part.material, grownTo, slots);
               (mesh.instanceMatrix.array as Float32Array).set(previous.instanceMatrix.array as Float32Array);
               (mesh.instanceColor!.array as Float32Array).set(previous.instanceColor!.array as Float32Array);
               (mesh.geometry.getAttribute(LOD_BAND_ATTRIBUTE).array as Float32Array)

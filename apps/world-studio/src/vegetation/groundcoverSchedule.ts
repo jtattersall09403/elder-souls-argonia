@@ -245,6 +245,13 @@ export function slotCapacity(needed: number): number {
   return Math.max(64, Math.ceil(needed * 1.5));
 }
 
+/** The capacity a pooled mesh needs for `highWater`: the current one while it
+ * fits (a refill never reallocates, and capacity never shrinks), else 1.5x the
+ * need (perf10 G6). */
+export function grownCapacity(capacity: number, highWater: number): number {
+  return highWater <= capacity ? capacity : slotCapacity(highWater);
+}
+
 /** How far past GC_CORE_M a core tile stays in the core slot. */
 export const GC_CORE_HYSTERESIS_M = 16;
 

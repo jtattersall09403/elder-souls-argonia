@@ -9,6 +9,7 @@ import {
   GC_RANGE_MERGE_GAP,
   GC_UPLOAD_BUDGET_BYTES,
   generationShareMs,
+  grownCapacity,
   RangeTracker,
   runSlices,
   SlotAllocator,
@@ -209,5 +210,51 @@ describe("takeRanges + applyPieces (diag18 G3: the upload cap splits a mesh)", (
     applyPieces(attr, 16, [500, 503]); // next frame, mesh culled: both stay
     expect(attr.updateRanges).toEqual([{ start: 160, count: 32 }, { start: 8000, count: 48 }]);
     expect(attr.version).toBe(v0 + 2);
+  });
+});
+
+describe("grownCapacity (perf10 G6: a walk stops allocating)", () => {
+  it("fits keeps the capacity, growth is 1.5x the need, never shrinks", () => {
+    expect(grownCapacity(1500, 1500)).toBe(1500);
+    expect(grownCapacity(1500, 10)).toBe(1500);
+    expect(grownCapacity(1500, 1501)).toBe(2252);
+  });
+
+  it("a seeded walk of 50 refills allocates nothing over the last 40, and frees what it replaces", () => {
+    // Expected, written first: 60 live records of 30-70 instances; each
+    // refill 6 leave, 6 enter, 6 change size. The live total is steady, so
+    // the mesh grows only in the first few refills.
+    let seed = 12345;
+    const rnd = (n: number) => { seed = (seed * 1664525 + 1013904223) >>> 0; return 30 + (seed >>> 8) % n; };
+    const alloc = new SlotAllocator();
+    const recs = new Map<number, { start: number; size: number }>();
+    let next = 0;
+    const put = (n: number) => { recs.set(next++, { start: alloc.alloc(n), size: n }); };
+    for (let i = 0; i < 60; i++) put(rnd(41));
+    let capacity = grownCapacity(0, alloc.highWater);
+    const created: { disposed: boolean }[] = [{ disposed: false }];
+    const allocsPerRefill: number[] = [];
+    for (let refill = 0; refill < 50; refill++) {
+      let allocs = 0;
+      const keys = [...recs.keys()];
+      for (let k = 0; k < 6; k++) {
+        const key = keys[(refill * 7 + k * 5) % keys.length];
+        const r = recs.get(key);
+        if (r) { alloc.release(r.start, r.size); recs.delete(key); }
+      }
+      for (let k = 0; k < 6; k++) {
+        const r = recs.get(keys[(refill * 3 + k * 11) % keys.length]);
+        if (!r) continue;
+        const n = rnd(41);
+        if (n <= r.size) { if (n < r.size) alloc.release(r.start + n, r.size - n); r.size = n; }
+        else { alloc.release(r.start, r.size); r.start = alloc.alloc(n); r.size = n; }
+      }
+      while (recs.size < 60) put(rnd(41));
+      const grown = grownCapacity(capacity, alloc.highWater);
+      if (grown !== capacity) { created[created.length - 1].disposed = true; created.push({ disposed: false }); capacity = grown; allocs++; }
+      allocsPerRefill.push(allocs);
+    }
+    expect(allocsPerRefill.slice(10).reduce((a, b) => a + b, 0)).toBe(0);
+    expect(created.slice(0, -1).every((c) => c.disposed)).toBe(true);
   });
 });
