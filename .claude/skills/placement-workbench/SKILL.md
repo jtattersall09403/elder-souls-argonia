@@ -388,6 +388,12 @@ and a light (the bpy scene has none; EEVEE needs a display and fails).
 the place from a walk frame's camera (route.json stand, compass yaw, pitch;
 5.8 m follow arm, vfov 48): the piece behind a judge's finding, or none
 (world vegetation), ~40 s.
+`blender/examples/ring_lip.py CX CZ RMAX UID...` reads whether a ring of
+pieces (a stone lip round a pool) is closed AT THE GROUND: level rays per
+degree from the centre at 0.05 and 0.15 m over the ground, open spans in
+metres, `closedAtGround` (bar: no span at 0.05 m). `check` gaps are the
+closest mesh points, and a dug-in boulder's widest part is buried, so a ring
+whose check gaps read 0.002 m still showed 0.33 m gaps (audit10 c5).
 `blender/examples/walk_in_profile.py X Z OUT_BEARING [OUT_M IN_M]` walks a
 doorway's approach on the actual geometry (every piece plus the ground):
 largest up and down step, steepest 1 m rise, headroom per 0.25 m; run it

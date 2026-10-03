@@ -825,72 +825,34 @@
    "yaw": 0.0,
    "settle": true
   },
-  {
-   "op": "place",
-   "uid": "sp-lip2",
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
-   "at": [
-    4729.0,
-    1871.4
-   ],
-   "yaw": 90.0,
-   "settle": true
-  },
-  {
-   "op": "place",
-   "uid": "sp-rim1",
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
-   "at": [
-    4719.11,
-    1864.95
-   ],
-   "yaw": 110.0,
-   "y": 3.162
-  },
-  {
-   "op": "place",
-   "uid": "sp-rim2",
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
-   "at": [
-    4720.95,
-    1866.63
-   ],
-   "yaw": 155.0,
-   "y": 3.26
-  },
-  {
-   "op": "place",
-   "uid": "sp-rim3",
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
-   "at": [
-    4716.63,
-    1865.05
-   ],
-   "yaw": 65.0,
-   "y": 3.138
-  },
-  {
-   "op": "note",
-   "uid": "sp-rim1",
-   "text": "y 3.162 m set by hand (planner ruling 3, walk 4): the rock seat (lowest three contacts, seat_rules.rock_seat_y) on the padded ground with the sp-pool rim overlay applied; settle reads no pool ground and does not use the rock seat yet"
-  },
-  {
-   "op": "note",
-   "uid": "sp-rim2",
-   "text": "y 3.26 m set by hand (planner ruling 3, walk 4): the rock seat on the pool-graded ground is 3.289 m (third contact), 0.028 m over the prop seat's band (propSeatRule, +0.01 m); 3.26 m keeps three contacts at or under the ground (embedded up to 0.08 m, rock policy 0.3 m) and the prop band. rockcairn03, not rockcairn02: rockcairn02 is 3.1 m long on the mesh-sill sink fallback (0105 R36, sink.fallback); its one plugin reference is scaled, so the sink miner cannot measure it"
-  },
-  {
-   "op": "note",
-   "uid": "sp-rim3",
-   "text": "y 3.138 m set by hand (planner ruling 3, walk 4): the rock seat (lowest three contacts, seat_rules.rock_seat_y) on the padded ground with the sp-pool rim overlay applied; settle reads no pool ground and does not use the rock seat yet"
-  },
-  {"op": "place", "uid": "sp-ring1", "asset": "vanilla:landscape/rocks/rocks02", "at": [4721.38, 1868.91], "yaw": 0.0, "settle": true},
-  {"op": "place", "uid": "sp-ring2", "asset": "vanilla:landscape/rocks/rocks02", "at": [4720.56, 1870.39], "yaw": 47.0, "settle": true},
-  {"op": "place", "uid": "sp-ring3", "asset": "vanilla:landscape/rocks/rocks02", "at": [4719.14, 1871.31], "yaw": 113.0, "settle": true},
-  {"op": "place", "uid": "sp-ring4", "asset": "vanilla:landscape/rocks/rocks02", "at": [4717.45, 1871.46], "yaw": 160.0, "settle": true},
-  {"op": "place", "uid": "sp-ring6", "asset": "vanilla:landscape/rocks/rocks02", "at": [4714.83, 1869.48], "yaw": 260.0, "settle": true},
-  {"op": "place", "uid": "sp-ring7", "asset": "vanilla:landscape/rocks/rocks02", "at": [4714.5, 1867.82], "yaw": 310.0, "settle": true},
-  {"op": "place", "uid": "sp-ring8", "asset": "vanilla:landscape/rocks/rocks02", "at": [4715.03, 1866.15], "yaw": 20.0, "settle": true},
+  {"op": "place", "uid": "sp-ring1", "asset": "vanilla:landscape/rocks/rocks02", "at": [4720.92, 1868.0], "yaw": 78.0, "settle": true},
+  {"op": "place", "uid": "sp-ring2", "asset": "vanilla:landscape/rocks/rocks02", "at": [4720.6, 1869.34], "yaw": 117.3, "settle": true},
+  {"op": "place", "uid": "sp-ring3", "asset": "vanilla:landscape/rocks/rocks02", "at": [4719.71, 1870.43], "yaw": 157.0, "settle": true},
+  {"op": "place", "uid": "sp-ring4", "asset": "vanilla:landscape/rocks/rocks02", "at": [4718.37, 1870.9], "yaw": 171.7, "settle": true},
+  {"op": "place", "uid": "sp-ring6", "asset": "vanilla:landscape/rocks/rocks02", "at": [4716.96, 1870.73], "yaw": 211.8, "settle": true},
+  {"op": "place", "uid": "sp-ring7", "asset": "vanilla:landscape/rocks/rocks02", "at": [4715.81, 1869.94], "yaw": 226.4, "settle": true},
+  {"op": "place", "uid": "sp-ring8", "asset": "vanilla:landscape/rocks/rocks02", "at": [4715.16, 1868.7], "yaw": 266.1, "settle": true},
+  {"op": "place", "uid": "sp-ring9", "asset": "vanilla:landscape/rocks/rocks02", "at": [4715.16, 1867.3], "yaw": 280.9, "settle": true},
+  {"op": "place", "uid": "sp-ring10", "asset": "vanilla:landscape/rocks/rocks02", "at": [4715.82, 1866.06], "yaw": 320.7, "settle": true},
+  {"op": "place", "uid": "sp-ring11", "asset": "vanilla:landscape/rocks/rocks02", "at": [4716.98, 1865.26], "yaw": 335.5, "settle": true},
+  {"op": "place", "uid": "sp-ring12", "asset": "vanilla:landscape/rocks/rocks02", "at": [4718.37, 1865.1], "yaw": 15.3, "settle": true},
+  {"op": "place", "uid": "sp-ring13", "asset": "vanilla:landscape/rocks/rocks02", "at": [4719.67, 1865.6], "yaw": 29.8, "settle": true},
+  {"op": "place", "uid": "sp-ring14", "asset": "vanilla:landscape/rocks/rocks02", "at": [4720.59, 1866.66], "yaw": 69.6, "settle": true},
+  {"op": "place", "uid": "sp-fill1", "asset": "vanilla:landscape/rocks/rocks03", "at": [4719.09, 1864.99], "yaw": 23.0, "settle": true},
+  {"op": "place", "uid": "sp-fill2", "asset": "vanilla:landscape/rocks/rocks03", "at": [4720.34, 1865.82], "yaw": 43.0, "settle": true},
+  {"op": "place", "uid": "sp-fill3", "asset": "vanilla:landscape/rocks/rocks03", "at": [4721.09, 1867.17], "yaw": 84.0, "settle": true},
+  {"op": "place", "uid": "sp-fill4", "asset": "vanilla:landscape/rocks/rocks03", "at": [4721.16, 1868.53], "yaw": 101.5, "settle": true},
+  {"op": "place", "uid": "sp-fill5", "asset": "vanilla:landscape/rocks/rocks03", "at": [4720.43, 1870.08], "yaw": 125.5, "settle": true},
+  {"op": "place", "uid": "sp-fill6", "asset": "vanilla:landscape/rocks/rocks03", "at": [4719.22, 1870.96], "yaw": 165.5, "settle": true},
+  {"op": "place", "uid": "sp-fill7", "asset": "vanilla:landscape/rocks/rocks03", "at": [4717.8, 1871.19], "yaw": 184.5, "settle": true},
+  {"op": "place", "uid": "sp-fill8", "asset": "vanilla:landscape/rocks/rocks03", "at": [4716.19, 1870.64], "yaw": 208.5, "settle": true},
+  {"op": "place", "uid": "sp-fill9", "asset": "vanilla:landscape/rocks/rocks03", "at": [4715.2, 1869.55], "yaw": 248.0, "settle": true},
+  {"op": "place", "uid": "sp-fill10", "asset": "vanilla:landscape/rocks/rocks03", "at": [4714.8, 1868.08], "yaw": 268.5, "settle": true},
+  {"op": "place", "uid": "sp-fill11", "asset": "vanilla:landscape/rocks/rocks03", "at": [4715.12, 1866.6], "yaw": 289.0, "settle": true},
+  {"op": "place", "uid": "sp-fill12", "asset": "vanilla:landscape/rocks/rocks03", "at": [4716.14, 1865.39], "yaw": 330.5, "settle": true},
+  {"op": "place", "uid": "sp-fill13", "asset": "vanilla:landscape/rocks/rocks03", "at": [4717.53, 1864.84], "yaw": 350.5, "settle": true},
+  {"op": "note", "uid": "sp-fill1", "text": "audit10 c5 wave 2: the 13 rocks02 touch only 0.4 m under the ground and showed 0.14-0.33 m gaps at it (blender/examples/ring_lip.py). Thirteen rocks03, each over a gap at 3.2 m from the centre, close the lip at the ground; the plugins place rocks03 touching rocks02 (kit-mounts-mined abuts 21), so their crossing is designed. rocks03 seats 0.95-1.05 m deep (bar 1.133) and shows about 0.5 m."},
+  {"op": "note", "uid": "sp-ring1", "text": "audit10 c5 P4: the spring lip is 13 rocks02 chained round sp-pool at 2.92 m from its centre (sp-ring3 at 2.97 m), each touching the next with no crossing (wb check gaps 0.002-0.031 m); the pool rim is 0.3 m so the lip stands on natural ground. No plugin in the pool places a ring, well or pool-edge set an Argonian village may use (kit-assemblies-mined: whiterun wrpondwall*, imperial mwimparchpool01, volcanic mineralpool* are off-culture or in no published kit)"},
   {
    "op": "place",
    "uid": "sp-urn",
@@ -1030,7 +992,7 @@
    ],
    "radiusM": 2.5,
    "depthM": 0.5,
-   "rimM": 1.0,
+   "rimM": 0.3,
    "why": "The spring that gives Greenspring its name rises here, beside the spring house.",
    "sources": [
     "world/sources/blueprints/greenspring.design.md \u00a7 The spring"
@@ -2118,15 +2080,6 @@
    "on": "ground",
    "evidence": "measured"
   },
-  {
-   "op": "bind",
-   "uid": "sp-lip2",
-   "kind": "assembly",
-   "id": "parcel.greenspring.spring-house",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
   {"op": "bind", "uid": "sp-ring1", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "sp-ring2", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "sp-ring3", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
@@ -2134,33 +2087,25 @@
   {"op": "bind", "uid": "sp-ring6", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "sp-ring7", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "sp-ring8", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {
-   "op": "bind",
-   "uid": "sp-rim1",
-   "kind": "assembly",
-   "id": "parcel.greenspring.spring-house",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
-  {
-   "op": "bind",
-   "uid": "sp-rim2",
-   "kind": "assembly",
-   "id": "parcel.greenspring.spring-house",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
-  {
-   "op": "bind",
-   "uid": "sp-rim3",
-   "kind": "assembly",
-   "id": "parcel.greenspring.spring-house",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
+  {"op": "bind", "uid": "sp-ring9", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring10", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring11", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring12", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring13", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-ring14", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill1", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill2", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill3", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill4", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill5", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill6", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill7", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill8", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill9", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill10", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill11", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill12", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sp-fill13", "kind": "assembly", "id": "parcel.greenspring.spring-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {
    "op": "bind",
    "uid": "sp-urn",
