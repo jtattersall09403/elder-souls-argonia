@@ -116,6 +116,18 @@ Rules of the road:
   runs with `-n 2` (six 2 GiB xdist workers queued the GPU slots).
 - Measure-diagnose-fix loops (GPU lanes and any loop over a measurement;
   decision 0106 decision 22):
+  (0) Context hygiene (a lead reached 72k within a minute of launch from full
+  reads of lead.md, its standards file and two diagnoses, then 200k from ~15
+  inline long child prompts and full cats of every child report):
+  (1) read a child report's verdict block only (`head -40`, or grep the
+  "Result"/"Verdict"/"Next" headings), never the whole file; full reports are
+  for the successor's note, by path;
+  (2) write each child brief to `tooling/.reports/<lane>/briefs/<child>.md`;
+  the Agent prompt is "Read <path> and do it" plus the two or three facts
+  that change per child, never the whole brief inline;
+  (3) orient on the lane's standards file and the previous chunk's note
+  section, not the whole lane note or the diagnosis files (those are for
+  children).
   (a) one measure job per round, owned by one `run` agent, measuring EVERY
   spot/view with screenshots and all numbers in ONE harness invocation (one
   page, no parallel tabs, no tool edits between captures of a round);
