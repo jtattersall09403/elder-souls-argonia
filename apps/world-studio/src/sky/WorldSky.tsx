@@ -1060,8 +1060,8 @@ export function WorldSky({
       camFog: camFogNow,
       cloudSunsetAmt: rig.cloudSunsetAmt,
       volumetricBand: volumetrics.band,
-      // dev-only fog probe (vol10 diag7): call it from a capture; computed on demand, never per frame
-      ...(import.meta.env.DEV ? {
+      // studio-tools fog probe (vol10 diag7): call it from a capture; computed on demand, never per frame
+      ...(STUDIO_TOOLS ? {
         volProbe: () => ({
           ...volumetrics.debugProbe(camera.position),
           aerialMistStrength: a.uMistStrength.value, aerialAdvectionFog: a.uAdvectionFog.value,
