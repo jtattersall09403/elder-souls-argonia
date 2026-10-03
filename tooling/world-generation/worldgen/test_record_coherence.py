@@ -280,3 +280,26 @@ def test_gate_statuses_grade_only_what_can_move(monkeypatch):
     assert now == {"a": "green", "b": "red", "c": "green", "d": "red"}
     assert rc.regression_failures(now, {"b": "green"}, fails) == [
         "record.regression: b was coherent at HEAD and is not now: x"]
+
+
+def test_route_claim_needs_a_parcel_claim_and_no_route_piece(tmp_path, monkeypatch):
+    import json
+    monkeypatch.setattr(rc, "REPO", tmp_path)
+    src = tmp_path / "rs.json"
+    src.write_text(json.dumps({"structures": [
+        {"id": "structure.w.1", "wayId": "route.w", "builtBy": "place.a.b"}]}))
+    bps, prov = tmp_path / "bp", tmp_path / "prov"
+    (bps).mkdir()
+    (prov / "settlements" / "routes").mkdir(parents=True)
+    route = prov / "settlements" / "routes" / "route.w.json"
+    route.write_text(json.dumps({"placements": [
+        {"id": "structure.w.1.p1", "provenance": {"sourceStructureId": "structure.w.1"}}]}))
+    bp = bps / "place.a.b.json"
+    bp.write_text(json.dumps({"blueprint": {"parcels": [{"id": "p1"}]}}))
+    fails = rc.route_claim_failures("place.a.b", src, bps, prov)
+    assert len(fails) == 2 and "no parcel" in fails[0] and "still places 1" in fails[1]
+    assert rc.route_claim_failures("place.other.c", src, bps, prov) == []
+    bp.write_text(json.dumps({"blueprint": {"parcels": [
+        {"id": "p1", "routeStructureId": "structure.w.1"}]}}))
+    route.write_text(json.dumps({"placements": []}))
+    assert rc.route_claim_failures("place.a.b", src, bps, prov) == []

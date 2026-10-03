@@ -136,6 +136,23 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SETTLEMENTS = Path(__file__).resolve().parents[1] / "output" / "settlements"
 DEFAULT_STRUCTURES = Path(__file__).resolve().parents[1] / "output" / "route-structures"
 ROUTE_STRUCTURES_SOURCE = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
+ROUTE_STRUCTURES_SCHEMA = 2
+
+
+def route_built_by(source: dict) -> dict[str, str]:
+    """{structure id: place id} for the route rows a place builds (`builtBy`)."""
+    return {row["id"]: row["builtBy"] for row in source.get("structures") or []
+            if isinstance(row, dict) and row.get("builtBy")}
+
+
+def drop_built_by_route_pieces(whole: dict, built_by: dict[str, str]) -> int:
+    """Remove the published route pieces of rows a place builds; returns how many."""
+    keep = [p for p in whole["placements"]
+            if not (p.get("kind") == "route-structure"
+                    and (p.get("provenance") or {}).get("sourceStructureId") in built_by)]
+    dropped = len(whole["placements"]) - len(keep)
+    whole["placements"] = keep
+    return dropped
 BLUEPRINTS = REPO_ROOT / "world" / "sources" / "blueprints"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 WARNING_KNOWN_RED = (REPO_ROOT / "world" / "sources" / "settlements"
@@ -768,9 +785,13 @@ def _validated_route_docs(structures_dir: Path, source_path: Path) -> list[dict]
     ids, embedded source rows and sourceStructureId coverage must all agree.
     """
     source = _read(source_path)
+    if source.get("schemaVersion") != ROUTE_STRUCTURES_SCHEMA:
+        raise ValueError(f"route structure source is schemaVersion {source.get('schemaVersion')}, "
+                         f"this exporter reads {ROUTE_STRUCTURES_SCHEMA}")
     rows = source.get("structures")
     if not isinstance(rows, list):
         raise ValueError("route structure source has no structures list")
+    built_by = route_built_by(source)
     expected_by_way: dict[str, list[dict]] = {}
     source_ids: set[str] = set()
     for index, row in enumerate(rows):
@@ -818,11 +839,16 @@ def _validated_route_docs(structures_dir: Path, source_path: Path) -> list[dict]
             structure_id = provenance.get("sourceStructureId") if isinstance(provenance, dict) else None
             if structure_id not in {row["id"] for row in expected_rows}:
                 raise ValueError(f"{placement['id']}: placement has unknown sourceStructureId")
+            if structure_id in built_by:
+                raise ValueError(f"{placement['id']}: {structure_id} is builtBy "
+                                 f"{built_by[structure_id]} and carries no route piece")
             covered.add(structure_id)
-        absent = sorted({row["id"] for row in expected_rows} - covered)
+        absent = sorted({row["id"] for row in expected_rows} - covered - set(built_by))
         if absent:
             raise ValueError(f"{way_id}: authored structures have no placements: {', '.join(absent)}")
         for row in expected_rows:
+            if row["id"] in built_by:
+                continue
             pieces = sorted(
                 (placement for placement in placements
                  if placement["provenance"]["sourceStructureId"] == row["id"]),
@@ -1910,14 +1936,19 @@ def copy_assets(bundle: dict, kits_dir: Path = KITS,
         shutil.rmtree(stage, ignore_errors=True)
 
 
-def merge_bundle(base: dict, part: dict, places) -> dict:
+def merge_bundle(base: dict, part: dict, places, built_by: dict[str, str] | None = None) -> dict:
     """The published bundle `base` with the named places replaced by `part`.
 
     Every other place's rows, and the route structures, are carried from
     `base` unchanged and in the order a full export writes them (places in
     compiled-file order, each place's rows in its own order), so a --places
-    publish of an unchanged place writes the bytes a full export would."""
+    publish of an unchanged place writes the bytes a full export would. The
+    one exception is a route piece whose source row is `builtBy` a place
+    (`built_by`): it is dropped, as a full export would not emit it."""
     places = set(places)
+    if built_by:
+        base = dict(base)
+        drop_built_by_route_pieces(base, built_by)
     if (base.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS
             or base.get("collisionFrame") != COLLISION_FRAME):
         raise ValueError(
@@ -2384,7 +2415,7 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
                           places=places, report=report)
     if places is not None:
         bundle = merge_bundle(published_base(base, out, _place_scope(places)), bundle,
-                              _place_scope(places))
+                              _place_scope(places), route_built_by(_read(ROUTE_STRUCTURES_SOURCE)))
         # the budget is the MERGED set's (decision 0052): the part's own worst
         # case says nothing about the places carried from the base
         budget, ceiling_errors = collider_part_budget(
@@ -2431,6 +2462,23 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
     return bundle
 
 
+def publish_route_claims(province_dir: Path, source_path: Path = ROUTE_STRUCTURES_SOURCE
+                         ) -> tuple[int, dict]:
+    """Apply `builtBy` to the published bundles without building a place: the
+    published whole minus the claimed route pieces, written with an empty
+    place scope so only bundles whose bytes change (the route bundles) and the
+    index are rewritten."""
+    whole = settlement_bundles.load_published(province_dir)
+    dropped = drop_built_by_route_pieces(whole, route_built_by(_read(source_path)))
+    root = Path(province_dir) / settlement_bundles.BUNDLE_DIR
+    index = _read(root / settlement_bundles.INDEX_NAME)
+    # each place keeps the budget it was published with (a place is not rebuilt here)
+    budgets = {e["id"]: _read(Path(province_dir) / e["bundle"])["lod"]["colliderPartBudget"]
+               for e in index["places"]}
+    wrote = settlement_bundles.write_published(whole, budgets, province_dir, [])
+    return dropped, wrote
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
@@ -2454,7 +2502,16 @@ def main() -> int:
     ap.add_argument("--manifest-dir", type=Path, default=PLACE_MANIFESTS,
                     help="where a --places publish writes <place-id>/manifest.json "
                          "(contract 1; default tooling/.reports/16k)")
+    ap.add_argument("--route-claims", action="store_true",
+                    help="drop the published route pieces of route-structures.json rows "
+                         "marked `builtBy`, rewriting only the route bundles that change "
+                         "and the index; builds no place")
     args = ap.parse_args()
+    if args.route_claims:
+        dropped, wrote = publish_route_claims(args.out.parent)
+        print(f"export_settlement_bundle --route-claims: dropped {dropped} route piece(s); "
+              f"wrote {', '.join(wrote['written']) or 'no bundle'}")
+        return 0
     places = None if args.places is None else [p.strip() for p in args.places.split(",")]
     try:
         bundle = export(args.out, args.copy_assets, places=places, base=args.base,

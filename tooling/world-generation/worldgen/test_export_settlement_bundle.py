@@ -57,7 +57,7 @@ def _write(path, data):
 
 def _route_source(root, structures):
     path = root / "route-structures-source.json"
-    _write(path, {"schemaVersion": 1, "structures": structures})
+    _write(path, {"schemaVersion": ex.ROUTE_STRUCTURES_SCHEMA, "structures": structures})
     return path
 
 
@@ -541,6 +541,26 @@ def test_refuses_missing_route_output_and_missing_structure_placements(tmp_path,
     with pytest.raises(ValueError, match="authored structures have no placements"):
         ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                         tmp_path / "kits", source)
+
+
+def test_built_by_route_row_carries_no_piece(tmp_path):
+    """A row a place builds (`builtBy`) needs no route placement and refuses one;
+    a --places merge and --route-claims drop the published piece of such a row."""
+    row = {"id": "structure.a.1", "wayId": "route.a", "kind": "stair",
+           "fromM": 10, "toM": 20, "builtBy": "place.x.y"}
+    source = _route_source(tmp_path, [row])
+    _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [row],
+                                         "placements": []})
+    assert ex._validated_route_docs(tmp_path / "routes", source)[0]["placements"] == []
+    piece = {"id": "structure.a.1.p1", "kind": "route-structure", "fromM": 10, "toM": 20,
+             "provenance": {"sourceStructureId": row["id"]}}
+    _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [row],
+                                         "placements": [piece]})
+    with pytest.raises(ValueError, match="is builtBy place.x.y and carries no route piece"):
+        ex._validated_route_docs(tmp_path / "routes", source)
+    whole = {"placements": [piece, {"id": "p.place", "kind": "x", "provenance": {}}]}
+    assert ex.drop_built_by_route_pieces(whole, ex.route_built_by(json.loads(source.read_text()))) == 1
+    assert [p["id"] for p in whole["placements"]] == ["p.place"]
 
 
 def test_refuses_route_output_with_stale_embedded_authored_row(tmp_path, monkeypatch):

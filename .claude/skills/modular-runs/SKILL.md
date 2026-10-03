@@ -132,6 +132,10 @@ turn, snapped face to face by geometry, then walked.
     run piece of the same family (a mined run pair), a `terminates` face on the
     ground or a deck at the height the pair records, or a door threshold.
     An end that meets nothing is an `openModularEnds` defect, not a design.
+    A stair or bridge a place builds over a road's `route-structures.json` row
+    replaces the route piece: its parcel carries `routeStructureId: <structure
+    id>`, the row is marked `builtBy: <place id>`, and
+    `export_settlement_bundle --route-claims` drops the route piece (0115 item 4).
 22. Precedent: the yard's `passesc128h64d01` (a Bosmer walkway ramp,
     `parcel.proving-ground.stilt-stair`) stands as a LABELLED single piece
     whose blueprint `why.what` says so, until a ways run exists. No other
