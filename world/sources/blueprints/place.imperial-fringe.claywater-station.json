@@ -4040,8 +4040,8 @@
             "id": "sty-hay",
             "asset": "vanilla:clutter/hay/haymound01",
             "atM": [
-              1.176,
-              -6.2223
+              4.2395,
+              -5.3693
             ],
             "yaw": 270.0,
             "on": "ground",
@@ -5056,17 +5056,17 @@
       },
       "kits": {
         "bmv-treehouse-int": "88b8aee84f65c844752ad96592f2bc043405af5c9d94b75a2203b9a2c53912b4",
-        "docks-v1": "1569a4d22d143dbfd699d6a4bacd842eeefd064fd46443469825736bc1e5b489",
+        "docks-v1": "dd2016a5acc7ce810ffc6ead7034fd35d13d5ff65533df5f6dd5ba4a86a6c4ef",
         "htbm-hut-int": "409bfa969e465a361d68dce3673eee1634f442eb97bde201a68ebf03896961c6",
-        "mudmother-hut-int": "bd4c67bac1cf3dfbc3055fe9d10e5ecf2588724f5b7901b12be9a8d3ffcb638c",
-        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
-        "settlement-mud-v1": "c96507b435d263cf1417650b499ce9a43d42636a8622505377ed1c3646446de8",
-        "settlement-root-v1": "c16c84e716e61568bbe3e18ec324649554891e8516fc87fe70441d6667cd2db7",
-        "works-v1": "a930198844ccd7c7203ffa78df96f88c1228015ac3c0b297ec4e305038e4339d"
+        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
+        "settlement-imperial-v1": "9144866ffc6959ca92347c9eda44923bc516f98add601b49781101ac7d5a5972",
+        "settlement-mud-v1": "cb681afe4a6def2ebb571a52282dd3d20fa22a9f1e20bb3de83c8817fcf53279",
+        "settlement-root-v1": "967048d24c8b6bc0f81f738618cdd4295e699c231a220878c00a5f28e1c3dbc6",
+        "works-v1": "70449d43bd0f5e8683ece844f8ef99eb86b4e690785844b15c70f71f59c33549"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "c690a7a2130f3542c6c998f2a97b4ef121e30229b49af149b6f58d3c202ba378"
+        "sha256": "d1fadb18085f9f1e32f3be840150284b56a637d616cadd6719c6c0e1bf59e22e"
       }
     },
     "walkRoutes": {
@@ -6464,27 +6464,22 @@
               3084.94
             ],
             [
-              325.22,
+              327.22,
               37.37,
-              3084.94
+              3088.44
             ],
             [
-              325.72,
+              328.72,
               37.37,
-              3085.44
+              3088.44
             ],
             [
-              326.22,
-              37.37,
-              3085.44
-            ],
-            [
-              330.22,
+              329.72,
               37.37,
               3089.44
             ]
           ],
-          "routeM": 88.26,
+          "routeM": 87.76,
           "steepestDeg": 29.5,
           "largestStepM": 0.0,
           "deepestWadeM": 0.646,
@@ -8963,12 +8958,17 @@
               3084.94
             ],
             [
-              327.22,
+              324.22,
               37.37,
-              3088.44
+              3084.94
+            ],
+            [
+              325.72,
+              37.37,
+              3086.44
             ]
           ],
-          "routeM": 84.85,
+          "routeM": 82.52,
           "steepestDeg": 29.5,
           "largestStepM": 0.0,
           "deepestWadeM": 0.646
@@ -10347,17 +10347,22 @@
               3084.94
             ],
             [
-              325.22,
+              327.22,
               37.37,
-              3084.94
+              3088.44
             ],
             [
-              326.72,
+              327.72,
               37.37,
-              3086.44
+              3088.44
+            ],
+            [
+              328.22,
+              37.37,
+              3087.94
             ]
           ],
-          "routeM": 83.52,
+          "routeM": 86.05,
           "steepestDeg": 29.5,
           "largestStepM": 0.0,
           "deepestWadeM": 0.646
