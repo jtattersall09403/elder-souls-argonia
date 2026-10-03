@@ -56,7 +56,7 @@ export function applyVolumetrics(v: VolumetricsSampler, color: TslNode, viewDept
   // dither only adds a screen-door grain at crown edges
   const half = v.gridSize ? float(0.5).div(v.gridSize.z) : float(0);
   const sample = v.sampleIntegrated(vec3(uvw.x, uvw.y, clamp(uvw.z.sub(half), 0, 1)));
-  const airlight = v.lights ? pointAirlight(v, sample.a, viewDepth) : vec3(0);
+  const airlight = v.lights ? pointAirlight(v, sample.a, viewDepth, min(length(T.positionWorld.sub(T.cameraPosition)), v.far)) : vec3(0);
   const lit = color.rgb.mul(sample.a).add(sample.rgb).add(airlight);
   return vec4(mix(color.rgb, lit, v.on), color.a);
 }
@@ -124,11 +124,25 @@ export function airlightIntegral(sigma: number, intensity: number, t0: number, h
   return intensity * sum * dth / hh;
 }
 
-function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode): TslNode {
+/** Lamp airlight on a SKY pixel (the dome, fog = false, never runs the scene fog node): the same
+ * in-scatter as a surface at the far plane, so a silhouette in front of a lamp's halo is no step
+ * from lit air to unlit sky (vol10 c9 H). The grid's far slice gives the medium's extinction. */
+export function skyAirlight(v: VolumetricsSampler, color: TslNode, screenUV: TslNode = T.screenUV): TslNode {
+  if (!v.lights) return color;
+  const trans = v.sampleIntegrated(vec3(screenUV.x, screenUV.y, float(1))).a;
+  return vec4(color.rgb.add(pointAirlight(v, trans, v.far, v.far).mul(v.on)), color.a);
+}
+
+/** Segment (m) a pixel's airlight is marched over: its surface depth, the far plane for the sky.
+ * TS twin of the segLen the shader passes to pointAirlight. */
+export function airlightSegment(depthM: number, farM: number): number {
+  return Math.min(depthM, farM);
+}
+
+function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode, segLen: TslNode): TslNode {
   const L = v.lights as NonNullable<VolumetricsSampler["lights"]>;
   const cam = T.cameraPosition;
   const dirW = T.positionWorld.sub(cam);
-  const segLen = min(length(dirW), v.far);
   const dir = dirW.div(max(length(dirW), float(1e-4)));
   // the medium's mean extinction along this pixel's ray, read from the grid's own transmittance
   const gridSigma = clamp(log(max(trans, float(1e-4))).negate().div(max(viewDepth, v.near)), 0.002, 0.5);

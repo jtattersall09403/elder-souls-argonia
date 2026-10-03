@@ -10,6 +10,7 @@ import * as THREE from "three";
 import { lightHeldOff, setShadowShown } from "@elder-souls/game-core/render/lightSwitch";
 import { MeshBasicNodeMaterial, NodeMaterial, PointsNodeMaterial } from "three/webgpu";
 import * as TSL_TYPED from "three/tsl";
+import { skyAirlight, type VolumetricsSampler } from "@elder-souls/game-core/air/volumetrics/volumetricNodes";
 import { SkyMesh } from "three/examples/jsm/objects/SkyMesh.js";
 import { CSMShadowNode } from "three/examples/jsm/csm/CSMShadowNode.js";
 import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
@@ -279,7 +280,8 @@ export interface SkyDome {
  * its colour. The aerial and cloud uniform objects are SHARED (both domes —
  * main and PMREM bake — and the star layers read the very same nodes).
  */
-export function createSkyDome(scale: number, aerial: AerialUniforms, clouds: CloudUniforms): SkyDome {
+/** `vol` (the live dome only, never the PMREM bake dome): lamp halos reach the sky (skyAirlight). */
+export function createSkyDome(scale: number, aerial: AerialUniforms, clouds: CloudUniforms, vol?: VolumetricsSampler): SkyDome {
   const sky = new SkyMesh();
   sky.scale.setScalar(scale);
   sky.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
@@ -431,7 +433,8 @@ export function createSkyDome(scale: number, aerial: AerialUniforms, clouds: Clo
     tc.assign(skyFogNode(aerial, tc, direction));
     // Stay below the half-float ceiling (65504): the PMREM bake and the
     // frame buffer are HalfFloat targets.
-    return vec4(min(tc, vec3(60000)), 1);
+    const out = vec4(min(tc, vec3(60000)), 1);
+    return vol ? skyAirlight(vol, out) : out;
   })();
   mat.needsUpdate = true;
   return { sky, extras: ex };

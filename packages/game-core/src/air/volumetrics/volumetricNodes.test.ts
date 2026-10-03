@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { airlightIntegral, FIRE_HALO_FALLOFF_M, FIRE_HALO_SIGMA_PER_M, LAMP_HALO, lampHalo, localScatter } from "./volumetricNodes";
+import { airlightIntegral, airlightSegment, FIRE_HALO_FALLOFF_M, FIRE_HALO_SIGMA_PER_M, LAMP_HALO, lampHalo, localScatter } from "./volumetricNodes";
 
 describe("airlightIntegral", () => {
   it("with an isotropic phase matches a numeric march of the inverse-square in-scatter", () => {
@@ -63,5 +63,17 @@ describe("fire halo (vol10 diag4 D7)", () => {
     const far = airlightIntegral(sigma, 1, 3, 6, 10, 64, 0.5, 20, FIRE_HALO_SIGMA_PER_M) / airlightIntegral(sigma, 1, 3, 6, 10, 64, 0.5, 20);
     expect(near).toBeGreaterThan(3);
     expect(far).toBeCloseTo(1, 6);
+  });
+});
+
+describe("sky pixels take the lamp airlight (vol10 c9 H)", () => {
+  it("a sky ray beside a geometry ray ending 300 m away carries the same halo: no silhouette step", () => {
+    const far = 2000, R = Math.max(8 * 3, LAMP_HALO.high.minReachM), sigma = LAMP_HALO.high.sigmaFloorPerM;
+    // two rays 0.5 deg apart, both passing 2 m from a radius-8 lamp 20 m away
+    const t0 = 20, hGeom = 2, hSky = 2;
+    const geom = airlightIntegral(sigma, 60, t0, hGeom, airlightSegment(300, far), 10, undefined, R);
+    const sky = airlightIntegral(sigma, 60, t0, hSky, airlightSegment(Infinity, far), 10, undefined, R);
+    expect(geom).toBeGreaterThan(0);
+    expect(Math.abs(geom - sky) / geom).toBeLessThan(0.02);
   });
 });
