@@ -121,6 +121,14 @@
        }
       ]
      },
+     "filledBy": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+       "type": "string",
+       "minLength": 1
+      }
+     },
      "confirmed": {
       "oneOf": [
        {
@@ -141,6 +149,14 @@
          "note": {
           "type": "string",
           "minLength": 1
+         },
+         "ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+           "type": "string",
+           "minLength": 1
+          }
          }
         }
        }
