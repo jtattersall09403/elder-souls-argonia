@@ -289,6 +289,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // kit cache the settlement layer and the interior loader share.
   const interaction = useMemo(() => new InteractionArbiter(), []);
   const kitCache = useMemo(() => new KitCache(), []);
+  // Spawn-ring pieces the settlement layer has not drawn yet; the warm gate holds on it (decision 0120).
+  const ringPendingRef = useRef(0);
   // Travel sockets (16e deliverable 7): the studio owns the body, so it
   // hands the sockets component a teleport instead of a handle. The adapter
   // is the controller boundary — nothing here touches ecctrl directly.
@@ -576,6 +578,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 onDoors={setDoors}
                 kitCache={kitCache}
                 onError={setSettlementError}
+                ringPendingRef={ringPendingRef}
                 localSurfaces={sharedLocalSurfaces(import.meta.env.BASE_URL)}
               />
             )}
@@ -597,7 +600,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
           {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
             startAt={focusRef.current} shown={shownCell} />}
-          <RenderWarmGate armed={collidersReady} onOpen={() => setRenderWarm(true)} onProgress={publishWarm} />
+          <RenderWarmGate armed={collidersReady} ringPendingRef={ringPendingRef} onOpen={() => setRenderWarm(true)} onProgress={publishWarm} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
               remounts the whole canvas tree — WorldSky included, leaking one

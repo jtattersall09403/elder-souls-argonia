@@ -11,7 +11,10 @@ import { SharedKtx2Textures } from "./sharedTextures";
 // by tooling/asset-pipeline/pipeline/kit_parts.mjs.
 const KIT = "interior-kotm-v1"; // the kit whose parts the cells draw most of (121)
 const KITS = new URL("../../../../apps/world-studio/public/kits/", import.meta.url);
-const PARTS = new URL(kitPartsDir({ id: KIT, glb: `${KIT}.glb`, manifest: "" }), KITS);
+const partsOf = (kit: string) => new URL(kitPartsDir({ id: kit, glb: `${kit}.glb` }), KITS);
+const PARTS = partsOf(KIT);
+/** The 0120 S1 sample: every asset split, exteriors draw from parts. */
+const EXTERIOR_KITS = ["settlement-mud-v1", "works-v1"];
 
 /** A KTX2 stand-in: records the URL three asks for and answers an empty compressed texture. */
 function stubKtx2(asked: string[]) {
@@ -49,47 +52,50 @@ function canonicalTriangles(g: THREE.BufferGeometry): number[] {
   return out;
 }
 
-const level0 = (a: ArchitectureAsset) => ({
-  parts: a.levels[0]?.length ?? 0,
-  vertices: (a.levels[0] ?? []).reduce((n, p) => n + p.geometry.getAttribute("position").count, 0),
-  triangles: (a.levels[0] ?? []).reduce((n, p) => n + p.triangles, 0),
-});
+const levelCounts = (a: ArchitectureAsset) => a.levels.map((parts) => ({
+  parts: parts.length,
+  vertices: parts.reduce((n, p) => n + p.geometry.getAttribute("position").count, 0),
+  triangles: parts.reduce((n, p) => n + p.triangles, 0),
+}));
 
-describe(`kit parts (${KIT}): a part GLB loads on its own and carries its asset's LOD0 mesh`, () => {
-  it("every part matches the whole kit's LOD0 parts, vertices and triangles; its textures resolve to tex/ files", async () => {
-    const index = parseKitPartsIndex(JSON.parse(readFileSync(new URL("index.json", PARTS), "utf8")), KIT, "index.json");
-    const whole = buildArchitectureKit(await parse(new URL(`${KIT}.glb`, KITS)));
-    expect(index.source.bytes).toBe(readFileSync(new URL(`${KIT}.glb`, KITS)).length);
-    // parts are cut only for the assets the interior cells draw (review 5536a1d9)
+describe.each([KIT, ...EXTERIOR_KITS])("kit parts (%s): a part GLB loads on its own and carries every LOD tier of its asset", (kit) => {
+  it("every part matches the whole kit at every level, bit for bit; its textures resolve to the kits/tex pool", async () => {
+    const parts = partsOf(kit);
+    const index = parseKitPartsIndex(JSON.parse(readFileSync(new URL("index.json", parts), "utf8")), kit, "index.json");
+    const whole = buildArchitectureKit(await parse(new URL(`${kit}.glb`, KITS)));
+    expect(index.source.bytes).toBe(readFileSync(new URL(`${kit}.glb`, KITS)).length);
+    // an exterior kit splits every asset; an interior-only kit the assets the cells draw (review 5536a1d9)
+    expect(index.exterior).toBe(EXTERIOR_KITS.includes(kit));
+    if (index.exterior) expect(Object.keys(index.assets).sort()).toEqual([...whole.keys()].sort());
     expect(Object.keys(index.assets).length).toBeGreaterThan(0);
     for (const id of Object.keys(index.assets)) expect(whole.has(id)).toBe(true);
     let checked = 0;
     let vertices = 0;
     for (const [assetId, row] of Object.entries(index.assets)) {
       const asked: string[] = [];
-      const part = buildArchitectureKit(await parse(new URL(row.file, PARTS), asked));
+      const part = buildArchitectureKit(await parse(new URL(row.file, parts), asked));
       expect([...part.keys()]).toEqual([assetId]);
-      const got = level0(part.get(assetId)!);
-      expect(got).toEqual(level0(whole.get(assetId)!));
-      expect(got.vertices).toBe(row.vertices);
-      expect(part.get(assetId)!.levels.length).toBe(1);          // LOD0 only
+      const got = levelCounts(part.get(assetId)!);
+      expect(got).toEqual(levelCounts(whole.get(assetId)!));
+      expect(got[0].vertices).toBe(row.vertices);
+      expect(row.lods.map((l) => l.triangles)).toEqual(got.map((l) => l.triangles));
       // the same vertices and triangles, not only as many (re-encoding is lossless)
-      part.get(assetId)!.levels[0].forEach((p, i) => {
-        const w = whole.get(assetId)!.levels[0][i];
+      part.get(assetId)!.levels.forEach((level, li) => level.forEach((p, i) => {
+        const w = whole.get(assetId)!.levels[li][i];
         expect(Array.from(p.geometry.getAttribute("position").array)).toEqual(Array.from(w.geometry.getAttribute("position").array));
         expect(canonicalTriangles(p.geometry)).toEqual(canonicalTriangles(w.geometry));
         expect(p.localMatrix.equals(w.localMatrix)).toBe(true);
-      });
-      vertices += got.vertices;
+      }));
+      vertices += got[0].vertices;
       for (const url of asked) {
-        expect(url).toMatch(/\/parts\/tex\/[0-9a-f]{16}\.ktx2$/);
+        expect(new URL(url).href).toMatch(/\/kits\/tex\/[0-9a-f]{16}\.ktx2$/);
         expect(existsSync(new URL(url))).toBe(true);
       }
       checked += 1;
     }
-    expect(checked).toBe(Object.keys(index.assets).length);   // every part the cells draw, however many
+    expect(checked).toBe(Object.keys(index.assets).length);
     expect(vertices).toBeGreaterThan(10_000);
-  }, 60_000);
+  }, 180_000);
 });
 
 describe("parts share their kit's textures (sharedTextures.ts)", () => {

@@ -8,7 +8,7 @@ reader checklist rows 'texture resolves', 'support below', 'stairs land',
 Per cell, from `public/province/interiors/<cell>.json` and the kits it names:
 
 * **textures**: every texture a placed piece's parts GLB names exists under
-  `parts/tex/`; a diffuse the kit build left missing, or stood in by a LOD
+  the `kits/tex/` pool; a diffuse the kit build left missing, or stood in by a LOD
   copy (a `/lod/` path in the kit's `texturesSubstituted`) on a piece larger
   than `LOD_OK_M`, is red: at room distance it reads as a flat colour (the
   Lilmoth shells' teal walls, walk 6).

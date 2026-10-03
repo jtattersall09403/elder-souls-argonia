@@ -2,7 +2,7 @@ import type * as THREE from "three";
 
 /**
  * The KTX2 loader a part GLB is parsed with (kitParts.ts). Parts reference a
- * kit's textures by URI (`parts/tex/<sha16>.ktx2`), and several parts of one
+ * shared pool by URI (`kits/tex/<sha16>.ktx2`), and several parts of one
  * cell use the same texture (KeebaHouseFisher: 118 references to 66 files).
  * GLTFLoader keeps its texture cache per parse, so without this every part
  * would fetch, transcode and upload its own copy. This transcodes each URL
@@ -11,13 +11,22 @@ import type * as THREE from "three";
  * never reach another's texture. Owned by whoever builds the part loader (the
  * studio: one per interior loader); no module state.
  */
+/** A URL with its `..` segments resolved, kept relative to the origin if it came that way. */
+function normalisedUrl(url: string): string {
+  const absolute = /^[a-z][a-z0-9+.-]*:/i.test(url);
+  const resolved = new URL(url, "http://origin.invalid/");
+  return absolute ? resolved.href : `${resolved.pathname}${resolved.search}`;
+}
+
 export class SharedKtx2Textures {
   private readonly cache = new Map<string, Promise<THREE.Texture>>();
 
   constructor(private readonly inner: { loadAsync(url: string): Promise<THREE.Texture> }) {}
 
   /** GLTFLoader's loader contract (KHR_texture_basisu calls `load`). */
-  load(url: string, onLoad: (t: THREE.Texture) => void, _onProgress?: unknown, onError?: (e: unknown) => void): void {
+  load(raw: string, onLoad: (t: THREE.Texture) => void, _onProgress?: unknown, onError?: (e: unknown) => void): void {
+    // `kits/a/parts/../../tex/x.ktx2` and `kits/b/parts/../../tex/x.ktx2` are one pool file: one key
+    const url = normalisedUrl(raw);
     let promise = this.cache.get(url);
     if (!promise) {
       promise = this.inner.loadAsync(url);

@@ -18,6 +18,16 @@ checkout/formatting timestamps but changes with any authored value.
 Load-bearing contracts:
 
 - semantic asset identity comes from glTF `extras.assetId`, never node names;
+- kits stream per piece (decision 0120): a kit whose parts index
+  (`assets/kitParts.ts`, schema 3) says `exterior` is fetched one part GLB
+  per (kit, asset), textures from the shared `kits/tex/` pool; the order and
+  the fetch priority come from `pieceRequestOrder.ts` alone (spawn ring and
+  view first, then ladder band, then distance); the warm gate holds on the
+  spawn ring (`ringPendingRef`). A kit without such an index still loads
+  whole until 0120 S2 republishes every kit as parts;
+- a walk never re-runs the bucket/signature/batch pass (`settlementReach.ts`,
+  perf-diag22 G-a): only new inputs (a piece arriving, a retry) do; a move
+  runs the reach pass (fixtures, smoke, colliders) when the set in reach changes;
 - every settlement and route-structure asset steps down an explicit LOD
   ladder (`settlementLadder`), built by the same `lodLadder` helper the
   vegetation cell build uses (0075): one kit level per rung, hard steps, no

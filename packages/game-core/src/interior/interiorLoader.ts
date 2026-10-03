@@ -9,7 +9,7 @@ import {
   type InteriorSubstitution, type Vec3,
 } from "./bundle";
 import { ambientCubeToSH } from "./ambientCube";
-import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
+import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "../assets/kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import { FIXTURE_LIGHTS_PER_OBJECT_MAX, type FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import {

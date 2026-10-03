@@ -17,7 +17,7 @@ import {
   settlementGroundAudits,
 } from "./anchoring";
 import {
-  buildArchitectureKit, kitAssetMetaFromManifest, kitAssetMetaOf, type ArchitecturePart,
+  buildArchitectureKit, kitAssetMetaFromManifest, kitAssetMetaOf, type ArchitectureAsset, type ArchitecturePart,
 } from "./kit";
 import {
   batchVisibleAt,
@@ -86,6 +86,14 @@ import {
   effectTextureFile, isSmokeColumnPlacement, SMOKE_CALM_WIND, SMOKE_COLUMN_ASSET_ID,
   SMOKE_MAX_DISTANCE_M, SmokeColumns, type SmokeAnchor,
 } from "./smokeColumn";
+import { orderPieceRequests, requestKit, type PieceNeed } from "./pieceRequestOrder";
+import {
+  MAX_RENDER_DISTANCE_M, REBUILD_MOVE_M, placementDrawCapM, placementsInReachKey, settlementPassKind,
+  type FullPassInputs,
+} from "./settlementReach";
+import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "../assets/kitParts";
+import { SharedKtx2Textures } from "../assets/sharedTextures";
+import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 
 interface DrawBucket {
   part: ArchitecturePart;
@@ -246,7 +254,6 @@ export function settlementChunkKey(x: number, z: number): string {
   return `${Math.floor(x / SETTLEMENT_CHUNK_M)},${Math.floor(z / SETTLEMENT_CHUNK_M)}`;
 }
 
-const REBUILD_MOVE_M = 40;
 
 /** The camera moves this far (m) before the batches' visibility is chosen again. */
 const BATCH_VISIBILITY_MOVE_M = 2;
@@ -316,7 +323,6 @@ function farSignatureOf(transforms: readonly THREE.Matrix4[], groundLinesM: read
   });
   return `${transforms.length}:${Math.round(sum * 1000)}`;
 }
-const MAX_RENDER_DISTANCE_M = 5000;
 /** After a kit fails its retries (`fetchRetry`), the layer asks for it again this much later, ms. */
 const KIT_RETRY_MS = 5000;
 export const SETTLEMENT_PROOF_KEY = "__STUDIO_SETTLEMENT_DEBUG__";
@@ -538,7 +544,7 @@ export function solidFrom(
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, groundArrivals, quality, environment, onSolids, onStats, materialPatch,
   rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures, onError,
-  localSurfaces,
+  localSurfaces, ringPendingRef,
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
@@ -560,7 +566,23 @@ export function SettlementLayer({
     setEffectErrors((current) => (current[sprite] === message ? current : { ...current, [sprite]: message })), []);
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
+  // Loaded kit GLTFs, keyed `kit#asset` for a part (decision 0120) or `kit`
+  // for a kit still fetched whole. Arrivals queue in `arrived` and join this
+  // map only between builds (useFrame), so a stream of pieces never cancels
+  // a running build over and over.
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
+  const arrived = useRef(new Map<string, GLTF>());
+  // Each kit's parts index (null: the kit is fetched whole), probed once.
+  const [partIndexes, setPartIndexes] = useState<Map<string, KitPartsIndex | null>>(() => new Map());
+  const pendingIndexes = useRef(new Set<string>());
+  // The spawn ring (0120 rule 2): the request keys in the near band at the
+  // first request pass; the warm gate waits until a build draws them all.
+  const ringKeys = useRef<string[] | null>(null);
+  useEffect(() => {
+    if (!ringPendingRef) return undefined;
+    ringPendingRef.current = 1;
+    return () => { ringPendingRef.current = 0; };
+  }, [ringPendingRef]);
   // Per-asset kit truth (designed sink, waterline, anchor class): the runtime
   // reads the SAME published manifest the compile measured (16h item 1).
   const [manifests, setManifests] = useState<Map<string, Map<string, SettlementKitAssetMeta>>>(
@@ -578,6 +600,11 @@ export function SettlementLayer({
   const ownKitCache = useMemo(() => new KitCache(), []);
   const kitCache = sharedKitCache ?? ownKitCache;
   const [revision, setRevision] = useState(0);
+  // A walk that changed what is in reach (settlementReach.ts): a reach pass, never a bucket pass.
+  const [reachRevision, setReachRevision] = useState(0);
+  // The inputs of the last full pass on screen and the reach key of the last pass.
+  const lastFull = useRef<FullPassInputs | null>(null);
+  const liveReachKey = useRef<string | null>(null);
   const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
   // The covered radius of the build on screen, held while a new one runs.
   const liveCoveredRadiusM = useRef<number | null>(null);
@@ -602,7 +629,7 @@ export function SettlementLayer({
   // live group is empty while the last finished build drew something is a
   // building that vanished. One mutable object, referenced by every proof.
   const frames = useMemo<SettlementFrameEvidence>(() => ({
-    frames: 0, blankFrames: 0, swaps: 0, skippedSwaps: 0, liveChildren: 0,
+    frames: 0, blankFrames: 0, swaps: 0, skippedSwaps: 0, fullPasses: 0, reachPasses: 0, liveChildren: 0,
   }), []);
   // The whole build is sliced over frames at priority 40 — last, behind
   // colliders, terrain and vegetation — and assembled into a DETACHED group
@@ -703,69 +730,133 @@ export function SettlementLayer({
   // shelf is hundreds of MB; loading it province-wide would undo instancing's
   // benefit before the first frame. A route kit or culture shelf arrives only
   // when its placed references can actually be drawn.
+  // Parts share the province texture pool by URI: each texture is transcoded
+  // and uploaded once however many parts name it (sharedTextures.ts).
+  const partLoader = useMemo(() => createKitLoader(decoders)
+    .setKTX2Loader(new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader), [decoders]);
   useEffect(() => {
     if (!bundle) return;
     const focus = focusRef.current;
     const residents = residentPlacementIdsAt(bundle.settlements, focus);
     const drawScale = quality?.architectureDrawScale ?? 1;
-    const wanted = new Set(bundle.placements.filter((p) => {
-      if (isSmokeColumnPlacement(p)) return false;
-      const cap = p.kind === "dressing" ? 350 : p.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
-      return residents.has(p.id)
-        || Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z) <= cap * drawScale;
-    }).map((p) => p.kit));
+    const wantedPlacements = bundle.placements.filter((p) => !isSmokeColumnPlacement(p)
+      && (residents.has(p.id)
+        || Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z) <= placementDrawCapM(p.kind) * drawScale));
+    const wanted = new Set(wantedPlacements.map((p) => p.kit));
+    // One need per placement, keyed by the piece for a split kit (0120) and
+    // by the kit for one still whole; ordered in pieceRequestOrder.
+    const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4()
+      .multiplyMatrices(sceneCamera.projectionMatrix, sceneCamera.matrixWorldInverse));
+    const sphere = new THREE.Sphere();
+    const needs: PieceNeed[] = [];
+    for (const p of wantedPlacements) {
+      const parts = partIndexes.get(p.kit);
+      if (parts === undefined) continue;   // its index probe is still out
+      const distanceM = Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z);
+      const capM = placementDrawCapM(p.kind);
+      let band = 0;
+      try {
+        band = ladderLevelAt(settlementLadder(footprintDiagonalM(p), 3, bundle.lod, capM, drawScale), distanceM);
+      } catch { band = 0; }   // a two-tier piece: the build's own gate names it
+      sphere.center.set(p.positionM[0], p.positionM[1], p.positionM[2]);
+      sphere.radius = footprintDiagonalM(p) * 0.5 * p.scale + 1;
+      needs.push({ key: parts ? `${p.kit}#${p.assetId}` : p.kit, distanceM, band,
+        inView: frustum.intersectsSphere(sphere) });
+    }
+    const requests = orderPieceRequests(needs);
+    // The ring is fixed at the first pass that knows every wanted kit's format.
+    if (!ringKeys.current && [...wanted].every((id) => partIndexes.has(id))) {
+      ringKeys.current = requests.filter((r) => r.ring).map((r) => r.key);
+    }
     const loader = createKitLoader(decoders);
+    const failed = (what: string) => (error: unknown) => {
+      if (!(error instanceof TransientFetchError)) {
+        setFatalError(new Error(`settlement kit ${what} failed: `
+          + `${error instanceof Error ? error.message : String(error)}`));
+        return;
+      }
+      // A kit that will not arrive after its retries (a dropped connection on
+      // a phone) is reported, never fatal (a refused manifest still is): the
+      // layer asks again after KIT_RETRY_MS (`kitRetry`), and the report clears when it arrives.
+      setKitError(`settlement kit ${what} failed: `
+        + `${error instanceof Error ? error.message : String(error)}; retrying`);
+      clearTimeout(kitRetryTimer.current);
+      kitRetryTimer.current = setTimeout(() => setKitRetry((n) => n + 1), KIT_RETRY_MS);
+    };
     for (const id of wanted) {
       const kit = bundle.kits[id];
       if (!kit) {
         setFatalError(new Error(`settlement bundle references missing kit ${id}`));
         continue;
       }
-      if (pendingKits.current.has(id)) continue;
-      // A kit that will not arrive after its retries (a dropped connection on
-      // a phone) is reported, never fatal (a refused manifest still is): the layer asks again after
-      // KIT_RETRY_MS (`kitRetry`), and the report clears when it arrives.
-      const failed = (what: string) => (error: unknown) => {
-        if (!(error instanceof TransientFetchError)) {
-          setFatalError(new Error(`settlement kit ${what}${id} failed: `
-            + `${error instanceof Error ? error.message : String(error)}`));
-          return;
-        }
-        setKitError(`settlement kit ${what}${id} failed: `
-          + `${error instanceof Error ? error.message : String(error)}; retrying`);
-        clearTimeout(kitRetryTimer.current);
-        kitRetryTimer.current = setTimeout(() => setKitRetry((n) => n + 1), KIT_RETRY_MS);
-      };
+      if (!partIndexes.has(id) && !pendingIndexes.current.has(id)) {
+        // The whole-GLB path below stays ONLY for kits whose parts are not yet
+        // published for exteriors (0120 S1); S2 republishes every kit as parts and deletes it.
+        pendingIndexes.current.add(id);
+        fetch(`${baseUrl}${kitPartsDir(kit)}index.json`, { priority: "high" })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((raw) => {
+            const index = raw ? parseKitPartsIndex(raw, id, kitPartsDir(kit)) : null;
+            return index?.exterior ? index : null;
+          }, () => null)
+          .then((index) => setPartIndexes((current) => new Map(current).set(id, index)))
+          .finally(() => pendingIndexes.current.delete(id));
+      }
       if (!manifests.has(id) && !pendingManifests.current.has(id)) {
         pendingManifests.current.add(id);
         loadKitAssetMeta(`${baseUrl}${kit.manifest}`).then((assets) => {
           setManifests((current) => new Map(current).set(id, assets));
-        }).catch(failed("manifest "))
+        }).catch(failed(`manifest ${id}`))
           .finally(() => pendingManifests.current.delete(id));
       }
-      if (gltfs.has(id)) continue;
+    }
+    for (const request of requests) {
+      const id = request.key;
+      if (gltfs.has(id) || arrived.current.has(id) || pendingKits.current.has(id)) continue;
+      const kitId = requestKit(id);
+      const kit = bundle.kits[kitId];
+      const index = partIndexes.get(kitId);
+      let url = `${baseUrl}${kit.glb}`;
+      if (index) {
+        const row = index.assets[id.slice(kitId.length + 1)];
+        if (!row) {
+          setFatalError(new Error(`settlement piece ${id} has no published part (${kitPartsDir(kit)}index.json)`));
+          continue;
+        }
+        url = `${baseUrl}${kitPartsDir(kit)}${row.file}`;
+      }
       pendingKits.current.add(id);
       if (!performance.getEntriesByName("es:load:kit-fetch-start").length) performance.mark("es:load:kit-fetch-start");
-      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => loadGltfWithRetry(url, loader)).then((gltf) => {
+      kitCache.load(id, url, (u) => loadGltfWithRetry(u, index ? partLoader : loader,
+        { priority: request.priority })).then((gltf) => {
         if (!performance.getEntriesByName("es:load:kit-fetch-end").length) performance.mark("es:load:kit-fetch-end");
-        setGltfs((current) => new Map(current).set(id, gltf));
-      }).catch(failed(""))
+        arrived.current.set(id, gltf);
+      }).catch(failed(id))
         .finally(() => pendingKits.current.delete(id));
     }
-    if ([...wanted].every((id) => gltfs.has(id) && manifests.has(id))) setKitError(null);
-  }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, manifests,
-      decoders, kitCache, kitRetry]);
+    if (requests.every((r) => gltfs.has(r.key)) && [...wanted].every((id) => manifests.has(id))) setKitError(null);
+  }, [bundle, revision, reachRevision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, manifests,
+      decoders, kitCache, kitRetry, partIndexes, partLoader, sceneCamera]);
   useEffect(() => () => clearTimeout(kitRetryTimer.current), []);
 
   // One index (and one set of material clones) per loaded GLTF for the
   // layer's life: a new kit arriving must not re-clone every other kit's
   // materials (new materials meant new depth twins and relinks per kit load).
+  // A part's GLTF holds one asset; its kit's map gathers every loaded part.
   const kitIndex = useRef(new WeakMap<GLTF, ReturnType<typeof buildArchitectureKit>>());
-  const kits = useMemo(() => new Map([...gltfs].map(([id, gltf]) => {
-    let kit = kitIndex.current.get(gltf);
-    if (!kit) { kit = buildArchitectureKit(gltf); kitIndex.current.set(gltf, kit); }
-    return [id, kit];
-  })), [gltfs]);
+  const kits = useMemo(() => {
+    const out = new Map<string, Map<string, ArchitectureAsset>>();
+    for (const [key, gltf] of gltfs) {
+      let kit = kitIndex.current.get(gltf);
+      if (!kit) { kit = buildArchitectureKit(gltf); kitIndex.current.set(gltf, kit); }
+      const kitId = requestKit(key);
+      if (kitId === key) { out.set(kitId, kit); continue; }
+      let into = out.get(kitId);
+      if (!into) { into = new Map(); out.set(kitId, into); }
+      for (const [assetId, asset] of kit) into.set(assetId, asset);
+    }
+    return out;
+  }, [gltfs]);
   // A part material drawn with a second glow kind (a fire asset in a brazier,
   // burning by day, and the same asset alone) gets one clone per kind for the
   // layer's life, so no material flips kind (and relinks) between builds.
@@ -889,8 +980,17 @@ export function SettlementLayer({
       visibleAt.current = { x: focus.x, z: focus.z };
     }
     const rebuildMoveM = at ? Math.min(REBUILD_MOVE_M, Math.max(1, at.coveredRadiusM * 0.5)) : REBUILD_MOVE_M;
-    if (at && Math.hypot(focus.x - at.x, focus.z - at.z) > rebuildMoveM) {
-      builtAt.current = null; setRevision((v) => v + 1);
+    if (at && bundle && Math.hypot(focus.x - at.x, focus.z - at.z) > rebuildMoveM) {
+      // G-a: a move re-judges only what is in reach; the batches stay (F40).
+      const key = placementsInReachKey(bundle, focus, quality?.architectureDrawScale ?? 1);
+      if (key !== liveReachKey.current) { builtAt.current = null; setReachRevision((v) => v + 1); }
+      else { at.x = focus.x; at.z = focus.z; }
+    }
+    // Pieces that arrived join between builds, all at once (0120).
+    if (arrived.current.size && running.current === null) {
+      const fresh = arrived.current;
+      arrived.current = new Map();
+      setGltfs((current) => new Map([...current, ...fresh]));
     }
     // S8: the bundles in range are re-picked once the player has moved
     // SETTLEMENT_REQUERY_MOVE_M from where they were last picked.
@@ -962,6 +1062,14 @@ export function SettlementLayer({
       try {
       const residentPlacementIds = residentPlacementIdsAt(bundle.settlements, focus);
       builtAt.current = buildStartMark(focus, liveCoveredRadiusM.current);
+      // G-a: the batches depend on the inputs only (F40); a move or a retry
+      // with the same inputs runs the reach pass alone, over the live batches.
+      const fullInputs: FullPassInputs = { bundle, kits, manifests, revision,
+        drawScale: quality?.architectureDrawScale ?? 1, groundAt };
+      const reachKey = placementsInReachKey(bundle, focus, fullInputs.drawScale);
+      const reachOnly = settlementPassKind(lastFull.current, fullInputs, liveReachKey.current, reachKey) !== "full"
+        && group.children.length > 0;
+      if (reachOnly) frames.reachPasses += 1; else frames.fullPasses += 1;
       const buckets = new Map<string, DrawBucket>();
       const solidCandidates: {
         value: SettlementSolid; placementId: string; distanceM: number; parts: number;
@@ -1019,8 +1127,7 @@ export function SettlementLayer({
       for (const placement of bundle.placements) {
         if (++sinceYield >= 64) { sinceYield = 0; yield; }
         const distance = Math.hypot(placement.positionM[0] - focus.x, placement.positionM[2] - focus.z);
-        const cap = placement.kind === "dressing" ? 350
-          : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
+        const cap = placementDrawCapM(placement.kind);
         const drawScaleHere = quality?.architectureDrawScale ?? 1;
         const inDrawRange = distance <= cap * drawScaleHere;
         const collisionResident = residentPlacementIds.has(placement.id);
@@ -1098,6 +1205,11 @@ export function SettlementLayer({
               // a flame card is drawn by the fire module instead: the piece's
               // fixture burns its bed (lighting.ts, flameCardBedAnchorLocal)
               if (isFlameCardMaterial(meta, part.material.name)) return;
+              // a reach pass counts what draws now and builds no bucket (G-a)
+              if (reachOnly) {
+                if (level === levelNow) { triangles += part.triangles; if (farNow) farInstances += 1; else nearInstances += 1; }
+                return;
+              }
               // a flame part burns by day or not by what it is mounted on, so
               // the same fire asset in a brazier and on its own are two buckets
               const flamePart = ownFlames.has(part.material.name);
@@ -1162,8 +1274,8 @@ export function SettlementLayer({
       // retry costs no clone, merge or upload (check-in 2 item 2).
       // The batch set is camera-independent (F40), so walking reuses the live
       // group: no merge, no new mesh, no compile; only visibility changes.
-      const signature = buildSignature(buckets);
-      const reuseLive = signature === liveSignature.current && group.children.length > 0;
+      const signature = reachOnly ? liveSignature.current : buildSignature(buckets);
+      const reuseLive = reachOnly || (signature === liveSignature.current && group.children.length > 0);
       let draws = 0; let farMeshes = 0; let shadowPairedDraws = 0;
       const groundBoundInstances = nearInstances + farInstances;
       const shadowPairFailures: string[] = [];
@@ -1245,6 +1357,17 @@ export function SettlementLayer({
         if (batch.view) mesh.userData.esSettlementView = batch.view;
         next.add(mesh);
       }
+      if (reachOnly) {
+        // the live batches, counted as the batch loop counts them
+        for (const child of group.children) {
+          const mesh = child as THREE.Mesh;
+          const view = mesh.userData.esSettlementView as SettlementBatchView | undefined;
+          if (view && !batchVisibleAt(view, focus)) continue;
+          draws += 1;
+          if (mesh.customDepthMaterial) shadowPairedDraws += 1;
+          if ((view?.level ?? 0) > 0) farMeshes += 1;
+        }
+      }
       // No code-placed dressing at a building's foot (check-in 2 ruling 1):
       // the wall-foot skirt is cut; the seam is the height-blend shader
       // (16h part 2 item 25).
@@ -1288,12 +1411,21 @@ export function SettlementLayer({
         liveDraws.current = draws;
         if (frames.swaps === 0) performance.mark("es:load:settlement-first-build");
         frames.swaps += 1;
-      } else {
+      } else if (!reachOnly) {
         frames.skippedSwaps += 1;
       }
       // The new build is live: its covered radius and fixtures replace the old.
       liveCoveredRadiusM.current = collision.coveredRadiusM;
       if (builtAt.current) builtAt.current.coveredRadiusM = collision.coveredRadiusM;
+      lastFull.current = fullInputs;
+      liveReachKey.current = reachKey;
+      // The warm gate waits for the spawn ring to be on screen (0120 rule 5).
+      if (ringPendingRef && ringKeys.current) {
+        ringPendingRef.current = ringKeys.current.filter((key) => {
+          const kitId = requestKit(key);
+          return kitId === key ? !kits.has(kitId) : !kits.get(kitId)?.has(key.slice(kitId.length + 1));
+        }).length;
+      }
       lightFixtures.setFixtures(fixturesHere);
       // Unseated placements wait for their ground (the arrival listener).
       const missingKey = missingIds.join(",");
@@ -1330,12 +1462,10 @@ export function SettlementLayer({
       const drawScale = quality?.architectureDrawScale ?? 1;
       const allVisibleKitsReady = bundle.placements.every((placement) => {
         if (isSmokeColumnPlacement(placement)) return true;
-        const cap = placement.kind === "dressing" ? 350
-          : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
         const distance = Math.hypot(placement.positionM[0] - focus.x,
           placement.positionM[2] - focus.z);
-        return (!residentPlacementIds.has(placement.id) && distance > cap * drawScale)
-          || kits.has(placement.kit);
+        return (!residentPlacementIds.has(placement.id) && distance > placementDrawCapM(placement.kind) * drawScale)
+          || !!kits.get(placement.kit)?.has(placement.assetId);
       });
       publishSettlementProof({
         status: allVisibleKitsReady ? "loaded" : "loading",
@@ -1380,7 +1510,7 @@ export function SettlementLayer({
       running.current?.cancel();
       running.current = null;
     };
-  }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
+  }, [queue, bundle, kits, manifests, revision, reachRevision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
       placementById, materialVariant, identities, gl, scene, sceneCamera, linker]);
 

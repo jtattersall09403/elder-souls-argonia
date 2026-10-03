@@ -83,8 +83,8 @@ Both add `RETURN_LIFT_M = 0.2`.
 
 A cell no longer loads whole kits. Every published kit carries a parts
 folder beside its GLB, `kits/<kit>/parts/`: one GLB per asset with only its
-LOD0 meshes (geometry re-encoded with meshopt, lossless) and its materials,
-textures by URI into `parts/tex/<sha16>.ktx2` (one file per texture per kit,
+LOD tiers (geometry re-encoded with meshopt, lossless) and its materials,
+textures by URI into the pool `kits/tex/<sha16>.ktx2` (one file per texture across all kits,
 however many assets use it), and `index.json`. `kit_parts.mjs` writes it
 from the published GLB (no Blender run); a re-run changes no byte, and
 `--check` exits 1 on a stale folder. Before parts, KeebaHouseFisher loaded 7

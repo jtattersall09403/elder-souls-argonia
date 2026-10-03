@@ -10,8 +10,10 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { WarmGate, type WarmGateOptions, type WarmGateState } from "./warmGate";
 
-export function RenderWarmGate({ armed, onOpen, onProgress, options }: {
+export function RenderWarmGate({ armed, onOpen, onProgress, options, ringPendingRef }: {
   armed: boolean;
+  /** Spawn-ring pieces not yet drawn (the settlement layer's `ringPendingRef`); the gate holds while it is above 0. */
+  ringPendingRef?: { readonly current: number };
   onOpen: () => void;
   onProgress?: (state: WarmGateState) => void;
   options?: Partial<WarmGateOptions>;
@@ -21,10 +23,12 @@ export function RenderWarmGate({ armed, onOpen, onProgress, options }: {
   const start = useRef(0);
   const cb = useRef({ onOpen, onProgress });
   cb.current = { onOpen, onProgress };
+  const ring = useRef(ringPendingRef);
+  ring.current = ringPendingRef;
   useEffect(() => {
     channel.port1.onmessage = () => {
       if (gate.state.open) return;
-      const opened = gate.step(performance.now() - start.current);
+      const opened = gate.step(performance.now() - start.current, ring.current?.current ?? 0);
       cb.current.onProgress?.(gate.state);
       if (opened) { performance.mark("es:load:warm-gate"); cb.current.onOpen(); }
     };

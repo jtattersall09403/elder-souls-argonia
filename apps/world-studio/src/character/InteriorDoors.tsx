@@ -12,8 +12,8 @@ import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraColl
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
 import { drawnLightRigOf } from "../sky/lightRig";
-import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
-import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
+import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
+import { kitPartsDir } from "@elder-souls/game-core/assets/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
@@ -118,7 +118,7 @@ export function InteriorDoors({
     const textures = new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader;
     return new InteriorLoader(baseUrl, {
       fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
-      // One part GLB per (kit, asset) the cell draws (interior/kitParts.ts), kept in the scene's cache.
+      // One part GLB per (kit, asset) the cell draws (assets/kitParts.ts), kept in the scene's cache.
       loadPart: (kit, assetId, url) => kitCache.load(`${kit.id}#${assetId}`, url,
         (u) => createKitLoader(decoders).setKTX2Loader(textures).loadAsync(u)).then(buildArchitectureKit),
     });
@@ -475,7 +475,7 @@ function probeState(
 function loadNetOf(interior: LoadedInterior, baseUrl: string): { bytes: number; requests: number } | null {
   if (typeof performance === "undefined" || !performance.getEntriesByType) return null;
   const prefixes = [`${baseUrl}province/interiors/${interior.bundle.cellId}.json`,
-    ...Object.values(interior.bundle.kits).map((k) => `${baseUrl}${kitPartsDir(k)}`)];
+    ...Object.values(interior.bundle.kits).map((k) => `${baseUrl}${kitPartsDir(k)}`), `${baseUrl}kits/tex/`];
   let bytes = 0;
   let requests = 0;
   for (const e of performance.getEntriesByType("resource") as PerformanceResourceTiming[]) {
