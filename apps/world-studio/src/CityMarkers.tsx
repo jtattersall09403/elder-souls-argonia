@@ -34,6 +34,15 @@ const MAX_VISIBLE = 10;
 const LABEL_WIDTH_PER_M = 0.16;
 const LABEL_WIDTH_MIN_M = 40;
 const LABEL_WIDTH_MAX_M = 1000;
+/** Beacon beams fade out near the camera (perf10 F42): inside START the beam is hidden, beyond END
+ * it is full, so the near plane never clips it into a pale band in the walk view. Horizontal metres. */
+export const NEAR_FADE_START_M = 60;
+export const NEAR_FADE_END_M = 200;
+/** Beam opacity factor 0..1 for the camera's horizontal distance `d` to the beacon axis. */
+export function beaconNearFade(d: number): number {
+  const t = Math.min(1, Math.max(0, (d - NEAR_FADE_START_M) / (NEAR_FADE_END_M - NEAR_FADE_START_M)));
+  return t * t * (3 - 2 * t);
+}
 export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
   /** World metres → terrain height (already vertically scaled). */
   groundAt: (xM: number, zM: number) => number;
@@ -125,8 +134,10 @@ export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
           o.updateMatrix(); // matrices are frozen (freezeMatrices): recompose only this sprite
           (o.material as THREE.SpriteMaterial).opacity = fade;
         } else if (o instanceof THREE.Mesh) {
+          const near = beaconNearFade(d);
+          o.visible = near > 0;
           const mat = o.material as THREE.MeshBasicMaterial;
-          mat.opacity = (child.userData.major ? 0.55 : 0.4) * fade;
+          mat.opacity = (child.userData.major ? 0.55 : 0.4) * fade * near;
         }
       }
     }
