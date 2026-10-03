@@ -202,7 +202,8 @@ for trying a pose by hand:
 Bars (the proving-ground gates): a run joint `gapM <= 0.03` and
 `penetrationM <= 0.05`, or the pair stands at a mined `run` pair's pose
 within its `offsetSpreadM` (`minedPair` on the pair row: the plugin's own
-crossing passes); unrelated pieces never cross; `footFloatMaxM <=
+crossing passes, and its along-run overlap bar is waived for a climb
+joint only, |dz| > 0.45 m; a flat mined joint keeps `alongRunOverlapBarM`); unrelated pieces never cross; `footFloatMaxM <=
 0.3` for ground pieces (docks and climb-run members, row `climb`, exempt);
 `slopeRule` null for every building and every non-climb run member; `padRule` null for every padded building (0101 R1);
 `yOffRuntimeM` 0 after `settle` (the workbench seat IS the

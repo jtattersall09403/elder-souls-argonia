@@ -1071,11 +1071,17 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
             # the plugin's own pose crosses (stairs02 overlaps its neighbour
             # 0.234 m, audit10 c5): at the mined pair pose, within the
             # pair's recorded spread, the crossing is designed (modular-runs 29c)
+            # the overlap bar is waived for a CLIMB joint only (treads nest by
+            # design); a flat mined joint keeps it
+            from worldgen import settlement_run_pads as srp
+            climb = (a.y is not None and b.y is not None
+                     and abs(a.y - b.y) > srp.CLIMB_STEP_M)
             out = {"relation": "run-joint", "minedPair": mined, "ok": True}
             if overlap_bar is not None and cat is not None:
-                out.update(penetrationBarM=bar,
-                           alongRunOverlapM=round(along_run_overlap(cat, a, b), 3),
+                overlap = along_run_overlap(cat, a, b)
+                out.update(penetrationBarM=bar, alongRunOverlapM=round(overlap, 3),
                            alongRunOverlapBarM=overlap_bar)
+                out["ok"] = climb or overlap <= overlap_bar
             return out
         out = {"relation": "run-joint",
                "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= bar}
