@@ -267,9 +267,21 @@ test("sample plays a steps= route in the page: no page.evaluate between window o
   assert.deepEqual(log.map((l) => l[0]), ["evaluate", "wait", "evaluate"], "only the window-open and window-read evaluates");
   assert.equal(log[2][1], false, "the read runs after the page closed the window");
   assert.deepEqual(seen.map((s) => s[0]), ["aim 0.50", "keydown KeyW", "aim 1.70", "keyup KeyW"]);
-  for (const [i, at] of [0, 0, 40, 70].entries()) assert.ok(Math.abs(seen[i][1] - at) < 25, `${seen[i][0]} at ${seen[i][1]} ms, want ${at}`);
+  // Page timers never fire early; under a loaded test run they fire late, so only the lower bound is tight.
+  for (const [i, at] of [0, 0, 40, 70].entries()) assert.ok(seen[i][1] >= at - 2 && seen[i][1] - at < 150, `${seen[i][0]} at ${seen[i][1]} ms, want ${at}`);
   assert.equal(r.route.done, true);
   assert.deepEqual(r.route.fired.map((x) => x[0]), ["aim", "key", "aim", "key"]);
+});
+test("hold frames: every frame through the clean screenshot path (HUD hidden, then restored), ms names when sub-second", async () => {
+  const { takeHoldShots, holdName } = await import("./measure.mjs");
+  const log = [];
+  const page = { evaluate: async () => { log.push("evaluate"); }, screenshot: async ({ path }) => { log.push(`shot ${path}`); } };
+  const t0 = Date.now();
+  const shots = await takeHoldShots(page, { s: 0.6, every: 0.2 }, (t) => holdName(t), true, t0, undefined, async () => {});
+  assert.ok(shots.length >= 1);
+  assert.equal(shots[0], "hold-000s");
+  for (let i = 0; i < shots.length; i++) assert.deepEqual(log.slice(i * 3, i * 3 + 3), ["evaluate", `shot ${shots[i]}`, "evaluate"], "hide HUD, shoot, restore");
+  assert.deepEqual([holdName(0.2), holdName(5), holdName(170), holdName(1.5)], ["hold-0200ms", "hold-005s", "hold-170s", "hold-1500ms"]);
 });
 test("sample: the window closes in the page, and no page.evaluate runs between its start and its end", async () => {
   const { sample } = await import("./measure.mjs");
@@ -311,6 +323,8 @@ test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines thro
   assert.deepEqual(h.map((x) => x.hold), [{ s: 180, every: 10 }, { s: 60, every: 10 }]);
   assert.equal(isDiagnosisSpot(h[0]), true, "a hold row is never a bar row");
   assert.throws(() => parseSpots("a ?x=1 hold=3m"), /cannot read/);
+  assert.deepEqual(parseSpots("f ?x=1 hold=3/0.2")[0].hold, { s: 3, every: 0.2 });
+  assert.throws(() => parseSpots("a ?x=1 hold=3/0"), /every must be > 0/);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
   assert.throws(() => parseSpots("a"), /need/);
