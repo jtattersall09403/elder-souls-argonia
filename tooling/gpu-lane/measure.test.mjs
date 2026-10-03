@@ -265,7 +265,7 @@ test("sample: the window closes in the page, and no page.evaluate runs between i
   assert.equal(log[2][1], false, "the page's own timer had already closed the window before the harness read it");
   assert.ok(Array.isArray(r.ts));
 });
-test("gen-matrix: 13 deterministic lines, coordinates from places.json", async () => {
+test("gen-matrix: 15 deterministic lines, coordinates from places.json", async () => {
   const { matrix, PLACES, PLACES_JSON } = await import("./spots/gen-matrix.mjs");
   const { parseSpots } = await import("./spots.mjs");
   const { readFileSync } = await import("node:fs");
@@ -274,13 +274,13 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
   assert.equal(out, matrix(text));
   assert.equal(out, readFileSync(new URL("./spots/matrix.txt", import.meta.url), "utf8"), "matrix.txt is the generator's output");
   const lines = out.split("\n").filter((l) => l && !l.startsWith("#"));
-  assert.equal(lines.length, 13);
+  assert.equal(lines.length, 15);
   const byId = new Map(JSON.parse(text).places.map((p) => [p.id, p]));
   for (const [id, short] of PLACES) {
     const [x, z] = byId.get(id).positionM;
     assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain&rate=0.5 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
   }
-  assert.equal(parseSpots(out).length, 15);
+  assert.equal(parseSpots(out).length, 17);
 });
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");

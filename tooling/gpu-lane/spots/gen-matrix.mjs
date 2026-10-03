@@ -1,6 +1,9 @@
 // Writes spots/matrix.txt, the one-off owner acceptance set (2026-10-02), from the province places.json.
 // Usage: node tooling/gpu-lane/spots/gen-matrix.mjs   (deterministic: same places.json, same file)
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CAPTURE_RATE } from "../spots.mjs";
 
@@ -17,6 +20,29 @@ export const STEPS = "steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7";
 // perf10.txt spot e: the ESE jungle marsh shallow-water walk.
 export const ESE = `ese ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=${CAPTURE_RATE} walk=20 x3`;
 
+/** The free-walk bar rows (perf10 c8): the route the walk audit walks (walk_route.py `freeWalk`: the longest painted way,
+ * one compass leg per segment at 3.5 m/s), as a spots line. Camera yaw = -compass bearing (walk-lib.mjs camYaw), pitch 0.1
+ * (walk_run.mjs aim); each turn is the wrapped bearing change, negated. */
+export const FREE_WALKS = [["gsw", "place.hist-heartland.greenspring"], ["rww", "place.dunmer-north.riverwalk"]];
+export const WALK_ROUTE = "tooling/gpu-lane/walk/walk_route.py";
+const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+const sgn = (v) => (v < 0 ? "-" : "+") + Math.abs(v).toFixed(3);
+export function freeWalkLine(name, fw, t = 12) {
+  const [x, z] = fw.startM.map((m) => (m / 1000).toFixed(4));
+  const steps = [`w:${fw.legs[0].seconds}`];
+  for (let i = 1; i < fw.legs.length; i++) steps.push(`yaw:${sgn(-wrap(fw.legs[i].bearing - fw.legs[i - 1].bearing))}`, `w:${fw.legs[i].seconds}`);
+  const aim = (-fw.legs[0].bearing).toFixed(3);
+  return `${name} ?view=character&x=${x}&z=${z}&t=${t}&w=clear&rate=${CAPTURE_RATE} --aim ${aim},0.1 steps=${steps.join(",")}`;
+}
+/** Runs walk_route.py (deterministic, reads the published settlement bundle) and returns the free-walk spots line. */
+export function freeWalkFromRoute(name, placeId) {
+  const d = mkdtempSync(join(tmpdir(), "gen-matrix-"));
+  try {
+    execFileSync("python3", [here(`../../../${WALK_ROUTE}`), placeId, "--out", join(d, "r.json")], { stdio: "ignore" });
+    return freeWalkLine(name, JSON.parse(readFileSync(join(d, "r.json"), "utf8")).freeWalk);
+  } finally { rmSync(d, { recursive: true, force: true }); }
+}
+
 /** places.json text -> matrix.txt text. Studio x,z = positionM / 1000 (site_packet.py:_xz). */
 export function matrix(placesText) {
   const byId = new Map(JSON.parse(placesText).places.map((p) => [p.id, p]));
@@ -31,6 +57,7 @@ export function matrix(placesText) {
     }
   }
   L.push(ESE);
+  for (const [name, id] of FREE_WALKS) L.push(freeWalkFromRoute(name, id));
   return L.join("\n") + "\n";
 }
 

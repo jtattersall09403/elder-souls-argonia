@@ -80,8 +80,6 @@ export class FillScratch<S, M = unknown, B = unknown, G = unknown> {
 
   /** Meshes this rebuild filled, by key. */
   readonly liveMeshes = new Set<string>();
-  /** Band attributes grown this rebuild, by geometry. */
-  readonly grownBands = new Map<G, B>();
 
   /** Empty everything for a new rebuild over `speciesCount` x `slotCount` slots. */
   reset(speciesCount: number, slotCount: number): void {
@@ -109,7 +107,6 @@ export class FillScratch<S, M = unknown, B = unknown, G = unknown> {
     this.commitBands.length = 0;
     this.commitGeometry.length = 0;
     this.liveMeshes.clear();
-    this.grownBands.clear();
   }
 
   pushLive(key: number, nearest: number, tx: number, tz: number): void {

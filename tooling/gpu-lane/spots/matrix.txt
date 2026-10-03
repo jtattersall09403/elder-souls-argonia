@@ -13,3 +13,5 @@ riverwalk-t12-rain ?view=character&x=7.1971&z=0.5840&t=12&w=rain&rate=0.5 steps=
 riverwalk-t22-clear ?view=character&x=7.1971&z=0.5840&t=22&w=clear&rate=0.5 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7
 riverwalk-t22-rain ?view=character&x=7.1971&z=0.5840&t=22&w=rain&rate=0.5 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7
 ese ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 x3
+gsw ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92
+rww ?view=character&x=7.2090&z=0.5226&t=12&w=clear&rate=0.5 --aim 0.000,0.1 steps=w:1.46,yaw:+1.145,w:3.73,yaw:-1.664,w:0.87,yaw:-0.251,w:0.97
