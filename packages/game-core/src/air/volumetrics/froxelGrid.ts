@@ -610,8 +610,9 @@ export class Volumetrics implements VolumetricsSampler {
   }
 
   /** Density (m^-1) of the medium at world `p` (TSL); `fp` is the froxel's depth extent in metres,
-   * which widens every hard transition to at least a froxel so the grid never stair-steps (prefilter). */
-  private density(p: TslNode, spec: BandSpec, fp: TslNode = float(0)): TslNode {
+   * which widens every hard transition to at least a froxel so the grid never stair-steps (prefilter);
+   * `shape` is the fog shape (fogShapeAt) to use, the inject's sun probes pass the froxel's own. */
+  private density(p: TslNode, spec: BandSpec, fp: TslNode = float(0), shape: TslNode = this.fogShapeAt(p, spec)): TslNode {
     const u = this.u;
     const nuv = p.xz.sub(u.nearOrigin).div(NEAR_SIZE_M);
     const fuv = p.xz.sub(u.farOrigin).div(FAR_SIZE_M);
@@ -626,7 +627,6 @@ export class Volumetrics implements VolumetricsSampler {
     const moist = clamp(mix(max(farT.a, farT.b), max(max(nearT.a, nearT.b), farT.b), inNear), 0, 1);
     const moistW = float(MOISTURE_FLOOR).add(float(1 - MOISTURE_FLOOR).mul(moist.mul(moist)));
     const soft = (w: number) => max(float(w), fp.mul(0.6));
-    const shape = this.fogShapeAt(p, spec);
     const n = shape.x, cov = shape.y;
     const nc = n.sub(0.5);
     // layer tops: relief from the lowest octave only (125 m features), which survives the
@@ -911,15 +911,17 @@ export class Volumetrics implements VolumetricsSampler {
       const p = u.camPos.add(dir.mul(depth));
       const v = normalize(dir);
       const fp = depth.mul(Math.pow(spec.farM / FROXEL_NEAR_M, 1 / gz) - 1);
-      const sigmaT = max(this.density(p, spec, fp), float(1e-7)).toVar();
+      const shape = this.fogShapeAt(p, spec).toVar();
+      const sigmaT = max(this.density(p, spec, fp, shape), float(1e-7)).toVar();
       const cSun = dot(v, u.sunDir);
       const phaseSun = sunPhase(cSun, u.sunDir.y);
       const sunVis = this.terrainSunT(p);
       const skyKeep = float(1).sub(smoothstep(0, 0.05, u.sunDir.y).mul(float(1 - SHADOWED_SKY).mul(float(1).sub(sunVis))));
-      // the medium's own shadow on the sun (sunInscatterGain): optical depth up the sun ray
+      // the medium's own shadow on the sun (sunInscatterGain): optical depth up the sun ray, the fog
+      // shape held at the froxel's own value (the probes read only the grids, no shape taps)
       let sunOd: TslNode = float(0);
       SUN_OD_PROBES_M.forEach((d, k) => {
-        sunOd = sunOd.add(this.density(p.add(u.sunDir.mul(d)), spec, fp).mul(SUN_OD_SPAN_M[k]));
+        sunOd = sunOd.add(this.density(p.add(u.sunDir.mul(d)), spec, fp, shape).mul(SUN_OD_SPAN_M[k]));
       });
       const sunT = exp(sunOd.negate());
       const sunGain = sunT.mul(phaseSun).add(float(1).sub(sunT).mul(1 / (4 * Math.PI)));

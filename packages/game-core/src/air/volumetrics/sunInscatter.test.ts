@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { SUN_OD_PROBES_M, SUN_OD_SPAN_M, sunInscatterGain } from "./froxelGrid";
 
@@ -17,5 +18,11 @@ describe("sun in-scatter through the medium", () => {
   it("conserves the isotropic floor and spans the probes", () => {
     expect(sunInscatterGain(0.3, 1 / (4 * Math.PI))).toBeCloseTo(1 / (4 * Math.PI), 9);
     expect(SUN_OD_PROBES_M.length).toBe(SUN_OD_SPAN_M.length);
+  });
+  it("the sun probes hold the fog shape at the froxel's own value (one fogShapeAt per froxel)", () => {
+    const src = readFileSync(new URL("./froxelGrid.ts", import.meta.url), "utf8");
+    const inject = src.slice(src.indexOf("private injectKernel("), src.indexOf("private blurKernel("));
+    expect(inject.match(/fogShapeAt\(/g)?.length).toBe(1);
+    expect(inject).toMatch(/this\.density\(p\.add\(u\.sunDir\.mul\(d\)\), spec, fp, shape\)/);
   });
 });
