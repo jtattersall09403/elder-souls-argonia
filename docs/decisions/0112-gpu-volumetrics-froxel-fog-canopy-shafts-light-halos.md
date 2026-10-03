@@ -83,8 +83,9 @@ colour comes from the light rig.
    (125 m features, `fogShapeAt` .z); marsh fog a thin dense bank, 0.27 /m
    at the surface falling linearly to its 1.2 m top (`marshTopM`), so a
    1.6 m eye stands above it and looks down on it; sea fog a 0.03 /m bank
-   with a top at 20 ± 6 m faded over 6 m; canopy haze 0.025 /m, 0.06 /m
-   once the sun is above ~15°. Bar (dawn over marsh water, clear, CPU twin
+   with a top at 20 ± 6 m faded over 6 m; canopy haze 0.025 /m × the
+   canopyHaze cover, and once the sun is above ~15° sunlit dust at
+   0.028 /m (0.021 /m at the shape's median) whatever the humidity. Bar (dawn over marsh water, clear, CPU twin
    test `fogTerms.test.ts`): 100 m horizontal optical depth at 0.5 m ≥ 2
    (4.9), horizontal transmittance over 400 m from a 1.6 m eye ≥ 0.9
    (0.97; 0.99 over 100 m), and the layer top (density < 0.1 × marsh peak)
@@ -109,9 +110,18 @@ colour comes from the light rig.
 5. **Canopy shafts from a canopy occlusion map.** The sun term is shadowed
    by a top-down canopy map rasterised on the CPU from the vegetation
    instances near the camera (crowns as discs with leaf-gap noise), sampled
-   along the sun direction. Shafts appear where the canopy has gaps, the sun
-   is low to mid, and the medium is dense enough. Over the first 40 m a
-   per-pixel march in the apply stage keeps the crowns' sharpness; it reads
+   along the sun direction. The map's fourth channel is forest cover (leaf
+   density box-averaged over 13 m), and texels under no crown carry their
+   neighbours' crown bottom and top: the medium fills the whole space under
+   a forest roof (cover above 0.1–0.2), leaf gaps and the ground between
+   crowns included, so the shafts through the gaps have dust to light.
+   Shafts appear where the canopy has gaps, the sun is low to mid, and the
+   medium is dense enough. The sun's CSM is not sampled: three r184 refuses
+   a depth-compare sample outside the fragment stage
+   (`WGSLNodeBuilder.js:847`), so the inject kernel cannot read the cascade
+   map as built. Over the first 24 m a per-pixel march in the apply stage
+   (16 steps on high, 12 medium, 8 low, 4 mobile; start jittered per pixel
+   by interleaved gradient noise) keeps the crowns' sharpness; it reads
    the medium's extinction back from the integrated grid (`gridDensity`),
    never the fog field itself: whatever the apply stage samples is bound by
    every fogged material, and the field's terrain grids and noise volume

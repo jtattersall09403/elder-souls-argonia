@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { FOG_NOISE, FogDrift, bakeFogShape, bakeFogWarp, fogShapeNoise } from "./fogNoise";
-import { FOG_TERMS, SKY_INSCATTER, canopyUnder, fogSkyIrradianceInto, fogTermsAt, sunInscatterGain, sunPhaseCpu, type FogTermPoint, type FogTerms } from "./froxelGrid";
+import { CanopyMap, CANOPY_TEXELS } from "./canopyMap";
+import { FOG_TERMS, SHAFT_NEAR_M, SKY_INSCATTER, canopyUnder, ignCpu, shaftSampleT, fogSkyIrradianceInto, fogTermsAt, sunInscatterGain, sunPhaseCpu, type FogTermPoint, type FogTerms } from "./froxelGrid";
 
 // marsh-cove-06 at 06:00 clear (/tmp/vol10/r7/compact.txt vol20): cover mist .731 steam .952 marsh .715
 // sea .144, canopy .952, sun 0.29 deg, no burn; camera over coast water 0.84 m deep, floor at the water
@@ -70,6 +71,50 @@ describe("canopy haze needs crowns (vol10 c8 V1)", () => {
   it("a covered texel (r 1, crown top 15 m, ground 0) gives canopy haze", () => {
     const under = canopyUnder(1, 15, 0);
     expect(fogTermsAt({ ...air, ground: 0, y: 10, under }, { ...out }).canopy).toBeGreaterThan(0);
+  });
+});
+
+describe("canopy shafts have a medium in the gaps (vol10 c9 C)", () => {
+  // a forest: 6 m crowns on a 10 m grid (2 m between crowns), bottom 6 m, top 15 m, over ground 0
+  const crowns: { x: number; z: number; radiusM: number; bottomM: number; topM: number }[] = [];
+  for (let i = -12; i <= 12; i++) for (let j = -12; j <= 12; j++) crowns.push({ x: i * 10, z: j * 10, radiusM: 6, bottomM: 6, topM: 15 });
+  const map = new CanopyMap(() => crowns);
+  map.update(0, 0, true);
+  const at = (x: number, z: number) => {
+    const i = Math.floor(x - map.origin.x), j = Math.floor(z - map.origin.y), o = (j * CANOPY_TEXELS + i) * 4;
+    return { r: map.data[o], bottom: map.data[o + 1], top: map.data[o + 2], forest: map.data[o + 3] };
+  };
+  it("a leaf-gap texel and the ground between crowns under a forest are under (> 0.5)", () => {
+    const between = at(5.5, 5.5); // 7.1 m from the nearest crown centre: outside every disc
+    expect(between.r).toBe(0);
+    expect(canopyUnder(between.forest, between.top, 0)).toBeGreaterThan(0.5);
+    let gap = null as ReturnType<typeof at> | null;
+    for (let x = -4.5; x <= 4.5 && !gap; x += 1) for (let z = -4.5; z <= 4.5 && !gap; z += 1) { const t = at(x, z); if (t.r === 0) gap = t; }
+    expect(gap).not.toBeNull();
+    expect(canopyUnder(gap!.forest, gap!.top, 0)).toBeGreaterThan(0.5);
+    // a glade: well past the forest's edge
+    expect(canopyUnder(at(-127, 127).forest, at(-127, 127).top, 0)).toBeLessThan(0.5);
+  });
+  it("sunlit dust at 2 m in a gap (canopyHaze 0.5, sunY 0.5) is >= 0.02 /m and 40 m of it takes <= 0.6", () => {
+    const air = { ...base, cover: [0, 0, 0, 0] as [number, number, number, number], waterMask: 0, ground: 0, canopyHaze: 0.5, sunY: 0.5 };
+    const c = fogTermsAt({ ...air, y: 2, under: canopyUnder(0.4, 15, 0) }, { ...out }).canopy;
+    console.log(`canopy dust 2 m ${c.toFixed(4)} /m, 40 m extinction ${(1 - Math.exp(-40 * c)).toFixed(3)}`);
+    expect(c).toBeGreaterThanOrEqual(0.02);
+    expect(1 - Math.exp(-40 * c)).toBeLessThanOrEqual(0.6);
+  });
+});
+
+describe("shaft march spacing (vol10 c9 C)", () => {
+  it("high band: 16 steps over 24 m (1.5 m), start jittered per pixel over a whole step", () => {
+    expect(shaftSampleT(1, 16, SHAFT_NEAR_M, 0) - shaftSampleT(0, 16, SHAFT_NEAR_M, 0)).toBeLessThanOrEqual(1.5);
+    const js: number[] = [];
+    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) js.push(ignCpu(x, y));
+    const mean = js.reduce((a, b) => a + b, 0) / js.length;
+    expect(Math.min(...js)).toBeLessThan(0.15);
+    expect(Math.max(...js)).toBeGreaterThan(0.85);
+    expect(Math.abs(mean - 0.5)).toBeLessThan(0.1);
+    // a 0.5 m gap at any depth is sampled by some pixel of an 8x8 block
+    for (const g0 of [3.2, 10.7, 17.9]) expect(js.some((j) => { for (let k = 0; k < 16; k++) { const t = shaftSampleT(k, 16, SHAFT_NEAR_M, j); if (t >= g0 && t <= g0 + 0.5) return true; } return false; })).toBe(true);
   });
 });
 

@@ -32,9 +32,9 @@ export interface BandSpec {
  * shape FOG_NOISE.textureBytes(fog.shapeTexels): 8.1 MiB at 128^3, 1.1 MiB at 64^3. */
 export const VOLUMETRIC_BANDS: Readonly<Record<VolumetricTier, BandSpec>> = {
   mobile: { grid: [64, 36, 24], farM: 300, temporal: false, fog: FOG_NOISE.bands.mobile, moteSteps: 0, shaftSteps: 4, fireTier: "mobile" },
-  low: { grid: [80, 45, 32], farM: 400, temporal: false, fog: FOG_NOISE.bands.low, moteSteps: 12, shaftSteps: 6, fireTier: "low" },
-  medium: { grid: [128, 72, 48], farM: 800, temporal: true, fog: FOG_NOISE.bands.medium, moteSteps: 20, shaftSteps: 10, fireTier: "medium" },
-  high: { grid: [160, 90, 64], farM: 1500, temporal: true, fog: FOG_NOISE.bands.high, moteSteps: 28, shaftSteps: 12, fireTier: "high" },
+  low: { grid: [80, 45, 32], farM: 400, temporal: false, fog: FOG_NOISE.bands.low, moteSteps: 12, shaftSteps: 8, fireTier: "low" },
+  medium: { grid: [128, 72, 48], farM: 800, temporal: true, fog: FOG_NOISE.bands.medium, moteSteps: 20, shaftSteps: 12, fireTier: "medium" },
+  high: { grid: [160, 90, 64], farM: 1500, temporal: true, fog: FOG_NOISE.bands.high, moteSteps: 28, shaftSteps: 16, fireTier: "high" },
 };
 
 /** The spec a renderer of `tier` draws at `band`. */

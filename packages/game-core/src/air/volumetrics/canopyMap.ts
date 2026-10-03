@@ -2,8 +2,11 @@
  * Top-down canopy occlusion map (decision 0112 §5): 256² texels over 256 m
  * around the camera, rasterised on the CPU from crown discs (the vegetation
  * instances near the camera), with leaf-gap noise inside each crown.
- * r: canopy optical density 0..1, g: crown bottom height, b: crown top height.
- * Rebakes when the camera moves 32 m.
+ * r: canopy optical density 0..1, g: crown bottom height, b: crown top height,
+ * a: forest cover (r box-averaged over COVER_BOX_M). Texels under no crown disc
+ * but inside a forest (leaf gaps, ground between crowns) carry the box mean of
+ * their neighbours' crown bottom and top, so the medium and the shaft march see
+ * one forest roof over gaps (vol10 c9 C). Rebakes when the camera moves 32 m.
  */
 import * as THREE from "three";
 
@@ -17,6 +20,9 @@ export interface Crown {
 export const CANOPY_TEXELS = 256;
 export const CANOPY_SIZE_M = 256;
 const REBAKE_M = 32;
+/** Box width (m) of the forest-cover average in channel a (8-16 m: wider than a leaf gap or the space
+ * between neighbouring crowns, narrower than a glade). */
+export const COVER_BOX_M = 13;
 
 /** Deterministic value noise in 0..1 for the leaf gaps (world-anchored, 1.2 m cells, so the gaps are 0.5..2 m holes). */
 function leafGap(x: number, z: number): number {
@@ -38,6 +44,9 @@ export class CanopyMap {
   readonly data = new Float32Array(CANOPY_TEXELS * CANOPY_TEXELS * 4);
   readonly texture: THREE.DataTexture;
   readonly origin = new THREE.Vector2(Number.NaN, Number.NaN);
+  /** Box-filter scratch (cover, bottom, top, crown presence), allocated once. */
+  private readonly tmp = new Float32Array(CANOPY_TEXELS * CANOPY_TEXELS * 4);
+  private readonly row = new Float32Array(CANOPY_TEXELS * 4);
   constructor(private readonly crowns: (x: number, z: number, radiusM: number) => Iterable<Crown>) {
     this.texture = new THREE.DataTexture(this.data, CANOPY_TEXELS, CANOPY_TEXELS, THREE.RGBAFormat, THREE.FloatType);
     this.texture.name = "es-vol-canopy";
@@ -65,14 +74,51 @@ export class CanopyMap {
         const gap = leafGap(wx, wz);
         const dens = Math.min(1, edge * 2.5) * Math.min(1, Math.max(0, (gap - 0.3) / 0.08));
         const o = (j * CANOPY_TEXELS + i) * 4;
-        if (d[o] === 0) { d[o + 1] = c.bottomM; d[o + 2] = c.topM; } else {
+        if (d[o + 3] === 0) { d[o + 3] = 1; d[o + 1] = c.bottomM; d[o + 2] = c.topM; } else {
           d[o + 1] = Math.min(d[o + 1], c.bottomM); d[o + 2] = Math.max(d[o + 2], c.topM);
         }
         d[o] = Math.min(1, d[o] + dens * (1 - d[o]));
       }
     }
+    this.coverPass();
     this.texture.needsUpdate = true;
     return true;
+  }
+
+  /** Channel a = r box-averaged over COVER_BOX_M; a texel under no crown disc takes the box mean of
+   * its neighbours' crown bottom and top (separable running sums, two passes over the scratch). */
+  private coverPass(): void {
+    const N = CANOPY_TEXELS, d = this.data, tmp = this.tmp, row = this.row;
+    const R = Math.max(1, Math.round((COVER_BOX_M * N) / CANOPY_SIZE_M / 2));
+    // a holds crown presence (set in the raster); pack cover, presence x bottom, presence x top, presence
+    for (let k = 0; k < N * N; k++) {
+      const o = k * 4, pr = d[o + 3];
+      tmp[o] = d[o]; tmp[o + 1] = pr * d[o + 1]; tmp[o + 2] = pr * d[o + 2]; tmp[o + 3] = pr;
+    }
+    const pass = (stride: number, step: number) => {
+      for (let line = 0; line < N; line++) {
+        const base = line * stride;
+        for (let c = 0; c < 4; c++) {
+          let sum = 0;
+          for (let i = -R; i <= R; i++) if (i >= 0 && i < N) sum += tmp[(base + i * step) * 4 + c];
+          for (let i = 0; i < N; i++) {
+            row[i * 4 + c] = sum;
+            const out = i - R, inn = i + R + 1;
+            if (out >= 0) sum -= tmp[(base + out * step) * 4 + c];
+            if (inn < N) sum += tmp[(base + inn * step) * 4 + c];
+          }
+        }
+        for (let i = 0; i < N; i++) for (let c = 0; c < 4; c++) tmp[(base + i * step) * 4 + c] = row[i * 4 + c];
+      }
+    };
+    pass(N, 1); // rows
+    pass(1, N); // columns
+    const area = (2 * R + 1) * (2 * R + 1);
+    for (let k = 0; k < N * N; k++) {
+      const o = k * 4;
+      if (d[o + 3] === 0 && tmp[o + 3] > 0) { d[o + 1] = tmp[o + 1] / tmp[o + 3]; d[o + 2] = tmp[o + 2] / tmp[o + 3]; }
+      d[o + 3] = tmp[o] / area;
+    }
   }
 
   dispose(): void { this.texture.dispose(); }

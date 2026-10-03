@@ -61,8 +61,18 @@ export function interiorSkyInscatterPerM(skyIrradiance: number, sigmaT: number):
  * white Lambert floor reads E/π, so thick fog settles at 0.76 of the floor's radiance, never above it. */
 export const SKY_INSCATTER = 0.8 / Math.PI;
 /** Range (m) over which the per-pixel shaft march carries the sun under the canopy (steps: the band's
- * `shaftSteps`). */
-const SHAFT_NEAR_M = 40;
+ * `shaftSteps`, 16 on high: 1.5 m, under the 0.5-2 m leaf gaps' spacing once jittered per pixel). */
+export const SHAFT_NEAR_M = 24;
+/** Interleaved gradient noise (Jimenez 2014) at pixel (x, y), 0..1: the shaft march's per-pixel start
+ * offset (deterministic; CPU twin of the apply stage's `ign`). */
+export function ignCpu(x: number, y: number): number {
+  const f = (v: number) => v - Math.floor(v);
+  return f(52.9829189 * f(0.06711056 * x + 0.00583715 * y));
+}
+/** Distance (m) of shaft-march sample `k` of `steps` over `spanM`, start offset `jitter` 0..1 (a step). */
+export function shaftSampleT(k: number, steps: number, spanM: number, jitter: number): number {
+  return (spanM / steps) * (k + jitter);
+}
 /** A window beam's half-angle of spread (rad, ~3 deg): the sun disc (0.27 deg) plus the bright
  * circumsolar sky and the sky seen through the opening widen the shaft along its length. */
 export const BEAM_SPREAD_RAD = 0.052;
@@ -144,9 +154,10 @@ export const FOG_TERMS = {
   wetHazePerM: 1.2e-3,
   /** Cap cloud at the belt centre, full cover, where the ground reaches the belt. */
   capPeakPerM: 0.02,
-  /** Canopy haze under the crowns at full canopyHaze, and the sunlit dust value once the sun is above
-   * ~15 deg (sin 13..17 deg blend). */
-  canopyHazePerM: 0.025, canopyDustPerM: 0.06, canopyDustSunY: [0.225, 0.292] as const,
+  /** Canopy haze under the forest roof at full canopyHaze; once the sun is above ~15 deg (sin 13..17 deg
+   * blend) the sunlit dust and pollen value, independent of humidity (any canopyHaze above 0.1): 0.028 x
+   * the shape's median 0.75 = 0.021 /m, 40 m of it takes 0.57 of the light (vol10 c9 C). */
+  canopyHazePerM: 0.025, canopyDustPerM: 0.028, canopyDustSunY: [0.225, 0.292] as const,
 } as const;
 
 /** One point of the medium for fogTermsAt: the terrain-grid values there and the fog uniforms. */
@@ -165,8 +176,14 @@ export interface FogTermPoint {
 export interface FogTerms { mist: number; marsh: number; sea: number; wet: number; canopy: number; cap: number }
 
 const sm = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
-/** Under-the-crowns share at a canopy texel (r cover, b crown top): CPU twin of the `under` node in density(). */
-export const canopyUnder = (cover: number, topM: number, groundM: number) => sm(0, 0.05, cover) * sm(0, 0.3, topM - groundM);
+/** Under-the-forest share at a canopy texel (a forest cover, b crown top, gap-filled): CPU twin of the
+ * `under` node in density(). Leaf gaps and the ground between crowns under a forest count as under. */
+export const canopyUnder = (forestCover: number, topM: number, groundM: number) => sm(0.1, 0.2, forestCover) * sm(0, 0.3, topM - groundM);
+/** Canopy medium (m^-1) per unit shape factor: humid haze x canopyHaze, blending to the sunlit dust. */
+export const canopyDensityK = (canopyHaze: number, sunY: number) => {
+  const T = FOG_TERMS, w = sm(T.canopyDustSunY[0], T.canopyDustSunY[1], sunY);
+  return T.canopyHazePerM * canopyHaze * (1 - w) + T.canopyDustPerM * sm(0, 0.1, canopyHaze) * w;
+};
 const burnCpu = (n: number, c: number, rim: number) => Math.max(n - (1 - c) - rim, 0) / Math.max(c, 0.05);
 
 /** CPU twin of density()'s mist, marsh, sea, wet-haze, cap and canopy terms (froxel prefilter width 0, the
@@ -195,10 +212,9 @@ export function fogTermsAt(q: FogTermPoint, out: FogTerms): FogTerms {
   const seaTop = T.seaTopM + nc * 12;
   out.sea = q.sea * (1 - sm(seaTop - T.seaFadeM, seaTop, q.y)) * burnCpu(n, q.cover[3], 0) * T.seaPeakPerM;
   out.wet = Math.exp(Math.max(hAG, 0) / -WET_HAZE_SCALE_M) * q.wetHaze * T.wetHazePerM;
-  const canopyK = T.canopyHazePerM + (T.canopyDustPerM - T.canopyHazePerM) * sm(T.canopyDustSunY[0], T.canopyDustSunY[1], q.sunY);
   const [bc, sb, sa] = q.capBelt, bz = (q.y - bc) / (q.y >= bc ? sa : sb);
   out.cap = sm(bc - 2 * sb, bc, q.ground) * Math.exp(-0.5 * bz * bz) * burnCpu(n, q.capCover, 0) * T.capPeakPerM;
-  out.canopy = q.under * (1 - sm(0, 25, hAG)) * q.canopyHaze * canopyK * (n * 0.5 + 0.5);
+  out.canopy = q.under * (1 - sm(0, 25, hAG)) * canopyDensityK(q.canopyHaze, q.sunY) * (n * 0.5 + 0.5);
   return out;
 }
 
@@ -448,7 +464,7 @@ export class Volumetrics implements VolumetricsSampler {
       moist: Math.min(1, Math.max(0, inNear ? Math.max(texel(near, 3, GRID_TEXELS), texel(near, 2, GRID_TEXELS), texel(far, 2, GRID_TEXELS))
         : Math.max(texel(far, 3, GRID_TEXELS), texel(far, 2, GRID_TEXELS)))),
       sea: texel(far, 2, GRID_TEXELS),
-      under: canopyUnder(texel(cmap, 0, CANOPY_TEXELS) || 0, texel(cmap, 2, CANOPY_TEXELS) || 0, ground),
+      under: canopyUnder(texel(cmap, 3, CANOPY_TEXELS) || 0, texel(cmap, 2, CANOPY_TEXELS) || 0, ground),
     } : null;
     const densityAt: { hM: number; total: number; mist: number; marsh: number; sea: number; wet: number; canopy: number; cap: number }[] = [];
     if (grid) {
@@ -640,12 +656,14 @@ export class Volumetrics implements VolumetricsSampler {
       .mul(this.burn(n, u.capCover, cov)).mul(FOG_TERMS.capPeakPerM);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const cs = texture(this.canopy.texture, cuv);
-    const under = smoothstep(0, 0.05, cs.r).mul(smoothstep(0, 0.3, cs.b.sub(ground)));
-    // canopy haze: humid air under the crowns (0112 §5); once the sun is above ~15 deg the sunlit dust
-    // value, so shafts have a medium at midday (vol10 diag8 O-2)
-    const canopyK = mix(float(FOG_TERMS.canopyHazePerM), float(FOG_TERMS.canopyDustPerM),
-      smoothstep(FOG_TERMS.canopyDustSunY[0], FOG_TERMS.canopyDustSunY[1], u.sunDir.y));
-    const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(canopyK).mul(n.mul(0.5).add(0.5));
+    // under the forest roof (canopyUnder): forest cover (a) and the gap-filled crown top, so leaf gaps
+    // and the ground between crowns carry the medium the shafts light (vol10 c9 C)
+    const under = smoothstep(0.1, 0.2, cs.a).mul(smoothstep(0, 0.3, cs.b.sub(ground)));
+    // canopy haze: humid air x canopyHaze (0112 §5); once the sun is above ~15 deg the sunlit dust
+    // value (canopyDensityK is the CPU twin)
+    const dustW = smoothstep(FOG_TERMS.canopyDustSunY[0], FOG_TERMS.canopyDustSunY[1], u.sunDir.y);
+    const canopyK = mix(u.canopyHaze.mul(FOG_TERMS.canopyHazePerM), smoothstep(0, 0.1, u.canopyHaze).mul(FOG_TERMS.canopyDustPerM), dustW);
+    const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(canopyK).mul(n.mul(0.5).add(0.5));
     const air = this.airDensity(p).add(exp(max(hAG, float(0)).div(-WET_HAZE_SCALE_M)).mul(u.wetHaze).mul(FOG_TERMS.wetHazePerM));
     const outside = mist.add(steam).add(marsh).add(sea).add(haze).add(cap).mul(outdoor);
     // interior floor mist: 0..top, two octaves swirling in opposite directions, curling top
@@ -660,7 +678,7 @@ export class Volumetrics implements VolumetricsSampler {
   }
 
   /** Per-pixel in-scatter the grid cannot hold (VolumetricsSampler.extra): canopy shafts marched at
-   * 8 steps over the first 40 m (full canopy sharpness, the grid holds the soft remainder) and sparse
+   * the band's shaftSteps over the first SHAFT_NEAR_M, start jittered per pixel by IGN (full canopy sharpness, the grid holds the soft remainder) and sparse
    * dust motes lit inside each window beam. */
   extra(dir: TslNode, segLen: TslNode, sigma: TslNode): TslNode {
     const u = this.u;
@@ -673,8 +691,12 @@ export class Volumetrics implements VolumetricsSampler {
       const span = min(segLen, SHAFT_NEAR_M);
       const dt = span.div(float(u.shaftSteps));
       const ph = sunPhase(dot(dir, u.sunDir), u.sunDir.y);
+      // interleaved gradient noise on the pixel (ignCpu): neighbouring pixels start a different share
+      // of a step in, so a gap narrower than a step is hit by some of them (no banding at 1.5 m)
+      const px = T.screenCoordinate.xy;
+      const jit = fract(fract(px.x.mul(0.06711056).add(px.y.mul(0.00583715))).mul(52.9829189));
       Loop(u.shaftSteps, ({ i: k }: { i: TslNode }) => {
-        const t = dt.mul(float(k).add(0.5));
+        const t = dt.mul(float(k).add(jit));
         const p = cam.add(dir.mul(t));
         const w = this.shaftNear(p, t);
         acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.gridDensity(p)).mul(w).mul(this.canopyT(p))
