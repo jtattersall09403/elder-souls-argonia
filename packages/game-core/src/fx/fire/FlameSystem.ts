@@ -260,9 +260,9 @@ export class FlameSystem {
     this.flameOwner = Int32Array.from(flameOwner);
     this.emberOwner = Int32Array.from(emberOwner);
     this.lastStrength = new Float32Array(owners).fill(-1);
-    bindInterleaved(this.renderer, this.flames, this.flameData, FLAME_FLOATS,
+    bindInterleaved(this.flames, this.flameData, FLAME_FLOATS,
       [["iPosSeed", 0], ["iShape", 4], ["iParams", 8], ["iAnim", 12], ["iMotion", 16]]);
-    bindInterleaved(this.renderer, this.embers, this.emberData, EMBER_FLOATS,
+    bindInterleaved(this.embers, this.emberData, EMBER_FLOATS,
       [["iPosSeed", 0], ["iEmber", 4], ["iParams", 8]]);
     this.flameGeometry.instanceCount = flameOwner.length;
     this.emberGeometry.instanceCount = emberOwner.length;
@@ -323,7 +323,7 @@ export class FlameSystem {
     mesh.layers.set(FIRE_VOLUME_LAYER);
     mesh.onBeforeRender = (renderer) => this.syncDrawState(renderer);
     mesh.userData.esStatic = true; // reads only shared or constant uniforms (render/staticRefresh.ts)
-    bindInterleaved(this.renderer, mesh, new Float32Array(rows * VOLUME_FLOATS), VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
+    bindInterleaved(mesh, new Float32Array(rows * VOLUME_FLOATS), VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
     this.group.add(mesh);
     return { field, mesh };
   }
@@ -344,7 +344,8 @@ export class FlameSystem {
         continue;
       }
       if (!draw) {
-        const shared = this.makeFieldDraw(id, `fire-volume-${id}`, 0);
+        // sized to the rows at birth, so a first-draw build never rebinds a drawn mesh
+        const shared = this.makeFieldDraw(id, `fire-volume-${id}`, rows.owner.length);
         const privates: PrivateDraw[] = [];
         for (let k = 0; k < tier.privateFields; k++) {
           const p = this.makeFieldDraw(id, `fire-volume-${id}-private${k}`, 1);
@@ -379,7 +380,16 @@ export class FlameSystem {
         };
         this.volumes.set(id, draw);
       }
-      bindInterleaved(this.renderer, draw.mesh, rows.data, VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
+      // copy into the live buffer; rebind (a new geometry) only when the rows outgrow it
+      const live = (draw.mesh.geometry.getAttribute("iPosSeed") as THREE.InterleavedBufferAttribute).data;
+      if ((live.array as Float32Array).length >= rows.data.length) {
+        const array = live.array as Float32Array;
+        array.set(rows.data);
+        rows.data = array.subarray(0, rows.data.length);
+        live.needsUpdate = true;
+      } else {
+        bindInterleaved(draw.mesh, rows.data, VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
+      }
       draw.mesh.geometry.instanceCount = rows.owner.length;
       draw.mesh.visible = true;
       for (const p of draw.privates) { p.row = -1; p.mesh.visible = false; }
@@ -531,7 +541,7 @@ export class FlameSystem {
  * drawn, everything in renderContext_4 gone for the frame). Disposing the old
  * geometry frees its buffers (review 2026-09-30: a rebind without it leaked).
  */
-function bindInterleaved(renderer: object | null, mesh: THREE.Mesh<THREE.InstancedBufferGeometry>, data: Float32Array, stride: number,
+function bindInterleaved(mesh: THREE.Mesh<THREE.InstancedBufferGeometry>, data: Float32Array, stride: number,
   columns: [string, number][]): void {
   const old = mesh.geometry;
   const geometry = new THREE.InstancedBufferGeometry();
@@ -551,7 +561,10 @@ function bindInterleaved(renderer: object | null, mesh: THREE.Mesh<THREE.Instanc
   if (old.boundingBox) geometry.boundingBox = old.boundingBox.clone();
   mesh.geometry = geometry;
   tagGeometryBuffers(geometry, mesh.name);
-  deferDispose(renderer, old); // never mid-pass: a draw already encoded may hold its buffers
+  // synchronous, never deferDispose: three's dispose handler frees the attributes the mesh's
+  // render object holds AT DISPOSE TIME, which after the mesh draws are the NEW geometry's
+  // (three.webgpu.js 29872-29877, 30937-30955). Callers rebind outside a pass.
+  old.dispose();
 }
 
 function markDirty(geometry: THREE.InstancedBufferGeometry): void {

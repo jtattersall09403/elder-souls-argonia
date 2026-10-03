@@ -12,6 +12,13 @@
  * every render call of the previous frame has been submitted. A renderer
  * without `info.reset` (tests, a stub) disposes at once.
  *
+ * Never defer the dispose of a geometry replaced on a mesh still drawn;
+ * dispose the old geometry synchronously before the mesh draws the new one.
+ * three's dispose handler frees the attributes the mesh's render object holds
+ * at dispose time, which after the next draw are the NEW geometry's (vol10
+ * c10: the fire instance buffer destroyed under the live mesh). Defer only
+ * whole meshes removed from the scene and geometries no mesh draws.
+ *
  * Per-renderer state lives in a WeakMap keyed on the renderer (standard 8):
  * it dies with the renderer. Enqueueing one object twice disposes it once.
  */

@@ -232,6 +232,43 @@ describe("FlameSystem", () => {
     expect(flames.index!.count).toBe(before[0].index!.count);
   });
 
+  it("a rebind never frees the live instance buffer (vol10 c10: deferDispose freed it on WebGPU)", () => {
+    // a fake of three's render-object registry: a geometry's dispose deletes the attributes
+    // its mesh's render object holds AT DISPOSE TIME, i.e. the geometry the mesh last drew
+    const fire = new FlameSystem();
+    const renderer = { info: { reset: () => {} } };
+    (fire as unknown as { renderer: object }).renderer = renderer;
+    const meshes: THREE.Mesh[] = [];
+    fire.group.traverse((o) => { if ((o as THREE.Mesh).isMesh) meshes.push(o as THREE.Mesh); });
+    const current = new Map<THREE.Mesh, THREE.BufferGeometry>();
+    const deleted = new Set<unknown>();
+    const render = () => {
+      for (const m of meshes) {
+        if (current.get(m) === m.geometry) continue;
+        const g = m.geometry;
+        g.addEventListener("dispose", () => {
+          const drawn = current.get(m)!;
+          for (const a of Object.values(drawn.attributes)) {
+            deleted.add((a as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute ? (a as THREE.InterleavedBufferAttribute).data : a);
+          }
+        });
+        current.set(m, g);
+      }
+    };
+    const at = (n: number) => Array.from({ length: n }, (_, i) =>
+      ({ position: new THREE.Vector3(i, 1, 0), preset: "candle" as const, scale: 1, seed: 0.1, owner: i }));
+    render();
+    fire.setEmitters(at(2));
+    render();
+    fire.setEmitters(at(5));
+    render();
+    renderer.info.reset();
+    for (const m of meshes) {
+      const live = (m.geometry.getAttribute("iPosSeed") as THREE.InterleavedBufferAttribute).data;
+      expect(deleted.has(live)).toBe(false);
+    }
+  });
+
   it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {
     const fire = new FlameSystem();
     fire.setEmitters([

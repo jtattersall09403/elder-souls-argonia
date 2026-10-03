@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { describe, expect, it, vi } from "vitest";
 import { deferDispose, deferredCount, drainDeferred } from "./deferDispose";
 
@@ -66,5 +67,23 @@ describe("tagGeometryBuffers", () => {
     expect(kit.name).toBe("kit:uv");
     expect((ib as unknown as { name: string }).name).toBe("fire:iRow");
     expect(g.index!.name).toBe("fire:index");
+  });
+
+  it("a geometry swapped on a live mesh is freed after the mesh drew the new one (why fire disposes synchronously)", () => {
+    // three's dispose handler deletes the attributes the mesh's render object holds at dispose
+    // time; deferred past the next draw, those are the NEW geometry's (vol10 c10)
+    const r = fakeRenderer();
+    const mesh = new THREE.Mesh(new THREE.BufferGeometry());
+    mesh.geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(3), 3));
+    let drawn = mesh.geometry;
+    const deleted = new Set<unknown>();
+    const old = mesh.geometry;
+    old.addEventListener("dispose", () => { for (const a of Object.values(drawn.attributes)) deleted.add(a); });
+    mesh.geometry = new THREE.BufferGeometry();
+    mesh.geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(3), 3));
+    deferDispose(r, old);
+    drawn = mesh.geometry; // the mesh draws the new geometry before the frame ends
+    r.info.reset();
+    expect(deleted.has(mesh.geometry.getAttribute("position"))).toBe(true); // the defect deferral causes
   });
 });
