@@ -518,9 +518,9 @@ export function installGpuErrorProbe(win) {
  * the first record per (group, uniform, owner uuid), other writes one per buffer/texture, at most 60. `persistent` lists
  * every owner (group + uuid) whose LAST write in the run was still non-finite, with its name and bad-write count, so
  * start-up NaNs are told apart from values that stay bad. `badPerFrame[f]` counts bad writes per submit for the first
- * 600; `scanned` / `bytes` are the scan totals. Self-contained: it is stringified into the page. */
+ * 600; `scanned` / `bytes` are the scan totals. Mapped ranges and writeBuffer into STORAGE-not-UNIFORM buffers whose hit has a subnormal float among its 8 neighbours or whose non-finite share is over 0.5 % are packed integer data: counted in `packedSkipped`, never recorded. Self-contained: it is stringified into the page. */
 export function installNanProbe(win) {
-  const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, frame: 0, threeHooked: false, persistent: [] });
+  const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, packedSkipped: 0, frame: 0, threeHooked: false, persistent: [] });
   const MAX = 60, FRAMES = 600, INDEX = 0x10, INDIRECT = 0x100, MAP_READ = 0x1;
   const hit = new WeakSet(), maps = new WeakMap();
   let curBinding = null, curRO = null;
@@ -599,11 +599,21 @@ export function installNanProbe(win) {
     } else if (kind === "writeBuffer") r.mapping = P.threeHooked ? "not inside backend.updateBinding (stack only)" : "renderer not hooked (stack only)";
     P.records.push(r);
   };
+  // packed integer data read as floats: mapped ranges, and writeBuffer into STORAGE-not-UNIFORM buffers, are packed when a
+  // float within 4 of the hit is subnormal or over 0.5 % of the range is non-finite
+  const packedHit = (target, kind, n, vals, idx) => {
+    const u = target.usage ?? 0;
+    if (!(kind === "mapped" || (kind === "writeBuffer" && (u & 0x80) && !(u & 0x40)))) return false;
+    for (let i = Math.max(0, idx - 4); i < Math.min(n, idx + 4); i++) { const x = Math.abs(vals(i)); if (x > 0 && x < 1.1754943508222875e-38) return true; }
+    let bad = 0; for (let i = 0; i < n; i++) { const x = vals(i); if (x !== x || x === Infinity || x === -Infinity) bad++; }
+    return bad / n > 0.005;
+  };
   const scanBytes = (target, kind, buf, byteStart, byteLen, byteBase, extra) => {
     const n = byteLen >> 2;
     if (n <= 0) return;
     const f = byteStart % 4 === 0 ? new Float32Array(buf, byteStart, n) : new Float32Array(buf.slice(byteStart, byteStart + n * 4));
     const vals = (i) => f[i], i = scan(n, vals, 4);
+    if (i >= 0 && packedHit(target, kind, n, vals, i)) { P.packedSkipped++; return; }
     if (i >= 0) record(target, kind, byteBase, i, vals, n, 4, extra);
     else if (kind === "writeBuffer") noteOwner(false);
   };
@@ -669,7 +679,7 @@ export function installNanProbe(win) {
 /** One summary line from a view's nan-probe.json. */
 export function nanProbeLine(p) {
   if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
-  const totals = `${p.scanned ?? 0} writes, ${Math.round((p.bytes ?? 0) / 1e6 * 10) / 10} MB scanned`;
+  const totals = `${p.scanned ?? 0} writes, ${Math.round((p.bytes ?? 0) / 1e6 * 10) / 10} MB scanned, packed-skipped ${p.packedSkipped ?? 0}`;
   const r = p.records?.[0];
   if (!r) return `not-a-bar; clean (${totals})`;
   const where = r.group ? `${r.group}.${(r.uniforms ?? []).join("+") || "?"}` : "stack only";

@@ -482,7 +482,7 @@ test("nan probe: finite writes stay clean; index buffers and int arrays are skip
   q.writeBuffer(new GPUBuffer("idx", 16, 0x10 | 0x8), 0, new Float32Array([NaN, 0, 0, 0]));
   q.writeBuffer(new GPUBuffer("ints", 16, 0x80), 0, new Uint32Array([0x7fc00000, 0, 0, 0]));
   assert.equal(win.__nanProbe.records.length, 0); assert.equal(win.__nanProbe.scanned, 1);
-  const m = new GPUBuffer("mapped", 8, 0x80); new Float32Array(m.getMappedRange())[1] = Infinity; m.unmap();
+  const m = new GPUBuffer("mapped", 4096, 0x80); new Float32Array(m.getMappedRange())[1] = Infinity; m.unmap();
   q.writeTexture({ texture: { label: "lightField", format: "rgba16float", width: 1, height: 1 } }, new Uint16Array([0x3c00, 0x7e00, 0, 0]), { offset: 0 }, [1, 1]);
   const rs = win.__nanProbe.records;
   assert.deepEqual(rs.map((r) => [r.kind, r.label, r.value, r.floatIndex]), [["mapped", "mapped", "Inf", 1], ["writeTexture", "lightField", "NaN", 1]]);
@@ -516,4 +516,13 @@ test("nan probe: a hit inside updateForRender names its owner (object, material,
   assert.deepEqual(r.owner.renderer.viewport, [0, 0, 0, 4]); assert.deepEqual(r.owner.renderer.drawingBuffer, [800, 600]); assert.equal(r.owner.renderer.target.height, 4);
   assert.deepEqual(JSON.parse(JSON.stringify(p)).persistent, [{ group: "render", uuid: "c1", name: "probeCam", bad: 2 }]);
   assert.match(nanProbeLine(p), /persistent 1;/);
+});
+test("nan probe: a mapped NaN pattern beside denormals is packed, not bad; a uniform NaN is still bad", () => {
+  const { win, q, GPUBuffer } = fakeNanWindow();
+  const m = new GPUBuffer("packed", 4096, 172); m.getMappedRange();
+  const u = new Uint32Array(m._ab); u[10] = 1; u[11] = 0x7fc00000; u[12] = 1; m.unmap();
+  assert.equal(win.__nanProbe.bad, 0); assert.equal(win.__nanProbe.packedSkipped, 1);
+  q.writeBuffer(new GPUBuffer("uni", 16, 0x40 | 0x8), 0, new Float32Array([1, NaN, 0, 1e-45]));
+  assert.equal(win.__nanProbe.bad, 1); assert.equal(win.__nanProbe.packedSkipped, 1);
+  assert.match(nanProbeLine(win.__nanProbe), /packed-skipped 1\)/);
 });
