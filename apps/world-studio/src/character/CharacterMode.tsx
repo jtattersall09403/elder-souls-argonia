@@ -7,7 +7,7 @@ import { BloomPass, type SkyCensus } from "@elder-souls/game-core/render/post/Bl
 import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { SettlementErrorLine } from "../SettlementErrorLine";
-import { STUDIO_TOOLS } from "../studioTools";
+import { STUDIO_TOOLS, shaderCheckEnabled } from "../studioTools";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
@@ -527,7 +527,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // a shadow re-render each frame (WaterPipeline.tsx explains).
           shadows="percentage"
           style={{ width: "100%", height: "100%" }}
-          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.debug.checkShaderErrors = STUDIO_TOOLS; }}
+          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.debug.checkShaderErrors = shaderCheckEnabled(); }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError}>
