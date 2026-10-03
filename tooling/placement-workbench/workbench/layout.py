@@ -424,4 +424,5 @@ RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pa
          ("archway", "archwayRule"), ("rockSeat", "rockSeatRule"), ("padClear", "padClearRule"),
          ("landing", "landingRule"), ("walkway", "walkwayRule"), ("coplanar", "coplanarRule"),
          ("seatFacing", "seatFacingRule"), ("socketCoherence", "socketCoherenceRule"),
-         ("serviceSign", "serviceSignRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))
+         ("serviceSign", "serviceSignRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"),
+         ("dyErased", "dyErasedRule"))

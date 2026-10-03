@@ -211,11 +211,7 @@ runtime's `anchorPlacement`); doors within 4 m of a path. A rock (seat_rules
 plugins measured: rocks0N, rockm/l, rockpiles, wetrocks; not a cave mouth)
 is judged by `rockSeatRule` only: slope, delta, yard sill and foot float
 are skipped for it. It may embed to max(0.3 m, its plugin p75 base depth).
-A red rock is fixed by its asset or its spot, never by a `move --dy`:
-`apply` re-settles every ground-settled piece after the pads
-(`reseat_after_pads`), so the lift vanishes (audit10 c5, crossings: a
-rockpiles02 on a 37 deg bank read 0.7-1.0 m deep anywhere within 6 m;
-rocks03 at the same pose passed). A row with `runtimeY: null` and a
+A `move --dy` on a piece `apply` re-settles after the pads (ground-settled, no pad, not a run member: `reseated_after_pads`) fails `dyErasedRule`, naming the op: the lift would vanish. A red rock is fixed by its asset or its spot, or the piece is mounted (audit10 c5, crossings: a rockpiles02 on a 37 deg bank read 0.7-1.0 m deep anywhere within 6 m; rocks03 at the same pose passed). `coplanarRule` skips the joint of two run neighbours at a mined `run` pose (`minedPair`: stairs02's treads overlap by design), never either piece against any other. `walkwayRule` walks a climb run tread by tread (each rise <= the capsule step); a `block by ground` there means the bank stands over the treads (the flight is buried), so move the flight or its top landing, never the bar. A row with `runtimeY: null` and a
 `seatError` (a piled run member wholly on dry ground) has no runtime seat:
 move it onto its water or give it a ground fit.
 

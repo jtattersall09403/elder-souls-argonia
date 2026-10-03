@@ -220,6 +220,7 @@ def walk_line(world, g, points, step_m, radius, start_y=None, name=""):
     blocks, largest, along = [], 0.0, 0.0
     low_run = []                 # stations in a row with no footing at the deck height
     ys = []                      # (station, where, deck y) of every station walked
+    frozen = set()               # stations under a step block: the capsule never stood there
     for i, (x, z) in enumerate(st):
         if i:
             along += math.dist(st[i - 1], st[i])
@@ -247,6 +248,10 @@ def walk_line(world, g, points, step_m, radius, start_y=None, name=""):
             continue
         rise = best - y
         if rise > step_m + 1e-6:
+            # the walker never stands here: its body is not cast from this
+            # station (audit10 c6: a flight buried in the bank read every
+            # tread ahead "across the way" from the last footing it froze on)
+            frozen.add(i)
             blocks.append({"kind": "block", **here, "riseM": round(rise, 2), "uid": uid,
                            "standY": round(y, 3),
                            "why": f"a {rise:.2f} m rise under the capsule (step {step_m} m)"})
@@ -270,6 +275,8 @@ def walk_line(world, g, points, step_m, radius, start_y=None, name=""):
     # its radius either side (a post, a chain, a lantern in the doorway)
     rows, origins, dirs_, lens = [], [], [], []
     for (i0, _h0, y0), (i1, h1, _y1) in zip(ys, ys[1:]):
+        if i0 in frozen or i1 in frozen:
+            continue
         (px, pz), (x, z) = st[i0], st[i1]
         seg = math.dist((px, pz), (x, z))
         if seg < 1e-6:
@@ -291,13 +298,18 @@ def walk_line(world, g, points, step_m, radius, start_y=None, name=""):
                                      "why": f"{u} across the way {h} m over the deck"}
         blocks += list(hit_at.values())
     blocks.sort(key=lambda b: b["atM"])
-    merged = []
+    merged, last = [], {}        # one row per (kind, uid) stretch, interleaved or not
     for b in blocks:
-        if merged and merged[-1]["uid"] == b["uid"] and merged[-1]["kind"] == b["kind"] \
-                and b["atM"] - merged[-1]["toM"] <= 0.5:
-            merged[-1]["toM"] = b["atM"]
+        m = last.get((b["kind"], b["uid"]))
+        if m is not None and b["atM"] - m["toM"] <= 0.5:
+            m["toM"] = b["atM"]
+            if "riseM" in b and "riseM" in m:
+                m["maxRiseM"] = max(m.get("maxRiseM", m["riseM"]), b["riseM"])
+                m["why"] = b["why"].replace(f"a {b['riseM']:.2f} m rise",
+                                            f"a {m['riseM']:.2f}-{m['maxRiseM']:.2f} m rise")
             continue
-        merged.append(dict(b, toM=b["atM"]))
+        last[(b["kind"], b["uid"])] = m = dict(b, toM=b["atM"])
+        merged.append(m)
     return {"name": name, "lengthM": round(along, 2), "stations": n, "blocks": merged,
             "largestStepM": round(largest, 2)}
 

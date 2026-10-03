@@ -2384,13 +2384,21 @@ def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:
 # measure is worldgen/coplanar.py, shared with `wb.py coplanar` and the
 # interior exporter's `separate` pass.
 # --------------------------------------------------------------------------
-def coplanar(cat, scene) -> dict:
+def coplanar(cat, scene, mined_joint=None) -> dict:
+    """``mined_joint(a, b)`` (wb.py `mined_run_joint`): the two pieces stand
+    at a mined `run` abuts pose, whose overlap the plugin designed (stairs02,
+    audit10 c6); only that joint is exempt, never either piece against any
+    other."""
     paths.bridge()
     from worldgen import coplanar as cp
     placements = [{"id": p.uid, "kit": cat.row(p.asset)["kit"], "assetId": p.asset,
                    "positionM": [p.x, p.y, p.z], "yawDeg": p.yaw, "pitchDeg": p.pitch,
                    "scale": p.scale} for p in scene.pieces if p.y is not None]
     hits = cp.find(cp.pieces_from_bundle(placements, cp.KitGeometry()), cp.decals_biased("place"))
+    if mined_joint is not None:
+        by = {p.uid: p for p in scene.pieces}
+        hits = [h for h in hits if not (h["a"]["id"] in by and h["b"]["id"] in by
+                                        and mined_joint(by[h["a"]["id"]], by[h["b"]["id"]]))]
     fails = [f"{h['b']['id']}: coplanar with {h['a']['id']} over {h['overlapM2']} m2 at {h['atM']} "
              f"({h['fix']})" for h in hits]
     return {"ok": not fails, "failures": fails, "rows": hits}

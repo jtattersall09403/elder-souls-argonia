@@ -110,6 +110,29 @@ def _settle(cat, scene, piece: Piece, source: str = "chunks", declared_pads: dic
     return got
 
 
+def reseated_after_pads(p) -> bool:
+    """Whether `reseat_after_pads` settles ``p`` again: ground-settled and
+    owning no pad (planner ruling 1, round 6: a building, a run member or a
+    retaining wall keeps its pad seat; a padded assembly member, a stall or
+    a rack (walk 9), is dressing and is re-seated on its own pad)."""
+    kind = (p.role or {}).get("kind")
+    return ((p.settledBy or "").startswith("settle:") and kind != "run"
+            and (p.pad is None or kind == "assembly"))
+
+
+def dy_erased_rule(scene, dy_ops: list[tuple[int, str, float]]) -> dict:
+    """dyErasedRule (audit10 c6, crossings rk-bend-bank-2 rounds 27/28): a
+    `move` op's authored dy on a piece `reseat_after_pads` settles again is
+    silently undone, so it fails, naming the op and the piece."""
+    fails = []
+    for i, uid, dy in dy_ops:
+        p = next((q for q in scene.pieces if q.uid == uid), None)
+        if p is not None and reseated_after_pads(p):
+            fails.append(f"{uid}: op {i} `move --dy {dy}`: authored dy on a ground-settled piece "
+                         f"is erased by reseat_after_pads: change asset or spot, or mount it")
+    return {"failures": fails}
+
+
 def reseat_after_pads(cat, scene) -> list[dict]:
     """Planner ruling 1 (16k fix 2 round 5): every pad the runtime applies,
     building AND run, exists only once the whole layout is laid (a run's pad
@@ -124,17 +147,10 @@ def reseat_after_pads(cat, scene) -> list[dict]:
     moved: dict[str, float] = {}
     out = []
     for p in scene.pieces:
-        by = p.settledBy or ""
-        # planner ruling 1 (round 6): only a piece that owns no pad is re-seated;
-        # a building, a run member or a retaining wall keeps its pad seat. A
-        # padded assembly member (a stall, a rack: walk 9) is dressing and is
-        # re-seated by `prop_seat` on its own pad (`measure.is_prop`)
-        kind = (p.role or {}).get("kind")
-        if (not by.startswith("settle:") or kind == "run"
-                or (p.pad is not None and kind != "assembly")):
+        if not reseated_after_pads(p):
             continue
         before = p.y
-        _settle(cat, scene, p, by.rsplit(":", 1)[-1], declared_pads=resolved)
+        _settle(cat, scene, p, p.settledBy.rsplit(":", 1)[-1], declared_pads=resolved)
         dy = float(p.y - before) if before is not None else 0.0
         if abs(dy) > 1e-6:
             moved[p.uid] = dy
@@ -789,7 +805,7 @@ def _rule_task(cat, scene, key: str):
     from workbench import seat_rules
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
           "berthReach": rules.berth_reach, "landing": seat_rules.landing,
-          "coplanar": rules.coplanar}.get(key)
+          "coplanar": lambda c, s: rules.coplanar(c, s, mined_joint=mined_run_joint)}.get(key)
     if key in ("seatFacing", "socketCoherence", "serviceSign"):
         from workbench import dressing_rules as dr
         return {"seatFacing": dr.seat_facing, "socketCoherence": dr.socket_coherence,
@@ -985,6 +1001,17 @@ def mined_pair_pose(a: Piece, b: Piece) -> dict | None:
             if off <= float(s["offsetSpreadM"]) + MINED_POSE_SLACK_M and dyaw <= MINED_POSE_YAW_DEG:
                 return {"offM": round(off, 3), "spreadM": s["offsetSpreadM"], "count": s["count"]}
     return None
+
+
+def mined_run_joint(a: Piece, b: Piece) -> dict | None:
+    """The `minedPair` a run-joint row carries (`_pair_verdict`): ``a`` and
+    ``b`` are run neighbours (adjacent members of one run, or one snapped
+    onto the other by evidence) standing at a mined `run` abuts pose."""
+    ra, rb = a.role or {}, b.role or {}
+    snapped = any((x.settledBy or "") == f"evidence-snap:{y.uid}" for x, y in ((a, b), (b, a)))
+    neighbours = (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
+                  and abs(int(ra.get("index", -9)) - int(rb.get("index", -9))) == 1)
+    return mined_pair_pose(a, b) if snapped or neighbours else None
 
 
 #: how far an unmined mount's mesh may pass into its host (the mined pairs'
@@ -2280,6 +2307,9 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         check = check_scene(cat, scene, use_cache=not full, stats=stats)
         check["ownerOk"] = owner_ok_rule(layout_path)
         check["scanFresh"] = scan_fresh_rule(layout_path)
+        check["dyErased"] = dy_erased_rule(scene, [
+            (i, o.get("uid"), o["dy"]) for i, o in enumerate(doc["ops"])
+            if isinstance(o, dict) and o.get("op") == "move" and o.get("dy")])
         summary["check"] = {"failures": layout.check_failures(check),
                             "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
                             "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
