@@ -1350,9 +1350,9 @@ def effect_texture_rgba(rel: str, vault: Path, tropical: bool):
     with tempfile.TemporaryDirectory() as tmp:
         source.extract_many([rel], Path(tmp))
         raw = (Path(tmp) / rel).read_bytes()
-    image = Image.open(io.BytesIO(raw))
-    image.load()
-    return image.convert("RGBA"), source, hashlib.sha256(raw).hexdigest()
+    with Image.open(io.BytesIO(raw)) as image:
+        rgba = image.convert("RGBA")
+    return rgba, source, hashlib.sha256(raw).hexdigest()
 
 
 def texture_atlas_measurer(vault: Path, tropical: bool):
@@ -2434,6 +2434,7 @@ def apply_glow_facings(glb_path: Path, summary: dict) -> dict[str, list[float]]:
         row["glowFacingsDeg"] = glow_facings_from_faces(
             np.vstack(cents), np.vstack(norms), np.concatenate(areas))
         out[row["id"]] = row["glowFacingsDeg"]
+    del scene, graph, children  # trimesh caches hold cycles: build_released collects them
     return out
 
 
@@ -2567,9 +2568,32 @@ def build_many(kit_ids: list[str], vault: Path, jobs: int = DEFAULT_KIT_JOBS,
         return _build_many(kit_ids, vault, jobs, builder)
 
 
+def release_memory() -> None:
+    """Free what a finished kit left behind: collect its cycles (trimesh
+    scenes, parsed NIFs, PIL images) and hand the freed heap back to the OS
+    (glibc keeps it otherwise), so a reused pool worker starts its next kit
+    at baseline and the per-worker peak is one kit (engineering.md, memory
+    discipline: free what is done)."""
+    import gc
+    gc.collect()
+    try:
+        import ctypes
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except (OSError, AttributeError):
+        pass
+
+
+def build_released(builder, kit_id: str, vault: Path) -> dict:
+    """`builder(kit_id, vault)`, then release that kit's working set."""
+    try:
+        return builder(kit_id, vault)
+    finally:
+        release_memory()
+
+
 def _build_many(kit_ids: list[str], vault: Path, jobs: int, builder) -> list[dict]:
     if jobs <= 1 or len(kit_ids) <= 1:
-        return [builder(kit_id, vault) for kit_id in kit_ids]
+        return [build_released(builder, kit_id, vault) for kit_id in kit_ids]
     import multiprocessing
     from concurrent.futures import ProcessPoolExecutor
     # the forked workers inherit it: blender_threads() splits the slot's cores
@@ -2577,7 +2601,7 @@ def _build_many(kit_ids: list[str], vault: Path, jobs: int, builder) -> list[dic
     try:
         with ProcessPoolExecutor(max_workers=min(jobs, len(kit_ids)),
                                  mp_context=multiprocessing.get_context("fork")) as pool:
-            futures = [pool.submit(builder, kit_id, vault) for kit_id in kit_ids]
+            futures = [pool.submit(build_released, builder, kit_id, vault) for kit_id in kit_ids]
             return [f.result() for f in futures]
     finally:
         os.environ.pop("ES_KIT_CONCURRENT", None)

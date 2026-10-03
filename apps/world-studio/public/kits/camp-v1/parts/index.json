@@ -4,23 +4,23 @@
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 3402020,
-  "sha256": "911e65048b5e51f311a12620b14e9dee48647721c37d6c81acfa35ed68caa07d"
+  "sha256": "0b9f754278c4bafa7ab156fbddf57d51c146e5f5d4751ed4b26e8e0854e5bb62"
  },
  "packed": {
   "bytes": 1788620,
-  "sha256": "3b7aec2eec1faa03bdb5a0baed66a577ff0f831f87504ac9e9f64e28c57fbcd4"
+  "sha256": "92208709fd1ffbef3f2fd12208fb8eda26cb8d906e1aaf5f70269b91d416e706"
  },
  "totals": {
   "parts": 5,
-  "partBytes": 159408,
+  "partBytes": 159412,
   "textureFiles": 6,
   "textureBytes": 1670337,
-  "bytes": 1829745
+  "bytes": 1829749
  },
  "assets": {
   "vanilla:architecture/tents/largeimperialtent01": {
    "file": "vanilla_architecture_tents_largeimperialtent01-1c5cd048.glb",
-   "bytes": 62004,
+   "bytes": 62008,
    "vertices": 2276,
    "triangles": 2998,
    "lods": [
