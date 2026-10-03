@@ -1100,13 +1100,15 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
     system there (not smoke, embers or glow) is one flame at the node. Every
     flame-named NiParticleSystem of the piece itself is one flame at its
     emitter. Positions are glTF Y-up metres from the pivot; sizes are the
-    particle's edge (2 x initial radius x its largest scale key)."""
+    particle's edge (2 x initial radius x its largest scale key x the system's
+    node scale to the root, x the AddOnNode's for an ADDN flame; vol10 diag4 D9)."""
     from . import nif_blocks as nb
     nif = nb.parse(nif_bytes)
     flames = []
 
-    def flame_of(system, at_units, source):
-        size = 2 * (system.get("radiusUnits") or 0) * (system.get("scaleMax") or 1)
+    def flame_of(system, at_units, source, outer_scale=1.0):
+        size = (2 * (system.get("radiusUnits") or 0) * (system.get("scaleMax") or 1)
+                * (system.get("nodeScale") or 1) * outer_scale)
         return {"offsetM": nb.to_gltf_m(at_units, metres_per_unit),
                 "texturePath": system["texture"], "palette": system.get("palette"),
                 "sizeM": round(size * metres_per_unit, 4),
@@ -1124,7 +1126,8 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
                 continue
             at = [a + b for a, b in zip(node["positionUnits"], system["positionUnits"])]
             flames.append(flame_of(system, at,
-                                   f"AddOnNode{node['index']} -> {row['editorId']}/{system['name']}"))
+                                   f"AddOnNode{node['index']} -> {row['editorId']}/{system['name']}",
+                                   node.get("scale") or 1))
     for system in nb.particle_systems(nif):
         if system.get("unparsed"):
             if nb.is_flame_system(system["name"]):
@@ -1569,20 +1572,22 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     return counts
 
 
-def own_emit_maps(gltf: dict, emitting: set[str]) -> list[str]:
-    """Give each lighting-shader material that really emits (manifest
-    `emissiveMaterials`: NIF OWN_EMIT with a non-black emissive at a positive
-    multiple, nif_blocks.emitting_shapes) its own diffuse as the glTF
-    emissive map, factor white. Skyrim's OWN_EMIT draws the diffuse times the
-    emissive colour; the runtime keys every glow on an emissive map
-    (materials.ts isSettlementGlowMaterial) and scales it by night, so a
-    mud-hut amber window (kotm mudhuts/window01/02) that shipped with none
-    never glowed (audit10 B1). A material that already carries a Glow_Map
-    keeps it. Returns the materials changed."""
+def own_emit_maps(gltf: dict, windows: set[str]) -> list[str]:
+    """Give each WINDOW-glass material (manifest `windowMaterials`,
+    nif_blocks.window_glass_shapes) its own diffuse as the glTF emissive map,
+    factor white. Skyrim's OWN_EMIT draws the diffuse times the emissive
+    colour; the runtime keys every glow on an emissive map (materials.ts
+    isSettlementGlowMaterial) and scales it by night, so a mud-hut amber
+    window (kotm mudhuts/window01/02) that shipped with none never glowed
+    (audit10 B1). Keyed on the window class, never on every
+    `emissiveMaterials` entry: that set also holds the canoe hull
+    (Object009:2) and candle/lantern shells, which then glowed as whole
+    meshes at night (audit10 c3); flames stay with the fire layer. A material
+    that already carries a Glow_Map keeps it. Returns the materials changed."""
     changed = []
     for material in gltf.get("materials", []):
         match = NIF_MATERIAL_NAME.match(material.get("name") or "")
-        if not match or f"{match['shape']}.Mat" not in emitting or "emissiveTexture" in material:
+        if not match or f"{match['shape']}.Mat" not in windows or "emissiveTexture" in material:
             continue
         base = (material.get("pbrMetallicRoughness") or {}).get("baseColorTexture")
         if base is None:
@@ -1595,14 +1600,14 @@ def own_emit_maps(gltf: dict, emitting: set[str]) -> list[str]:
 
 def apply_own_emit_maps(glb: Path, summary: dict) -> list[str]:
     """`own_emit_maps` over the built GLB's JSON chunk, in place."""
-    emitting = {name for asset in summary.get("assets", [])
-                for name in asset.get("emissiveMaterials") or []}
-    if not emitting:
+    windows = {name for asset in summary.get("assets", [])
+               for name in asset.get("windowMaterials") or []}
+    if not windows:
         return []
     data = bytearray(glb.read_bytes())
     chunk_length, _ = struct.unpack_from("<I4s", data, 12)
     gltf = json.loads(bytes(data[20:20 + chunk_length]))
-    changed = own_emit_maps(gltf, emitting)
+    changed = own_emit_maps(gltf, windows)
     if changed:
         encoded = json.dumps(gltf, separators=(",", ":")).encode("utf-8")
         encoded += b" " * (-len(encoded) % 4)
@@ -1993,6 +1998,7 @@ def kit_input_hashes(kit_id: str, data_root: Path, plan: dict, vault: Path) -> d
     files += [(_repo_label(p), p) for p in dict.fromkeys(repo_files)]
     hashes = input_hashes(files, {"plan": plan, "vault": str(vault)})
     hashes["(output-format)"] = str(KIT_OUTPUT_FORMAT_VERSION)
+    hashes["(build code)"] = kit_code_digest()
     ids = kit_asset_ids(kit_id)
     for path in KIT_ROW_RECORDS:
         hashes[f"{path.name} (kit rows)"] = hashlib.sha256(
@@ -2025,9 +2031,9 @@ def outputs_digest(kit_id: str, output_glb: Path) -> str:
 
 
 def kit_code_digest() -> str:
-    """sha256 over ``KIT_CODE_FILES``' content: an informational stamp line
-    (``# code:``), never part of the skip digest. ``batch_prepass`` warns
-    when it moved while ``KIT_OUTPUT_FORMAT_VERSION`` did not (L9 rec 5)."""
+    """sha256 over ``KIT_CODE_FILES``' content: an input of every kit's skip
+    digest (``kit_input_hashes``), so a build-rule change marks every kit
+    stale, and the stamp's ``# code:`` line."""
     h = hashlib.sha256()
     for path in KIT_CODE_FILES:
         h.update(path.name.encode("utf-8") + b"\0" + (path.read_bytes() if path.is_file() else b""))

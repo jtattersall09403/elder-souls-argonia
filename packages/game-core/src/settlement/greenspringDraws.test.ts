@@ -12,7 +12,7 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
-import { addToBatch, drawBatchKey, drawCellOf, settlementChunkKey, type DrawBatch } from "./SettlementLayer";
+import { addToBatch, drawBatchKey, settlementBatchCell, settlementChunkKey, type DrawBatch } from "./SettlementLayer";
 import { buildArchitectureKit, kitAssetMetaFromManifest } from "./kit";
 import { mergeTransformedParts } from "./lod";
 import { placementTransform } from "./anchoring";
@@ -56,6 +56,7 @@ describe("Greenspring settlement draws (published bundle)", () => {
     const buckets = new Set<string>();
     const identityCells = new Set<string>();
     const batches = new Map<string, DrawBatch>();
+    const allLevels = new Map<string, DrawBatch>();
     const pieceBoxes = new Map<string, THREE.Box3>();
     let triangles = 0;
     for (const placement of bundle.placements) {
@@ -64,7 +65,17 @@ describe("Greenspring settlement draws (published bundle)", () => {
       const meta = metas.get(placement.kit)?.get(placement.assetId);
       const transform = placementTransform(placement, placement.positionM[1]);
       const chunk = settlementChunkKey(placement.positionM[0], placement.positionM[2]);
-      const cell = drawCellOf(chunk, FOCUS);
+      const cell = settlementBatchCell(chunk, 0, "lod0");
+      // F40 memory: every level of the piece is held merged, not just LOD0
+      asset.levels.forEach((parts, level) => parts.forEach((part) => {
+        if (isFlameCardMaterial(meta, part.material.name)) return;
+        const material = identities.of(part.material);
+        addToBatch(allLevels, drawBatchKey(material, part.geometry, settlementBatchCell(chunk, level, "all"),
+          settlementMeshDrawFlags(material)), {
+          material, drawFlags: settlementMeshDrawFlags(material), far: level > 0, signature: placement.id,
+          entry: { geometry: part.geometry, transforms: [transform.clone().multiply(part.localMatrix)], groundLinesM: [0] },
+        });
+      }));
       asset.levels[0].forEach((part, partIndex) => {
         if (isFlameCardMaterial(meta, part.material.name)) return;
         buckets.add(`${placement.kit}|${placement.assetId}|0|${partIndex}|${chunk}`);
@@ -86,7 +97,9 @@ describe("Greenspring settlement draws (published bundle)", () => {
         triangles += part.triangles;
       });
     }
-    let mergedTriangles = 0; let vertices = 0;
+    let mergedTriangles = 0; let vertices = 0; let lod0Bytes = 0;
+    const geometryBytes = (g: THREE.BufferGeometry) => Object.values(g.attributes)
+      .reduce((n, a) => n + (a as THREE.BufferAttribute).array.byteLength, g.index?.array.byteLength ?? 0);
     for (const [key, batch] of batches) {
       const merged = mergeTransformedParts(batch.entries)!;
       mergedTriangles += (merged.index ? merged.index.count : merged.getAttribute("position").count) / 3;
@@ -99,10 +112,20 @@ describe("Greenspring settlement draws (published bundle)", () => {
         expect(merged.boundingBox!.min[axis]).toBeGreaterThanOrEqual(want.min[axis] - 0.05);
         expect(merged.boundingBox!.max[axis]).toBeLessThanOrEqual(want.max[axis] + 0.05);
       }
+      lod0Bytes += geometryBytes(merged);
+      merged.dispose();
+    }
+    let allBytes = 0;
+    for (const batch of allLevels.values()) {
+      const merged = mergeTransformedParts(batch.entries)!;
+      allBytes += geometryBytes(merged);
       merged.dispose();
     }
     console.info(`greenspring LOD0: buckets ${buckets.size}, draw objects ${batches.size}, `
-      + `identity cells ${identityCells.size}, materials ${identities.size}, tris ${triangles}, merged verts ${vertices}`);
+      + `identity cells ${identityCells.size}, materials ${identities.size}, tris ${triangles}, merged verts ${vertices}; `
+      + `merged bytes LOD0 ${lod0Bytes}, every level ${allBytes} (${(allBytes / lod0Bytes).toFixed(2)}x), all-level draw objects ${allLevels.size}`);
+    // F40 holds every level: under 3x the one-level merge, else the far level goes coarse
+    expect(allBytes).toBeLessThan(3 * lod0Bytes);
     expect(batches.size).toBeLessThanOrEqual(identityCells.size);
     // the per-bucket instanced path fails this
     expect(buckets.size).toBeGreaterThan(identityCells.size);

@@ -225,7 +225,9 @@ def _scale(raw: bytes) -> dict:
 
 def particle_systems(nif: Nif) -> list[dict]:
     """Every NiParticleSystem: name, root-frame position (units), texture,
-    palette, particle radius and life, and its BSPSysSubTexModifier if any."""
+    palette, particle radius and life, its BSPSysSubTexModifier if any, and
+    `nodeScale`: the system's uniform scale to the NIF root (fireplacewood01burning's
+    FlamesSmall01 sits under a 1.2 node; its particles draw at that scale)."""
     if nif.bs_version != 83:
         return [{"name": nif.name(i), "unparsed": f"bsVersion {nif.bs_version}"}
                 for i in nif.indices("NiParticleSystem")]
@@ -251,23 +253,25 @@ def particle_systems(nif: Nif) -> list[dict]:
         anchor = emitter.get("object", -1)
         at = world_matrix(nif, anchor if anchor in nif.parent or anchor == 0 else i)[:3, 3]
         scale = max(scales.get(i, {}).get("scales") or [1.0])
+        node_scale = float(np.linalg.norm(world_matrix(nif, i)[:3, :3], axis=0).max())
         out.append({"name": nif.name(i), "block": i, "positionUnits": at.tolist(),
                     "texture": shader.get("texture"), "palette": shader.get("palette"),
                     "emissive": shader.get("emissive"),
                     "emissiveMultiple": shader.get("emissiveMultiple"),
                     "radiusUnits": emitter.get("radius"), "lifeS": emitter.get("life"),
-                    "scaleMax": scale, "subtex": subtexes.get(i)})
+                    "scaleMax": scale, "nodeScale": node_scale, "subtex": subtexes.get(i)})
     return out
 
 
 def addon_nodes(nif: Nif) -> list[dict]:
-    """Every BSValueNode named AddOnNodeN: the ADDN index N and its position."""
+    """Every BSValueNode named AddOnNodeN: the ADDN index N, its position and uniform scale to the root."""
     out = []
     for i in nif.indices("BSValueNode"):
         m = ADDON_NODE.match(nif.name(i))
         if m:
-            out.append({"index": int(m.group(1)), "block": i,
-                        "positionUnits": world_matrix(nif, i)[:3, 3].tolist()})
+            w = world_matrix(nif, i)
+            out.append({"index": int(m.group(1)), "block": i, "positionUnits": w[:3, 3].tolist(),
+                        "scale": float(np.linalg.norm(w[:3, :3], axis=0).max())})
     return out
 
 

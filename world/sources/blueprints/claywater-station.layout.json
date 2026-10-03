@@ -367,11 +367,16 @@
    "uid": "sty-hay",
    "asset": "vanilla:clutter/hay/haymound01",
    "at": [
-    328.7,
-    3089.9
+    327.8,
+    3086.85
    ],
    "yaw": 148.0,
    "settle": true
+  },
+  {
+   "op": "note",
+   "uid": "sty-hay",
+   "text": "audit10: moved from [328.7, 3089.9], where it stood 3.75 m out on the stable's door approach (facing 237) and became a blocker when the clutter-box colliders gave it a box; it now flanks the stall front on the north side, opposite the trough, 0.6 m clear of the walk route"
   },
   {
    "op": "place",

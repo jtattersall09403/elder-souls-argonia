@@ -120,7 +120,8 @@
    "text": "A quest can settle the spring's use in writing, or foul it.",
    "confirmed": {
     "sha": "6326417580fe",
-    "note": "The spring pool and the spring house stand at the village centre."
+    "note": "The spring pool, ringed by its rim stones, and the spring house stand at the village centre.",
+    "ids": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim1"]
    }
   },
   {
@@ -236,7 +237,8 @@
    "text": "a sick crown leaning over the spring and the huts round it",
    "confirmed": {
     "sha": "7f1072bebaca",
-    "note": "The sick Hist (ancient-sleeping-tree-sick) stands over the pool with the ten structures round it."
+    "note": "The sick Hist (ancient-sleeping-tree-sick) stands over the pool with the ten structures round it.",
+    "ids": ["landmark.greenspring.the-hist", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1"]
    }
   },
   {
@@ -294,7 +296,8 @@
    "text": "Firm ground where clean water rises from a stone lip, a short walk from the road and from the river landing.",
    "confirmed": {
     "sha": "40d3f00d093e",
-    "note": "Border road 0.09 km; plank landing on the bank; spring pool on firm ground."
+    "note": "Border road 0.09 km; plank landing on the bank; spring pool on firm ground, its water held by a lip of rim stones.",
+    "ids": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring2", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring3", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring4", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring6", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring7", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring8", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim2", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim3"]
    }
   },
   {
@@ -307,7 +310,8 @@
    "text": "If the springs soured the village would move within a season. Travellers bound for Helstrom would then lose their surest clean water.",
    "confirmed": {
     "sha": "d34684150b1a",
-    "note": "Spring pool is the built water source; Helstrom 1.83 km SW."
+    "note": "Spring pool is the built water source; Helstrom 1.83 km SW.",
+    "ids": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1"]
    }
   },
   {
@@ -472,7 +476,8 @@
     "path": "places[place.hist-heartland.greenspring].why.founding"
    },
    "text": "Greenspring shows the spring its record names.",
-   "unfilled": null
+   "unfilled": null,
+   "filledBy": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim1"]
   }
  ]
 }

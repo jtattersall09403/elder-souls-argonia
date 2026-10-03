@@ -192,6 +192,7 @@ describe("lighting install", () => {
 describe("attenuation", () => {
   it("is three's point light: inverse square, windowed to 0 at the radius", () => {
     expect(fixtureAttenuation(2, 0)).toBeCloseTo(0.25, 12);
+    expect(fixtureAttenuation(0.1, 0)).toBeCloseTo(1 / 0.64, 12); // FIXTURE_LIGHT_MIN_DISTANCE_M floor
     expect(fixtureAttenuation(6, 6)).toBe(0);
     expect(fixtureAttenuation(3, 6)).toBeCloseTo((1 / 9) * (1 - 1 / 16) ** 2, 12);
   });

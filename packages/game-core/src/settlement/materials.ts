@@ -9,6 +9,7 @@ import { cloneNodeMaterial, isNodeMaterial, type TslNode } from "../render/nodes
 import type { SettlementKitMaterialExtras } from "./types";
 import { applyLanternShell } from "./fixtureGlow";
 import { sharedUniform } from "../render/nodes/sharedUniform";
+import { isSettlementGlowMaterial, WINDOW_GLOW_LINEAR_RGB, WINDOW_SCREEN_GAIN } from "./windowGlow";
 
 /** A float `uniform()` node (TSL): writers set `.value`, every material reads the one node. */
 export type SettlementUniform = TslNode & { value: number };
@@ -17,11 +18,15 @@ export type SettlementUniform = TslNode & { value: number };
 export interface SettlementMaterialUniforms {
   esSettlementRain: SettlementUniform;
   esSettlementNight: SettlementUniform;
+  /** 1 / the renderer's toneMappingExposure: anchors window and lamp-shell
+   * emissive to the screen, as the sky and stars are (perf c10 F41). */
+  esSettlementExposureInv: SettlementUniform;
 }
 
-/** Fresh environment uniforms (rain 0, night 0); the layer owns one set. */
+/** Fresh environment uniforms (rain 0, night 0, exposure 1); the layer owns one set. */
 export function createSettlementMaterialUniforms(): SettlementMaterialUniforms {
-  return { esSettlementRain: sharedUniform(0) as SettlementUniform, esSettlementNight: sharedUniform(0) as SettlementUniform };
+  return { esSettlementRain: sharedUniform(0) as SettlementUniform, esSettlementNight: sharedUniform(0) as SettlementUniform,
+    esSettlementExposureInv: sharedUniform(1) as SettlementUniform };
 }
 
 export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
@@ -52,10 +57,7 @@ interface SettlementSurfaceBase {
   lights: boolean;
 }
 
-/** Warm lamplight colour of a lit window at full night (linear RGB), and its
- * gain over the glTF emissive (the NIF's Glow_Map mask at factor 1). */
-export const WINDOW_GLOW_RGB: readonly [number, number, number] = [1.0, 0.6, 0.28];
-export const WINDOW_GLOW_GAIN = 2.0;
+export { isSettlementGlowMaterial };
 /** Gain of an additive effect card over its texture x vertex colour when its
  * kit carries none: kits built before output format 3 (build_kit
  * KIT_OUTPUT_FORMAT_VERSION); every later build writes the NIF's own. */
@@ -68,15 +70,6 @@ const FLAME_GLOW_GAIN = 1.5;
 export function additiveGain(material: THREE.Material): number {
   const gain = (material.userData as SettlementKitMaterialExtras | undefined)?.gain;
   return typeof gain === "number" && gain > 0 ? gain : FLAME_GLOW_GAIN;
-}
-
-/**
- * A glow material is one whose kit build carried the NIF's Glow_Map slot
- * into the glTF as an emissive texture (blender/build_kit.py
- * rebuild_material). Selected by that map, never by a material name.
- */
-export function isSettlementGlowMaterial(material: THREE.Material): boolean {
-  return Boolean((material as THREE.MeshStandardMaterial).emissiveMap);
 }
 
 /**
@@ -253,7 +246,7 @@ function surfaceGraph(uniforms: SettlementMaterialUniforms, glow: SettlementGlow
   const key = `${String(glow)}|${id(base.colorNode)}|${id(base.emissiveNode)}|${id(base.roughnessNode)}|${base.lights}`;
   let graph = graphs.get(key);
   if (graph) return graph;
-  const { esSettlementRain: rain, esSettlementNight: night } = uniforms;
+  const { esSettlementRain: rain, esSettlementNight: night, esSettlementExposureInv: exposureInv } = uniforms;
   // world height above the instance's ground line (vertex stage; instanced
   // and merged draws alike carry the ground-line attribute)
   const heightAbove = varying(positionWorld.y.sub(attribute(SETTLEMENT_GROUND_ATTRIBUTE, "float")), "esSettlementHeightAboveGround");
@@ -281,9 +274,9 @@ function surfaceGraph(uniforms: SettlementMaterialUniforms, glow: SettlementGlow
       // day the factor is 0, so the glTF's emissive never shows.
       // A lantern shell (fixtureGlow.ts): its own emissive x the lamp clock.
       emissiveNode: glow === "lamp-shell"
-        ? vec3(base.emissiveNode ?? materialEmissive).mul(night)
+        ? vec3(base.emissiveNode ?? materialEmissive).mul(night).mul(exposureInv)
         : glow
-        ? vec3(base.emissiveNode ?? materialEmissive).mul(vec3(...WINDOW_GLOW_RGB)).mul(night).mul(WINDOW_GLOW_GAIN)
+        ? vec3(base.emissiveNode ?? materialEmissive).mul(vec3(...WINDOW_GLOW_LINEAR_RGB)).mul(night).mul(WINDOW_SCREEN_GAIN).mul(exposureInv)
         : base.emissiveNode,
       roughnessNode: mix(base.roughnessNode ?? materialRoughness, float(0.32), wet.mul(0.55)),
       lights: base.lights,
@@ -342,10 +335,12 @@ export function updateSettlementEnvironment(
   uniforms: SettlementMaterialUniforms,
   rainIntensity: number,
   epochMinutes: number,
+  exposure: number,
 ): void {
   uniforms.esSettlementRain.value = THREE.MathUtils.clamp(rainIntensity, 0, 1);
   // the ONE clock for every artificial light (lighting.ts, walk 2 D7)
   uniforms.esSettlementNight.value = artificialLightFactor(epochMinutes);
+  uniforms.esSettlementExposureInv.value = exposure > 0 ? 1 / exposure : 1;
 }
 
 /**

@@ -388,7 +388,7 @@ describe("settlement material node features", () => {
     const uniforms = createSettlementMaterialUniforms();
     const at = (minuteOfDay: number) => {
       updateSettlementEnvironment(uniforms, 0,
-        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay }));
+        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay }), 22);
       return uniforms.esSettlementNight.value;
     };
     expect(at(720)).toBe(0);

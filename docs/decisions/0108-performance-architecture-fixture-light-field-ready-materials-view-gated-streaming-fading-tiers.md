@@ -295,6 +295,22 @@ brightened night pairs, aimed village shots with lamps; `perf-img-r3.md`,
 | HUD wrapper and transparents | the per-draw `renderBufferDirect` wrapper (about 0.3 ms a frame) ran with the HUD closed; five transparent materials relinked | wrapper installed only while the perf section is open; `forceSinglePass` on ember, smoke, water effects and crowns, sun shafts, rain; 6f54d9b1 |
 | Walk links on first draw | at spot e the short camera arm first faded the player, and `transparent` is in the program key, so every player material linked in one frame; the waterfall kit, mist volume, chute strips and pools linked when they first came into view (41-57 ms trace frames, mostly GPU process) | `warmPlayerFadePrograms` (`character/playerFade.ts`) compiles each new player material in both states; `DrawTargetLinker.linkWhenObserved` links the water's late-drawn meshes at mount (`WaterSurface.tsx`); da35aee2. 16 named walk links -> 0; three unnamed links and one 51-56 ms trace frame remain at the walk's end. Walk p1Low 70-78 -> 66-69 (51-57 -> 48-50 converted), rAF max 34 -> 29-34 ms |
 | Found already done | O2 settlement material clones and O3 groundcover card materials: kit.ts clones once per kit and the GLB shares one material per atlas page; the "109 materials" came from a probe that counted per owner name | none; the probe was fixed (rows below) |
+| Groundcover refill (F35) | the walk's long frames sat every 8.5 m (REBUILD_MOVE_M 8): the frame-work queue's whole 6 ms budget plus 2.5 ms of generation landed on one frame, and a ~5 MB ring was re-uploaded per refill; gc=0 walks 76-82 vs control 51 | one 2.5 ms budget for all groundcover work, a stable slot per tile, pooled meshes (`Groundcover.tsx`); 62ec73df. Groundcover frames peak 4.3 ms |
+| Pool capacity kept across refills (G6, F38c) | 2-7 mesh allocations per refill to the end of the walk, ~6x the old per-alloc cost; growth already kept capacity, the allocations came from new `slot/plan/part` mesh keys when tiles entered new wedges | `grownCapacity` grows only past capacity (a509eb2f); pool keyed so a slot's mesh is reused across plans (`groundcoverPool.ts` `takePooled`; 666beedb) |
+| Empty instanced draws still submitted (F38) | gsw walk 26.5 p1Low; Greenspring drew 1318.8 draws a frame, 523 of them zero-instance vegetation rungs (the link-hold release set `visible = true` at count 0), each paying projectObject, setProgram and uniform upload | `releaseHeld` in `vegetation/drawCount.ts`, held flag through `setDrawCount`; 666beedb. 1318.8 -> 634.6 draws (14 empty) |
+| Vegetation gate pass in one frame (F38b) | `gateSpecies` (`cellGating.ts:337`) took 10.09 ms in one frame on the 2 m / 8 deg / 120-frame regate | regate resumed across at most 4 frames (`GatePass`); 666beedb |
+| Warm-up after the ready gate (C5) | spot c caught a JIT/Maglev warm-up after ready: c 92 / p1Low 54 at c8m1 | `WarmGate` (`game-core/render/warmGate.ts`, `RenderWarmGate.tsx`): ready waits until per-frame work is stable for 60 frames (cap 900), HUD "warm N"; d2425f43. c 205 / 141, 180 s after ready max 7 ms |
+| Settlement draws per uuid (F39) | Greenspring settlement layer 358.8 draws for 150 placements, 267 (asset, part, chunk) buckets over 155 material names and 111 distinct texture tuples | pieces merge per material identity per cell, depth twins kept (`materialIdentity.ts`, `greenspringDraws.test.ts`); b2b0f4fd. 267 -> 146 colour draw objects, 358.8 -> 184.2 draws |
+| Settlement merge and relink mid-walk (F40) | gsw walk 170 / p1Low 57.65, max 40.6: 5-9 frames of 15-31 ms at t~10.8 s (the 40 m rebuild missed the camera-keyed batch cache and merged on the main thread), plus one program link in the window | batch key without the camera, every LOD level merged and linked before ready, walking swaps `mesh.visible` (`SettlementLayer.tsx` `settlementBatchCell`, `batchVisibleAt` in `lod.ts`); 2380a30f. Merged bytes 8.2 MB at LOD0, 17.1 MB all levels (2.08x, test < 3x) |
+| Night windows and lamp shells white (F41) | emissive was multiplied by the night exposure: mid amber texel (0.8,0.55,0.2) rendered 255,253,241 at exposure 22 | emissive divided by `toneMappingExposure` via `esSettlementExposureInv` (`materials.ts`, `windowGlow.ts` `WINDOW_SCREEN_GAIN` 1.5); dfd52d2d. Same texel 234,155,48 at any exposure |
+| City beacon band clipped near the camera (F42) | a near-plane-clipped beam band in the walk view | `beaconNearFade` (60 m full to 200 m) hides the mesh at 0 (`CityMarkers.tsx`, test beside); c4011d87 |
+| Capture frames with HUD, wrong camera (H1, H2) | walk steps called `page.evaluate` inside the stats window (gsw and rww rows not bar-valid); hold frames bypassed the `--clean` HUD hide and ran before `--aim` | steps play in the page from a schedule set before the window opens (`measure.mjs`; 8670534f); `cleanShot` is the one screenshot path for settled, walk and hold, after the aim (f020336c) |
+| Water facets (V8) | near-field pale triangles carried by the per-vertex wave normal and class/colour constituents | per pixel below 400 m (`waterMaterial.ts`); 8c201ef1. Facets gone at adayfield 3/7/14 (image-reader) |
+| Quality defects found in the c9 audit (Q1-Q3) | milky ground and fog on clear days; a door over-lit by an adjacent torch; flicker amounts out of range (std/mean 4.6 % against a bar of 8 %) | clear daylight thins region haze to 0.4x (`express.ts` `regionDaylight`; 16365c68); fixture attenuation clamps distance at 0.8 m (03f954ce); flicker torches 0.30, fire beds 0.25, candles and lanterns 0.15 (cf8413ee) |
+| Night dome huts near black (R3b) | dome wall/ground ratio 0.16 at door22 night against 0.54 at noon; wall luma ~3/255 under a 0.02,0.02,0.03 ground term | `HEMI_GROUND_NIGHT` 0.035,0.04,0.05 (`lightRig.ts:834`), golden regenerated; fa382881 |
+| Shader errors found on the pod (compile check) | a GLSL error in a water or material shader surfaced only after a pod capture | `tooling/gpu-lane/shader-compile-check.mjs` compiles 8 shaders headless in 3.2 s; a seeded syntax error fails it (8 errors, exit 1); 55ef3dfe |
+
+Open, routed: R3a build_kit.py drops substituted normal maps (settlement-mud-v1 domes; audit kit lane, fixes.md); ore/metal env maps (294 materials carry Skyrim EnvMap extras that build_kit.py and kit_parts.mjs drop; kit lane first, then the runtime env term in settlement materials.ts).
 
 Pod uncapped fps / uncapped 1 % low (converted = / 1.38 in brackets). base3 is the pre-fix build; r2-clean is 1a1dcb0d (clean tabs); r3 adds 99d6cff1 and 6f54d9b1; final is the 252499fc build with fd7e4044.
 
@@ -322,7 +338,7 @@ Agent-caused defects and the tool that changed (decision 0106 d11):
 | Profiler start frames counted as hitches | census window opens 2 s after `Profiler.start`; a856f2f4 |
 | Hand-patched `/tmp` probes | probes live in `tooling/gpu-lane/probes/`, run with `--diag`; d7f95f70 |
 
-## 7e. Rules from perf10 chunks 4-5
+## 7e. Rules from perf10 chunks 4-10
 
 - **A capture without a running clock is not a performance measurement.** Every gpu-lane capture runs the game clock at game speed (`rate=0.5` in `rate=` units, from `GAME_TIME_SCALE`); paused-clock rows are diagnosis rows, never bar rows.
 - **Data rasters are never decoded through ImageBitmap or canvas at runtime** (`decodePng`).
@@ -332,6 +348,14 @@ Agent-caused defects and the tool that changed (decision 0106 d11):
 - **Periodic background passes** (occlusion sweeps, gate passes) run under a per-frame time budget, keep their caches across passes, and apply only changed results with a per-frame cap; two cadences never start on the same frame.
 - **Water inputs that vary non-linearly** (depth, shore distance, exposure, crest) are computed per pixel, never interpolated from mesh vertices; Gerstner bands shorter than 2.2x the grid cell go to the fragment normal.
 - **React state set from timers changes only when the value changed;** HUD timers stop while their panel is hidden.
+- **An instanced pool member with 0 instances is never submitted** (F38).
+- **A merged settlement batch's key never reads the camera:** every LOD level is built and its program linked before ready, and walking only swaps visibility (F40).
+- **Settlement pieces merge per material identity** (texture tuple + params), never per uuid (F39).
+- **A material is warm before ready:** the ready gate waits for the WarmGate (C5).
+- **Emissive glow on kit materials is exposure-anchored** (divided by `toneMappingExposure`) like the sky, never multiplied by the night exposure (F41).
+- **A world-space overlay mesh (beacon) fades out near the camera** so the near plane never clips it (F42).
+- **Every capture frame (settled, walk, hold) is HUD-free and taken at the settled camera** (H2).
+- **After a shader or material commit, `node tooling/gpu-lane/shader-compile-check.mjs` runs before any pod capture.**
 
 ## 8. How performance is measured
 

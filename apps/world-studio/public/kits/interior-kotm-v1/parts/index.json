@@ -7,11 +7,11 @@
   "sha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50"
  },
  "totals": {
-  "parts": 146,
-  "partBytes": 3280508,
-  "textureFiles": 105,
-  "textureBytes": 5727813,
-  "bytes": 9008321
+  "parts": 147,
+  "partBytes": 3290732,
+  "textureFiles": 107,
+  "textureBytes": 5873141,
+  "bytes": 9163873
  },
  "assets": {
   "kotm:argonia/clutter/amberbee": {
@@ -395,6 +395,16 @@
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
+   ]
+  },
+  "kotm:argonia/furniture/table03sq": {
+   "file": "kotm_argonia_furniture_table03sq-b4668d5a.glb",
+   "bytes": 10224,
+   "vertices": 372,
+   "triangles": 288,
+   "textures": [
+    "98b208b1639d4938",
+    "de5d89f4a58bb9b3"
    ]
   },
   "kotm:argonia/mudhuts/floor02": {

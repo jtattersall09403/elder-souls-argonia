@@ -314,7 +314,11 @@ failed on the defect the owner walked, `tests/test_walk4_wb.py`):
   landward end it stands within 0.2 m of the ground 0.3 m past it, or a
   step piece (`step`/`stair`/`ramp`) within 1.0 m has its top within the
   controller step (0.45 m) of the deck and its foot on the ground; both ends
-  over water is an open run. Judged at the compiled pivots too: Claywater's
+  over water is an open run; both ends dry (a crossing) judges EACH dry end
+  by the same 0.2 m bar from the nearest member's `describe` floors zM (a
+  step member's lowest tread), never bounds max; on every run the ground
+  standing over 0.2 m above a member's deck along its axis fails (a deck
+  run into a bank). Judged at the compiled pivots too: Claywater's
   landing reads 0.35 m / 0.05 m at the workbench seat and 3.36 m / 3.06 m at
   the compiled pivots (+3.01 m).
 - `archwayRule` (walk 4 lane COMPILE): a parcel shell whose kit records its

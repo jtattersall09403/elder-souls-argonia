@@ -1379,14 +1379,14 @@ def test_a_rock_or_landscape_shell_gets_no_ground_treatment():
     assert ex._treatment_kind({**rock, "category": "architecture"}, {}, "direct", {}) == "floor"
 
 
-def test_every_door_threshold_gets_a_one_and_a_half_metre_apron():
+def test_every_door_threshold_gets_its_own_one_and_a_half_metre_apron_row():
     floor = {"id": "treatment.a", "kind": "floor", "footprintM": [[0, 0], [1, 0], [0, 1]]}
-    ex._attach_door_apron({"id": "door.a", "parcelId": "parcel.a"}, 4.2, 5.25,
-                          {"parcel.a": floor})
-    assert floor["apronsM"] == [[4.2, 5.25, 1.5]]
-    with pytest.raises(ValueError, match="no ground treatment"):
-        ex._attach_door_apron({"id": "door.b", "parcelId": "parcel.b"}, 0, 0,
-                              {"parcel.a": floor})
+    rows = [floor]
+    ex._attach_door_apron({"id": "door.a", "parcelId": "parcel.a"}, 4.2, 5.25, rows)
+    assert "apronsM" not in floor and len(rows) == 2
+    apron = rows[1]
+    assert apron["id"] == "treatment.door.a.apron" and apron["kind"] == "floor"
+    assert apron["apronsM"] == [[4.2, 5.25, 1.5]] and len(apron["footprintM"]) >= 3
 
 
 # --- per-place publishing (--places, 0100 decision 6) ----------------------- #

@@ -1014,3 +1014,35 @@ def test_shapes_the_nif_hides_are_dropped_and_listed():
     hidden = {d["shape"].split(".")[0] for d in rec.get("droppedShapes", [])
               if d.get("reason") == "hidden"}
     assert {"BodyMale_Big", "FemaleHead"} <= hidden
+
+
+def test_code_digest_is_part_of_the_kit_input_hash(tmp_path, monkeypatch):
+    data_root = tmp_path / "data-root"
+    data_root.mkdir()
+    monkeypatch.setattr(build_kit, "kit_asset_ids", lambda kit_id: set())
+    monkeypatch.setattr(build_kit, "kit_record_view", lambda path, kit_id, ids: b"")
+    monkeypatch.setattr(build_kit, "KIT_ROW_RECORDS", [])
+    monkeypatch.setattr(build_kit, "KIT_RECORD_FILES", [])
+    monkeypatch.setattr(build_kit, "kit_code_digest", lambda: "code-a")
+    a = build_kit.kit_input_hashes("flora-marsh-probe", data_root, {}, tmp_path)
+    monkeypatch.setattr(build_kit, "kit_code_digest", lambda: "code-b")
+    b = build_kit.kit_input_hashes("flora-marsh-probe", data_root, {}, tmp_path)
+    assert build_kit.digest_of(a) != build_kit.digest_of(b)
+
+
+def test_fire_layer_flame_size_carries_node_scales(monkeypatch):
+    """vol10 diag4 D9: fireplacewood01burning's FlamesSmall01 (radius 16, under a 1.2 node) and an ADDN flame
+    under a scaled AddOnNode draw at those scales; the size used to drop them."""
+    from . import nif_blocks as nb
+    from .build_kit import METRES_PER_UNIT, mine_fire_layer
+    sys_ = {"name": "FlamesSmall01", "positionUnits": [0, 0, 0], "texture": "t.dds", "palette": None,
+            "radiusUnits": 16.0, "scaleMax": 1.0, "nodeScale": 1.2, "lifeS": 1, "subtex": None}
+    monkeypatch.setattr(nb, "parse", lambda b: b)
+    monkeypatch.setattr(nb, "particle_systems", lambda n: [sys_] if n == "piece" else [dict(sys_, nodeScale=1.0)])
+    monkeypatch.setattr(nb, "addon_nodes", lambda n: [{"index": 7, "block": 1, "positionUnits": [0, 0, 0], "scale": 2.0}] if n == "piece" else [])
+    monkeypatch.setattr(nb, "is_flame_system", lambda name: True)
+    for name in ("billboard_glow_shapes", "emitting_shapes", "window_glass_shapes"):
+        monkeypatch.setattr(nb, name, lambda n: [])
+    out = mine_fire_layer("piece", {7: {"model": "mps", "editorId": "X"}}, lambda p: "mps")
+    sizes = sorted(f["sizeM"] for f in out["flames"])
+    assert sizes == [round(2 * 16 * 1.2 * METRES_PER_UNIT, 4), round(2 * 16 * 2.0 * METRES_PER_UNIT, 4)]

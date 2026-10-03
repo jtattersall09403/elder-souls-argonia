@@ -110,6 +110,8 @@
   "vanilla:clutter/stockade/stockadepike01": "dug-in",
   "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": "dug-in",
   "vanilla:landscape/rocks/rockcaveentrance02": "dug-in",
+  "vanilla:dungeons/mines/rocks/minecdirtmound02": "dug-in",
+  "vanilla:dungeons/mines/rocks/minecdirtmound03": "dug-in",
   "kotm:argonia/trees/hist trees/hist_vines01": "dug-in",
   "vanilla:clutter/bones/humanribcage": "direct",
   "vanilla:clutter/bones/humanarmleft": "direct",
@@ -389,6 +391,8 @@
   "vanilla:clutter/stockade/stockadepike01": "a sharpened stake driven into the ground (72 plugin sinks, p50 1.03 m buried) on any slope a palisade runs over: dug-in (16k walk 9)",
   "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": "a log barricade staked across a way on whatever slope the way has (100 plugin sinks, p50 0.27 m): dug-in (16k walk 9)",
   "vanilla:clutter/civilwar/civilwarbannerimp01": "the Imperial banner hangs from its pole civilwarbanner01 by the mined band pair (8 Skyrim.esm placements at 5.58 m); the mount sets the pose, so direct (16k walk 9, The Broke Column)",
+  "vanilla:dungeons/mines/rocks/minecdirtmound02": "a spoil heap beds into the ground: its skirt ring stands 0.15-0.47 m under its pivot and its makers sink it out of sight on uneven mine floors (assetPlacement row); works-v1 policy direct judged it on the 2 deg building slope bar (audit10 c4 bog-iron dig, 2026-10-03)",
+  "vanilla:dungeons/mines/rocks/minecdirtmound03": "a spoil heap beds into the ground: its skirt ring stands 0.15-0.47 m under its pivot and its makers sink it out of sight on uneven mine floors (assetPlacement row); works-v1 policy direct judged it on the 2 deg building slope bar (audit10 c4 bog-iron dig, 2026-10-03)",
   "vanilla:landscape/rocks/rockcaveentrance02": "a cave mouth set into the ground the way its plugins set it (24 refs, kit-designed-sink p50 -2.38 m); settlement-root-v1's kit policy is the walkway system's stilt, which seats a deck, not a rock (16k walk 9)",
   "kotm:argonia/trees/hist trees/hist_vines01": "a Hist vine mass set part-sunk into the ground beside its cave mouth (King of the Murkmire, 6 refs, sink p50 0.73 m): dug-in, not a walkway deck (16k walk 9)",
   "vanilla:clutter/bones/humanribcage": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
@@ -520,6 +524,14 @@
   "vanilla:landscape/rocks/wetrocks/rockm02wet": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground"
  },
  "assetPlacement": {
+  "vanilla:dungeons/mines/rocks/minecdirtmound02": {
+   "designedSinkM": 0.0,
+   "why": "Skyrim mine spoil heap (3.56 x 3.60 x 0.69 m, 18 vertices): a cap ring 0.22-0.37 m over the pivot and a skirt ring 1.6-1.95 m out at 0.15-0.32 m UNDER it (bpy vertex read, audit10 c4 bog-iron, 2026-10-03), so its makers stand the pivot on the floor and sink the skirt edge out of sight. Every Skyrim.esm reference stands on a mine-floor static (9 static-supported, 3 scaled; mine_designed_sink --merge 2026-10-03 measured none on LAND), so the sink is set here: pivot on the ground, skirt edge buried."
+  },
+  "vanilla:dungeons/mines/rocks/minecdirtmound03": {
+   "designedSinkM": 0.0,
+   "why": "Skyrim mine spoil heap (6.25 x 7.44 x 1.01 m), the same build as minecdirtmound02: pivot on the floor, the skirt 0.47 m under it buried. Every Skyrim.esm reference stands on a mine-floor static (19 static-supported, 1 scaled; mine_designed_sink --merge 2026-10-03 measured none on LAND), so the sink is set here."
+  },
   "vanilla:architecture/tents/largeimperialtent01": {
    "floorClass": "openShelter",
    "why": "Legion command tent: canvas on poles with no floor slab, open at the front; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column)."

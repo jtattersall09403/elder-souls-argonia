@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import * as THREE from "three";
 import {
-  addToBatch, drawBatchKey, drawCellOf, SETTLEMENT_CHUNK_M, SETTLEMENT_COARSE_CELL_M, SETTLEMENT_LAMP_BAND_M, type DrawBatch,
+  addToBatch, applyBatchVisibility, drawBatchKey, settlementBatchCell, settlementChunkCentre, type DrawBatch,
 } from "./SettlementLayer";
-import { LIGHTS_ACTIVE_M } from "./lighting";
-import { mergeTransformedParts, vertexLayoutKey } from "./lod";
+import {
+  batchVisibleAt, ladderClassKey, ladderLevelAt, mergeTransformedParts, quantizedLadder, settlementLadder, vertexLayoutKey,
+} from "./lod";
 
 function part(vertices: number, withUv = true): THREE.BufferGeometry {
   const g = new THREE.BufferGeometry();
@@ -50,20 +51,58 @@ describe("settlement draw batches (one draw per material per cell)", () => {
     expect(vertexLayoutKey(part(3))).toBe(vertexLayoutKey(part(9)));
   });
 
-  it("keys a chunk by itself inside the lamp band and by its coarse cell beyond", () => {
-    const focus = { x: 0, z: 0 };
-    // the band covers every chunk a lamp can light before the next build
-    expect(SETTLEMENT_LAMP_BAND_M).toBeGreaterThan(LIGHTS_ACTIVE_M + SETTLEMENT_CHUNK_M);
-    expect(drawCellOf("0,0", focus)).toBe("c0,0");
-    expect(drawCellOf("1,0", focus)).not.toBe(drawCellOf("0,0", focus));
-    // two chunks far out in one coarse cell share it; the next cell does not
-    const far = Math.ceil(SETTLEMENT_LAMP_BAND_M / SETTLEMENT_COARSE_CELL_M) + 1;
-    const per = SETTLEMENT_COARSE_CELL_M / SETTLEMENT_CHUNK_M;
-    const a = drawCellOf(`${far * per},0`, focus), b = drawCellOf(`${far * per + 1},0`, focus);
-    expect(a).toBe(`C${far},0`);
-    expect(b).toBe(a);
-    expect(drawCellOf(`${(far + 1) * per},0`, focus)).not.toBe(a);
-    // a near chunk never shares a key with a coarse cell
-    expect(drawCellOf("0,0", focus).startsWith("c")).toBe(true);
+  // F40: a 40 m walk with a level change merged mid-walk on the main thread
+  // because the key followed the camera; every level is now prebuilt.
+  const contract = { absoluteTriangleFloor: [120, 60] as const, distancePerFootprintDiagonal: [4, 12] as const, farMergeDistanceM: 300 };
+  const ladder = quantizedLadder(settlementLadder(20, 3, contract, 900));
+  const ladderClass = ladderClassKey(ladder, 900);
+  const chunk = "0,0";
+  const centre = settlementChunkCentre(chunk);
+  const material = new THREE.MeshStandardMaterial();
+  const g = part(3);
+  /** The batch keys a build makes: every level of the ladder, no camera input. */
+  const keysOf = () => [...new Set(ladder.map((r) => r.level))]
+    .map((level) => drawBatchKey(material, g, settlementBatchCell(chunk, level, ladderClass), flags));
+
+  it("keys every batch without the camera: two camera positions make the same keys", () => {
+    expect(keysOf()).toEqual(keysOf());
+    expect(new Set(keysOf()).size).toBe(3);
+    expect(ladder.every((r) => r.lo % 10 === 0 || !Number.isFinite(r.lo))).toBe(true);
+  });
+
+  it("swaps prebuilt batches across a 40 m walk with a level change and never merges", () => {
+    const merge = vi.fn(mergeTransformedParts);
+    const group = new THREE.Group();
+    for (const level of [0, 1, 2]) {
+      const batches = new Map<string, DrawBatch>();
+      const view = { x: centre.x, z: centre.z, level, ladder, capM: 900 };
+      addToBatch(batches, drawBatchKey(material, g, settlementBatchCell(chunk, level, ladderClass), flags), {
+        material, drawFlags: flags, far: level > 0, signature: `${level}`, view,
+        entry: { geometry: g, transforms: [at(0)], groundLinesM: [0] },
+      });
+      const mesh = new THREE.Mesh(merge([...batches.values()][0].entries)!, material);
+      mesh.userData.esSettlementView = view;
+      group.add(mesh);
+    }
+    expect(merge).toHaveBeenCalledTimes(3);
+    merge.mockClear();
+    const visibleLevels = () => group.children.filter((c) => c.visible)
+      .map((c) => (c.userData.esSettlementView as { level: number }).level);
+    // walk out from the chunk centre in 40 m steps: exactly one level shows
+    // at each spot, the level changes on the way, and nothing is merged
+    const seen = new Set<number>();
+    for (let d = 0; d <= 400; d += 40) {
+      applyBatchVisibility(group, { x: centre.x + d, z: centre.z });
+      const shown = visibleLevels();
+      expect(shown).toHaveLength(1);
+      expect(shown[0]).toBe(ladderLevelAt(ladder, d));
+      seen.add(shown[0]);
+    }
+    expect(seen.size).toBeGreaterThan(1);
+    expect(merge).not.toHaveBeenCalled();
+    // beyond its cap nothing of it draws
+    applyBatchVisibility(group, { x: centre.x + 1000, z: centre.z });
+    expect(visibleLevels()).toHaveLength(0);
+    expect(batchVisibleAt({ x: 0, z: 0, level: 0, ladder, capM: 900 }, { x: 0, z: 0 })).toBe(true);
   });
 });

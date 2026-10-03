@@ -74,7 +74,20 @@ in, the machine that changes it, what goes out, and the crew that runs it.
   A doorless furniture, clutter or container parcel piece has no floor
   edge (`rules.FLOORLESS_CATEGORIES`); never author a contradicting
   `groundFit` instead: the publish refuses it.
+  The material's source reads by the work at it, not by a rock: a dig on
+  the seep's edge is `shovel01` stood in the mud (its sink row buries the
+  blade 0.54 m, as vanilla stands shovels in dirt), two `orestack_iron`,
+  an `orebucket_iron` and a `basketfull`, each bound to the machine parcel
+  (an unbound `place` op is never compiled, so its `fills` fail
+  `promises.built`). A clutter cluster on ground over 2 degrees takes one
+  pad on one member (scan it first, R31) and the others stand on the pad's
+  apron; `settle` seats the pad's owner on the padded surface like its
+  neighbours (`measure.seat`: only a pad's building takes the datum).
 - **Pieces that failed:** `smelter01`, `smelter01coal01` (unplaced),
+  `mineoreiron01` as the seep (dug in, 0.3-0.6 m shows: readers saw a dark
+  boulder, no ore; the iron tint lives in an env cubemap the runtime does
+  not draw), `kotm:argonia/clutter/basket02` beside ore (reads as an empty
+  hoop),
   `wrherbdryingrack01` outdoors (interior licence), `argonianplatform` as
   boot-boards on a slope (pad fit, under 2 degrees only; a pad per board
   makes each a building with floor-edge failures).

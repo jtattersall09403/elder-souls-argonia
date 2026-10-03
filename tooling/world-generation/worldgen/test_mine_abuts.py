@@ -180,6 +180,36 @@ def test_open_ends_skip_the_back_face_and_single_use_pieces():
         [{"placementId": "c", "assetId": "k:cave/doorcaveb"}]
 
 
+def test_a_run_ending_in_a_single_use_step_closes_on_its_last_deck():
+    """R91 (audit10 c4, border-road crossings' inlet deck): the plugin's
+    step-down is laid past the last deck by a double joint and bound as the
+    run's last member; the last deck's outward face is then the run's
+    terminal face (`terminates`), never faces-nothing."""
+    wall, step = _KEEP + "mwimparchwall01", "k:docks/stepsdown"
+    abuts = {
+        "familyPairs": [
+            {"parent": _KEEP + "mwimparchwall", "child": _KEEP + "mwimparchwall",
+             "parentPiece": "mwimparchwall", "childPiece": "mwimparchwall",
+             "parentFace": "+x", "childFace": "-x", "joint": "run", "relScale": 1.0,
+             "offsetM": [7.27, 0.0, 0.0], "yawDeg": 0.0, "count": 8}],
+        "endFaces": {wall: {"+x": 8, "-x": 8}},
+        "terminates": {wall: {"+x": 3, "-x": 3}},
+        "placedAssets": {wall: 9, step: 3},
+        "singleUse": [step],
+    }
+
+    def member(pid, asset, x, i):
+        return dict(_piece(pid, asset, x), parcelId="run", run={"index": i, "length": 3})
+    placements = [member("a", wall, 0.0, 0), member("b", wall, 7.27, 1),
+                  member("c", step, 14.0, 2)]
+    shelf = SimpleNamespace(by_asset={step: {"category": "architecture"}})
+    assert cs.open_modular_ends(placements, shelf, abuts) == []
+    not_single = dict(abuts, singleUse=[])
+    assert [(r["placementId"], r["face"]) for r in
+            cs.open_modular_ends(placements, SimpleNamespace(by_asset={}), not_single)] == \
+        [("b", "+x")]
+
+
 def test_family_of_memo_matches_the_plain_function():
     """`family_of` is memoised (519 k calls in one compile): the memo must
     return exactly what the undecorated function does, for the documented

@@ -250,9 +250,11 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
     samples_xz = (footprint_province(cat, piece) if mode == "streamed-perimeter"
                   else [(piece.x, piece.z)])
     heights = [ground.height(x, z, source) for x, z in samples_xz]
-    if piece.pad is not None and hasattr(ground, "floor_lift"):
+    if piece.pad is not None and hasattr(ground, "floor_lift") and not is_prop(cat, piece):
         # the pad's own building rests on its datum, which the overlay grades
-        # PAD_FLOOR_CLEARANCE_M under (pad_overlay; Claywater walk 5 z-fight)
+        # PAD_FLOOR_CLEARANCE_M under (pad_overlay; Claywater walk 5 z-fight).
+        # A pad-owning prop (an assembly member) stands on the padded surface
+        # itself, the one propSeatRule reads (audit10 c3: bog-iron sd-orebucket)
         heights = [h + ground.floor_lift(x, z) for h, (x, z) in zip(heights, samples_xz)]
     lo, hi = min(heights), max(heights)
     line = lo if fit == "dug-in" else sum(heights) / len(heights)

@@ -563,12 +563,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 70.9,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 71\u00b0 in the piece's own frame carries 1.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.07,
    "interior": "none",
    "planAreaM2": 0.17,
@@ -914,10 +909,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 15.2,
+    "deg": 317.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 15\u00b0 in the piece's own frame carries 1.96x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 317\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 0.15,
    "interior": "none",
@@ -4029,10 +4024,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 140.6,
+    "deg": 136.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 141\u00b0 in the piece's own frame carries 4.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 137\u00b0 in the piece's own frame carries 5.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 0.07,
    "interior": "none",
@@ -4060,7 +4055,7 @@
    "front": null,
    "heightM": 0.12,
    "interior": "none",
-   "planAreaM2": 0.14,
+   "planAreaM2": 0.13,
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
@@ -4070,10 +4065,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 113.0,
+    "deg": 109.9,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 113\u00b0 in the piece's own frame carries 1.80x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 110\u00b0 in the piece's own frame carries 2.22x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 0.17,
    "interior": "none",
@@ -4086,7 +4081,12 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 50.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 50\u00b0 in the piece's own frame carries 2.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "heightM": 0.05,
    "interior": "none",
    "planAreaM2": 0.31,
@@ -4098,12 +4098,7 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 74.5,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 74\u00b0 in the piece's own frame carries 1.99x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 0.2,
    "interior": "none",
    "planAreaM2": 0.11,
@@ -4128,10 +4123,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 50.3,
+    "deg": 138.7,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 50\u00b0 in the piece's own frame carries 2.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 139\u00b0 in the piece's own frame carries 2.04x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 0.15,
    "interior": "none",
@@ -4157,7 +4152,7 @@
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -4216,7 +4211,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -4248,7 +4243,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -4274,7 +4269,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",
@@ -4375,6 +4370,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

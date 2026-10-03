@@ -454,6 +454,84 @@
         "yMeasured": 19.4968,
         "assembly": [
           {
+            "id": "sd-basket",
+            "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+            "atM": [
+              48.7,
+              -27.2
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.4254
+          },
+          {
+            "id": "sd-ore1",
+            "asset": "kotm:oaristys/forge/orestack_iron",
+            "atM": [
+              46.5,
+              -25.8
+            ],
+            "yaw": 310.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.3919
+          },
+          {
+            "id": "sd-ore2",
+            "asset": "kotm:oaristys/forge/orestack_iron",
+            "atM": [
+              47.9,
+              -25.6
+            ],
+            "yaw": 70.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.3919
+          },
+          {
+            "id": "sd-orebucket",
+            "asset": "kotm:oaristys/forge/orebucket_iron",
+            "atM": [
+              47.0,
+              -27.0
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.392
+          },
+          {
+            "id": "sd-shovel",
+            "asset": "vanilla:clutter/common/shovel01",
+            "atM": [
+              47.4,
+              -28.6
+            ],
+            "yaw": 290.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.9296
+          },
+          {
+            "id": "sd-spoil",
+            "asset": "vanilla:dungeons/mines/rocks/minecdirtmound02",
+            "atM": [
+              47.4,
+              -30.2
+            ],
+            "yaw": 285.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 15.2845
+          },
+          {
             "id": "y1-bl-bellows",
             "asset": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
             "atM": [
@@ -1224,14 +1302,15 @@
         "sha256": "63479b4e0b4ec20b4ebcd818b2bcd4fcee9218c0428b859044b51c336466a9df"
       },
       "kits": {
-        "mudmother-hut-int": "36687657be26a430ab9efed29d36f77b888b36c7c4f784af1e47445acec5b6d5",
-        "settlement-imperial-v1": "e0f1fce8cc1d06571b1b3604b03ee291c1b9cf576a3ede6e9d033366a6fd47f5",
-        "settlement-mud-v1": "e502130d3e30e82a361775fc98195ec07e35dd75ec2efd08185446f5dbab42c8",
-        "works-v1": "87f4433927ac44338fc97cc5f430e6bd50ce6cf697fe5db97dc08feb6fe20b49"
+        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
+        "settlement-imperial-v1": "9144866ffc6959ca92347c9eda44923bc516f98add601b49781101ac7d5a5972",
+        "settlement-mud-v1": "cb681afe4a6def2ebb571a52282dd3d20fa22a9f1e20bb3de83c8817fcf53279",
+        "settlement-root-v1": "967048d24c8b6bc0f81f738618cdd4295e699c231a220878c00a5f28e1c3dbc6",
+        "works-v1": "528483fad45c75466c5b8cc84ddfb362d726d0bff0606267e73300cd85594d6e"
       },
       "layout": {
         "path": "world/sources/blueprints/bog-iron-workings.layout.json",
-        "sha256": "f66ec17ff955dd37a28bd76327bf121652216ef1d446caefa257a7caa870f0d5"
+        "sha256": "f8724859bbac482a45fad9557aa16d5af17757ed32086834b6661f943d45ae74"
       }
     },
     "walkRoutes": {
@@ -5960,6 +6039,219 @@
           ],
           "routeM": 67.48,
           "steepestDeg": 10.0,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:fill.sd-basket": {
+          "points": [
+            [
+              2004.16,
+              14.54,
+              2607.33
+            ],
+            [
+              2004.66,
+              14.56,
+              2607.33
+            ],
+            [
+              2005.16,
+              14.57,
+              2607.33
+            ],
+            [
+              2006.16,
+              14.57,
+              2607.33
+            ],
+            [
+              2006.66,
+              14.56,
+              2607.33
+            ],
+            [
+              2007.16,
+              14.56,
+              2607.33
+            ],
+            [
+              2008.16,
+              14.54,
+              2607.33
+            ],
+            [
+              2009.16,
+              14.54,
+              2607.33
+            ],
+            [
+              2010.16,
+              14.56,
+              2607.33
+            ],
+            [
+              2010.66,
+              14.58,
+              2607.33
+            ],
+            [
+              2011.66,
+              14.6,
+              2607.33
+            ],
+            [
+              2012.16,
+              14.62,
+              2607.33
+            ],
+            [
+              2013.66,
+              14.65,
+              2607.33
+            ],
+            [
+              2014.16,
+              14.67,
+              2607.33
+            ],
+            [
+              2014.66,
+              14.67,
+              2607.33
+            ],
+            [
+              2015.16,
+              14.66,
+              2607.33
+            ],
+            [
+              2016.16,
+              14.7,
+              2606.33
+            ],
+            [
+              2016.66,
+              14.7,
+              2605.83
+            ],
+            [
+              2017.16,
+              14.71,
+              2605.33
+            ],
+            [
+              2017.66,
+              14.71,
+              2604.83
+            ],
+            [
+              2018.16,
+              14.72,
+              2604.33
+            ],
+            [
+              2018.66,
+              14.74,
+              2603.83
+            ],
+            [
+              2019.66,
+              14.76,
+              2602.83
+            ],
+            [
+              2021.16,
+              14.85,
+              2601.33
+            ],
+            [
+              2022.16,
+              14.93,
+              2600.33
+            ],
+            [
+              2022.66,
+              14.96,
+              2599.83
+            ],
+            [
+              2023.16,
+              15.0,
+              2599.33
+            ],
+            [
+              2023.66,
+              15.02,
+              2598.83
+            ],
+            [
+              2025.16,
+              15.05,
+              2597.33
+            ],
+            [
+              2027.16,
+              15.29,
+              2595.33
+            ],
+            [
+              2028.16,
+              15.25,
+              2595.33
+            ],
+            [
+              2028.66,
+              15.32,
+              2594.83
+            ],
+            [
+              2029.16,
+              15.37,
+              2594.33
+            ],
+            [
+              2029.66,
+              15.43,
+              2593.83
+            ],
+            [
+              2030.66,
+              15.49,
+              2592.83
+            ],
+            [
+              2031.16,
+              15.5,
+              2592.33
+            ],
+            [
+              2031.66,
+              15.49,
+              2591.83
+            ],
+            [
+              2032.16,
+              15.44,
+              2591.33
+            ],
+            [
+              2032.66,
+              15.41,
+              2590.83
+            ],
+            [
+              2033.16,
+              15.39,
+              2590.33
+            ],
+            [
+              2033.66,
+              15.39,
+              2589.83
+            ]
+          ],
+          "routeM": 36.78,
+          "steepestDeg": 5.2,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         }

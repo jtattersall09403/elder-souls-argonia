@@ -212,6 +212,15 @@ turn, snapped face to face by geometry, then walked.
     place op `"wet": true`; the straight before it takes the ent02 > sol01
     family pair with `allow_terminal`. landingRule then closes the end
     (`wadeStep` row: step uid, depth, the way that ends there).
+    The step joins `dockstrsol01`'s -y face, so the last `dockstrent02`
+    before it must leave its -y face free: lay the run growing child north
+    onto parent south (yaw turned 180), never the other way (audit10 c4: a
+    sol01 snapped onto a +y end put the step back on top of the run). The
+    step drops 1.79 m: use it only where the deck stands about 1.79 m over
+    the ground at the foot; a lower drop is closed by the deck height, not
+    the step. Read a deck's height from `describe` `floors[].zM` (the
+    walked floor; dockstrent02 0.0 = the pivot), never `boundsM` max (the
+    rail-post tops, +0.92: audit10 read a 0.40 m drop as 1.3 m).
 30. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
     joints in the record (no run pair). King of the Murkmire's plugin places
     its `argonia/blackwood` docks and walkways; the KotM set in
