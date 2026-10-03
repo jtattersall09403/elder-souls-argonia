@@ -39,6 +39,8 @@ if [ -f "$dist/.srchash" ] && [ "$(cat "$dist/.srchash")" = "$key" ]; then
   echo "build-dist: $n unchanged ($key), skipped"
   echo "{\"step\":\"build:$n\",\"seconds\":0,\"at\":$(date +%s),\"skipped\":true}" >> "$log"; exit 0
 fi
+# the boot precompile list is baked from the published kits before every build, so it can never be stale
+(cd "$wt" && node packages/game-core/scripts/bake-render-signatures.mjs) || exit 1
 (cd "$wt/apps/world-studio" && env "${envs[@]}" bash "$here/../repo-standards/job_guard.sh" "$lane" --mem 8 -- npx vite build "${cfg[@]}" --outDir "$stage" --emptyOutDir >"/tmp/$lane/build-$n.log" 2>&1) || { tail -20 "/tmp/$lane/build-$n.log"; exit 1; }
 # the harness page is served as the dist's index.html (serve.mjs reads the base from it; the view URLs end in /harness/?..)
 [ "$n" = harness ] && cp "$stage/harness.html" "$stage/index.html"

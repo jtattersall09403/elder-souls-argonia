@@ -1,3 +1,4 @@
+import { RenderSignaturePrecompile } from "@elder-souls/game-core/render/RenderSignaturePrecompile";
 import { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -73,7 +74,7 @@ import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/ai
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
 import {
-  aimShadowCameraAtCasters, castersMissingLayer, stabiliseShadowPassMaterials, type CasterMissingLayer,
+  aimShadowCameraAtCasters, castersMissingLayer, type CasterMissingLayer,
 } from "@elder-souls/game-core/render/shadowCasters";
 import { climateAirAt } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
@@ -294,8 +295,6 @@ export function WorldSky({
   const sunLighting = useMemo<SunLighting>(() => ({ dir: new THREE.Vector3(0, 1, 0), sunIrradiance: volSun.current, skyIrradiance: volSky.current }), []);
   useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
   const segments = useFrameSegments();
-  // Shadow-pass materials never re-key per caster (render/shadowCasters.ts).
-  useMemo(() => stabiliseShadowPassMaterials(scene), [scene]);
   // the debug handle's caster audit (castShadow objects with no caster layer cast nothing)
   const listCastersMissingLayer = useMemo(() => () => castersMissingLayer(scene), [scene]);
   const base = DATA_BASE;
@@ -1047,6 +1046,8 @@ export function WorldSky({
     <SkyContext.Provider value={{ csm, volumetrics, sunLighting }}>
       <group visible={!hidden}>
       <primitive object={sky} renderOrder={-10} frustumCulled={false} />
+      {/* kit pipelines precompile from the baked signatures once this rig has cast its first shadows (decision 0108 §2) */}
+      <RenderSignaturePrecompile dataBase={DATA_BASE} />
       {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer
           radius — so star fragments behind a disc fail the depth test and
           never shine through the moon's body. */}

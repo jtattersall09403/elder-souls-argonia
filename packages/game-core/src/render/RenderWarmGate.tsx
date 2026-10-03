@@ -12,11 +12,11 @@
  * game and the studio share it.
  */
 import { useEffect, useMemo, useRef } from "react";
-import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { WarmGate, type WarmGateOptions, type WarmGateState } from "./warmGate";
 import { buildQueueOf } from "./shaderBuildQueue";
 import { precompileScene, type PrecompileRenderer } from "./precompileScene";
+import { useSceneTarget } from "./useSceneTarget";
 
 export function RenderWarmGate({ armed, onOpen, onProgress, options, builds, ringPendingRef }: {
   armed: boolean;
@@ -42,18 +42,8 @@ export function RenderWarmGate({ armed, onOpen, onProgress, options, builds, rin
   ring.current = ringPendingRef;
   queueRef.current = queue;
   // the target the frame's scene pass draws into (layer 0), recorded as the frames run
-  const sceneTarget = useRef<THREE.RenderTarget | null | undefined>(undefined);
+  const sceneTarget = useSceneTarget(scene);
   const precompile = useRef<"idle" | "running" | "done">("idle");
-  useEffect(() => {
-    const previous = scene.onBeforeRender;
-    const hook: THREE.Scene["onBeforeRender"] = function (this: THREE.Scene, ...args) {
-      const [, , cam, target] = args as unknown as [unknown, unknown, THREE.Camera, THREE.RenderTarget | null];
-      if (cam.layers.isEnabled(0)) sceneTarget.current = target;
-      previous.apply(this, args);
-    };
-    scene.onBeforeRender = hook;
-    return () => { if (scene.onBeforeRender === hook) scene.onBeforeRender = previous; };
-  }, [scene]);
   useEffect(() => {
     channel.port1.onmessage = () => {
       if (gate.state.open) return;

@@ -58,7 +58,9 @@ export interface CasterMissingLayer { name: string; owner: string; kind: string 
 export function castersMissingLayer(root: THREE.Object3D): CasterMissingLayer[] {
   const out: CasterMissingLayer[] = [];
   root.traverse((o) => {
-    if (!o.castShadow || (o as THREE.Light).isLight || (o.layers.mask & CASTER_BITS) !== 0) return;
+    // an object carrying a `.shadow` is a light or three's CSMShadowNode cascade proxy (LwLight):
+    // never drawn, so never a caster that needs a layer
+    if (!o.castShadow || (o as THREE.Light).isLight || "shadow" in o || (o.layers.mask & CASTER_BITS) !== 0) return;
     let owner = o.parent;
     while (owner && !owner.name) owner = owner.parent;
     const flags = Object.keys(o.userData).filter((k) => k.startsWith("es") && o.userData[k]);
@@ -68,6 +70,7 @@ export function castersMissingLayer(root: THREE.Object3D): CasterMissingLayer[] 
 }
 
 const STABLE_ALPHA_TEST = Symbol("esStableAlphaTest");
+const SHADOW_PASS_MATERIALS = Symbol("esShadowPassMaterials");
 
 /** Make a shadow-pass material's `alphaTest` a plain value (webgpu10 c9 H1).
  * three's Renderer.renderObject copies each caster's alphaTest onto the
@@ -93,19 +96,39 @@ export function stabiliseShadowAlphaTest(material: THREE.Material): void {
 
 /** Every shadow-pass material three sets as `scene.overrideMaterial` (one
  * per light, made at its first shadow render, before any caster draws) gets
- * `stabiliseShadowAlphaTest`. Per-scene accessor, no module state. */
+ * `stabiliseShadowAlphaTest`, and is recorded for `shadowPassMaterialsOf`
+ * (the shadow-variant precompile). Per-scene accessor, no module state.
+ * Installed on every scene the renderer draws (`stabiliseRenderedScenes`). */
 export function stabiliseShadowPassMaterials(scene: THREE.Scene): void {
-  const s = scene as THREE.Scene & { [STABLE_ALPHA_TEST]?: true };
+  const s = scene as THREE.Scene & { [STABLE_ALPHA_TEST]?: true; [SHADOW_PASS_MATERIALS]?: Set<THREE.Material> };
   if (s[STABLE_ALPHA_TEST]) return;
+  const seen = new Set<THREE.Material>();
+  Object.defineProperty(s, SHADOW_PASS_MATERIALS, { value: seen });
   let current = scene.overrideMaterial;
   Object.defineProperty(scene, "overrideMaterial", {
     configurable: true,
     enumerable: true,
     get: () => current,
     set: (mat: THREE.Material | null) => {
-      if (mat && (mat as { isShadowPassMaterial?: boolean }).isShadowPassMaterial) stabiliseShadowAlphaTest(mat);
+      if (mat && (mat as { isShadowPassMaterial?: boolean }).isShadowPassMaterial) { stabiliseShadowAlphaTest(mat); seen.add(mat); }
       current = mat;
     },
   });
   s[STABLE_ALPHA_TEST] = true;
+}
+
+/** The shadow-pass materials three has set on `scene` so far (one per shadow light; empty before the first shadow render). */
+export function shadowPassMaterialsOf(scene: THREE.Scene): THREE.Material[] {
+  const seen = (scene as { [SHADOW_PASS_MATERIALS]?: Set<THREE.Material> })[SHADOW_PASS_MATERIALS];
+  return seen ? [...seen] : [];
+}
+
+/** Every scene `renderer.render` draws gets `stabiliseShadowPassMaterials` before its first frame
+ * (createRenderer installs it, so every app using the package renderer has it). */
+export function stabiliseRenderedScenes(renderer: { render(scene: THREE.Object3D, camera: THREE.Camera): unknown }): void {
+  const render = renderer.render;
+  renderer.render = function (this: unknown, scene: THREE.Object3D, camera: THREE.Camera) {
+    if ((scene as THREE.Scene).isScene) stabiliseShadowPassMaterials(scene as THREE.Scene);
+    return render.call(this, scene, camera);
+  };
 }

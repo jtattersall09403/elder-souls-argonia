@@ -51,7 +51,9 @@ import type { WebGPURenderer } from "three/webgpu";
  * build costs one long frame and always ends with the object drawn.
  * `?buildq=0` in the studio skips the queue (all builds synchronous).
  */
-export const SHADER_BUILDS_IN_FLIGHT = 1;
+export const SHADER_BUILDS_IN_FLIGHT = 8;
+/** Main-thread time the build starts of one task may take (each start runs a build's first synchronous stage). */
+export const START_BUDGET_MS = 6;
 /** A build twin whose object never re-draws is released after this long. */
 export const TWIN_HOLD_MS = 10_000;
 /** A queued build still unsettled after this long is logged and frees its slot (builds take 50 to 500 ms). */
@@ -80,7 +82,11 @@ export class BuildQueue<K = unknown> {
     private readonly timeoutMs = BUILD_TIMEOUT_MS,
     private readonly onTimeout: (key: K, label: string) => void = (key, label) =>
       console.error(`[shader build] timed out after ${timeoutMs} ms, key ${String(key)}, material ${label}; it builds synchronously on its next draw`),
+    private readonly startBudgetMs = START_BUDGET_MS,
+    private readonly now: () => number = () => performance.now(),
   ) {}
+  /** Most starts one task ran (tests and diagnostics: never above `inFlight`). */
+  maxStartsPerTask = 0;
 
   /** An unbuilt draw for `key`: queue its build (lower `priority` starts first; the latest start wins). `label` names the material in a timeout log. */
   request(key: K, priority: number, start: () => unknown, label = ""): void {
@@ -98,7 +104,12 @@ export class BuildQueue<K = unknown> {
   get pending(): number { return this.waiting.size + this.running.size; }
 
   private pump(): void {
+    const t0 = this.now();
+    let starts = 0;
     while (this.running.size < this.inFlight && this.waiting.size > 0) {
+      // over the task's budget: the rest start from the next task, after a frame can run
+      if (starts > 0 && this.now() - t0 >= this.startBudgetMs) { setTimeout(() => this.pump(), 0); break; }
+      starts++;
       let best: K | undefined, bestP = Infinity;
       for (const [k, w] of this.waiting) if (best === undefined || w.priority < bestP) { best = k; bestP = w.priority; }
       const key = best as K;
@@ -119,11 +130,15 @@ export class BuildQueue<K = unknown> {
       const timer = setTimeout(() => { if (free()) { this.timedOut.add(key); this.onTimeout(key, label); } }, this.timeoutMs);
       // a build that throws falls back to three's synchronous build once, like a timeout: never
       // re-queued per frame (walk 10, C7: a failing twin build looped every frame)
-      Promise.resolve().then(start).then(
+      // the start runs now, inside the budget it is measured against
+      let started: unknown;
+      try { started = start(); } catch (e) { started = Promise.reject(e); }
+      Promise.resolve(started).then(
         () => { if (free()) this.built++; },
         (e) => { if (free()) { this.timedOut.add(key); this.onError(e, key, label); } },
       );
     }
+    this.maxStartsPerTask = Math.max(this.maxStartsPerTask, starts);
   }
 }
 

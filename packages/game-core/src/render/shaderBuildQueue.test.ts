@@ -27,6 +27,28 @@ describe("BuildQueue", () => {
   });
 });
 
+describe("BuildQueue in flight and start budget (webgpu10 c10)", () => {
+  it("keeps N builds in flight and stops starting once a task's start time reaches the budget", async () => {
+    let clock = 0;
+    const started: string[] = [];
+    const done = new Map<string, () => void>();
+    // each start burns 2 ms of main thread (its first synchronous stage)
+    const start = (k: string) => () => { clock += 2; started.push(k); return new Promise<void>((r) => done.set(k, r)); };
+    const q = new BuildQueue<string>(8, () => {}, 10_000, () => {}, 6, () => clock);
+    for (let i = 0; i < 20; i++) q.request(`k${i}`, i, start(`k${i}`));
+    await tick();
+    expect(started).toHaveLength(3); // 0, 2, 4 ms started; the 4th would start at 6 ms: next task
+    expect(q.maxStartsPerTask).toBe(3);
+    await tick(); await tick(); await tick();
+    expect(started).toHaveLength(8); // the next tasks fill the slots, never above N
+    expect(q.pending).toBe(20);
+    for (const k of started.slice(0, 2)) done.get(k)!();
+    await tick(); await tick(); await tick();
+    expect(started).toHaveLength(10); // a settled build frees its slot for exactly one more
+    expect(q.maxStartsPerTask).toBeLessThanOrEqual(3);
+  });
+});
+
 describe("queueShaderBuilds", () => {
   it("times out a build that never settles: logs its key once, frees the slot, runs the next; a late settle frees nothing", async () => {
     const logged: string[] = [];
