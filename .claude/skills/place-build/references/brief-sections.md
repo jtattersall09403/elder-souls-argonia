@@ -86,4 +86,61 @@ reports each lane's elapsed time against it (R62).
   briefs and record corrections.
 - § Seams (step 0.3b): on-road or off-road, the route ids and terminals
   every internal way joins, the berths and the landing that reaches
-  each from dry ground, the sign arms and what they point to.
+  each from dry ground, the sign arms and what they point to. Read first
+  the route records that touch the place (`world/sources/routes/`: the
+  trunk or leg it sits on, every minor route ending at it, the ferry
+  crossing and its berths in `travel-services.json`), the painted road
+  polygon and width, and the neighbours within 500 m (the site packet).
+  **On the road**, the painted road is the spine: buildings face it,
+  nothing but ways, crossings and verge signs touch it; **off the road**,
+  the internal ways join the minor route at its terminal. Every internal
+  way reaches a real `networkTerminals[]` entry; the `check` rules catch
+  the rest (`roadSurfaceRule`, `berthReachRule`, `signRule`,
+  `pathReachRule`).
+
+## The row rules (SKILL step 1)
+
+- Pieces are chosen on measured size and the mined evidence, never on a
+  label (lessons L04, L05). **A candidate cites its record row** (0105
+  R34): the setting class (`settingClass` on the manifest row), the sink
+  row and the mounts pair it relies on; one with no row is marked
+  UNVERIFIED and is checked before it is placed. A survey by filename is
+  a lead, never a fact. A piece nobody made is a sourcing job (CLAUDE.md),
+  shown as a gap.
+- **Setting class** (R1, R9, R14–R17, R23): the piece's own plugin
+  licenses its setting and social scale; the place's class is its recipe's
+  `settingClass`. Gate `setting.class`.
+- **Lights** (R3, R7, R38): no point in the place, neighbours' fixtures
+  included, sees more than 16 fixtures within 200 m (gate
+  `lights.density`); plan the lit entrances first. Argonian hanging
+  lanterns hang where you judge they look good, at the mod's height,
+  verified by the reader pass.
+- **Sinks** (R12, R36): a tree, piece of architecture or piece 3 m or
+  taller whose sink row is the mesh-sill fallback holds the place red
+  (gate `sink.fallback`): choose a measured piece or re-mine its row; a
+  piece never stood on land gets a reviewed `assetPlacement` row (L83;
+  commands in [builder-practice.md](builder-practice.md) § Sinks).
+- Dressing is authored as named **yard sets** per building kind, defined
+  in the type sheet and placed with `group place` (0100 decision 5), and
+  obeys [dressing.md](dressing.md): every seat, spit and lantern faces its
+  user (R94), every idle socket stands at its prop (R95), every lodging,
+  trade, stable or smith parcel carries its pool's board by the door
+  (R96); `check` measures all three.
+- The bars: this place's tier and type objects in
+  `world/sources/placement/breadth-bars.json` (16k § 1b) and 0098 § 1's
+  table, each written with the number the brief plans to reach; the
+  per-dwelling count is R6's. A bar the culture's pool cannot reach is a
+  sourcing gap (0098 § 1).
+- **§ Variety** (R4, R37): per building the shell, its chosen cell and
+  every rejected pool member with its reason. Read the register digest and
+  `interiorCellClaims` (`signature-claims.json`) first; a cell used in the
+  region is legal only when every cell the fit rule accepts there is used.
+  First add the place to the claim table: `python3 -m worldgen.batch_prepass
+  --places <the table's places>,<place-id> --no-build` (worldgen, under
+  job_guard; a place the table lacks makes every place_gates run read ~30
+  cells from the plugins: jungle-root-hollow 67.6 s / 2.95 GiB uncovered,
+  6.9 s / 0.62 GiB covered). Hold the cells: `python3 -m worldgen.place_gates
+  --id <place-id> --claim-cells` (worldgen). Gate `interiors.variety`.
+- § Approach: the world 97 §5 questions
+  (`docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
+  §5) are answered inside § Walk-through ([design-intent.md](design-intent.md)).

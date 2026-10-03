@@ -65,9 +65,8 @@ a frozen layer or an accepted place (listed in
 the owner, batched into the next walk packet (the decision-rights table in
 [references/builder-practice.md](references/builder-practice.md) lists every other call).
 
-**A place's files and the entity tables they belong to** (who writes
-each, its ids, what references it): [docs/world/98-data-model.md](../../../docs/world/98-data-model.md)
-§ A place's files. Read it at step 0.
+**A place's files and entity tables**: [docs/world/98-data-model.md](../../../docs/world/98-data-model.md)
+§ A place's files, read at step 0.
 
 ## How the builder works
 
@@ -79,19 +78,10 @@ the record as a story about people in a particular region and climate,
 never as a parts list.
 
 [references/builder-practice.md](references/builder-practice.md) holds the
-binding practice (owner 2026-09-27): tool gaps go to a tooling sub-lane and
-never ride in a place round; everything that can run beside the edit is
-fanned out; **`wb.py scan` before any building is sited or re-sited** (the
-`scanFreshRule` check fails a building op no fresh scan covers, 0105 R31);
-one round is one batch and one apply; a fresh agent per round; builders
-write only per-place files and file REQUEST rows for shared ones; a proven
-type takes the template fast path; six builders at once. **A first-of-type
-place is launched as three briefs, never one**: (a) layout and kits (steps
-0-2), (b) render and fix rounds (steps 3-4), (c) export, publish and gates
-(step 5), each a fresh `place-builder` launched with the Agent tool (never
-inside a Workflow) that continues from the previous one's hand-off note;
-walk-9 place-builders briefed as one job ran 520k-830k context, 99.7 of
-106.4 units on turns over 200k (method review r7 P1).
+binding practice (owner 2026-09-27): tooling sub-lane, fan-out, **`wb.py
+scan` before any building is sited** (`scanFreshRule`, R31), one batch per
+round, a fresh agent per round, per-place files, the proven-type fast path,
+and **a first-of-type place launched as three briefs, never one**.
 
 ## 0. Orient (unattended)
 
@@ -123,31 +113,16 @@ would join an earlier walk's run is refused.
 
    `blueprint_promises --write` generates the **promise ledger**
    `world/sources/placement/promises/<place-id>.json` (0104 decision 3):
-   **the checklist you start from, work through and end on**. It holds
-   every claim of the record the build can keep or contradict: services,
-   NPCs, sockets, the principal interior, underwater access, the travel
-   station, each `why`/`vibe`/hook line, a `thing-<noun>` row for every
-   physical noun that prose names (shed, bones, steps, sign, seep, spring,
-   well, boat...) and each quest anchored here.
-   Fill a row with `fills: [id]` on the placed thing that shows it (the
-   layout `place` op, socket or pool; a `thing-` row is never kept by a
-   parcel named for it or by a confirmation), or `unfilled` with a 0102
-   reason. A prose row that names a physical noun is confirmed only with
-   `confirmed.ids: [<placement id>]`, the placements it rests on; the
-   gate (`python3 -m worldgen.promise_gate --place <id>`) fails any filler
-   or id not in the published bundle. Prose and quest rows are `confirmed` against the built
-   place at step 5b. The entity map is [docs/world/98-data-model.md](../../../docs/world/98-data-model.md);
-   the rules are [references/promise-ledger.md](references/promise-ledger.md).
-3b. **The place in its world (seams).** Read the route records that touch
-   it (`world/sources/routes/`: the trunk or leg it sits on, every minor
-   route ending at it, the ferry crossing and its berths in
-   `travel-services.json`), the painted road polygon and width, and the
-   neighbours within 500 m (the site packet). Decide **on the road** (the
-   painted road is the spine: buildings face it, nothing but ways,
-   crossings and verge signs touch it) or **off the road** (the internal
-   ways join the minor route at its terminal). Every internal way reaches a
-   real `networkTerminals[]` entry; the `check` rules catch the rest
-   (`roadSurfaceRule`, `berthReachRule`, `signRule`, `pathReachRule`).
+   **the checklist you start from, work through and end on**: every claim
+   of the record, a `thing-<noun>` row per physical noun its prose names.
+   Each row is filled by the placed thing that shows it (`fills`), or
+   `unfilled` with a 0102 reason; prose rows are confirmed on placement
+   ids at step 5b; `worldgen.promise_gate` fails a filler not in the
+   published bundle. Rules: [references/promise-ledger.md](references/promise-ledger.md).
+3b. **The place in its world (seams).** Read its routes, ferry berths,
+   road polygon and 500 m neighbours; decide **on the road** or **off the
+   road**; every internal way reaches a real `networkTerminals[]` entry
+   ([references/brief-sections.md](references/brief-sections.md) § Seams).
 4. Write `<place>.design.md` § Site: the record's `why`, `vibe`,
    `services`, `sockets`, `occupants`, `travelStation`, `questHooks`; the
    dossier's heights, water and slope facts (cited by file); the quest
@@ -195,51 +170,12 @@ A row that serves no intent line or stage is cut.
 
 - Every promise-ledger line appears as a row or as a written reason it is
   not built here.
-- Pieces are chosen on measured size and the mined evidence, never on a
-  label (lessons L04, L05). **A candidate cites its record row** (0105
-  R34): the setting class (`settingClass` on the manifest row), the sink
-  row and the mounts pair it relies on; one with no row is marked
-  UNVERIFIED and is checked before it is placed. A survey by filename is
-  a lead, never a fact. A piece nobody made is a sourcing job (CLAUDE.md),
-  shown as a gap.
-- **Setting class** (R1, R9, R14–R17, R23): the piece's own plugin
-  licenses its setting and social scale; the place's class is its recipe's
-  `settingClass`. Gate `setting.class`.
-- **Lights** (R3, R7, R38): no point in the place, neighbours' fixtures
-  included, sees more than 16 fixtures within 200 m (gate
-  `lights.density`); plan the lit entrances first. Argonian hanging
-  lanterns hang where you judge they look good, at the mod's height,
-  verified by the reader pass.
-- **Sinks** (R12, R36): a tree, piece of architecture or piece 3 m or
-  taller whose sink row is the mesh-sill fallback holds the place red
-  (gate `sink.fallback`): choose a measured piece or re-mine its row; a
-  piece never stood on land gets a reviewed `assetPlacement` row (L83;
-  commands in [references/builder-practice.md](references/builder-practice.md) § Sinks).
-- Dressing is authored as named **yard sets** per building kind, defined
-  in the type sheet and placed with `group place` (0100 decision 5), and
-  obeys [references/dressing.md](references/dressing.md): every seat,
-  spit and lantern faces its user (R94), every idle socket stands at its
-  prop (R95), every lodging, trade, stable or smith parcel carries its
-  pool's board by the door (R96); `check` measures all three.
-- The bars: this place's tier and type objects in
-  `world/sources/placement/breadth-bars.json` (16k § 1b) and 0098 § 1's
-  table, each written with the number the brief plans to reach; the
-  per-dwelling count is R6's. A bar the culture's pool cannot reach is a
-  sourcing gap (0098 § 1).
-- **§ Variety** (R4, R37): per building the shell, its chosen cell and
-  every rejected pool member with its reason. Read the register digest and
-  `interiorCellClaims` (`signature-claims.json`) first; a cell used in the
-  region is legal only when every cell the fit rule accepts there is used.
-  First add the place to the claim table: `python3 -m worldgen.batch_prepass
-  --places <the table's places>,<place-id> --no-build` (worldgen, under
-  job_guard; a place the table lacks makes every place_gates run read ~30
-  cells from the plugins: jungle-root-hollow 67.6 s / 2.95 GiB uncovered,
-  6.9 s / 0.62 GiB covered). Hold the cells: `python3 -m worldgen.place_gates
-  --id <place-id> --claim-cells` (worldgen). Gate `interiors.variety`.
-- § Approach: the world 97 §5 questions
-  (`docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
-  §5) are answered inside § Walk-through
-  ([references/design-intent.md](references/design-intent.md)).
+- The row rules, each with its gate ([references/brief-sections.md](references/brief-sections.md)
+  § The row rules): a candidate cites its record row (R34) or is
+  UNVERIFIED; setting class (`setting.class`); lights (`lights.density`);
+  sinks (`sink.fallback`); yard sets and dressing facing (R94–R96); the
+  breadth bars with planned numbers; § Variety with the claimed cells
+  (`interiors.variety`); § Approach inside § Walk-through.
 - § Interiors, § Containers and items, § Creative register, § Sockets,
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
@@ -271,10 +207,9 @@ record row or an UNVERIFIED mark.
    `world/sources/placement/yard-sets/<type>.json` (0101); a new set is a
    REQUEST row, never only a `group save` in the layout.
 2b. **Dry or wet, decided per piece** (R86): standing in water is a
-   design decision, never a `check` failure. A dry piece's spot reads no
-   `waterLevelM` on `wb.py <scene> ground --at X Z` (the fine raster); a wet
-   one carries `"wet": true` on its `place` op. After `apply`, a `check`
-   row with `waterDepthM` > 0 and `wet` false is a mistake: move it.
+   design decision: a dry piece's spot reads no `waterLevelM` on `wb.py
+   <scene> ground --at X Z`; a wet one carries `"wet": true`; a `check` row
+   with `waterDepthM` > 0 and `wet` false is moved.
 3. Scan every building's site, then apply:
 
         python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage survey-and-scans --start
@@ -323,10 +258,8 @@ Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new
 
 The first round frames any newly kitted pieces for the kit checklist ([references/kit-review.md](references/kit-review.md)). Every reader brief follows [references/reader-brief.md](references/reader-brief.md), open question last.
 
-Lit pieces: add a day and a night close-up per fixture
-(`front:<uid>/2.5`, `front:<uid>/2.5@night`); the fire pass shows each
-resolved flame; presets, the contact sheet and the anchor check are in
-`references/fire.md`.
+Lit pieces: a day and a night close-up per fixture (`front:<uid>/2.5`,
+`@night`); presets, contact sheet and anchor check: `references/fire.md`.
 
 Interiors: run `wb.py render-interior <cell>` for every tier-A cell the
 place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-sockets.md`
@@ -335,13 +268,10 @@ place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-
 verified only by `tooling/visual-look/flames.mjs` on the built site, one
 PASS per cell and one outdoors at night (`references/fire.md` § 3 step 4;
 the render's flame proxy is not that check). Before the renders,
-`wb.py audit-interior <cell ...>` (~20 s a cell, under `job_guard.sh`)
-must exit 0: textures published, pieces seated within 5 cm, stairs
-landed, hearths with fire, one lit fixture per 12 m² of reachable floor
-(reader row 49) and no coplanar pair; `wb.py coplanar` / `check`'s
-`coplanar` rule does the same for places (reader row 50, R90). Rules and
-fixes: [references/builder-practice.md](references/builder-practice.md) § Interior audit.
-A red is fixed at source, never by moving a plugin piece.
+`wb.py audit-interior <cell ...>` (~20 s a cell, under `job_guard.sh`;
+reader rows 49-50, R90; `check`'s `coplanar` rule for places) must exit 0
+([references/builder-practice.md](references/builder-practice.md) § Interior audit);
+a red is fixed at source, never by moving a plugin piece.
 
 The top, front and iso shots judge the layout; the 4b shots judge what the
 player sees. One Blender launch: the top view, one front per building, two isos, and a
@@ -410,24 +340,16 @@ The palette is not a subset of any sibling's ([references/palette-and-breadth.md
   water and pose (same reference § Verify).
 
 **5b. Record coherence (0104 decision 6, 0117; owner walks 7, 8 and 9).**
-The catalogue record is the one truth the 2D map popup (`places.json`,
-from `export_places` above) and the builders read; it must agree with
-itself, the world around it (routes, neighbours, water), the scene as
-built (what stands on land, water or islet, what the plank walks join,
-what grows within 200 m), every quest that uses it, lore and the built
-place, and its change set must leave every other place and quest as
-coherent as it found them. Run the protocol in
-[references/record-coherence.md](references/record-coherence.md): build
-the packet (`worldgen.record_coherence --place <id>`; read its § Scene
-before writing one word about where things stand or what grows), six
-readers return NO lists, ONE Opus synthesis writes one change set, then
-`record_coherence --changed` (every touched record and every place that
-references one, green; the `set` reader reads its before/after packet),
-`export_places`, `blueprint_promises --write` ([references/promise-ledger.md](references/promise-ledger.md)
-§ Record = built), `record_coherence --receipt` and one `text-review`.
-The record is the intent and the place is built up to it (direction rule:
-record-coherence.md § 3). Never one issue at a time. Gates `record.coherence` (every built place),
-`record.regression`, `record.consistency` and `promises` fail until done.
+The catalogue record must agree with itself, its world, the scene as
+built, its quests, lore and the built place, and its change set must leave
+every other place as coherent as it found it. Run
+[references/record-coherence.md](references/record-coherence.md) in full
+(packet: `worldgen.record_coherence --place <id>`, read its § Scene before
+writing a word about where things stand or grow; six readers; ONE
+synthesis and change set; `--changed`; `export_places`;
+`blueprint_promises --write`; `--receipt`; one `text-review`). Never one
+issue at a time. Gates `record.coherence`, `record.regression`,
+`record.consistency` and `promises` fail until done.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the
@@ -439,17 +361,11 @@ batch's last place gets here.
 place** (owner 2026-09-27): plain English, at most ~20 lines per place
 plus pictures, every line checked against the records (R5). Each section's
 detail and the post procedure are in
-[references/walk-packet.md](references/walk-packet.md). Sections, in order:
-
-1. **What this place is** (three sentences: where, who, why it exists).
-2. **Start here:** deployed-studio links (anchor, each building's interior, `&sockets=1`); the deploy ran green first.
-3. **What changed since the last walk:** `wb.py whatchanged <layout> --base <walked commit>` (R35), with R74 before/after values.
-4. **The numbers, one line:** `check`, reader NOs, promises N of N, colliders, lights, interiors; full `walktable` to the walk folder.
-5. **Please look at** (at most eight lines): only judgements no tool makes.
-6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls** only for world-level choices.
-7. Pictures (0102 decision 11): the plan render and up to four Blender shots, committed.
-8. The last feel-check verdict (per mood word) and its three keep-images.
-9. How to reply, then the stay-or-switch line (0083). Post per walk-packet.md (two runs, pictures pushed between).
+[references/walk-packet.md](references/walk-packet.md), whose section
+list is the packet's order: what this place is, start here (deployed
+links), what changed (`wb.py whatchanged`, R35), the numbers, please look
+at, § Gaps (0102's four reasons only) and § Owner calls, pictures, the
+feel-check verdict, how to reply and the stay-or-switch line.
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
@@ -465,15 +381,9 @@ detail and the post procedure are in
    needs goes to the tooling sub-lane, which shows it **failing first on
    the defect**; the place round takes it at its next round and never
    writes it. A visual row gets its `reader-checklist.md` line by REQUEST.
-3. **Edit the place; never rebuild it** (owner 2026-09-27). Every op keeps
-   its `uid`; ops are added, changed or removed surgically, the brief's
-   rows likewise, and `apply` re-derives the scene. A building to re-site
-   is scanned first (R31): the planner's brief names the need, the scan the
-   site. Re-authoring the layout, re-running the dossier or the ledger from
-   nothing, or re-choosing shells the owner did not fault needs a planner
-   ruling naming the cause. The inner loop of steps 2–4 runs to zero
-   `check` failures and zero reader NOs; a reader NO on something the
-   owner called right goes to the planner, not fixed.
+3. **Edit the place; never rebuild it** (owner 2026-09-27): ops keep their
+   `uid`, re-sites are scanned, a rebuild needs a planner ruling; the inner
+   loop runs to zero failures and NOs ([references/builder-practice.md](references/builder-practice.md)).
 4. When the round touched the record, a quest or what is built, run
    step 5b's record-coherence protocol once over the place. Then
    `place_gates` and the § 5 read-back of every fix against the
@@ -525,7 +435,6 @@ writes the lessons, the type sheet and the judgements:
 
 ## Not automated yet
 
-- Kit choice per use and culture is a judgement: the gates check a choice
-  is legal, not good; the type sheets make the judgement reusable.
+- Kit choice per use and culture: gates check legal, not good; type sheets reuse the judgement.
 - `waterOk` and `fixedBerthReason` need a lore reason written by hand.
 - Type 8 and the opening-scene places are built with the owner (0062 § 9).

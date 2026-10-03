@@ -46,6 +46,7 @@ records and the runtime, never written from memory. Sections, in order:
    committed (`git add -f -- <png>`), embedded by `--attach`. A place
    picture from any other render folder is never attached; interior and
    fire close-ups come from `render-interior` / `npm run look`.
+7b. The last feel-check verdict (per mood word) and its three keep-images.
 8. How to reply: "walk it and tell me what looks wrong, in one message;
    'looks right' when done." Then the stay-or-switch line (0083).
 
