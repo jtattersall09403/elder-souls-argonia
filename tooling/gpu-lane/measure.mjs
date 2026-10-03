@@ -14,7 +14,7 @@
  * --pod: host sampler (host-sampler.mjs) beside workerGaps (a --spots run with a headline row needs --pod or --no-pod); --maps: hidden source maps (source-maps.mjs, A1).
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
- * --smoke: one spot (default spot a), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
+ * --smoke: one spot (default spot a; with --spots, every spot of the file), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
  * a black frame, a GPU/WebGL error or lost context, or a tab this run did not open. Run before a baseline.
  * --census: after the ready gate, a per-draw census, matrixAutoUpdate census, heap slope and a 30 s hitch
  * list with top functions; writes census.json and census.txt beside measure.json (WebGL renderer).
@@ -73,9 +73,10 @@ export function parseArgs(argv) {
     else throw new Error(`unknown option --${k}`);
   }
   if (o.smoke) { // one spot, 60 s: ready gate <= 40 s, 5 s settle, one screenshot for the black-frame check
-    if (!o.url.length) o.url.push(`${SPOT_A}&rate=${CAPTURE_RATE}`); // the studio clock at the game's own speed (spots.mjs CAPTURE_RATE; paused without rate=)
+    if (!o.url.length && !o.spots) o.url.push(`${SPOT_A}&rate=${CAPTURE_RATE}`); // the studio clock at the game's own speed (spots.mjs CAPTURE_RATE; paused without rate=)
     o.clean ||= "1";
-    o.url.splice(1); o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
+    if (!o.spots) o.url.splice(1);
+    o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
   }
   if (o.spots) { // one line per spot; each spot carries its own aim and walk; HUD-free screenshots of every spot
     if (o.url.length) throw new Error("--spots replaces --url");
@@ -703,9 +704,13 @@ export function stepsSchedule(steps, baseYaw = 0) {
 
 /**
  * `loadTimeline` of a spot from one in-page read just after the harness ready gate ({nowMs, resources [[url, startMs,
- * responseEndMs, encodedBytes]], marks [[name, ms]], programs [[ms, n]]}); every time is seconds from navigation.
- * readyS = the page's warm gate (`es:load:warm-gate` mark, else the harness gate); completeS = the harness gate
- * (build queue 0 and streaming quiet); kits = URLs containing `/kits/`.
+ * responseEndMs, encodedBytes, initiatorType]], marks [[name, ms]], programs [[ms, n]]}); every time is seconds from
+ * navigation. readyS = the page's warm gate (`es:load:warm-gate` mark, else the harness gate); completeS = the
+ * moment the harness gate (`isReady`: 20 s floor, HUD tris within 2 %, no "Loading" line, CPU pre/gc quiet; it reads
+ * no build queue) passed; sceneCompleteS = the last sign of the scene still arriving: max(last resource responseEnd,
+ * last program-count change, `es:load:settlement-first-build`, last `es:load:*` mark); kits = URLs containing
+ * `/kits/`; `requests` = per-URL rows (path, initiatorType, startS, endS, MB) for the 40 largest plus every JSON
+ * request, by start time.
  */
 export function buildLoadTimeline({ nowMs, resources = [], marks = [], programs = [] }) {
   const s = (ms) => (ms == null ? null : Math.round(ms) / 1000);
@@ -715,7 +720,15 @@ export function buildLoadTimeline({ nowMs, resources = [], marks = [], programs 
   const sum = (rs) => ({ requests: rs.length, MB: mb(rs.reduce((a, r) => a + (r[3] || 0), 0)),
     firstStartS: rs.length ? s(Math.min(...rs.map((r) => r[1]))) : null, lastEndS: rs.length ? s(Math.max(...rs.map((r) => r[2]))) : null });
   const kits = resources.filter((r) => r[0].includes("/kits/"));
-  return { firstPresentS: s(mark("es:load:first-present")), readyS: s(readyMs), completeS: s(nowMs),
+  const loadMarks = marks.filter(([n]) => n.startsWith("es:load:"));
+  let programsChangedMs = null;
+  programs.forEach(([t, n], i) => { if (i === 0 || n !== programs[i - 1][1]) programsChangedMs = t; });
+  const sceneCompleteMs = Math.max(0, ...resources.map((r) => r[2]), ...loadMarks.map(([, t]) => t), programsChangedMs ?? 0);
+  const row = (r) => ({ url: new URL(r[0], "http://x").pathname, initiatorType: r[4] ?? "", startS: s(r[1]), endS: s(r[2]), MB: mb(r[3] || 0) });
+  const isJson = (r) => /\.json(\?|$)/.test(r[0]);
+  const keep = new Set([...[...resources].sort((a, b) => (b[3] || 0) - (a[3] || 0)).slice(0, 40), ...resources.filter(isJson)]);
+  return { firstPresentS: s(mark("es:load:first-present")), readyS: s(readyMs), completeS: s(nowMs), sceneCompleteS: s(sceneCompleteMs),
+    requests: [...keep].sort((a, b) => a[1] - b[1]).map(row),
     kits: sum(kits), all: sum(resources), kitMBBeforeReady: mb(kits.filter((r) => r[2] <= readyMs).reduce((a, r) => a + (r[3] || 0), 0)),
     marks: marks.filter(([n]) => n.startsWith("es:load:")).map(([stage, t]) => ({ stage: stage.slice(8), t: s(t) })),
     programs: programs.map(([t, n]) => [s(t), n]) };
@@ -726,7 +739,7 @@ export function loadTimelineText(name, l, cold = false) {
   const tag = `${name}${cold ? " (cold)" : ""}`;
   if (!l || l.error) return `${tag}: no load timeline${l?.error ? ` (${l.error})` : ""}`;
   const k = l.kits, a = l.all;
-  return `${tag}: first present ${l.firstPresentS}, ready ${l.readyS}, complete ${l.completeS}; kits ${k.requests} req ${k.MB} MB ${k.firstStartS}-${k.lastEndS} (${l.kitMBBeforeReady} MB before ready); all ${a.requests} req ${a.MB} MB; programs ${l.programs.at(-1)?.[1] ?? "n/a"}; ${l.marks.map((m) => `${m.stage} ${m.t}`).join(", ")}`;
+  return `${tag}: first present ${l.firstPresentS}, ready ${l.readyS}, complete ${l.completeS}, scene complete ${l.sceneCompleteS}; kits ${k.requests} req ${k.MB} MB ${k.firstStartS}-${k.lastEndS} (${l.kitMBBeforeReady} MB before ready); all ${a.requests} req ${a.MB} MB; programs ${l.programs.at(-1)?.[1] ?? "n/a"}; ${l.marks.map((m) => `${m.stage} ${m.t}`).join(", ")}`;
 }
 
 /** A pageerror entry with its stack kept (perf-diag9 E2: the message alone could not name the throwing caller). */
@@ -773,7 +786,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const tReady = Date.now();
   const loadTimeline = await hl.wrap("evaluate:load-timeline", () => page.evaluate(() => ({
     nowMs: performance.now(),
-    resources: performance.getEntriesByType("resource").map((e) => [e.name, e.startTime, e.responseEnd, e.encodedBodySize]),
+    resources: performance.getEntriesByType("resource").map((e) => [e.name, e.startTime, e.responseEnd, e.encodedBodySize, e.initiatorType]),
     marks: performance.getEntriesByType("mark").map((e) => [e.name, e.startTime]),
     programs: window.__GPU_LANE__?.programs ?? [] }))).then(buildLoadTimeline).catch((e) => ({ error: String(e) }));
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
@@ -944,7 +957,7 @@ async function main() {
   if (o.smoke) {
     const bad = result.urls.flatMap((u) => u.smoke?.problems ?? ["no smoke result"]);
     if (bad.length) { console.error(`SMOKE FAIL:\n  ${bad.join("\n  ")}`); process.exit(1); }
-    console.log(`SMOKE PASS (ready ${result.urls[0].readyS} s, uncapped ${result.urls[0].uncappedFps} fps, luma ${result.urls[0].smoke.luma})`);
+    for (const u of result.urls) console.log(`SMOKE PASS ${u.name} (ready ${u.readyS} s, uncapped ${u.uncappedFps} fps, luma ${u.smoke.luma})`);
   }
 }
 

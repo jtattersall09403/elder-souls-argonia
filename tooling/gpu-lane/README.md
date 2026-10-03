@@ -74,7 +74,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 7. Diagnose: ONE report per round lists every cause found; then ONE parallel fix wave. Fix agents never measure.
 
 **Run `--smoke` before any full baseline** (clock running via `rate=0.5`, HUD hidden in its screenshot; `node tooling/gpu-lane/measure.mjs --smoke --cdp 127.0.0.1:<port>`;
-spot a, about 40 s, exits 1 and names the reason): it fails on the vsync cap (uncapped fps within 1.5 of the
+spot a (or, with `--spots <file>`, every spot of the file), about 40 s each, exits 1 and names the reason): it fails on the vsync cap (uncapped fps within 1.5 of the
 58.5 blank-page cap), a ready gate over 40 s, a black frame (settled screenshot mean luminance under 8), a
 GPU/WebGL console error or lost context, or a page in the browser this run did not open.
 
@@ -176,8 +176,10 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   numbers after it were taken on a loading scene.
 - `loadTimeline` (every spot, read once just after the ready gate; seconds from navigation; one line per spot under
   `## Load` in summary.md): `firstPresentS` (first rAF frame, mark `es:load:first-present` from the init script),
-  `readyS` (the page's warm gate, mark `es:load:warm-gate`, else the harness gate), `completeS` (the harness gate:
-  build queue 0 and streaming quiet), `kits` and `all` (`requests`, `MB` encodedBodySize, `firstStartS`, `lastEndS`;
+  `readyS` (the page's warm gate, mark `es:load:warm-gate`, else the harness gate), `completeS` (when the harness gate
+  `isReady` passed; it reads no build queue), `sceneCompleteS` (max of the last resource `responseEnd`, the last
+  program-count change, `settlement-first-build` and the last `es:load:*` mark: when the scene stopped arriving), `requests` (per-URL
+  rows `{url, initiatorType, startS, endS, MB}` for the 40 largest plus every JSON request, by start time), `kits` and `all` (`requests`, `MB` encodedBodySize, `firstStartS`, `lastEndS`;
   kits = URLs containing `/kits/`; the resource buffer is raised to 20000 entries), `kitMBBeforeReady`, `marks`
   (every `es:load:*` mark: `warm-gate`, `kit-fetch-start`, `kit-fetch-end` (first settlement kit GLB),
   `settlement-first-build` (the settlement layer's first swap-in), as `{stage, t}`) and `programs`
