@@ -2071,12 +2071,16 @@ def sign(cat, scene, uids=None) -> dict:
     return piece_rule("sign", cat, scene, uids)
 
 
-def _ends(cat, p) -> tuple[tuple[float, float], tuple[float, float]]:
+def _ends(cat, p, climb: bool = False) -> tuple[tuple[float, float], tuple[float, float]]:
     """A way piece's two ends: the middles of the short sides of its
-    footprint's minimum rotated rectangle; a piled deck's from its mesh plan
-    box (`_piled_box`, the walk grid's own box, so the two rules agree)."""
+    footprint's minimum rotated rectangle; a piled deck's, or a CLIMB run
+    member's (``climb``: `climb_uids`), from its mesh plan box (`_piled_box`,
+    the walk grid's own box, so the two rules agree). A climb piece's
+    footprint is its lowest 1.5 m only: stairs02's top tread stands 2.0 m
+    past it, so the crossings stair's walked top end read the bank face
+    under the lip (audit10 c6)."""
     from shapely.geometry import Polygon
-    box = (_piled_box(cat, p) if cat.row(p.asset).get("piled")
+    box = (_piled_box(cat, p) if climb or cat.row(p.asset).get("piled")
            else Polygon(measure.footprint_province(cat, p)).minimum_rotated_rectangle)
     rect = list(box.exterior.coords)[:4]
     sides = [((rect[i][0] + rect[(i + 1) % 4][0]) / 2, (rect[i][1] + rect[(i + 1) % 4][1]) / 2,

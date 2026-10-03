@@ -27,7 +27,7 @@
    "structures": [
     {"kind": "bridge", "id": "structure.border-road-greenspring-crossings.river", "crossingId": "crossing.major.009", "builtBy": "this-place"},
     {"kind": "deck", "id": "structure.border-road-greenspring-crossings.inlet", "crossingId": "crossing.major.012", "junctionId": "junction.pin.stormhold-thorn.inlet-mouth", "builtBy": "this-place"},
-    {"kind": "stair", "id": "structure.road-stormhold-thorn.12", "builtBy": "route-compile"},
+    {"kind": "stair", "id": "structure.road-stormhold-thorn.12", "builtBy": "this-place"},
     {"kind": "lip-step", "id": "structure.road-stormhold-thorn.15", "builtBy": "route-compile", "status": "pending: packet", "pendingWhy": "not on this stretch: it stands 480 m east of Greenspring inside the Two-Gate Bridge's ground, which places it when that place is built"},
     {"kind": "ferry-crossing", "id": "ferry.imperial-fringe.drowning-gate", "builtBy": "place.imperial-fringe.claywater-station", "status": "pending: packet", "pendingWhy": "not on this stretch: the Drowning Gate ferry serves the Gideon-Blackwood road and is built at Claywater Station"}
    ],

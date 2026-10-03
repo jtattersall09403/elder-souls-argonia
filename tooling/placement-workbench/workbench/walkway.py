@@ -123,12 +123,18 @@ def _stations(points, step=SAMPLE_M):
     return out
 
 
-def _slope_deg(g, x, z, r=FLAT_R_M) -> float:
-    """Steepest slope between the point and a ring at r/2 and r (8 bearings)."""
+def _slope_deg(g, x, z, r=FLAT_R_M, forward=None) -> float:
+    """Steepest slope between the point and a ring at r/2 and r (8 bearings).
+    ``forward`` (a unit (dx, dz), a run end's outward way): bearings behind
+    the end are skipped, since the walker arrives there on the deck, not the
+    ground (a stair topping a bank: the drop it climbs is behind its top end;
+    audit10 c6 crossings)."""
     h0 = g.height(x, z)
     worst = 0.0
     for k in range(8):
         b = math.radians(45 * k)
+        if forward is not None and math.sin(b) * forward[0] - math.cos(b) * forward[1] < -0.01:
+            continue
         prev = (0.0, h0)
         for rr in (r / 2, r):
             h = g.height(x + rr * math.sin(b), z - rr * math.cos(b))
@@ -322,7 +328,12 @@ def _deck_centre(cat, p):
 
 def run_lines(cat, scene, g):
     """{run id: (members, points, (start_on_ground, end_on_ground))}."""
-    from .rules import _ends
+    from .rules import _ends as _plan_ends, climb_uids
+    climbs = climb_uids(scene)
+
+    def _ends(cat_, q):                 # a climb member ends at its top tread, not its footprint
+        return _plan_ends(cat_, q, q.uid in climbs)
+
     runs: dict[str, list] = {}
     for p in scene.pieces:
         if p.y is None or not getattr(p, "walkable", False):
@@ -612,9 +623,9 @@ def walkway(cat, scene, ys: dict | None = None) -> dict:
         for end, ok, (x, z) in (("start", dry[0], pts[0]), ("end", dry[1], pts[-1])):
             if kind == "door" or not ok:
                 continue
-            sl = _slope_deg(g, x, z)
             (ax, az), (bx, bz) = (pts[1], pts[0]) if end == "start" else (pts[-2], pts[-1])
             dl = math.hypot(bx - ax, bz - az) or 1.0
+            sl = _slope_deg(g, x, z, forward=((bx - ax) / dl, (bz - az) / dl))
             side, side_at = _step_off_slope_deg(g, x, z, ((bx - ax) / dl, (bz - az) / dl))
             row[end] = {"xz": [round(x, 2), round(z, 2)], "slopeDeg": round(sl, 1),
                         "stepOffDeg": round(side, 1), "stepOffXz": side_at}

@@ -93,3 +93,28 @@ def test_the_mined_stairs02_joint_is_not_coplanar_but_the_pieces_are_judged_agai
     lone = Piece("lone", a, st1.x, st1.z, yaw=st1.yaw, y=st1.y)
     sc.pieces = [st0, lone]
     assert any("lone" in f for f in rules.coplanar(cat, sc, mined_joint=wb.mined_run_joint)["failures"])
+
+
+def test_a_stair_top_end_on_the_lip_reads_the_ground_ahead_not_the_drop_it_climbed():
+    """The crossings stair's walked top end, 0.8 m onto a flat bank top, read
+    50.6 deg not-flat from the 7.8 m drop behind it (the stair's own climb)."""
+    bank = _Bank(0.0, 7.8)
+    assert walkway._slope_deg(bank, 0.0, 0.8) > 12.0
+    assert walkway._slope_deg(bank, 0.0, 0.8, forward=(0.0, 1.0)) == 0.0
+    # the drop AHEAD of an end is still judged
+    assert walkway._slope_deg(bank, 0.0, 0.8, forward=(0.0, -1.0)) > 12.0
+
+
+def test_a_climb_member_ends_at_its_mesh_not_its_lowest_band():
+    """stairs02's footprint is its lowest 1.5 m: the flight's top end read
+    2.0 m short of the top tread, on the bank face under the lip."""
+    from workbench import paths
+    if not (paths.RAW_KITS).exists():
+        pytest.skip("raw kit builds absent (local only)")
+    import math
+    from workbench import rules
+    from workbench.kits import Catalogue
+    cat = Catalogue()
+    p = Piece("st-2", "kotm:argonia/mudhuts/stairs02", 4475.55, 1629.35, yaw=268.1, y=8.15)
+    foot, mesh = rules._ends(cat, p), rules._ends(cat, p, climb=True)
+    assert math.dist(*mesh) > 3.3 > math.dist(*foot) + 1.5

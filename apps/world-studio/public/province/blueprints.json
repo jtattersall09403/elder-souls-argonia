@@ -14790,8 +14790,8 @@
           "id": "approach.border-road-greenspring-crossings.from-the-west",
           "mode": "walk",
           "notes": null,
-          "sequence": "Coming south-east along the road from Stormhold, a cairn marks the head of the river crossing and the planks run straight across the marsh to the stone steps.",
-          "wayfinding": "Across the planks, up the steps and along the top of the bank."
+          "sequence": "Coming south-east along the road from Stormhold, a cairn marks the head of the river crossing and the planks run straight across the marsh to a steep timber stair.",
+          "wayfinding": "Across the planks, up the stair and along the top of the bank."
         }
       ],
       "assetConstraints": [],
@@ -14838,60 +14838,60 @@
           "notes": null,
           "polygon": [
             [
-              4470.187,
-              1556.136
+              4470.117,
+              1553.936
             ],
             [
-              4467.718,
-              1558.569
+              4467.648,
+              1556.369
             ],
             [
-              4469.048,
-              1618.547
+              4468.978,
+              1616.347
             ],
             [
-              4469.058,
-              1618.867
+              4468.988,
+              1616.667
             ],
             [
-              4469.402,
-              1622.566
+              4469.332,
+              1620.366
             ],
             [
-              4469.885,
-              1626.495
+              4469.815,
+              1624.295
             ],
             [
-              4472.37,
-              1628.645
+              4472.3,
+              1626.445
             ],
             [
-              4475.481,
-              1628.539
+              4475.411,
+              1626.339
             ],
             [
-              4480.053,
-              1624.719
+              4479.983,
+              1622.519
             ],
             [
-              4481.361,
-              1623.322
+              4481.291,
+              1621.122
             ],
             [
-              4481.561,
-              1618.505
+              4481.491,
+              1616.305
             ],
             [
-              4480.267,
-              1560.126
+              4480.197,
+              1557.926
             ],
             [
-              4480.205,
-              1558.266
+              4480.135,
+              1556.066
             ],
             [
-              4477.659,
-              1555.888
+              4477.589,
+              1553.688
             ]
           ],
           "why": "The flat top of the river bank between the steps and the inlet, the one open footing between the two crossings."
@@ -14906,13 +14906,13 @@
       "districts": [
         {
           "centreM": [
-            4602.451,
-            1697.463
+            4594.231,
+            1692.817
           ],
           "cultureKit": "argonian-mud",
           "id": "district.border-road-greenspring-crossings.the-crossings",
           "kind": "route-structure",
-          "notes": "The stretch of the Border road from the Greenspring track west to the river marsh, with its two plank crossings and the stone steps up the river bank.",
+          "notes": "The stretch of the Border road from the Greenspring track west to the river marsh, with its two plank crossings and the timber stair up the river bank.",
           "polygon": [
             [
               4468.456,
@@ -14927,20 +14927,24 @@
               1552.051
             ],
             [
-              4469.059,
-              1618.873
+              4468.989,
+              1616.673
             ],
             [
-              4469.402,
-              1622.566
+              4469.332,
+              1620.366
             ],
             [
-              4469.882,
-              1626.47
+              4469.645,
+              1622.918
             ],
             [
-              4657.96,
-              1792.867
+              4471.289,
+              1631.077
+            ],
+            [
+              4657.978,
+              1792.877
             ],
             [
               4661.281,
@@ -14979,7 +14983,7 @@
           "why": {
             "microGeography": "Firm lowland and bank between black marsh water, the road a worn earth strip on the dry ground.",
             "playerPurpose": "The way between Greenspring and the west, dry underfoot only where the planks carry it.",
-            "what": "The Border road between the Greenspring track and the river marsh, with its two plank crossings, the stone steps and the marks beside the way.",
+            "what": "The Border road between the Greenspring track and the river marsh, with its two plank crossings, the timber stair and the marks beside the way.",
             "whyHere": "The road keeps to the dry strip at the mountain foot and has to cross water twice before it can climb the river bank.",
             "whyNeighbours": "Greenspring stands up its own track at the east end; the road runs on west toward Stormhold."
           }
@@ -15107,6 +15111,61 @@
         },
         {
           "assetRef": null,
+          "buildingFamily": "kotm-mudhuts",
+          "centreM": [
+            4475.44,
+            1624.41
+          ],
+          "districtId": "district.border-road-greenspring-crossings.the-crossings",
+          "entrance": null,
+          "front": null,
+          "groundFit": "direct",
+          "id": "parcel.border-road-greenspring-crossings.bank-stair",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Climbs south on the line of the planks, so a walker crosses the 0.4 m gap from the last span onto its bottom tread and off its top tread onto the bank top.",
+          "polygon": [
+            [
+              4475.969,
+              1622.571
+            ],
+            [
+              4474.79,
+              1622.611
+            ],
+            [
+              4474.894,
+              1627.55
+            ],
+            [
+              4474.94,
+              1628.949
+            ],
+            [
+              4476.12,
+              1628.91
+            ],
+            [
+              4476.016,
+              1623.97
+            ]
+          ],
+          "spans": null,
+          "use": "stair",
+          "why": {
+            "microGeography": "Its foot is sunk in the marsh mud 0.4 m past the planks; it leans up the face of the bank and its top tread meets the grass at the bank edge.",
+            "playerPurpose": "The road itself up the bank, step by step from the planks to the dry ground.",
+            "what": "A steep timber stair of three flights carrying the road from the river crossing up the river bank.",
+            "whyHere": "The bank rises eight metres in two metres of ground at the south end of the crossing, too steep to walk or to cut back.",
+            "whyNeighbours": "The planks of the river crossing end at its foot; the road runs on along the top of the bank.",
+            "whySpot": "At the south end of the planks, where the road leaves the marsh and climbs onto the bank."
+          },
+          "yawDeg": 268.1
+        },
+        {
+          "assetRef": null,
           "buildingFamily": "vanilla-docks",
           "centreM": [
             4660.99,
@@ -15208,8 +15267,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-docks",
           "centreM": [
-            4474.12,
-            1563.64
+            4474.05,
+            1561.44
           ],
           "districtId": "district.border-road-greenspring-crossings.the-crossings",
           "entrance": null,
@@ -15220,74 +15279,74 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Laid north to south along the road's line, so the planks meet the foot of the stone steps square.",
+          "orientationWhy": "Laid north to south along the road's line, so the planks end in line with the stair up the bank, 0.4 m short of its foot.",
           "polygon": [
             [
-              4476.138,
-              1559.941
+              4476.068,
+              1557.741
             ],
             [
-              4471.881,
-              1560.082
+              4471.811,
+              1557.882
             ],
             [
-              4471.755,
-              1560.207
+              4471.685,
+              1558.007
             ],
             [
-              4473.046,
-              1618.436
+              4472.976,
+              1616.236
             ],
             [
-              4473.052,
-              1618.616
+              4472.982,
+              1616.416
             ],
             [
-              4473.379,
-              1622.137
+              4473.309,
+              1619.937
             ],
             [
-              4473.667,
-              1624.478
+              4473.597,
+              1622.278
             ],
             [
-              4473.801,
-              1624.594
+              4473.731,
+              1622.394
             ],
             [
-              4473.971,
-              1624.588
+              4473.901,
+              1622.388
             ],
             [
-              4477.3,
-              1621.807
+              4477.23,
+              1619.607
             ],
             [
-              4477.426,
-              1621.672
+              4477.356,
+              1619.472
             ],
             [
-              4477.56,
-              1618.466
+              4477.49,
+              1616.266
             ],
             [
-              4476.268,
-              1560.237
+              4476.198,
+              1558.037
             ],
             [
-              4476.262,
-              1560.057
+              4476.192,
+              1557.857
             ]
           ],
           "spans": null,
           "use": "dock",
           "why": {
             "microGeography": "Planks a hand's breadth over black marsh water on sunk piles.",
-            "playerPurpose": "The road itself across the river marsh, dry underfoot from the cairn to the steps.",
-            "what": "The river crossing: plank spans on piles carrying the road over a reach of the river marsh, up to the foot of the stone steps.",
-            "whyHere": "The road meets the river marsh at its narrowest reach; water stands up to a metre and a quarter deep.",
-            "whyNeighbours": "The cairn at its north head marks it; the stone steps climb the bank from its south end.",
-            "whySpot": "From the dry ground at the north end straight south across the marsh to the foot of the steps up the bank."
+            "playerPurpose": "The road itself across the river marsh, dry underfoot from the cairn to the stair.",
+            "what": "The river crossing: plank spans on piles carrying the road over a reach of the river marsh, up to the foot of the timber stair.",
+            "whyHere": "The road meets the river marsh at its narrowest reach; water stands about 1.3 m deep.",
+            "whyNeighbours": "The cairn and a grave mound stand at its north head; the timber stair climbs the bank from its south end.",
+            "whySpot": "From the dry ground at the north end straight south across the marsh to the foot of the stair up the bank."
           },
           "yawDeg": 178.1
         },
@@ -15375,10 +15434,10 @@
           "use": "waymark",
           "why": {
             "microGeography": "The edge of the marsh, where dry ground meets black water.",
-            "playerPurpose": "Marks the start of the crossing for anyone coming from Stormhold. The grave marks someone the marsh took.",
+            "playerPurpose": "Marks the start of the crossing for anyone coming from Stormhold. The grave mound shows that someone died on this stretch.",
             "what": "A stone cairn at the north end of the river crossing, a low grave mound on the flat ground beside it and wet rocks at both ends of the planks.",
             "whyHere": "The road reaches the river marsh here; the cairn tells a walker from the west where the planks begin.",
-            "whyNeighbours": "The river crossing runs south from here to the stone steps.",
+            "whyNeighbours": "The river crossing runs south from here to the timber stair.",
             "whySpot": "On the dry verge beside the first plank."
           },
           "yawDeg": 122.0
@@ -15476,7 +15535,7 @@
         "loreSource": "route record route.road.stormhold-thorn (worn; long timber bridges patched) and world/sources/routes/route-structure-exemplars.json",
         "npcsPlanned": 0,
         "population": "0",
-        "why": "A stretch of road with two plank crossings, stone steps and road marks; nobody lives on it."
+        "why": "A stretch of road with two plank crossings, a timber stair and road marks; nobody lives on it."
       },
       "seed": "place.route.border-road-greenspring-crossings",
       "siting": {
@@ -15514,7 +15573,7 @@
         "keptTrees": 0,
         "landmarks": 0,
         "networkTerminals": 2,
-        "parcels": 5,
+        "parcels": 6,
         "questSockets": 0,
         "sitingCandidates": 2,
         "ways": 3

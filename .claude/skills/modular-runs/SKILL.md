@@ -233,13 +233,27 @@ turn, snapped face to face by geometry, then walked.
     --allow-terminal`; climbs toward its -x, yaw = bearing - 270). Read
     the treads off the mesh, not bounds: top tread pivot -0.29, bottom
     tread +1.6 m along at -3.51, 0.29 m a tread (3 pieces = 9.06 m of
-    treads). Set the bottom piece's `y` by hand so the top tread meets the
-    bank-top ground within 0.05 m. A run whose adjacent members rise more
+    treads). Site it from the ground profile along its line first
+    (`wb.py bpy` ray casts every 0.1 m: tread top against ground): the top
+    tread at the LIP (the last ground point before the bank falls), within
+    0.05 m of the ground there, and every tread over the ground, so the
+    flight stands in front of the bank face (stairs02 climbs about 1.17 m
+    per metre; a bank face steeper than that is in front of nothing but
+    air). Move it along its bearing and set the bottom piece's `y` by hand
+    to get there; where the flight needs more room than the lip leaves
+    before the run that meets its foot, move that run back by whole
+    modules (audit10 c6: the river run moved 2.2 m north, 0.36 m clear of
+    the stair foot). The parcel takes `groundFit` `direct` (stairs02's
+    manifest policy is `route-structure`). A run whose adjacent members rise more
     than 0.45 m (the controller step) is a CLIMB
-    (`settlement_run_pads.climb_runs`, `rules.climb_uids`): it takes no
-    run pad, and neither the compile's fit slope nor `wb check`'s
-    slopeRule and footFloat judge it (row flag `climb`); walkwayRule and
-    landingRule do. A run joint standing at a mined `run` pair's pose
+    (`settlement_run_pads.climb_runs`, `rules.climb_uids`,
+    `compile_settlement._climb_parcel`): it takes no run pad, and neither
+    the compile's ground delta and fit slope nor `wb check`'s
+    slopeRule and footFloat judge it (row flag `climb`); walkwayRule does,
+    from each climb member's mesh plan box (its footprint is its lowest
+    1.5 m: the top end read 2 m short of the top tread) and judging the
+    end's flatness ahead of the end only (the drop it climbed is behind
+    it). landingRule judges only runs over water. A run joint standing at a mined `run` pair's pose
     within its `offsetSpreadM` (+0.01 m, 1 deg) passes run-jointPair even
     though it crosses (stairs02's own pair crosses 0.234 m; wb.py
     `mined_pair_pose`); off that pose the penetration and overlap bars hold.
